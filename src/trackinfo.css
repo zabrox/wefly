@@ -1,0 +1,20 @@
+#trackinfo {
+    padding: 8px;
+    border: solid 5px;
+    border-radius: 10px;
+    background-color: white;
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+.trackinfo-header {
+    display: flex;
+}
+
+#close {
+    margin: 0 0 0 auto;
+    border: none;
+    font-size: 18px;
+    color: gray;
+    background-color: white;
+}

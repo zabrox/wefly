@@ -1,0 +1,17 @@
+.control-panel {
+    overflow: auto;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: white;
+    opacity: 0.8;
+    height: 100%;
+}
+
+.track {
+    display: flex;
+}
+
+.track-color {
+    width: 20px;
+}
