@@ -1,11 +1,11 @@
 import React from "react";
 import { CameraFlyToBoundingSphere, Viewer, ScreenSpaceEventHandler, ScreenSpaceEvent, Scene, Globe } from "resium";
 import { Terrain, BoundingSphere, Entity, ScreenSpaceEventType } from "cesium";
+import axios from "axios";
 import { Tracks } from "./track";
 import { TrackInfo } from "./trackinfo";
 import { ControlPanel } from "./controlpanel";
 import { parseIgc } from "./igc";
-import { Timeline } from "./timeline";
 import "./world.css";
 
 class World extends React.Component {
@@ -22,42 +22,21 @@ class World extends React.Component {
     }
 
     componentDidMount() {
-        let tracks = new Array();
-        let http = new XMLHttpRequest();
-        http.open('GET', this.#BASE_URL + "tracks", true);
-        http.responseType = "json";
-        http.onreadystatechange = () => {
-            if (http.readyState === 4 && http.status === 200) {
-                const tracknames = http.response;
-                console.log(tracknames);
-                for (let i = 0; i < tracknames.length; i++) {
-                    console.log(tracknames[i]);
-                    let http = new XMLHttpRequest();
-                    http.open('GET', this.#BASE_URL + "tracks/" + tracknames[i], true);
-                    http.onreadystatechange = () => {
-                        if (http.readyState === 4 && http.status === 200) {
-                            const track = parseIgc(tracknames[i], http.responseText);
-                            tracks.push(track);
-                            this.setState({ tracks: tracks });
-                        }
-                    }
-                    http.send();
-                }
+        let tracks = [];
+        axios({method: "get", url: `${this.#BASE_URL}tracks`, responseType: "json"}).then(response => {
+            const tracknames = response.data;
+            for (let i = 0; i < tracknames.length; i++) {
+                axios.get(`${this.#BASE_URL}tracks/${tracknames[i]}`).then(response => {
+                    const track = parseIgc(tracknames[i], response.data);
+                    tracks.push(track);
+                    this.setState({ tracks: tracks });
+                }).catch(error => {
+                    console.log(error);
+                });
             }
-        }
-        http.send();
-
-        // this.#igcs.forEach(igcName => {
-        // http.open('GET', this.#BASE_URL + igcName, true);
-        // http.onreadystatechange = () => {
-        //     if (http.readyState === 4 && http.status === 200) {
-        //         const track = parseIgc(igcName, http.responseText);
-        //         tracks.push(track);
-        //         this.setState({ tracks: tracks });
-        //     }
-        // }
-        // http.send();
-        // });
+        }).catch(error => {
+            console.log(error);
+        });
     }
 
     handleChange(trackid) {

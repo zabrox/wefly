@@ -30,11 +30,16 @@ export class Track {
     }
 
     duration() {
-        return this.times[this.times.length - 1].diff(this.times[0], 'minutes');
+        const duration = this.times[this.times.length - 1].diff(this.times[0], 'minutes');
+        return `${Math.floor(duration / 60)} hour ${duration % 60} min`;
     }
 
     startTime() {
-        return this.times[0];
+        return this.times[0].format('YYYY-MM-DD HH:mm:ss');
+    }
+
+    pointtime(index) {
+        return this.times[index].format('YYYY-MM-DD HH:mm:ss');
     }
 
     maxAltitude() {

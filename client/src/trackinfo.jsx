@@ -24,15 +24,15 @@ export class TrackInfo extends React.Component {
                 <div><b>Point Summary</b></div>
                 <table>
                     <tbody>
-                        <tr><td>Date</td><td>{track.times[trackpoint_index].format('YYYY-MM-DD HH:mm:ss')}</td></tr>
+                        <tr><td>Date</td><td>{track.pointtime(trackpoint_index)}</td></tr>
                         <tr><td>Altitude</td><td>{track.altitudes[trackpoint_index]} m</td></tr>
                     </tbody>
                 </table>
                 <div><b>Flight Summary</b></div>
                 <table>
                     <tbody>
-                        <tr><td>Start</td><td>{track.startTime().format('YYYY-MM-DD HH:mm:ss')}</td></tr>
-                        <tr><td>Duration</td><td>{Math.floor(track.duration() / 60)} hour {track.duration() % 60} min</td></tr>
+                        <tr><td>Start</td><td>{track.startTime()}</td></tr>
+                        <tr><td>Duration</td><td>{track.duration()}</td></tr>
                         <tr><td>Max Altitude</td><td>{track.maxAltitude()} m</td></tr>
                     </tbody>
                 </table>
