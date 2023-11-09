@@ -9,42 +9,8 @@ import { Timeline } from "./timeline";
 import "./world.css";
 
 class World extends React.Component {
-    #BASE_URL = "http://localhost:5173/tracks/";
+    #BASE_URL = "http://localhost:3000/";
     #terrain = Terrain.fromWorldTerrain();
-    #igcs = [
-        "2696raichou.igc",
-        "Chousan.igc",
-        "Hken.igc",
-        "Kengo.igc",
-        "Kenzaki.igc",
-        "Mickey3713.igc",
-        "MiyaChan.igc",
-        "NAKAJ.igc",
-        "STetsu.igc",
-        "TETSU1.igc",
-        "aoisora.igc",
-        "atusi2015.igc",
-        "fujidan24.igc",
-        "h10016.igc",
-        "hirof2.igc",
-        "horisan2.igc",
-        "kimura.igc",
-        "kpolulani.igc",
-        "kumakatsu.igc",
-        "nabekatsu.igc",
-        "nabekiyo.igc",
-        "nagaii.igc",
-        "nakatetsu.igc",
-        "okd.igc",
-        "paramori.igc",
-        "pina.igc",
-        "sayurin.igc",
-        "shibu.igc",
-        "sugiyan.igc",
-        "taicho.igc",
-        "tmai24.igc",
-    ];
-
     constructor() {
         super();
         this.state = {
@@ -57,18 +23,41 @@ class World extends React.Component {
 
     componentDidMount() {
         let tracks = new Array();
-        this.#igcs.forEach(igcName => {
-            let http = new XMLHttpRequest();
-            http.open('GET', this.#BASE_URL + igcName, true);
-            http.onreadystatechange = () => {
-                if (http.readyState === 4 && http.status === 200) {
-                    const track = parseIgc(igcName, http.responseText);
-                    tracks.push(track);
-                    this.setState({ tracks: tracks });
+        let http = new XMLHttpRequest();
+        http.open('GET', this.#BASE_URL + "tracks", true);
+        http.responseType = "json";
+        http.onreadystatechange = () => {
+            if (http.readyState === 4 && http.status === 200) {
+                const tracknames = http.response;
+                console.log(tracknames);
+                for (let i = 0; i < tracknames.length; i++) {
+                    console.log(tracknames[i]);
+                    let http = new XMLHttpRequest();
+                    http.open('GET', this.#BASE_URL + "tracks/" + tracknames[i], true);
+                    http.onreadystatechange = () => {
+                        if (http.readyState === 4 && http.status === 200) {
+                            const track = parseIgc(tracknames[i], http.responseText);
+                            tracks.push(track);
+                            this.setState({ tracks: tracks });
+                        }
+                    }
+                    http.send();
                 }
             }
-            http.send();
-        });
+        }
+        http.send();
+
+        // this.#igcs.forEach(igcName => {
+        // http.open('GET', this.#BASE_URL + igcName, true);
+        // http.onreadystatechange = () => {
+        //     if (http.readyState === 4 && http.status === 200) {
+        //         const track = parseIgc(igcName, http.responseText);
+        //         tracks.push(track);
+        //         this.setState({ tracks: tracks });
+        //     }
+        // }
+        // http.send();
+        // });
     }
 
     handleChange(trackid) {
