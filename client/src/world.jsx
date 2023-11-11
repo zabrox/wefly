@@ -1,5 +1,5 @@
 import React from "react";
-import { CameraFlyToBoundingSphere, Viewer, ScreenSpaceEventHandler, ScreenSpaceEvent, Scene, Globe } from "resium";
+import { CameraFlyToBoundingSphere, Viewer, ScreenSpaceEventHandler, ScreenSpaceEvent, Scene, Globe, Fog } from "resium";
 import { Terrain, BoundingSphere, Entity, ScreenSpaceEventType } from "cesium";
 import axios from "axios";
 import { Tracks } from "./track";
@@ -23,7 +23,7 @@ class World extends React.Component {
 
     componentDidMount() {
         let tracks = [];
-        axios({method: "get", url: `${this.#BASE_URL}tracks`, responseType: "json"}).then(response => {
+        axios({ method: "get", url: `${this.#BASE_URL}tracks`, responseType: "json" }).then(response => {
             const tracknames = response.data;
             for (let i = 0; i < tracknames.length; i++) {
                 axios.get(`${this.#BASE_URL}tracks/${tracknames[i]}`).then(response => {
@@ -87,6 +87,7 @@ class World extends React.Component {
                 terrain={this.#terrain}
                 timeline={false}
                 animation={false} >
+                <Fog enabled={true} density={0.0005} minimumBrightness={1.0} />
                 <Scene>
                     <Globe depthTestAgainstTerrain={true} />
                 </Scene>
