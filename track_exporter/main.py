@@ -2,6 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import os
 import re
 
 TRACK_DIR = "./tracks/"
@@ -72,6 +73,8 @@ if __name__ == "__main__":
             break
         tracks.extend(ts)
     tracks = filter_tracks_by_location(tracks, areas)
+    if not os.path.exists(TRACK_DIR):
+        os.makedirs(TRACK_DIR)
     for t in tracks:
         print(t)
         download_igc(t)

@@ -9,7 +9,7 @@ import { parseIgc } from "./igc";
 import "./world.css";
 
 class World extends React.Component {
-    #BASE_URL = "http://localhost:3000/";
+    #BASE_URL = "http://localhost:3001/";
     #terrain = Terrain.fromWorldTerrain();
     constructor() {
         super();

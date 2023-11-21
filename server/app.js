@@ -1,7 +1,7 @@
 const express = require('express')
 const { glob } = require('glob')
 const app = express()
-const port = 3000
+const port = 3001
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
 
 // list tracks
 app.get('/tracks', (req, res) => {
-  glob("tracks/*.igc").then(files => {
+  glob(`tracks/*.igc`).then(files => {
     // add CORS header
     res.header("Access-Control-Allow-Origin", "*")
     res.send(files.map(file => {
