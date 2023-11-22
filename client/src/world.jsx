@@ -1,111 +1,117 @@
 import React from "react";
-import { CameraFlyToBoundingSphere, Viewer, ScreenSpaceEventHandler, ScreenSpaceEvent, Scene, Globe, Fog } from "resium";
-import { Terrain, BoundingSphere, Entity, ScreenSpaceEventType } from "cesium";
+import * as Cesium from "cesium";
 import axios from "axios";
-import { Tracks } from "./track";
 import { TrackInfo } from "./trackinfo";
 import { ControlPanel } from "./controlpanel";
 import { parseIgc } from "./igc";
 import "./world.css";
 
-class World extends React.Component {
-    #BASE_URL = "http://localhost:3001/";
-    #terrain = Terrain.fromWorldTerrain();
-    constructor() {
-        super();
-        this.state = {
-            tracks: new Array(),
-            track_for_trackinfo: undefined,
-            trackinfo_position: undefined,
-            trackpointindex: 0,
-        };
-    }
+const BASE_URL = "http://localhost:3001/";
+let viewer = undefined;
 
-    componentDidMount() {
-        let tracks = [];
-        axios({ method: "get", url: `${this.#BASE_URL}tracks`, responseType: "json" }).then(response => {
-            const tracknames = response.data;
-            for (let i = 0; i < tracknames.length; i++) {
-                axios.get(`${this.#BASE_URL}tracks/${tracknames[i]}`).then(response => {
-                    const track = parseIgc(tracknames[i], response.data);
-                    tracks.push(track);
-                    this.setState({ tracks: tracks });
-                }).catch(error => {
-                    console.log(error);
-                });
-            }
-        }).catch(error => {
-            console.log(error);
-        });
-    }
+const initializeCesium = (cesiumContainerRef) => {
+    viewer = new Cesium.Viewer(cesiumContainerRef.current, {
+        terrain: Cesium.Terrain.fromWorldTerrain(),
+        timeline: false,
+        animation: false,
+        geocoder: false,
+        homeButton: false,
+        sceneModePicker: false,
+        navigationHelpButton: false,
+        fullscreenButton: false,
+        terrainShadows: Cesium.ShadowMode.DISABLED,
+    });
+    viewer.scene.globe.depthTestAgainstTerrain = true;
+    viewer.fog = new Cesium.Fog({
+        enabled: true,
+        density: 0.0005,
+        minimumBrightness: 1.0,
+    });
+}
 
-    handleChange(trackid) {
-        const tracks = this.state.tracks;
-        const index = tracks.findIndex(track => track.id === trackid)
-        tracks[index].show = !tracks[index].show;
-        this.setState({ tracks: tracks });
-    }
-
-    handleMouseOverOnTrack = e => {
-        const picked = this.viewerComponent.cesiumElement.scene.pick(e.endPosition);
-        const id = picked ? picked.id || picked.primitive.id : null;
-        if (picked && id instanceof Entity && id.trackid !== undefined) {
-            this.setState({
-                track_for_trackinfo: this.state.tracks.find(track => track.id === id.trackid),
-                trackinfo_position: { x: e.endPosition.x + 3, y: e.endPosition.y + 3 },
-                trackpointindex: id.trackpointindex,
-            });
-        }
-    }
-
-    handleClickOnViewer = e => {
-        this.setState({
-            track_for_trackinfo: undefined,
-            trackinfo_position: undefined,
-            trackpointindex: 0,
-        });
-    }
-
-    handleTrackInfoClose = () => {
-        this.setState({
-            track_for_trackinfo: undefined,
-            trackinfo_position: undefined,
-        });
-    }
-
-    render() {
-        let flyto = <div></div>;
-        let cartesians = new Array();
-        if (this.state.tracks.length > 0) {
-            this.state.tracks.forEach(track => cartesians.push(...track.cartesians));
-            flyto = <CameraFlyToBoundingSphere once={true} duration={3} boundingSphere={BoundingSphere.fromPoints(cartesians)} />;
-        }
-        const dummyCredit = document.createElement("div");
-        return (
-            <Viewer id="world"
-                ref={ref => { this.viewerComponent = ref }}
-                terrain={this.#terrain}
-                timeline={false}
-                animation={false} >
-                <Fog enabled={true} density={0.0005} minimumBrightness={1.0} />
-                <Scene>
-                    <Globe depthTestAgainstTerrain={true} />
-                </Scene>
-                <ControlPanel tracks={this.state.tracks} onChange={(i) => { this.handleChange(i) }} />
-                <Tracks tracks={this.state.tracks} onMouseOver={this.handleMouseOverOnTrack} />
-                {flyto}
-                <ScreenSpaceEventHandler>
-                    <ScreenSpaceEvent action={this.handleMouseOverOnTrack} type={ScreenSpaceEventType.MOUSE_MOVE} />
-                    <ScreenSpaceEvent action={this.handleClickOnViewer} type={ScreenSpaceEventType.LEFT_CLICK} />
-                </ScreenSpaceEventHandler>
-                <TrackInfo track={this.state.track_for_trackinfo}
-                    trackpointindex={this.state.trackpointindex}
-                    position={this.state.trackinfo_position}
-                    onChange={(i) => { this.handleChange(i) }}
-                    onCloseClick={this.handleTrackInfoClose} />
-            </Viewer>
-        );
+const zoomToTracks = (tracks) => {
+    let cartesians = new Array();
+    if (tracks.length > 0) {
+        tracks.forEach(track => cartesians.push(...track.cartesians));
+        viewer.camera.flyToBoundingSphere(Cesium.BoundingSphere.fromPoints(cartesians), { duration: 1 });
     }
 }
+
+const loadTracks = (setTracks) => {
+    axios({ method: "get", url: `${BASE_URL}tracks`, responseType: "json" }).then(response => {
+        const tracknames = response.data;
+        Promise.all(tracknames.map(trackname => {
+            return axios.get(`${BASE_URL}tracks/${trackname}`).then(response => {
+                return parseIgc(trackname, response.data);
+            })
+        })).then((tracks) => {
+            setTracks(tracks);
+            showTracks(tracks);
+            zoomToTracks(tracks);
+        });
+    }).catch(error => {
+        console.log(error);
+    });
+}
+
+const showTracks = (tracks) => {
+    viewer.entities.removeAll();
+    tracks.forEach(track => {
+        let lastPoint = track.times[0];
+        track.cartesians.forEach((cartesian, index) => {
+            if (track.times[index].diff(lastPoint, 'seconds') < 60) {
+                return;
+            }
+            lastPoint = track.times[index];
+            viewer.entities.add({
+                position: cartesian,
+                point: {
+                    pixelSize: 6,
+                    color: track.color.withAlpha(0.7),
+                    outlineColor: Cesium.Color.BLACK,
+                    outlineWidth: 2,
+                    scaleByDistance: new Cesium.NearFarScalar(100, 3, 10000, 0.8),
+                },
+            });
+        });
+        if (track.show) {
+            viewer.entities.add({
+                polyline: {
+                    positions: track.cartesians,
+                    width: 2,
+                    material: track.color,
+                },
+            })
+        }
+    });
+};
+
+const handleChange = (tracks, setTracks, trackid) => {
+    const copy_tracks = [...tracks];
+    const index = copy_tracks.findIndex(track => track.id === trackid)
+    copy_tracks[index].show = !copy_tracks[index].show;
+    setTracks(copy_tracks);
+    showTracks(copy_tracks);
+};
+
+const World = () => {
+    const cesiumContainerRef = React.useRef(null);
+    const [tracks, setTracks] = React.useState([]);
+
+    React.useEffect(() => {
+        initializeCesium(cesiumContainerRef);
+        loadTracks(setTracks);
+
+        return () => {
+            viewer.destroy();
+        };
+    }, []);
+
+    return (
+        <div ref={cesiumContainerRef} id="world">
+            <ControlPanel tracks={tracks} onChange={(trackid) => { handleChange(tracks, setTracks, trackid) }} />
+        </div>
+    );
+};
 
 export default World;

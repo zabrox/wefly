@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Track } from "./entity/track";
+import { Track } from "./track";
 import { Cartesian3 } from "cesium";
 
 export function parseIgc(name, igc) {
