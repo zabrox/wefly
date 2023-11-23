@@ -4,7 +4,6 @@ import "./trackinfo.css";
 export class TrackInfo extends React.Component {
     render() {
         const track = this.props.track;
-        const position = this.props.position;
         const trackpoint_index = this.props.trackpointindex;
         if (track === undefined) {
             return (<div></div>);
