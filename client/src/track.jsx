@@ -16,7 +16,8 @@ const colorpallete = [
     Cesium.Color.MAGENTA];
 
 export class Track {
-    name = "";
+    pilotname = "";
+    filename = "";
     cartesians = new Array();
     altitudes = new Array();
     times = new Array();
@@ -25,8 +26,8 @@ export class Track {
     id;
     #maxAltitude = undefined;
 
-    constructor(name) {
-        this.name = name;
+    constructor(filename) {
+        this.filename = filename;
         this.color = colorpallete[Math.floor(Math.random() * colorpallete.length)];
         this.id = crypto.randomUUID();
     }

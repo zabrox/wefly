@@ -13,9 +13,10 @@ export const ControlPanel = (props) => {
                         <TableRow>
                             <TableCell></TableCell>
                             <TableCell></TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Max Alt.</TableCell>
+                            <TableCell>Pilot</TableCell>
+                            <TableCell>Start</TableCell>
                             <TableCell>Duration</TableCell>
+                            <TableCell>Max Alt.</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody> {
@@ -28,9 +29,10 @@ export const ControlPanel = (props) => {
                                     <TableCell key={"track-color-td" + i}>
                                         <div className="track-color" key={"track-color" + i} style={{ backgroundColor: track.color.toCssHexString() }}>　</div>
                                     </TableCell>
-                                    <TableCell className="trackname" key={track.name}>{track.name}</TableCell>
-                                    <TableCell className="maxalt" key={track.name + "maxalt"}>{track.maxAltitude()}m</TableCell>
-                                    <TableCell className="duration" key={track.name + "duration"}>{track.duration()}</TableCell>
+                                    <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
+                                    <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime()}</TableCell>
+                                    <TableCell className="duration" key={track.pilotname + "duration"}>{track.duration()}</TableCell>
+                                    <TableCell className="maxalt" key={track.pilotname + "maxalt"}>{track.maxAltitude()}m</TableCell>
                                 </TableRow>
                             )
                         })}
