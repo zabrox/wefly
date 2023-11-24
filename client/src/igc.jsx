@@ -2,14 +2,20 @@ import dayjs from "dayjs";
 import { Track } from "./track";
 import { Cartesian3 } from "cesium";
 
-export function parseIgc(name, igc) {
-    let track = new Track(name);
-    const datepattern = new RegExp(/^HFDTE(\d{2})(\d{2})(\d{2})/, 'm');
-    const match = igc.match(datepattern);
-    if (match === null) {
+export function parseIgc(filename, igc) {
+    let track = new Track(filename);
+    const pilotpattern = new RegExp(/^HFPLTPilot:(.*)/, 'm');
+    const pilotmatch = igc.match(pilotpattern);
+    if (pilotmatch === null) {
         return null;
     }
-    const datestr = "20" + match[3] + "-" + match[2] + "-" + match[1] + "T";
+    track.pilotname = pilotmatch[1];
+    const datepattern = new RegExp(/^HFDTE(\d{2})(\d{2})(\d{2})/, 'm');
+    const datematch = igc.match(datepattern);
+    if (datematch === null) {
+        return null;
+    }
+    const datestr = "20" + datematch[3] + "-" + datematch[2] + "-" + datematch[1] + "T";
     igc.split('\n').forEach(line => {
         const recordType = line.charAt(0);
 

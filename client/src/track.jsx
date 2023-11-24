@@ -16,7 +16,8 @@ const colorpallete = [
     Cesium.Color.MAGENTA];
 
 export class Track {
-    name = "";
+    pilotname = "";
+    filename = "";
     cartesians = new Array();
     altitudes = new Array();
     times = new Array();
@@ -25,15 +26,15 @@ export class Track {
     id;
     #maxAltitude = undefined;
 
-    constructor(name) {
-        this.name = name;
+    constructor(filename) {
+        this.filename = filename;
         this.color = colorpallete[Math.floor(Math.random() * colorpallete.length)];
         this.id = crypto.randomUUID();
     }
 
     duration() {
         const duration = this.times[this.times.length - 1].diff(this.times[0], 'minutes');
-        return `${Math.floor(duration / 60)} hour ${duration % 60} min`;
+        return `${Math.floor(duration / 60)} h ${duration % 60} m`;
     }
 
     startTime() {
@@ -51,51 +52,3 @@ export class Track {
         return this.#maxAltitude;
     }
 }
-// export class Tracks extends React.Component {
-//     render() {
-//         return (
-//             <Entity>
-//                 {this.props.tracks.map((track, i) => {
-//                     return <Track key={i} track={track} onMouseOver={this.props.onMouseOver} />
-//                 })}
-//             </Entity>
-//         );
-//     }
-// }
-
-// class Track extends React.Component {
-
-//     render() {
-//         let track = this.props.track;
-//         return (
-//             <div>
-//                 <Entity>
-//                     <PolylineGraphics
-//                         show={track.show}
-//                         positions={track.cartesians}
-//                         width={2}
-//                         material={track.color}
-//                     />
-//                 </Entity>
-//                 {track.cartesians.map((cartesian, index) => {
-//                     let pointsize = 7;
-//                     if (track.show) {
-//                         pointsize = 3;
-//                     }
-//                     if (!track.show && index % 40 !== 0) {
-//                         return;
-//                     }
-//                     return (
-//                         <Entity key={"trackpointentity-" + index} trackid={track.id} position={cartesian} trackpointindex={index}>
-//                             <PointGraphics key={"trackpoint-" + index}
-//                                 color={track.color.withAlpha(0.7)}
-//                                 outlineColor={Cesium.Color.WHITE.withAlpha(0.7)}
-//                                 pixelSize={pointsize}
-//                                 scaleByDistance={new Cesium.NearFarScalar(100, 3, 10000, 0.5)} />
-//                         </Entity>
-//                     );
-//                 })}
-//             </div>
-//         );
-//     }
-// }
