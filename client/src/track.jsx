@@ -34,7 +34,7 @@ export class Track {
 
     duration() {
         const duration = this.times[this.times.length - 1].diff(this.times[0], 'minutes');
-        return `${Math.floor(duration / 60)} hour ${duration % 60} min`;
+        return `${Math.floor(duration / 60)} h ${duration % 60} m`;
     }
 
     startTime() {
