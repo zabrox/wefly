@@ -8,20 +8,20 @@ app.get('/', (req, res) => {
 })
 
 // list tracks
-app.get('/tracks', (req, res) => {
-  glob(`tracks/*.igc`).then(files => {
+app.get('/tracks/:date', (req, res) => {
+  glob(`tracks/${req.params.date}/*.igc`).then(files => {
     // add CORS header
     res.header("Access-Control-Allow-Origin", "*")
     res.send(files.map(file => {
-      return file.replace("tracks/", "")
+      return file.replace(`tracks/${req.params.date}/`, "")
     }))
   })
 })
 
-app.get('/tracks/:track', (req, res) => {
+app.get('/tracks/:date/:track', (req, res) => {
   // add CORS header
   res.header("Access-Control-Allow-Origin", "*")
-  res.sendFile(`${__dirname}/tracks/${req.params.track}`)
+  res.sendFile(`${__dirname}/tracks/${req.params.date}/${req.params.track}`)
 })
 
 app.listen(port, () => {
