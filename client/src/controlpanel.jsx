@@ -12,7 +12,7 @@ const handleSort = (header, props) => {
     if (props.orderBy === header) {
         newOrder = props.order === 'asc' ? 'desc' : 'asc';
     }
-    if (header === 'Duration' || header === 'Max Alt.') {
+    else if (header === 'Duration' || header === 'Max Alt.') {
         newOrder = 'desc';
     }
     props.setOrder(newOrder);
@@ -28,7 +28,7 @@ const compareByKey = (key, a, b) => {
     return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
 }
 const compareByPilotname = compareByKey.bind(null, 'pilotname');
-const compareByStart = compareByKey.bind(null, 'times[0]');
+const compareByStart = compareByKey.bind(null, 'startTime');
 const compareByDuration = compareByKey.bind(null, 'duration');
 const compareByMaxAltitude = compareByKey.bind(null, 'maxAltitude');
 
