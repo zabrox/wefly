@@ -100,9 +100,13 @@ const showTracks = (tracks) => {
 const handleTrackChecked = (state, setState, trackid) => {
     const copy_tracks = [...state['tracks']];
     const index = copy_tracks.findIndex(track => track.id === trackid)
-    copy_tracks[index].show = !copy_tracks[index].show;
+    const target_track = copy_tracks[index];
+    target_track.show = !target_track.show;
     setState({ tracks: copy_tracks });
     showTracks(copy_tracks);
+    if (target_track.show) {
+        zoomToTracks([target_track]);
+    }
 };
 
 const handleDateChange = (newDate) => {
