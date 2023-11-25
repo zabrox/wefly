@@ -61,7 +61,7 @@ def download_igc(track, date):
         f.write(response.content)
 
 if __name__ == "__main__":
-    if sys.argv[1] == "":
+    if len(sys.argv) < 2:
         print("Please specify the target date")
         exit(1)
     #date = datetime.datetime.today().strftime("%Y-%m-%d")
@@ -76,7 +76,7 @@ if __name__ == "__main__":
         if len(ts) == 0:
             break
         tracks.extend(ts)
-    tracks = filter_tracks_by_location(tracks, areas)
+    #tracks = filter_tracks_by_location(tracks, areas)
     if not os.path.exists(TRACK_DIR + date):
         os.makedirs(TRACK_DIR + date)
     for t in tracks:

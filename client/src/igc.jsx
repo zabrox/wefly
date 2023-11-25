@@ -4,12 +4,6 @@ import { Cartesian3 } from "cesium";
 
 export function parseIgc(filename, igc) {
     let track = new Track(filename);
-    const pilotpattern = new RegExp(/^HFPLTPilot:(.*)/, 'm');
-    const pilotmatch = igc.match(pilotpattern);
-    if (pilotmatch === null) {
-        return null;
-    }
-    track.pilotname = pilotmatch[1];
     const datepattern = new RegExp(/^HFDTE(\d{2})(\d{2})(\d{2})/, 'm');
     const datematch = igc.match(datepattern);
     if (datematch === null) {

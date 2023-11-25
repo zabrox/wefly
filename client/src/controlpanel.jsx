@@ -69,11 +69,15 @@ export const ControlPanel = (props) => {
         const sortedTracks = props.tracks.slice().sort(comparator);
         return order === 'asc' ? sortedTracks : sortedTracks.reverse();
     });
+    let notracks = <div></div>;
+    if (props.tracks.length === 0) {
+        notracks = <div style={{padding: "10px"}}><center>No tracks.</center></div>;
+    }
 
     return (
         <div className="control-panel">
             <div id='data-picker-container'><center>
-                <DatePicker defaultValue={props['date']} format="YYYY-MM-DD (ddd)" onChange={(newDate) => props.onDateChange(newDate)}/>
+                <DatePicker defaultValue={props['date']} format="YYYY-MM-DD (ddd)" onChange={(newDate) => props.onDateChange(newDate)} />
             </center></div>
             <TableContainer>
                 <Table stickyHeader size="small">
@@ -98,6 +102,7 @@ export const ControlPanel = (props) => {
                     </TableBody>
                 </Table>
             </TableContainer >
+            {notracks}
         </div >
     );
 };
