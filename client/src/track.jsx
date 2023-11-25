@@ -34,6 +34,11 @@ export class Track {
 
     duration() {
         const duration = this.times[this.times.length - 1].diff(this.times[0], 'minutes');
+        return duration;
+    }
+
+    durationStr() {
+        const duration = this.times[this.times.length - 1].diff(this.times[0], 'minutes');
         return `${Math.floor(duration / 60)} h ${duration % 60} m`;
     }
 

@@ -16,3 +16,7 @@
 .track-color {
     width: 20px;
 }
+
+#data-picker-container {
+    margin: 10px;
+}

@@ -2,6 +2,7 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import sys
 import os
 import re
 
@@ -53,15 +54,18 @@ def filter_tracks_by_location(tracks, locations):
                 break
     return ret
 
-def download_igc(track):
+def download_igc(track, date):
     url = "https://www.livetrack24.com/leo_live.php?op=igc&trackID=" + track.trackid
     response = requests.get(url)
-    with open(TRACK_DIR + track.username + "_" + track.lasttime.strftime("%Y%m%d%H%M%S") + ".igc", 'wb') as f:
+    with open(TRACK_DIR + date + "/" + track.username + "_" + track.lasttime.strftime("%Y%m%d%H%M%S") + ".igc", 'wb') as f:
         f.write(response.content)
 
 if __name__ == "__main__":
+    if sys.argv[1] == "":
+        print("Please specify the target date")
+        exit(1)
     #date = datetime.datetime.today().strftime("%Y-%m-%d")
-    date = '2023-11-04'
+    date = sys.argv[1]
     areas = ['Asagiri -DK Skygym', 'West Fuji']
     tracks = []
     baseurl = "https://www.livetrack24.com/tracks/country/jp/from/" + date + "/to/" + date + "/page_num/"
@@ -73,9 +77,9 @@ if __name__ == "__main__":
             break
         tracks.extend(ts)
     tracks = filter_tracks_by_location(tracks, areas)
-    if not os.path.exists(TRACK_DIR):
-        os.makedirs(TRACK_DIR)
+    if not os.path.exists(TRACK_DIR + date):
+        os.makedirs(TRACK_DIR + date)
     for t in tracks:
         print(t)
-        download_igc(t)
+        download_igc(t, date)
     print(str(len(tracks)))

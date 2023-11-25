@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TableSortLabel } from '@mui/material';
 import { Checkbox } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
 import './controlpanel.css';
 
 const handleSort = (header, props) => {
@@ -17,21 +19,18 @@ const handleSort = (header, props) => {
     props.setOrderBy(header);
 };
 
-const compareByPilotname = (a, b) => {
-    // compare pilotname in lowercase
-    const pilotnameA = a.pilotname.toLowerCase();
-    const pilotnameB = b.pilotname.toLowerCase();
-    return (pilotnameA < pilotnameB) ? -1 : (pilotnameA > pilotnameB) ? 1 : 0;
+const compareByKey = (key, a, b) => {
+    const valueA = typeof a[key] === 'function' ? a[key]() : a[key];
+    const valueB = typeof b[key] === 'function' ? b[key]() : b[key];
+    if (typeof valueA === 'string') {
+        return valueA.localeCompare(valueB);
+    }
+    return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
 }
-const compareByStart = (a, b) => {
-    return (a.times[0].isBefore(b.times[0])) ? -1 : (a.times[0].isAfter(b.times[0])) ? 1 : 0;
-}
-const compareByDuration = (a, b) => {
-    return (a.duration() < b.duration()) ? -1 : (a.duration() > b.duration()) ? 1 : 0;
-}
-const compareByMaxAltitude = (a, b) => {
-    return (a.maxAltitude() < b.maxAltitude()) ? -1 : (a.maxAltitude() > b.maxAltitude()) ? 1 : 0;
-}
+const compareByPilotname = compareByKey.bind(null, 'pilotname');
+const compareByStart = compareByKey.bind(null, 'times[0]');
+const compareByDuration = compareByKey.bind(null, 'duration');
+const compareByMaxAltitude = compareByKey.bind(null, 'maxAltitude');
 
 const headers = ['Pilot', 'Start', 'Duration', 'Max Alt.'];
 const comparators = [compareByPilotname, compareByStart, compareByDuration, compareByMaxAltitude];
@@ -73,6 +72,9 @@ export const ControlPanel = (props) => {
 
     return (
         <div className="control-panel">
+            <div id='data-picker-container'><center>
+                <DatePicker defaultValue={props['date']} format="YYYY-MM-DD (ddd)" onChange={(newDate) => props.onDateChange(newDate)}/>
+            </center></div>
             <TableContainer>
                 <Table stickyHeader size="small">
                     <Headers order={order} setOrder={setOrder} orderBy={orderBy} setOrderBy={setOrderBy}></Headers>
@@ -81,14 +83,14 @@ export const ControlPanel = (props) => {
                             return (
                                 <TableRow key={"tr" + i}>
                                     <TableCell padding='none'>
-                                        <Checkbox color="primary" checked={track.show} onChange={() => props.onChange(track.id)} />
+                                        <Checkbox color="primary" checked={track.show} onChange={() => props.onTrackChecked(track.id)} />
                                     </TableCell>
                                     <TableCell padding='none' key={"track-color-td" + i}>
                                         <div className="track-color" key={"track-color" + i} style={{ backgroundColor: track.color.toCssHexString() }}>　</div>
                                     </TableCell>
                                     <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
                                     <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime()}</TableCell>
-                                    <TableCell className="duration" key={track.pilotname + "duration"}>{track.duration()}</TableCell>
+                                    <TableCell className="duration" key={track.pilotname + "duration"}>{track.durationStr()}</TableCell>
                                     <TableCell className="maxalt" key={track.pilotname + "maxalt"}>{track.maxAltitude()}m</TableCell>
                                 </TableRow>
                             )
