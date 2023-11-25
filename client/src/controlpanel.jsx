@@ -72,7 +72,9 @@ export const ControlPanel = (props) => {
 
     return (
         <div className="control-panel">
-            <DatePicker defaultValue={dayjs()} format="YYYY-MM-DD (ddd)"/>
+            <div id='data-picker-container'><center>
+                <DatePicker defaultValue={props['date']} format="YYYY-MM-DD (ddd)" onChange={(newDate) => props.onDateChange(newDate)}/>
+            </center></div>
             <TableContainer>
                 <Table stickyHeader size="small">
                     <Headers order={order} setOrder={setOrder} orderBy={orderBy} setOrderBy={setOrderBy}></Headers>
@@ -81,7 +83,7 @@ export const ControlPanel = (props) => {
                             return (
                                 <TableRow key={"tr" + i}>
                                     <TableCell padding='none'>
-                                        <Checkbox color="primary" checked={track.show} onChange={() => props.onChange(track.id)} />
+                                        <Checkbox color="primary" checked={track.show} onChange={() => props.onTrackChecked(track.id)} />
                                     </TableCell>
                                     <TableCell padding='none' key={"track-color-td" + i}>
                                         <div className="track-color" key={"track-color" + i} style={{ backgroundColor: track.color.toCssHexString() }}>　</div>

@@ -6,10 +6,13 @@ import { ControlPanel } from "./controlpanel";
 import { parseIgc } from "./igc";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs from 'dayjs';
 import "./world.css";
 
 const BASE_URL = "http://localhost:3001/";
 let viewer = undefined;
+let state = undefined;
+let setState = undefined;
 
 const initializeCesium = (cesiumContainerRef) => {
     viewer = new Cesium.Viewer(cesiumContainerRef.current, {
@@ -39,19 +42,23 @@ const zoomToTracks = (tracks) => {
     }
 }
 
-const loadTracks = (setTracks) => {
-    axios({ method: "get", url: `${BASE_URL}tracks/2023-11-23/`, responseType: "json" }).then(response => {
+const loadTracks = (state, setState) => {
+    const date = state['date'];
+    const tracksurl = `${BASE_URL}tracks/${date.format('YYYY-MM-DD')}/`;
+    axios({ method: "get", url: tracksurl, responseType: "json" }).then(response => {
         const tracknames = response.data;
         Promise.all(tracknames.map(trackname => {
-            return axios.get(`${BASE_URL}tracks/2023-11-23/${trackname}`).then(response => {
+            return axios.get(`${tracksurl}${trackname}`).then(response => {
                 return parseIgc(trackname, response.data);
             })
         })).then((tracks) => {
             // filter tracks less than 5 minutes
             tracks = tracks.filter(track => track.duration() > 5);
-            setTracks(tracks);
+            setState({ tracks: tracks });
             showTracks(tracks);
             zoomToTracks(tracks);
+        }).catch(error => {
+            console.log(error);
         });
     }).catch(error => {
         console.log(error);
@@ -90,21 +97,30 @@ const showTracks = (tracks) => {
     });
 };
 
-const handleChange = (tracks, setTracks, trackid) => {
-    const copy_tracks = [...tracks];
+const handleTrackChecked = (state, setState, trackid) => {
+    const copy_tracks = [...state['tracks']];
     const index = copy_tracks.findIndex(track => track.id === trackid)
     copy_tracks[index].show = !copy_tracks[index].show;
-    setTracks(copy_tracks);
+    setState({ tracks: copy_tracks });
     showTracks(copy_tracks);
 };
 
+const handleDateChange = (newDate) => {
+    console.log(newDate);
+    const date = dayjs(newDate);
+    loadTracks({ date: date }, setState);
+}
+
 const World = () => {
     const cesiumContainerRef = React.useRef(null);
-    const [tracks, setTracks] = React.useState([]);
+    [state, setState] = React.useState({
+        tracks: [],
+        date: dayjs(),
+    });
 
     React.useEffect(() => {
         initializeCesium(cesiumContainerRef);
-        loadTracks(setTracks);
+        loadTracks(state, setState);
 
         return () => {
             viewer.destroy();
@@ -114,7 +130,7 @@ const World = () => {
     return (
         <div ref={cesiumContainerRef} id="world">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <ControlPanel tracks={tracks} onChange={(trackid) => { handleChange(tracks, setTracks, trackid) }} />
+                <ControlPanel date={state['date']} onDateChange={(newDate) => handleDateChange(newDate)} tracks={state['tracks']} onTrackChecked={(trackid) => { handleTrackChecked(state, setState, trackid) }} />
             </LocalizationProvider>
         </div>
     );
