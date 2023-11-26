@@ -5,6 +5,8 @@ import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import './controlpanel.css';
 
+const trackrows = {};
+
 const handleSort = (header, props) => {
     // flip the order if the same header is clicked
     // otherwise, set the order to ascending
@@ -85,7 +87,7 @@ export const ControlPanel = (props) => {
                     <TableBody>{
                         sortedrows.map((track, i) => {
                             return (
-                                <TableRow key={"tr" + i}>
+                                <TableRow key={"tr" + i} ref={(elem) => {trackrows[track.id] = elem}}>
                                     <TableCell padding='none'>
                                         <Checkbox color="primary" checked={track.show} onChange={() => props.onTrackChecked(track.id)} />
                                     </TableCell>
@@ -106,3 +108,19 @@ export const ControlPanel = (props) => {
         </div >
     );
 };
+
+export const scrollToTrack = (trackid) => {
+    // clear background color of all trackrows
+    for(let [key, value] of Object.entries(trackrows)) {
+        if (value.style === undefined){
+            continue;
+        }
+        value.style.backgroundColor = '';
+    }
+    const trackrow = trackrows[trackid];
+    if (trackrow === undefined) {
+        return;
+    }
+    trackrow.scrollIntoView({ behavior: 'smooth' });
+    trackrow.style.backgroundColor = 'silver';
+}

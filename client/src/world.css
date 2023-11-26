@@ -5,3 +5,14 @@
     height: 100%;
     width: 100%;
 }
+
+.cesium-infoBox-title {
+    background-color: gray;
+}
+.cesium-infoBox-iframe {
+    background-color: gray;
+}
+.cesium-infoBox {
+    width: 300px;
+    background-color: gray;
+}
