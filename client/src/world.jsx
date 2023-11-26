@@ -2,7 +2,7 @@ import React from "react";
 import * as Cesium from "cesium";
 import axios from "axios";
 import { TrackInfo } from "./trackinfo";
-import { ControlPanel } from "./controlpanel";
+import { ControlPanel, scrollToTrack } from "./controlpanel";
 import { parseIgc } from "./igc";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -68,33 +68,65 @@ const loadTracks = (state, setState) => {
 const showTracks = (tracks) => {
     viewer.entities.removeAll();
     tracks.forEach(track => {
-        let lastPoint = track.times[0];
-        track.cartesians.forEach((cartesian, index) => {
-            if (track.times[index].diff(lastPoint, 'seconds') < 60) {
-                return;
-            }
-            lastPoint = track.times[index];
-            viewer.entities.add({
-                position: cartesian,
-                point: {
-                    pixelSize: 6,
-                    color: track.color.withAlpha(0.7),
-                    outlineColor: Cesium.Color.BLACK,
-                    outlineWidth: 2,
-                    scaleByDistance: new Cesium.NearFarScalar(100, 3, 10000, 0.8),
-                },
-            });
-        });
-        if (track.show) {
-            viewer.entities.add({
-                polyline: {
-                    positions: track.cartesians,
-                    width: 2,
-                    material: track.color,
-                },
-            })
-        }
+        showTrackPoints(track);
+        showTrack(track);
     });
+};
+
+const showTrackPoints = (track) => {
+    let lastPoint = track.times[0];
+    track.cartesians.forEach((cartesian, index) => {
+        if (track.times[index].diff(lastPoint, 'seconds') < 60) {
+            return;
+        }
+        lastPoint = track.times[index];
+        viewer.entities.add({
+            position: cartesian,
+            name: track.pilotname,
+            trackid: track.id,
+            point: {
+                pixelSize: 6,
+                color: track.color.withAlpha(0.7),
+                outlineColor: Cesium.Color.BLACK,
+                outlineWidth: 2,
+                scaleByDistance: new Cesium.NearFarScalar(100, 3, 10000, 0.8),
+            },
+            description: `
+                    <table>
+                        <tr><th>Time</th><td>${track.times[index].format('YYYY-MM-DD HH:mm:ss')}</td></tr>
+                        <tr><th>Altitude</th><td>${track.altitudes[index]}m</td></tr>
+                    </table>
+                `,
+        });
+    });
+};
+
+const showTrack = (track) => {
+    if (!track.show) {
+        return
+    }
+    viewer.entities.add({
+        polyline: {
+            positions: track.cartesians,
+            width: 3,
+            material: track.color,
+        },
+    })
+};
+
+const registerEventHandlerOnPointClick = () => {
+    // Event handler for clicking on track points
+    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+    handler.setInputAction(function (click) {
+        const pickedObject = viewer.scene.pick(click.position);
+        if (Cesium.defined(pickedObject) && Cesium.defined(pickedObject.id)) {
+            const entityId = pickedObject.id;
+            if (entityId instanceof Cesium.Entity) {
+                const track = state.tracks.find(track => track.id === entityId.trackid);
+                scrollToTrack(track.id);
+            }
+        }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
 
 const handleTrackChecked = (state, setState, trackid) => {
@@ -110,7 +142,6 @@ const handleTrackChecked = (state, setState, trackid) => {
 };
 
 const handleDateChange = (newDate) => {
-    console.log(newDate);
     const date = dayjs(newDate);
     loadTracks({ date: date }, setState);
 }
@@ -125,6 +156,7 @@ const World = () => {
     React.useEffect(() => {
         initializeCesium(cesiumContainerRef);
         loadTracks(state, setState);
+        registerEventHandlerOnPointClick();
 
         return () => {
             viewer.destroy();
