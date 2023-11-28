@@ -15,4 +15,4 @@ if __name__ == "__main__":
         exit(1)
     date = sys.argv[1]
     tracks = export_tracks(date)
-    convert_tracks(tracks)
+    convert_tracks(date, tracks)

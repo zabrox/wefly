@@ -21,35 +21,38 @@ class Area:
     def __str__(self):
         return "name: " + self.name + " location: " + str(self.latitude) + " " + str(self.longitude)
 
-def parse_igc_line(line):
+def parse_igc_line(date, line):
     if line.startswith('B'):
         time = line[1:7]
         latitude = line[7:14]
+        latitude = float(latitude[0:2]) + float(latitude[2:]) / 100000
         longitude = line[15:23]
+        longitude = float(longitude[0:3]) + float(longitude[3:]) / 100000
         altitude = line[31:36]
         return {
-            'time': convert_to_timestring(time),
+            'time': convert_to_timestring(date, time),
             'latitude': convert_to_degrees(latitude),
             'longitude': convert_to_degrees(longitude),
             'altitude': int(altitude)
         }
     return None
 
-def convert_to_timestring(time):
+def convert_to_timestring(date, time):
     hour = time[0:2]
     minute = time[2:4]
     second = time[4:6]
-    return hour + ':' + minute + ':' + second
+    return date + 'T' + hour + ':' + minute + ':' + second + ".000Z"
 
 def convert_to_degrees(coord):
-    degrees = float(coord) / 100000
-    return degrees
+    degrees = int(coord)
+    minutes = coord - degrees
+    return degrees + (minutes * 1.6666)
 
-def igc_to_json(track):
+def igc_to_json(date, track):
     with open(track.igcpath, 'r') as file:
         lines = file.readlines()
 
-    track_points = [parse_igc_line(line) for line in lines if line.startswith('B')]
+    track_points = [parse_igc_line(date, line) for line in lines if line.startswith('B')]
     track_points = [point for point in track_points if point is not None]
 
     dict = {'track_points': track_points}
@@ -67,8 +70,8 @@ def load_areas():
             if not row[0].startswith('SP'):
                 continue
             name = re.sub("SP \(.*\)", '', row[1])
-            lat = float(re.sub('S|N', '', row[3])) / 100
-            lon = float(re.sub('E|W', '', row[4])) / 100
+            lat = convert_to_degrees(float(re.sub('S|N', '', row[3])) / 100)
+            lon = convert_to_degrees(float(re.sub('E|W', '', row[4])) / 100)
             areas.append(Area(name, lat, lon))
     return areas
 
@@ -86,10 +89,10 @@ def find_nearest_area(areas, dict):
     area = nearest_area(areas, dict)
     return area
 
-def convert_tracks(tracks: [Track]):
+def convert_tracks(date, tracks: [Track]):
     areas = load_areas()
     for track in tracks:
-        dict = igc_to_json(track)
+        dict = igc_to_json(date, track)
         area = find_nearest_area(areas, dict)
         if area != None:
             dict['area'] = area.name
