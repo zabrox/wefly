@@ -64,6 +64,17 @@ const Headers = (props) => {
     );
 };
 
+const MAX_AREA_NAME_LENGTH = 20;
+const cutDownAreaName = (area) => {
+    if (area === undefined) {
+        return '';
+    }
+    if (area.length > MAX_AREA_NAME_LENGTH) {
+        return area.slice(0, MAX_AREA_NAME_LENGTH) + '...';
+    }
+    return area;
+}
+
 export const ControlPanel = (props) => {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('Start');
@@ -97,7 +108,7 @@ export const ControlPanel = (props) => {
                                         <div className="track-color" key={"track-color" + i} style={{ backgroundColor: track.color.toCssHexString() }}>　</div>
                                     </TableCell>
                                     <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
-                                    <TableCell className="area" key={track.area}>{track.area}</TableCell>
+                                    <TableCell className="area" key={track.area}>{cutDownAreaName(track.area)}</TableCell>
                                     <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime()}</TableCell>
                                     <TableCell className="duration" key={track.pilotname + "duration"}>{track.durationStr()}</TableCell>
                                     <TableCell className="maxalt" key={track.pilotname + "maxalt"}>{track.maxAltitude()}m</TableCell>
