@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
 
 // list tracks
 app.get('/tracks/:date', (req, res) => {
-  glob(`tracks/${req.params.date}/*.igc`).then(files => {
+  glob(`tracks/${req.params.date}/*.json`).then(files => {
     // add CORS header
     res.header("Access-Control-Allow-Origin", "*")
     res.send(files.map(file => {

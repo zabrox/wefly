@@ -73,7 +73,7 @@ export const ControlPanel = (props) => {
     });
     let notracks = <div></div>;
     if (props.tracks.length === 0) {
-        notracks = <div style={{padding: "10px"}}><center>No tracks.</center></div>;
+        notracks = <div style={{ padding: "10px" }}><center>No tracks.</center></div>;
     }
 
     return (
@@ -87,7 +87,7 @@ export const ControlPanel = (props) => {
                     <TableBody>{
                         sortedrows.map((track, i) => {
                             return (
-                                <TableRow key={"tr" + i} ref={(elem) => {trackrows[track.id] = elem}}>
+                                <TableRow key={"tr" + i} ref={(elem) => { trackrows[track.id] = elem }}>
                                     <TableCell padding='none'>
                                         <Checkbox color="primary" checked={track.show} onChange={() => props.onTrackChecked(track.id)} />
                                     </TableCell>
@@ -111,8 +111,8 @@ export const ControlPanel = (props) => {
 
 export const scrollToTrack = (trackid) => {
     // clear background color of all trackrows
-    for(let [key, value] of Object.entries(trackrows)) {
-        if (value.style === undefined){
+    for (let [key, value] of Object.entries(trackrows)) {
+        if (value === null || !('style' in value)) {
             continue;
         }
         value.style.backgroundColor = '';
