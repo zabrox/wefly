@@ -1,6 +1,5 @@
-import React from "react";
 import * as Cesium from "cesium";
-import { Entity, PointGraphics, PolylineGraphics, } from "resium";
+import dayjs from "dayjs";
 
 const colorpallete = [
     Cesium.Color.RED,
@@ -17,18 +16,16 @@ const colorpallete = [
 
 export class Track {
     pilotname = "";
-    filename = "";
     cartesians = new Array();
     altitudes = new Array();
     times = new Array();
     show = false
     color;
     id;
+    distance = 0;
     #maxAltitude = undefined;
 
-    constructor(filename) {
-        this.filename = filename;
-        this.pilotname = filename.replace(/_\d+\.igc/, "");
+    constructor() {
         this.color = colorpallete[Math.floor(Math.random() * colorpallete.length)];
         this.id = crypto.randomUUID();
     }
@@ -65,4 +62,19 @@ export class Track {
         }
         return this.#maxAltitude;
     }
+}
+
+export const parseTrackJson = (json) => {
+    const track = new Track();
+    track.pilotname = json.pilotname;
+    track.distance = json.distance;
+    if (json.area !== undefined) {
+        track.area = json.area.split('_')[0];
+    }
+    json.track_points.forEach(point => {
+        track.cartesians.push(Cesium.Cartesian3.fromDegrees(point.longitude, point.latitude, point.altitude));
+        track.altitudes.push(point.altitude);
+        track.times.push(dayjs(point.time));
+    });
+    return track;
 }

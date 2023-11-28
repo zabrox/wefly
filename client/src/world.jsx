@@ -1,12 +1,11 @@
 import React from "react";
 import * as Cesium from "cesium";
 import axios from "axios";
-import { TrackInfo } from "./trackinfo";
 import { ControlPanel, scrollToTrack } from "./controlpanel";
-import { parseIgc } from "./igc";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
+import { parseTrackJson } from "./track";
 import "./world.css";
 
 const BASE_URL = "http://localhost:3001/";
@@ -49,7 +48,7 @@ const loadTracks = (state, setState) => {
         const tracknames = response.data;
         Promise.all(tracknames.map(trackname => {
             return axios.get(`${tracksurl}${trackname}`).then(response => {
-                return parseIgc(trackname, response.data);
+                return parseTrackJson(response.data);
             })
         })).then((tracks) => {
             // filter tracks less than 5 minutes

@@ -14,7 +14,7 @@ const handleSort = (header, props) => {
     if (props.orderBy === header) {
         newOrder = props.order === 'asc' ? 'desc' : 'asc';
     }
-    else if (header === 'Duration' || header === 'Max Alt.') {
+    else if (header === 'Duration' || header === 'Max Alt.' || header === 'Distance') {
         newOrder = 'desc';
     }
     props.setOrder(newOrder);
@@ -30,12 +30,14 @@ const compareByKey = (key, a, b) => {
     return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
 }
 const compareByPilotname = compareByKey.bind(null, 'pilotname');
+const compareByArea = compareByKey.bind(null, 'area');
 const compareByStart = compareByKey.bind(null, 'startTime');
 const compareByDuration = compareByKey.bind(null, 'duration');
 const compareByMaxAltitude = compareByKey.bind(null, 'maxAltitude');
+const compareByDistance = compareByKey.bind(null, 'distance');
 
-const headers = ['Pilot', 'Start', 'Duration', 'Max Alt.'];
-const comparators = [compareByPilotname, compareByStart, compareByDuration, compareByMaxAltitude];
+const headers = ['Pilot', 'Area', 'Start', 'Duration', 'Max Alt.', 'Distance'];
+const comparators = [compareByPilotname, compareByArea, compareByStart, compareByDuration, compareByMaxAltitude, compareByDistance];
 
 const Headers = (props) => {
     return (
@@ -95,9 +97,11 @@ export const ControlPanel = (props) => {
                                         <div className="track-color" key={"track-color" + i} style={{ backgroundColor: track.color.toCssHexString() }}>　</div>
                                     </TableCell>
                                     <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
+                                    <TableCell className="area" key={track.area}>{track.area}</TableCell>
                                     <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime()}</TableCell>
                                     <TableCell className="duration" key={track.pilotname + "duration"}>{track.durationStr()}</TableCell>
                                     <TableCell className="maxalt" key={track.pilotname + "maxalt"}>{track.maxAltitude()}m</TableCell>
+                                    <TableCell className="distance" key={track.pilotname + "distance"}>{track.distance}</TableCell>
                                 </TableRow>
                             )
                         })}
