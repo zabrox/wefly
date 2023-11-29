@@ -5,13 +5,14 @@ import { ControlPanel, scrollToTrack } from "./controlpanel";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
-import { parseTrackJson } from "./track";
+import { parseTrackJson, dbscanTracks } from "./track";
 import "./world.css";
 
 const BASE_URL = "http://localhost:3001/";
 let viewer = undefined;
 let state = undefined;
 let setState = undefined;
+let trackGroups = Array();
 
 const initializeCesium = (cesiumContainerRef) => {
     viewer = new Cesium.Viewer(cesiumContainerRef.current, {
@@ -52,65 +53,24 @@ const loadTracks = (state, setState) => {
             })
         })).then((tracks) => {
             // filter tracks less than 5 minutes
-            tracks = tracks.filter(track => track.duration() > 5);
+            tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
+            trackGroups = dbscanTracks(tracks);
+            trackGroups.forEach(group => group.initializeTrackGroupEntity(viewer));
             setState({ tracks: tracks });
-            showTracks(tracks);
+            initializeTracks(tracks);
             zoomToTracks(tracks);
         }).catch(error => {
-            console.log(error);
+            console.error(error);
         });
     }).catch(error => {
-        console.log(error);
+        console.error(error);
     });
 }
 
-const showTracks = (tracks) => {
-    viewer.entities.removeAll();
+const initializeTracks = (tracks) => {
     tracks.forEach(track => {
-        showTrackPoints(track);
-        showTrack(track);
+        track.initializeTrackEntity(viewer);
     });
-};
-
-const showTrackPoints = (track) => {
-    let lastPoint = track.times[0];
-    track.cartesians.forEach((cartesian, index) => {
-        if (track.times[index].diff(lastPoint, 'seconds') < 60) {
-            return;
-        }
-        lastPoint = track.times[index];
-        viewer.entities.add({
-            position: cartesian,
-            name: track.pilotname,
-            trackid: track.id,
-            point: {
-                pixelSize: 6,
-                color: track.color.withAlpha(0.7),
-                outlineColor: Cesium.Color.BLACK,
-                outlineWidth: 2,
-                scaleByDistance: new Cesium.NearFarScalar(100, 3, 10000, 0.8),
-            },
-            description: `
-                    <table>
-                        <tr><th>Time</th><td>${track.times[index].format('YYYY-MM-DD HH:mm:ss')}</td></tr>
-                        <tr><th>Altitude</th><td>${track.altitudes[index]}m</td></tr>
-                    </table>
-                `,
-        });
-    });
-};
-
-const showTrack = (track) => {
-    if (!track.show) {
-        return
-    }
-    viewer.entities.add({
-        polyline: {
-            positions: track.cartesians,
-            width: 3,
-            material: track.color,
-        },
-    })
 };
 
 const registerEventHandlerOnPointClick = () => {
@@ -128,14 +88,27 @@ const registerEventHandlerOnPointClick = () => {
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
 
+const registerEventListenerOnCameraMove = () => {
+    viewer.camera.changed.addEventListener(() => {
+        const cameraAltitude = viewer.scene.camera.positionCartographic.height;
+        if (cameraAltitude > 70000) {
+            trackGroups.forEach(group => group.showTrackGroup(true));
+            state['tracks'].forEach(track => track.showTrackPoints(false));
+        } else {
+            trackGroups.forEach(group => group.showTrackGroup(false));
+            state['tracks'].forEach(track => track.showTrackPoints(true));
+        }
+    });
+}
+
 const handleTrackChecked = (state, setState, trackid) => {
     const copy_tracks = [...state['tracks']];
     const index = copy_tracks.findIndex(track => track.id === trackid)
     const target_track = copy_tracks[index];
-    target_track.show = !target_track.show;
+    const show = !target_track.isShowingTrackLine();
+    target_track.showTrackLine(show);
     setState({ tracks: copy_tracks });
-    showTracks(copy_tracks);
-    if (target_track.show) {
+    if (show) {
         zoomToTracks([target_track]);
     }
 };
@@ -156,6 +129,7 @@ const World = () => {
         initializeCesium(cesiumContainerRef);
         loadTracks(state, setState);
         registerEventHandlerOnPointClick();
+        registerEventListenerOnCameraMove();
 
         return () => {
             viewer.destroy();
