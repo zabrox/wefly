@@ -157,7 +157,7 @@ const World = () => {
     }, []);
 
     return (
-        <div ref={cesiumContainerRef} id="world">
+        <div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <ControlPanel
                     date={state['date']}
