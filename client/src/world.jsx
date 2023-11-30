@@ -149,9 +149,10 @@ const World = () => {
     }, []);
 
     return (
-        <div ref={cesiumContainerRef} id="world">
+        <div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <ControlPanel date={state['date']} onDateChange={(newDate) => handleDateChange(newDate)} tracks={state['tracks']} onTrackChecked={(trackid) => { handleTrackChecked(state, setState, trackid) }} />
+                <div ref={cesiumContainerRef} id="world" />
             </LocalizationProvider>
         </div>
     );

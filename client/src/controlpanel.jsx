@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TableSortLabel } from '@mui/material';
 import { Checkbox } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
-import dayjs from 'dayjs';
+import { Rnd } from "react-rnd"
 import './controlpanel.css';
 
 const trackrows = {};
@@ -90,37 +90,39 @@ export const ControlPanel = (props) => {
     }
 
     return (
-        <div className="control-panel">
-            <div id='data-picker-container'><center>
-                <DatePicker defaultValue={props['date']} format="YYYY-MM-DD (ddd)" onChange={(newDate) => props.onDateChange(newDate)} />
-            </center></div>
-            <TableContainer>
-                <Table stickyHeader size="small">
-                    <Headers order={order} setOrder={setOrder} orderBy={orderBy} setOrderBy={setOrderBy}></Headers>
-                    <TableBody>{
-                        sortedrows.map((track, i) => {
-                            return (
-                                <TableRow key={"tr" + i} ref={(elem) => { trackrows[track.id] = elem }}>
-                                    <TableCell padding='none'>
-                                        <Checkbox color="primary" checked={track.isShowingTrackLine()} onChange={() => props.onTrackChecked(track.id)} />
-                                    </TableCell>
-                                    <TableCell padding='none' key={"track-color-td" + i}>
-                                        <div className="track-color" key={"track-color" + i} style={{ backgroundColor: track.color.toCssHexString() }}>　</div>
-                                    </TableCell>
-                                    <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
-                                    <TableCell className="area" key={track.area}>{cutDownAreaName(track.area)}</TableCell>
-                                    <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime()}</TableCell>
-                                    <TableCell className="duration" key={track.pilotname + "duration"}>{track.durationStr()}</TableCell>
-                                    <TableCell className="maxalt" key={track.pilotname + "maxalt"}>{track.maxAltitude()}m</TableCell>
-                                    <TableCell className="distance" key={track.pilotname + "distance"}>{track.distance}</TableCell>
-                                </TableRow>
-                            )
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer >
-            {notracks}
-        </div >
+        <Rnd default={{ x: 0, y: 0, width: '30%', height: '100%' }} disableDragging={true} dragAxis={'x'} >
+            <div >
+                <div id='data-picker-container'><center>
+                    <DatePicker defaultValue={props['date']} format="YYYY-MM-DD (ddd)" onChange={(newDate) => props.onDateChange(newDate)} />
+                </center></div>
+                <TableContainer>
+                    <Table stickyHeader size="small">
+                        <Headers order={order} setOrder={setOrder} orderBy={orderBy} setOrderBy={setOrderBy}></Headers>
+                        <TableBody>{
+                            sortedrows.map((track, i) => {
+                                return (
+                                    <TableRow key={"tr" + i} ref={(elem) => { trackrows[track.id] = elem }}>
+                                        <TableCell padding='none'>
+                                            <Checkbox color="primary" checked={track.isShowingTrackLine()} onChange={() => props.onTrackChecked(track.id)} />
+                                        </TableCell>
+                                        <TableCell padding='none' key={"track-color-td" + i}>
+                                            <div className="track-color" key={"track-color" + i} style={{ backgroundColor: track.color.toCssHexString() }}>　</div>
+                                        </TableCell>
+                                        <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
+                                        <TableCell className="area" key={track.area}>{cutDownAreaName(track.area)}</TableCell>
+                                        <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime()}</TableCell>
+                                        <TableCell className="duration" key={track.pilotname + "duration"}>{track.durationStr()}</TableCell>
+                                        <TableCell className="maxalt" key={track.pilotname + "maxalt"}>{track.maxAltitude()}m</TableCell>
+                                        <TableCell className="distance" key={track.pilotname + "distance"}>{track.distance}</TableCell>
+                                    </TableRow>
+                                )
+                            })}
+                        </TableBody>
+                    </Table>
+                </TableContainer >
+                {notracks}
+            </div>
+        </Rnd>
     );
 };
 
