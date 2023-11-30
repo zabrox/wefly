@@ -87,6 +87,9 @@ const registerEventHandlerOnPointClick = () => {
                 } else if ('groupid' in entityId) {
                     const group = trackGroups.find(group => group.groupid === entityId.groupid);
                     group.zoomToTrackGroup(viewer);
+                    viewer.selectedEntity = undefined;
+                } else {
+                    viewer.selectedEntity = undefined;
                 }
             }
         }
