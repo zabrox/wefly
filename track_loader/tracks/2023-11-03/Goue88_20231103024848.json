@@ -1,0 +1,56 @@
+{
+    "track_points": [
+        {
+            "time": "2023-11-03T02:47:38.000Z",
+            "latitude": 34.846316146,
+            "longitude": 137.25847299400002,
+            "altitude": 447
+        },
+        {
+            "time": "2023-11-03T02:47:48.000Z",
+            "latitude": 34.846282814,
+            "longitude": 137.259189632,
+            "altitude": 449
+        },
+        {
+            "time": "2023-11-03T02:47:58.000Z",
+            "latitude": 34.846499472,
+            "longitude": 137.260106262,
+            "altitude": 456
+        },
+        {
+            "time": "2023-11-03T02:48:08.000Z",
+            "latitude": 34.846649465999995,
+            "longitude": 137.2608229,
+            "altitude": 447
+        },
+        {
+            "time": "2023-11-03T02:48:18.000Z",
+            "latitude": 34.846816126,
+            "longitude": 137.2608229,
+            "altitude": 452
+        },
+        {
+            "time": "2023-11-03T02:48:28.000Z",
+            "latitude": 34.846749462000005,
+            "longitude": 137.2608229,
+            "altitude": 444
+        },
+        {
+            "time": "2023-11-03T02:48:38.000Z",
+            "latitude": 34.846732796,
+            "longitude": 137.260839566,
+            "altitude": 424
+        },
+        {
+            "time": "2023-11-03T02:48:48.000Z",
+            "latitude": 34.84671613,
+            "longitude": 137.2608229,
+            "altitude": 423
+        }
+    ],
+    "pilotname": "Goue88",
+    "distance": "0.2 km",
+    "duration": "00:01:10",
+    "activity": "Paraglider"
+}

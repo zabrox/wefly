@@ -1,0 +1,33 @@
+{
+    "track_points": [
+        {
+            "time": "2023-11-03T01:30:43.000Z",
+            "latitude": 35.413183472,
+            "longitude": 138.56999386599998,
+            "altitude": 1180
+        },
+        {
+            "time": "2023-11-03T01:30:45.000Z",
+            "latitude": 35.413183472,
+            "longitude": 138.56999386599998,
+            "altitude": 1180
+        },
+        {
+            "time": "2023-11-03T01:30:47.000Z",
+            "latitude": 35.413183472,
+            "longitude": 138.56999386599998,
+            "altitude": 1180
+        },
+        {
+            "time": "2023-11-03T01:30:49.000Z",
+            "latitude": 35.413183472,
+            "longitude": 138.56999386599998,
+            "altitude": 1180
+        }
+    ],
+    "pilotname": "horisan2",
+    "distance": "0.0 km",
+    "duration": "00:00:06",
+    "activity": "Flex wing FAI1",
+    "area": " Asagiri -DK Skygym"
+}

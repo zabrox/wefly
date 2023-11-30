@@ -1,0 +1,38 @@
+{
+    "track_points": [
+        {
+            "time": "2023-11-03T01:52:40.000Z",
+            "latitude": 33.957545030000006,
+            "longitude": 134.503929842,
+            "altitude": 751
+        },
+        {
+            "time": "2023-11-03T01:52:41.000Z",
+            "latitude": 33.957561696,
+            "longitude": 134.503946508,
+            "altitude": 751
+        },
+        {
+            "time": "2023-11-03T01:52:42.000Z",
+            "latitude": 33.95759502799999,
+            "longitude": 134.503963174,
+            "altitude": 751
+        },
+        {
+            "time": "2023-11-03T01:52:43.000Z",
+            "latitude": 33.957611694,
+            "longitude": 134.50397984,
+            "altitude": 751
+        },
+        {
+            "time": "2023-11-03T01:52:44.000Z",
+            "latitude": 33.95759502799999,
+            "longitude": 134.50397984,
+            "altitude": 753
+        }
+    ],
+    "pilotname": "flyhiwa",
+    "distance": "0.0 km",
+    "duration": "00:00:04",
+    "activity": "Paraglider"
+}

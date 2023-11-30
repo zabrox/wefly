@@ -1,0 +1,21 @@
+{
+    "track_points": [
+        {
+            "time": "2023-11-03T02:28:58.000Z",
+            "latitude": 36.269455887999996,
+            "longitude": 140.141261016,
+            "altitude": 528
+        },
+        {
+            "time": "2023-11-03T02:29:00.000Z",
+            "latitude": 36.269455887999996,
+            "longitude": 140.141261016,
+            "altitude": 528
+        }
+    ],
+    "pilotname": "TakaG",
+    "distance": "0.0 km",
+    "duration": "00:00:02",
+    "activity": "Paraglider",
+    "area": " Mount Tsukuba Yasato_Ibaraki Air Park COO"
+}

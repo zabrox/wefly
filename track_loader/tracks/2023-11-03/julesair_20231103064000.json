@@ -1,0 +1,14 @@
+{
+    "track_points": [
+        {
+            "time": "2023-11-03T06:40:00.000Z",
+            "latitude": 36.280222124000005,
+            "longitude": 137.68288935,
+            "altitude": 1724
+        }
+    ],
+    "pilotname": "julesair",
+    "distance": "0.0 km",
+    "duration": "00:00:00",
+    "activity": "Paraglider"
+}
