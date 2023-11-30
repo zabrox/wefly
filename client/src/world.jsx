@@ -81,8 +81,13 @@ const registerEventHandlerOnPointClick = () => {
         if (Cesium.defined(pickedObject) && Cesium.defined(pickedObject.id)) {
             const entityId = pickedObject.id;
             if (entityId instanceof Cesium.Entity) {
-                const track = state.tracks.find(track => track.id === entityId.trackid);
-                scrollToTrack(track.id);
+                if ('trackid' in entityId) {
+                    const track = state.tracks.find(track => track.id === entityId.trackid);
+                    scrollToTrack(track.id);
+                } else if ('groupid' in entityId) {
+                    const group = trackGroups.find(group => group.groupid === entityId.groupid);
+                    group.zoomToTrackGroup(viewer);
+                }
             }
         }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -93,10 +98,14 @@ const registerEventListenerOnCameraMove = () => {
         const cameraAltitude = viewer.scene.camera.positionCartographic.height;
         if (cameraAltitude > 70000) {
             trackGroups.forEach(group => group.showTrackGroup(true));
-            state['tracks'].forEach(track => track.showTrackPoints(false));
+            state['tracks'].forEach(track => {
+                track.fadeOut();
+            });
         } else {
             trackGroups.forEach(group => group.showTrackGroup(false));
-            state['tracks'].forEach(track => track.showTrackPoints(true));
+            state['tracks'].forEach(track => {
+                track.fadeIn();
+            });
         }
     });
 }

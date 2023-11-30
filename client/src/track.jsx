@@ -23,6 +23,7 @@ export class Track {
     color;
     id;
     distance = 0;
+    #showLine = false;
     #trackEntity = undefined;
     #trackPointEntities = new Array();
     #maxAltitude = undefined;
@@ -66,18 +67,21 @@ export class Track {
     }
 
     isShowingTrackLine() {
-        return this.#trackEntity.isShowing;
+        return this.#showLine;
     }
 
     showTrackLine(b) {
+        this.#showLine = b;
         this.#trackEntity.show = b;
     }
 
-    isShowingTrackPoints() {
-        return this.#trackPointEntities[0].isShowing;
+    fadeOut() {
+        this.#trackEntity.show = false;
+        this.#trackPointEntities.forEach(entity => entity.show = false);
     }
-    showTrackPoints(b) {
-        this.#trackPointEntities.forEach(entity => entity.show = b);
+    fadeIn() {
+        this.#trackEntity.show = this.#showLine;
+        this.#trackPointEntities.forEach(entity => entity.show = true);
     }
 
     #initializeTrackPointEntities(viewer) {
@@ -126,6 +130,7 @@ export class Track {
 }
 
 export class TrackGroup {
+    groupid = 0;
     cartesian = new Cesium.Cartesian3();
     tracks = new Array();
     #show = false;
@@ -137,14 +142,29 @@ export class TrackGroup {
     }
 
     initializeTrackGroupEntity(viewer) {
+        const MIN_ICON_SIZE = 10;
+        const MAX_ICON_SIZE = 200;
+        const COEFFICIENT = (MAX_ICON_SIZE - MIN_ICON_SIZE) / 200;
+        let size  = MIN_ICON_SIZE + this.tracks.length * COEFFICIENT;
+        size = size > MAX_ICON_SIZE ? MAX_ICON_SIZE : size;
         this.#trackGroupEntity = viewer.entities.add({
             position: this.cartesian,
-            point: {
-                pixelSize: 30,
+            groupid: this.groupid,
+            billboard: {
+                image: 'images/track_group_pin.svg',
+                height: size,
+                width: size * 5 / 9,
+                pixelOffset: new Cesium.Cartesian2(0, -size / 2),
                 color: Cesium.Color.RED,
             },
         });
         this.#trackGroupEntity.show = this.#show;
+    }
+
+    zoomToTrackGroup(viewer) {
+        const cartesians = new Array();
+        this.tracks.forEach(track => cartesians.push(...track.cartesians));
+        viewer.camera.flyToBoundingSphere(Cesium.BoundingSphere.fromPoints(cartesians), { duration: 1 });
     }
 }
 
@@ -196,10 +216,13 @@ export const dbscanTracks = (tracks) => {
     const db = new dbscan.DBSCAN();
     const clusters = db.run(points, epsilon, minPoints, distance);
 
+    let groupid = 0;
     const groups = clusters.map(cluster => {
         const group = new TrackGroup();
         group.tracks = cluster.map((index) => tracks[index]);
         group.cartesian = group.tracks[0].cartesians[0];
+        group.groupid = groupid;
+        groupid++;
         return group;
     });
     console.log(groups);
