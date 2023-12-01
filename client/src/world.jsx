@@ -169,7 +169,7 @@ const World = () => {
                     onDateChange={(newDate) => handleDateChange(newDate)}
                     tracks={state['tracks']}
                     onTrackChecked={(trackid) => handleTrackChecked(state, setState, trackid)}
-                    onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }} />
+                    onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }}
                     width={parseInt(state['controlPanelWidth'])-5}
                     onControlPanelWidthChange={(width) => handleControlPanelWidthChange(width)} />
                 <div
