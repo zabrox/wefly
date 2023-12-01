@@ -188,7 +188,7 @@ export const parseTrackJson = (json) => {
         return undefined;
     }
     track.pilotname = json.pilotname;
-    track.distance = json.distance;
+    track.distance = parseFloat(json.distance.replace(' km', ''));
     if (json.area !== undefined) {
         track.area = json.area.split('_')[0];
     }
