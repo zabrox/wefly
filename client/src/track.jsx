@@ -225,6 +225,5 @@ export const dbscanTracks = (tracks) => {
         groupid++;
         return group;
     });
-    console.log(groups);
     return groups;
 }

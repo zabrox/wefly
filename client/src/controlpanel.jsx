@@ -90,7 +90,13 @@ export const ControlPanel = (props) => {
     }
 
     return (
-        <Rnd default={{ x: 0, y: 0, width: '30%', height: '100%' }} disableDragging={true} dragAxis={'x'} >
+        <Rnd className='control-panel'
+            size={{width: props['width'], height: '100%'}}
+            onResize={(e, direction, ref, delta, position) => {
+                props['onControlPanelWidthChange'](parseInt(ref.style.width));
+            }}
+            disableDragging={true}
+            dragAxis={'x'} >
             <div >
                 <div id='data-picker-container'><center>
                     <DatePicker defaultValue={props['date']} format="YYYY-MM-DD (ddd)" onChange={(newDate) => props.onDateChange(newDate)} />
