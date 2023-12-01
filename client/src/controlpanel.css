@@ -1,3 +1,7 @@
+.control-panel {
+    overflow-x: auto;
+}
+
 .control-panel th, td {
     white-space: nowrap;
 }
