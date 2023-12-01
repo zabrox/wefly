@@ -118,7 +118,7 @@ export const ControlPanel = (props) => {
                                     <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime()}</TableCell>
                                     <TableCell className="duration" key={track.pilotname + "duration"}>{track.durationStr()}</TableCell>
                                     <TableCell className="maxalt" key={track.pilotname + "maxalt"}>{track.maxAltitude()}m</TableCell>
-                                    <TableCell className="distance" key={track.pilotname + "distance"}>{track.distance}</TableCell>
+                                    <TableCell className="distance" key={track.pilotname + "distance"}>{track.distance}km</TableCell>
                                 </TableRow>
                             )
                         })}
