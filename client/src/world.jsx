@@ -122,6 +122,14 @@ const handleTrackChecked = (state, setState, trackid) => {
     }
 };
 
+const handleTrackClick = (state, trackid) => {
+    const copy_tracks = [...state['tracks']];
+    const index = copy_tracks.findIndex(track => track.id === trackid)
+    const target_track = copy_tracks[index];
+    scrollToTrack(target_track.id);
+    zoomToTracks([target_track]);
+};
+
 const handleDateChange = (newDate) => {
     const date = dayjs(newDate);
     loadTracks({ date: date }, setState);
@@ -148,7 +156,12 @@ const World = () => {
     return (
         <div ref={cesiumContainerRef} id="world">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <ControlPanel date={state['date']} onDateChange={(newDate) => handleDateChange(newDate)} tracks={state['tracks']} onTrackChecked={(trackid) => { handleTrackChecked(state, setState, trackid) }} />
+                <ControlPanel
+                    date={state['date']}
+                    onDateChange={(newDate) => handleDateChange(newDate)}
+                    tracks={state['tracks']}
+                    onTrackChecked={(trackid) => { handleTrackChecked(state, setState, trackid) }}
+                    onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }} />
             </LocalizationProvider>
         </div>
     );

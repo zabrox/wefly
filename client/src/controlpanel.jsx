@@ -100,9 +100,15 @@ export const ControlPanel = (props) => {
                     <TableBody>{
                         sortedrows.map((track, i) => {
                             return (
-                                <TableRow key={"tr" + i} ref={(elem) => { trackrows[track.id] = elem }}>
+                                <TableRow
+                                    key={"tr" + i}
+                                    ref={(elem) => { trackrows[track.id] = elem }}
+                                    onClick={() => { props.onTrackClicked(track.id) }}>
                                     <TableCell padding='none'>
-                                        <Checkbox color="primary" checked={track.isShowingTrackLine()} onChange={() => props.onTrackChecked(track.id)} />
+                                        <Checkbox
+                                            color="primary"
+                                            checked={track.isShowingTrackLine()}
+                                            onChange={() => props.onTrackChecked(track.id)} />
                                     </TableCell>
                                     <TableCell padding='none' key={"track-color-td" + i}>
                                         <div className="track-color" key={"track-color" + i} style={{ backgroundColor: track.color.toCssHexString() }}>　</div>
