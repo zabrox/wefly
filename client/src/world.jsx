@@ -56,7 +56,7 @@ const loadTracks = (state, setState) => {
             tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
             trackGroups = dbscanTracks(tracks);
             trackGroups.forEach(group => group.initializeTrackGroupEntity(viewer));
-            setState({ tracks: tracks });
+            setState({ ...state, tracks: tracks });
             initializeTracks(tracks);
             zoomToTracks(tracks);
         }).catch(error => {
@@ -87,6 +87,9 @@ const registerEventHandlerOnPointClick = () => {
                 } else if ('groupid' in entityId) {
                     const group = trackGroups.find(group => group.groupid === entityId.groupid);
                     group.zoomToTrackGroup(viewer);
+                    viewer.selectedEntity = undefined;
+                } else {
+                    viewer.selectedEntity = undefined;
                 }
             }
         }
@@ -116,7 +119,7 @@ const handleTrackChecked = (state, setState, trackid) => {
     const target_track = copy_tracks[index];
     const show = !target_track.isShowingTrackLine();
     target_track.showTrackLine(show);
-    setState({ tracks: copy_tracks });
+    setState({ ...state, tracks: copy_tracks });
     if (show) {
         zoomToTracks([target_track]);
     }
@@ -135,11 +138,16 @@ const handleDateChange = (newDate) => {
     loadTracks({ date: date }, setState);
 }
 
+const handleControlPanelWidthChange = (newwidth) => {
+    setState({ ...state, controlPanelWidth: parseInt(newwidth) });
+}
+
 const World = () => {
     const cesiumContainerRef = React.useRef(null);
     [state, setState] = React.useState({
         tracks: [],
         date: dayjs(),
+        controlPanelWidth: window.innerWidth * 0.3,
     });
 
     React.useEffect(() => {
@@ -154,14 +162,20 @@ const World = () => {
     }, []);
 
     return (
-        <div ref={cesiumContainerRef} id="world">
+        <div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <ControlPanel
                     date={state['date']}
                     onDateChange={(newDate) => handleDateChange(newDate)}
                     tracks={state['tracks']}
-                    onTrackChecked={(trackid) => { handleTrackChecked(state, setState, trackid) }}
-                    onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }} />
+                    onTrackChecked={(trackid) => handleTrackChecked(state, setState, trackid)}
+                    onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }}
+                    width={parseInt(state['controlPanelWidth'])-5}
+                    onControlPanelWidthChange={(width) => handleControlPanelWidthChange(width)} />
+                <div
+                    style={{ left: parseInt(state['controlPanelWidth']), width: document.body.clientWidth - parseInt(state['controlPanelWidth']), position: 'fixed' }}
+                    ref={cesiumContainerRef}
+                    id="world" />
             </LocalizationProvider>
         </div>
     );
