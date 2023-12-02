@@ -84,6 +84,9 @@ const registerEventHandlerOnPointClick = () => {
             if (entityId instanceof Cesium.Entity) {
                 if ('trackid' in entityId) {
                     const track = state.tracks.find(track => track.id === entityId.trackid);
+                    if (!track.isShowingTrackLine()) {
+                        handleTrackClick(state, track.id);
+                    }
                     scrollToTrack(track.id);
                 } else if ('groupid' in entityId) {
                     const group = trackGroups.find(group => group.groupid === entityId.groupid);
@@ -114,7 +117,7 @@ const registerEventListenerOnCameraMove = () => {
     });
 }
 
-const handleTrackChecked = (state, setState, trackid) => {
+const handleTrackClick = (state, trackid) => {
     const copy_tracks = [...state['tracks']];
     const index = copy_tracks.findIndex(track => track.id === trackid)
     const target_track = copy_tracks[index];
@@ -124,14 +127,6 @@ const handleTrackChecked = (state, setState, trackid) => {
     if (show) {
         zoomToTracks([target_track]);
     }
-};
-
-const handleTrackClick = (state, trackid) => {
-    const copy_tracks = [...state['tracks']];
-    const index = copy_tracks.findIndex(track => track.id === trackid)
-    const target_track = copy_tracks[index];
-    scrollToTrack(target_track.id);
-    zoomToTracks([target_track]);
 };
 
 const handleDateChange = (newDate) => {
@@ -170,9 +165,8 @@ const World = () => {
                     date={state['date']}
                     onDateChange={(newDate) => handleDateChange(newDate)}
                     tracks={state['tracks']}
-                    onTrackChecked={(trackid) => handleTrackChecked(state, setState, trackid)}
                     onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }}
-                    width={parseInt(state['controlPanelWidth'])-5}
+                    width={parseInt(state['controlPanelWidth']) - 5}
                     onControlPanelWidthChange={(width) => handleControlPanelWidthChange(width)} />
                 <div
                     style={{ left: parseInt(state['controlPanelWidth']), width: document.body.clientWidth - parseInt(state['controlPanelWidth']), position: 'fixed' }}

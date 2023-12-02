@@ -44,7 +44,6 @@ const Headers = (props) => {
         <TableHead>
             <TableRow>
                 <TableCell padding='none' />
-                <TableCell padding='none' />
                 {
                     headers.map((header, i) => {
                         return (
@@ -110,10 +109,8 @@ export const ControlPanel = (props) => {
                                     <TableRow
                                         key={"tr" + i}
                                         ref={(elem) => { trackrows[track.id] = elem }}
-                                        onClick={() => { props.onTrackClicked(track.id) }}>
-                                        <TableCell padding='none'>
-                                            <Checkbox color="primary" checked={track.isShowingTrackLine()} onChange={() => props.onTrackChecked(track.id)} />
-                                        </TableCell>
+                                        onClick={() => { props.onTrackClicked(track.id) }}
+                                        style={{ backgroundColor: track.isShowingTrackLine() ? 'silver' : '' }}>
                                         <TableCell padding='none' key={"track-color-td" + i}>
                                             <div className="track-color" key={"track-color" + i} style={{ backgroundColor: track.color.toCssHexString() }}>　</div>
                                         </TableCell>
@@ -136,17 +133,9 @@ export const ControlPanel = (props) => {
 };
 
 export const scrollToTrack = (trackid) => {
-    // clear background color of all trackrows
-    for (let [key, value] of Object.entries(trackrows)) {
-        if (value === null || !('style' in value)) {
-            continue;
-        }
-        value.style.backgroundColor = '';
-    }
     const trackrow = trackrows[trackid];
     if (trackrow === undefined) {
         return;
     }
     trackrow.scrollIntoView({ behavior: 'smooth' });
-    trackrow.style.backgroundColor = 'silver';
 }
