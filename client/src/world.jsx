@@ -15,6 +15,7 @@ let setState = undefined;
 let trackGroups = Array();
 
 const initializeCesium = (cesiumContainerRef) => {
+    Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNjMxN2Y3Ni04YWU3LTQwNjctYmYyNC05Yjc4MTljOTY3OGYiLCJpZCI6MTY5NTkxLCJpYXQiOjE2OTYyNDYyMTB9.CYkH9qKRpMU0kzQWkjXuvqgr-09nICUdta83AZIxAy8";
     viewer = new Cesium.Viewer(cesiumContainerRef.current, {
         terrain: Cesium.Terrain.fromWorldTerrain(),
         timeline: false,
@@ -134,6 +135,7 @@ const handleTrackClick = (state, trackid) => {
 };
 
 const handleDateChange = (newDate) => {
+    viewer.entities.removeAll();
     const date = dayjs(newDate);
     loadTracks({ date: date }, setState);
 }
