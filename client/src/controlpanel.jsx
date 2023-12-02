@@ -43,7 +43,6 @@ const Headers = (props) => {
     return (
         <TableHead>
             <TableRow>
-                <TableCell padding='none' />
                 {
                     headers.map((header, i) => {
                         return (
@@ -110,10 +109,7 @@ export const ControlPanel = (props) => {
                                         key={"tr" + i}
                                         ref={(elem) => { trackrows[track.id] = elem }}
                                         onClick={() => { props.onTrackClicked(track.id) }}
-                                        style={{ backgroundColor: track.isShowingTrackLine() ? 'silver' : '' }}>
-                                        <TableCell padding='none' key={"track-color-td" + i}>
-                                            <div className="track-color" key={"track-color" + i} style={{ backgroundColor: track.color.toCssHexString() }}>　</div>
-                                        </TableCell>
+                                        style={{ backgroundColor: track.isShowingTrackLine() ? track.color.toCssHexString() : '' }}>
                                         <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
                                         <TableCell className="area" key={track.area}>{cutDownAreaName(track.area)}</TableCell>
                                         <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime()}</TableCell>
