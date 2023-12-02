@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TableSortLabel } from '@mui/material';
-import { Checkbox } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
-import { Rnd } from "react-rnd"
 import './controlpanel.css';
 
 const trackrows = {};
@@ -88,43 +86,35 @@ export const ControlPanel = (props) => {
     }
 
     return (
-        <Rnd className='control-panel'
-            size={{width: props['width'], height: '100%'}}
-            onResize={(e, direction, ref, delta, position) => {
-                props['onControlPanelWidthChange'](parseInt(ref.style.width));
-            }}
-            disableDragging={true}
-            dragAxis={'x'} >
-            <div >
-                <div id='data-picker-container'><center>
-                    <DatePicker defaultValue={props['date']} format="YYYY-MM-DD (ddd)" onChange={(newDate) => props.onDateChange(newDate)} />
-                </center></div>
-                <TableContainer>
-                    <Table stickyHeader size="small">
-                        <Headers order={order} setOrder={setOrder} orderBy={orderBy} setOrderBy={setOrderBy}></Headers>
-                        <TableBody>{
-                            sortedrows.map((track, i) => {
-                                return (
-                                    <TableRow
-                                        key={"tr" + i}
-                                        ref={(elem) => { trackrows[track.id] = elem }}
-                                        onClick={() => { props.onTrackClicked(track.id) }}
-                                        style={{ backgroundColor: track.isShowingTrackLine() ? track.color.toCssHexString() : '' }}>
-                                        <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
-                                        <TableCell className="area" key={track.area}>{cutDownAreaName(track.area)}</TableCell>
-                                        <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime()}</TableCell>
-                                        <TableCell className="duration" key={track.pilotname + "duration"}>{track.durationStr()}</TableCell>
-                                        <TableCell className="maxalt" key={track.pilotname + "maxalt"}>{track.maxAltitude()}m</TableCell>
-                                        <TableCell className="distance" key={track.pilotname + "distance"}>{track.distance}km</TableCell>
-                                    </TableRow>
-                                )
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer >
-                {notracks}
-            </div>
-        </Rnd>
+        <div id='control-panel'>
+            <div id='data-picker-container'><center>
+                <DatePicker defaultValue={props['date']} format="YYYY-MM-DD (ddd)" onChange={(newDate) => props.onDateChange(newDate)} />
+            </center></div>
+            <TableContainer>
+                <Table stickyHeader size="small">
+                    <Headers order={order} setOrder={setOrder} orderBy={orderBy} setOrderBy={setOrderBy}></Headers>
+                    <TableBody>{
+                        sortedrows.map((track, i) => {
+                            return (
+                                <TableRow
+                                    key={"tr" + i}
+                                    ref={(elem) => { trackrows[track.id] = elem }}
+                                    onClick={() => { props.onTrackClicked(track.id) }}
+                                    style={{ backgroundColor: track.isShowingTrackLine() ? track.color.toCssHexString() : '' }}>
+                                    <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
+                                    <TableCell className="area" key={track.area}>{cutDownAreaName(track.area)}</TableCell>
+                                    <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime()}</TableCell>
+                                    <TableCell className="duration" key={track.pilotname + "duration"}>{track.durationStr()}</TableCell>
+                                    <TableCell className="maxalt" key={track.pilotname + "maxalt"}>{track.maxAltitude()}m</TableCell>
+                                    <TableCell className="distance" key={track.pilotname + "distance"}>{track.distance}km</TableCell>
+                                </TableRow>
+                            )
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer >
+            {notracks}
+        </div>
     );
 };
 
