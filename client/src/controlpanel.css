@@ -1,8 +1,9 @@
-.control-panel {
-    overflow-x: auto;
+#control-panel {
+    overflow: auto;
+    width: 30%;
 }
 
-.control-panel th, td {
+#control-panel th, td {
     white-space: nowrap;
 }
 

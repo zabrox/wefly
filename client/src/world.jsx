@@ -7,6 +7,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
 import { parseTrackJson, dbscanTracks } from "./track";
 import "./world.css";
+import './SplitView.css';
 
 const BASE_URL = "http://localhost:3001/";
 let viewer = undefined;
@@ -135,10 +136,6 @@ const handleDateChange = (newDate) => {
     loadTracks({ date: date }, setState);
 }
 
-const handleControlPanelWidthChange = (newwidth) => {
-    setState({ ...state, controlPanelWidth: parseInt(newwidth) });
-}
-
 const World = () => {
     const cesiumContainerRef = React.useRef(null);
     [state, setState] = React.useState({
@@ -148,6 +145,7 @@ const World = () => {
     });
 
     React.useEffect(() => {
+        SplitView.activate(document.getElementById("main"))
         initializeCesium(cesiumContainerRef);
         loadTracks(state, setState);
         registerEventHandlerOnPointClick();
@@ -159,21 +157,23 @@ const World = () => {
     }, []);
 
     return (
-        <div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <div id='main' className='split-view horizontal'>
                 <ControlPanel
                     date={state['date']}
                     onDateChange={(newDate) => handleDateChange(newDate)}
                     tracks={state['tracks']}
                     onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }}
                     width={parseInt(state['controlPanelWidth']) - 5}
+                    height={'100%'}
                     onControlPanelWidthChange={(width) => handleControlPanelWidthChange(width)} />
+                <div className='gutter' />
                 <div
-                    style={{ left: parseInt(state['controlPanelWidth']), width: document.body.clientWidth - parseInt(state['controlPanelWidth']), position: 'fixed' }}
+                    style={{ width: document.body.clientWidth - parseInt(state['controlPanelWidth']), }}
                     ref={cesiumContainerRef}
-                    id="world" />
-            </LocalizationProvider>
-        </div>
+                    id="cesium" />
+            </div>
+        </LocalizationProvider>
     );
 };
 
