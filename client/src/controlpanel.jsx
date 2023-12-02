@@ -60,7 +60,7 @@ const Headers = (props) => {
     );
 };
 
-const MAX_AREA_NAME_LENGTH = 20;
+const MAX_AREA_NAME_LENGTH = 17;
 const cutDownAreaName = (area) => {
     if (area === undefined) {
         return '';
@@ -103,7 +103,7 @@ export const ControlPanel = (props) => {
                                     style={{ backgroundColor: track.isShowingTrackLine() ? track.color.toCssHexString() : '' }}>
                                     <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
                                     <TableCell className="area" key={track.area}>{cutDownAreaName(track.area)}</TableCell>
-                                    <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime()}</TableCell>
+                                    <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime().split(' ')[1]}</TableCell>
                                     <TableCell className="duration" key={track.pilotname + "duration"}>{track.durationStr()}</TableCell>
                                     <TableCell className="maxalt" key={track.pilotname + "maxalt"}>{track.maxAltitude()}m</TableCell>
                                     <TableCell className="distance" key={track.pilotname + "distance"}>{track.distance}km</TableCell>
