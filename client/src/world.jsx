@@ -163,10 +163,7 @@ const World = () => {
                     date={state['date']}
                     onDateChange={(newDate) => handleDateChange(newDate)}
                     tracks={state['tracks']}
-                    onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }}
-                    width={parseInt(state['controlPanelWidth']) - 5}
-                    height={'100%'}
-                    onControlPanelWidthChange={(width) => handleControlPanelWidthChange(width)} />
+                    onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }} />
                 <div className='gutter' />
                 <div
                     style={{ width: document.body.clientWidth - parseInt(state['controlPanelWidth']), }}
