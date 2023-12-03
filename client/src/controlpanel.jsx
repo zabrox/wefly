@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TableSortLabel } from '@mui/material';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { IconButton, Button, Dialog, DialogTitle, List, ListItem, Checkbox, ListItemText } from '@mui/material';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import { DatePicker } from '@mui/x-date-pickers';
 import './controlpanel.css';
-
-const trackrows = {};
 
 const handleSort = (header, order, setOrder, orderBy, setOrderBy) => {
     // flip the order if the same header is clicked
@@ -137,11 +135,11 @@ const filterTracksByArea = (tracks, areasFilter) => {
     return tracks.filter(track => 'area' in track && areasFilter.includes(track.area));
 };
 
-const mapTracksToTableRows = (tracks, onTrackClicked, trackrows) => {
+const mapTracksToTableRows = (tracks, onTrackClicked) => {
     return tracks.map((track, i) => (
         <TableRow
             key={"tr" + i}
-            ref={(elem) => { trackrows[track.id] = elem }}
+            id={track.id}
             onClick={() => { onTrackClicked(track.id) }}
             style={{
                 backgroundColor: track.isShowingTrackLine() ? track.color.toCssHexString() : '',
@@ -192,7 +190,6 @@ export const ControlPanel = (props) => {
                         mapTracksToTableRows(
                             filterTracksByArea(sortedrows, areasFilter),
                             props.onTrackClicked,
-                            trackrows
                         )
                     }</TableBody>
                 </Table>
@@ -203,9 +200,8 @@ export const ControlPanel = (props) => {
 };
 
 export const scrollToTrack = (trackid) => {
-    const trackrow = trackrows[trackid];
-    if (trackrow === undefined) {
-        return;
+    const row = document.getElementById(trackid);
+    if (row !== null) {
+        row.scrollIntoView({ behavior: 'auto', block: 'center' });
     }
-    trackrow.scrollIntoView({ behavior: 'smooth' });
 }
