@@ -142,8 +142,8 @@ export class TrackGroup {
     }
 
     initializeTrackGroupEntity(viewer) {
-        const MIN_ICON_SIZE = 10;
-        const MAX_ICON_SIZE = 200;
+        const MIN_ICON_SIZE = 30;
+        const MAX_ICON_SIZE = 250;
         const COEFFICIENT = (MAX_ICON_SIZE - MIN_ICON_SIZE) / 200;
         let size  = MIN_ICON_SIZE + this.tracks.length * COEFFICIENT;
         size = size > MAX_ICON_SIZE ? MAX_ICON_SIZE : size;
@@ -153,9 +153,8 @@ export class TrackGroup {
             billboard: {
                 image: 'images/track_group_pin.svg',
                 height: size,
-                width: size * 5 / 9,
+                width: size * 5 / 6,
                 pixelOffset: new Cesium.Cartesian2(0, -size / 2),
-                color: Cesium.Color.RED,
             },
         });
         this.#trackGroupEntity.show = this.#show;
