@@ -141,7 +141,6 @@ const World = () => {
     [state, setState] = React.useState({
         tracks: [],
         date: dayjs(),
-        controlPanelWidth: window.innerWidth * 0.3,
     });
 
     React.useEffect(() => {
@@ -164,12 +163,9 @@ const World = () => {
                     onDateChange={(newDate) => handleDateChange(newDate)}
                     tracks={state['tracks']}
                     onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }}
-                    width={parseInt(state['controlPanelWidth']) - 5}
-                    height={'100%'}
                     onControlPanelWidthChange={(width) => handleControlPanelWidthChange(width)} />
                 <div className='gutter' />
                 <div
-                    style={{ width: document.body.clientWidth - parseInt(state['controlPanelWidth']), }}
                     ref={cesiumContainerRef}
                     id="cesium" />
             </div>
