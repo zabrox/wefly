@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TableSortLabel } from '@mui/material';
+import { IconButton, Button, Dialog, DialogTitle, List, ListItem, Checkbox, ListItemText } from '@mui/material';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import { DatePicker } from '@mui/x-date-pickers';
 import './controlpanel.css';
 
-const trackrows = {};
-
-const handleSort = (header, props) => {
+const handleSort = (header, order, setOrder, orderBy, setOrderBy) => {
     // flip the order if the same header is clicked
     // otherwise, set the order to ascending
     let newOrder = 'asc';
-    if (props.orderBy === header) {
-        newOrder = props.order === 'asc' ? 'desc' : 'asc';
+    if (orderBy === header) {
+        newOrder = order === 'asc' ? 'desc' : 'asc';
     }
     else if (header === 'Duration' || header === 'Max Alt.' || header === 'Distance') {
         newOrder = 'desc';
     }
-    props.setOrder(newOrder);
-    props.setOrderBy(header);
+    setOrder(newOrder);
+    setOrderBy(header);
 };
+
+function listAreas(tracks) {
+    const areaNamesSet = new Set();
+
+    tracks.forEach(track => {
+        if (track.area && !areaNamesSet.has(track.area)) {
+            areaNamesSet.add(track.area);
+        }
+    });
+
+    return Array.from(areaNamesSet).sort();
+}
 
 const compareByKey = (key, a, b) => {
     const valueA = typeof a[key] === 'function' ? a[key]() : a[key];
@@ -37,29 +49,6 @@ const compareByDistance = compareByKey.bind(null, 'distance');
 const headers = ['Pilot', 'Area', 'Start', 'Duration', 'Max Alt.', 'Distance'];
 const comparators = [compareByPilotname, compareByArea, compareByStart, compareByDuration, compareByMaxAltitude, compareByDistance];
 
-const Headers = (props) => {
-    return (
-        <TableHead>
-            <TableRow>
-                {
-                    headers.map((header, i) => {
-                        return (
-                            <TableCell key={"th" + i} sortDirection={props.orderBy === header ? props.order : false}>
-                                <TableSortLabel
-                                    active={props.orderBy === header}
-                                    direction={props.orderBy === header ? props.order : 'asc'}
-                                    onClick={() => handleSort(header, props)}
-                                >
-                                    {header}
-                                </TableSortLabel>
-                            </TableCell>
-                        )
-                    })}
-            </TableRow>
-        </TableHead>
-    );
-};
-
 const MAX_AREA_NAME_LENGTH = 17;
 const cutDownAreaName = (area) => {
     if (area === undefined) {
@@ -71,9 +60,105 @@ const cutDownAreaName = (area) => {
     return area;
 }
 
+const AreaSelector = ({ areas, areasFilter, onAreasFilterChange }) => {
+    const [showAreaSelector, setShowAreaSelector] = useState(false);
+
+    const handleToggle = (value) => () => {
+        const currentIndex = areasFilter.indexOf(value);
+        const newAreasFilter = [...areasFilter];
+
+        if (currentIndex === -1) {
+            newAreasFilter.push(value);
+        } else {
+            newAreasFilter.splice(currentIndex, 1);
+        }
+
+        onAreasFilterChange(newAreasFilter);
+    };
+
+    return (
+        <div onClick={(event) => event.stopPropagation()}>
+            <IconButton id='areafilter' onClick={(event) => {
+                setShowAreaSelector(!showAreaSelector)
+                event.stopPropagation();
+            }}>
+                <FilterListIcon />
+            </IconButton>
+            <Dialog open={showAreaSelector} onClose={() => setShowAreaSelector(false)}>
+                <DialogTitle>Select area...</DialogTitle>
+                <List id='arealist'>
+                    {areas.map((area) => (
+                        <ListItem key={area} onClick={handleToggle(area)}>
+                            <Checkbox checked={areasFilter.includes(area)} />
+                            <ListItemText primary={area} />
+                        </ListItem>
+                    ))}
+                </List>
+                <Button onClick={() => setShowAreaSelector(false)}>Close</Button>
+            </Dialog>
+        </div>
+    );
+};
+
+const Headers = ({ areas, order, setOrder, orderBy, setOrderBy, areasFilter, onAreasFilterChange }) => {
+    return (
+        <TableHead>
+            <TableRow>
+                {headers.map((header) => (
+                    <TableCell
+                        key={header}
+                        sortDirection={orderBy === header ? order : false}
+                    >
+                        <TableSortLabel
+                            active={orderBy === header}
+                            direction={orderBy === header ? order : 'asc'}
+                            onClick={() => handleSort(header, order, setOrder, orderBy, setOrderBy)}
+                        >
+                            {header}
+                            {header === 'Area' && (
+                                <AreaSelector
+                                    areas={areas}
+                                    areasFilter={areasFilter}
+                                    onAreasFilterChange={onAreasFilterChange} />)}
+                        </TableSortLabel>
+                    </TableCell>
+                ))}
+            </TableRow>
+        </TableHead>
+    );
+};
+
+const filterTracksByArea = (tracks, areasFilter) => {
+    if (areasFilter.length === 0) {
+        return tracks;
+    }
+    return tracks.filter(track => 'area' in track && areasFilter.includes(track.area));
+};
+
+const mapTracksToTableRows = (tracks, onTrackClicked) => {
+    return tracks.map((track, i) => (
+        <TableRow
+            key={"tr" + i}
+            id={track.id}
+            onClick={() => { onTrackClicked(track.id) }}
+            style={{
+                backgroundColor: track.isShowingTrackLine() ? track.color.toCssHexString() : '',
+                height: '30px'
+            }}>
+            <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
+            <TableCell className="area" key={track.area}>{cutDownAreaName(track.area)}</TableCell>
+            <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime().split(' ')[1]}</TableCell>
+            <TableCell className="duration" key={track.pilotname + "duration"}>{track.durationStr()}</TableCell>
+            <TableCell className="maxalt" key={track.pilotname + "maxalt"}>{track.maxAltitude()}m</TableCell>
+            <TableCell className="distance" key={track.pilotname + "distance"}>{track.distance}km</TableCell>
+        </TableRow>
+    ));
+};
+
 export const ControlPanel = (props) => {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('Start');
+    const [areasFilter, setAreasFilter] = useState('');
 
     const sortedrows = React.useMemo(() => {
         const comparator = comparators[headers.indexOf(orderBy)];
@@ -84,33 +169,29 @@ export const ControlPanel = (props) => {
     if (props.tracks.length === 0) {
         notracks = <div style={{ padding: "10px" }}><center>No tracks.</center></div>;
     }
+    const areas = listAreas(props.tracks);
 
     return (
         <div id='control-panel'>
             <div id='data-picker-container'><center>
                 <DatePicker defaultValue={props['date']} format="YYYY-MM-DD (ddd)" onChange={(newDate) => props.onDateChange(newDate)} />
             </center></div>
-            <TableContainer>
-                <Table stickyHeader size="small">
-                    <Headers order={order} setOrder={setOrder} orderBy={orderBy} setOrderBy={setOrderBy}></Headers>
+            <TableContainer id='tracklist'>
+                <Table stickyHeader size="medium">
+                    <Headers
+                        areas={areas}
+                        order={order}
+                        setOrder={setOrder}
+                        orderBy={orderBy}
+                        setOrderBy={setOrderBy}
+                        areasFilter={areasFilter}
+                        onAreasFilterChange={setAreasFilter} />
                     <TableBody>{
-                        sortedrows.map((track, i) => {
-                            return (
-                                <TableRow
-                                    key={"tr" + i}
-                                    ref={(elem) => { trackrows[track.id] = elem }}
-                                    onClick={() => { props.onTrackClicked(track.id) }}
-                                    style={{ backgroundColor: track.isShowingTrackLine() ? track.color.toCssHexString() : '' }}>
-                                    <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
-                                    <TableCell className="area" key={track.area}>{cutDownAreaName(track.area)}</TableCell>
-                                    <TableCell className="starttime" key={track.pilotname + "starttime"}>{track.startTime().split(' ')[1]}</TableCell>
-                                    <TableCell className="duration" key={track.pilotname + "duration"}>{track.durationStr()}</TableCell>
-                                    <TableCell className="maxalt" key={track.pilotname + "maxalt"}>{track.maxAltitude()}m</TableCell>
-                                    <TableCell className="distance" key={track.pilotname + "distance"}>{track.distance}km</TableCell>
-                                </TableRow>
-                            )
-                        })}
-                    </TableBody>
+                        mapTracksToTableRows(
+                            filterTracksByArea(sortedrows, areasFilter),
+                            props.onTrackClicked,
+                        )
+                    }</TableBody>
                 </Table>
             </TableContainer >
             {notracks}
@@ -119,9 +200,8 @@ export const ControlPanel = (props) => {
 };
 
 export const scrollToTrack = (trackid) => {
-    const trackrow = trackrows[trackid];
-    if (trackrow === undefined) {
-        return;
+    const row = document.getElementById(trackid);
+    if (row !== null) {
+        row.scrollIntoView({ behavior: 'auto', block: 'center' });
     }
-    trackrow.scrollIntoView({ behavior: 'smooth' });
 }
