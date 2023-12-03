@@ -2,6 +2,7 @@
 import json
 import math
 import re
+import sys
 import csv
 from export_tracks import Track
 
@@ -92,8 +93,11 @@ def find_nearest_area(areas, dict):
 def convert_tracks(date, tracks: [Track]):
     areas = load_areas()
     for track in tracks:
-        dict = igc_to_json(date, track)
-        area = find_nearest_area(areas, dict)
-        if area != None:
-            dict['area'] = area.name
-        json.dump(dict, open(track.igcpath.replace(".igc", ".json"), 'w'), indent=4)
+        try:
+            dict = igc_to_json(date, track)
+            area = find_nearest_area(areas, dict)
+            if area != None:
+                dict['area'] = area.name
+            json.dump(dict, open(track.igcpath.replace(".igc", ".json"), 'w'), indent=4)
+        except Exception as e:
+            print(f"convert failed. file: {track.igcpath} error: {e}", sys.stderr)

@@ -21,6 +21,7 @@ const initializeCesium = (cesiumContainerRef) => {
         terrain: Cesium.Terrain.fromWorldTerrain(),
         timeline: false,
         animation: false,
+        baseLayerPicker: false,
         geocoder: false,
         homeButton: false,
         sceneModePicker: false,
@@ -28,7 +29,7 @@ const initializeCesium = (cesiumContainerRef) => {
         fullscreenButton: false,
         terrainShadows: Cesium.ShadowMode.DISABLED,
     });
-    viewer.scene.globe.depthTestAgainstTerrain = true;
+    viewer.scene.globe.depthTestAgainstTerrain = false;
     viewer.fog = new Cesium.Fog({
         enabled: true,
         density: 0.0005,
