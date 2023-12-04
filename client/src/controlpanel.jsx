@@ -103,7 +103,7 @@ const AreaSelector = ({ areas, areasFilter, onAreasFilterChange }) => {
 const Headers = ({ areas, order, setOrder, orderBy, setOrderBy, areasFilter, onAreasFilterChange }) => {
     return (
         <TableHead>
-            <TableRow>
+            <TableRow id="track-list-header">
                 {headers.map((header) => (
                     <TableCell
                         key={header}
@@ -143,7 +143,7 @@ const mapTracksToTableRows = (tracks, onTrackClicked) => {
             onClick={() => { onTrackClicked(track.id) }}
             style={{
                 backgroundColor: track.isShowingTrackLine() ? track.color.toCssHexString() : '',
-                height: '30px'
+                scrollMarginTop: document.getElementById('track-list-header').clientHeight,
             }}>
             <TableCell className="pilotname" key={track.pilotname}>{track.pilotname}</TableCell>
             <TableCell className="area" key={track.area}>{cutDownAreaName(track.area)}</TableCell>
@@ -202,6 +202,6 @@ export const ControlPanel = (props) => {
 export const scrollToTrack = (trackid) => {
     const row = document.getElementById(trackid);
     if (row !== null) {
-        row.scrollIntoView({ behavior: 'auto', block: 'center' });
+        row.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
