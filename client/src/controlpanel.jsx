@@ -1,19 +1,69 @@
 import React, { useState } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TableSortLabel } from '@mui/material';
-import { IconButton, Button, Dialog, DialogTitle, List, ListItem, Checkbox, ListItemText } from '@mui/material';
-import FilterListIcon from '@mui/icons-material/FilterList';
 import { DatePicker } from '@mui/x-date-pickers';
+import { AreaSelector } from './areaselector';
 import './controlpanel.css';
 
+const compareByKey = (key, a, b) => {
+    const valueA = typeof a[key] === 'function' ? a[key]() : a[key];
+    const valueB = typeof b[key] === 'function' ? b[key]() : b[key];
+    if (typeof valueA === 'string') {
+        return valueA.localeCompare(valueB);
+    }
+    return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
+}
+
+const headers = [
+    {
+        id: 'pilotname',
+        label: 'Pilot',
+        numeric: false,
+        defaultOrder: 'asc',
+        comparator: compareByKey.bind(null, 'pilotname'),
+    },
+    {
+        id: 'area',
+        label: 'Area',
+        numeric: false,
+        defaultOrder: 'asc',
+        comparator: compareByKey.bind(null, 'area'),
+    },
+    {
+        id: 'starttime',
+        label: 'Start',
+        numeric: false,
+        defaultOrder: 'asc',
+        comparator: compareByKey.bind(null, 'startTime'),
+    },
+    {
+        id: 'duration',
+        label: 'Duration',
+        numeric: true,
+        defaultOrder: 'desc',
+        comparator: compareByKey.bind(null, 'duration'),
+    },
+    {
+        id: 'maxalt',
+        label: 'Max Alt.',
+        numeric: true,
+        defaultOrder: 'desc',
+        comparator: compareByKey.bind(null, 'maxAltitude'),
+    },
+    {
+        id: 'distance',
+        label: 'Distance',
+        numeric: true,
+        defaultOrder: 'desc',
+        comparator: compareByKey.bind(null, 'distance'),
+    },
+];
 const handleSort = (header, order, setOrder, orderBy, setOrderBy) => {
     // flip the order if the same header is clicked
     // otherwise, set the order to ascending
-    let newOrder = 'asc';
-    if (orderBy === header) {
+    const targetHeader = headers.find(h => h.id === header);
+    let newOrder = targetHeader.defaultOrder;
+    if (header === orderBy) {
         newOrder = order === 'asc' ? 'desc' : 'asc';
-    }
-    else if (header === 'Duration' || header === 'Max Alt.' || header === 'Distance') {
-        newOrder = 'desc';
     }
     setOrder(newOrder);
     setOrderBy(header);
@@ -31,24 +81,6 @@ function listAreas(tracks) {
     return Array.from(areaNamesSet).sort();
 }
 
-const compareByKey = (key, a, b) => {
-    const valueA = typeof a[key] === 'function' ? a[key]() : a[key];
-    const valueB = typeof b[key] === 'function' ? b[key]() : b[key];
-    if (typeof valueA === 'string') {
-        return valueA.localeCompare(valueB);
-    }
-    return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
-}
-const compareByPilotname = compareByKey.bind(null, 'pilotname');
-const compareByArea = compareByKey.bind(null, 'area');
-const compareByStart = compareByKey.bind(null, 'startTime');
-const compareByDuration = compareByKey.bind(null, 'duration');
-const compareByMaxAltitude = compareByKey.bind(null, 'maxAltitude');
-const compareByDistance = compareByKey.bind(null, 'distance');
-
-const headers = ['Pilot', 'Area', 'Start', 'Duration', 'Max Alt.', 'Distance'];
-const comparators = [compareByPilotname, compareByArea, compareByStart, compareByDuration, compareByMaxAltitude, compareByDistance];
-
 const MAX_AREA_NAME_LENGTH = 17;
 const cutDownAreaName = (area) => {
     if (area === undefined) {
@@ -60,63 +92,22 @@ const cutDownAreaName = (area) => {
     return area;
 }
 
-const AreaSelector = ({ areas, areasFilter, onAreasFilterChange }) => {
-    const [showAreaSelector, setShowAreaSelector] = useState(false);
-
-    const handleToggle = (value) => () => {
-        const currentIndex = areasFilter.indexOf(value);
-        const newAreasFilter = [...areasFilter];
-
-        if (currentIndex === -1) {
-            newAreasFilter.push(value);
-        } else {
-            newAreasFilter.splice(currentIndex, 1);
-        }
-
-        onAreasFilterChange(newAreasFilter);
-    };
-
-    return (
-        <div onClick={(event) => event.stopPropagation()}>
-            <IconButton id='areafilter' onClick={(event) => {
-                setShowAreaSelector(!showAreaSelector)
-                event.stopPropagation();
-            }}>
-                <FilterListIcon
-                    style={{color: areasFilter.length != 0 && areasFilter.length != areas.length ? '0099FF': ''}}/>
-            </IconButton>
-            <Dialog open={showAreaSelector} onClose={() => setShowAreaSelector(false)}>
-                <DialogTitle>Select area...</DialogTitle>
-                <List id='arealist'>
-                    {areas.map((area) => (
-                        <ListItem key={area} onClick={handleToggle(area)}>
-                            <Checkbox checked={areasFilter.includes(area)} />
-                            <ListItemText primary={area} />
-                        </ListItem>
-                    ))}
-                </List>
-                <Button onClick={() => setShowAreaSelector(false)}>Close</Button>
-            </Dialog>
-        </div>
-    );
-};
-
 const Headers = ({ areas, order, setOrder, orderBy, setOrderBy, areasFilter, onAreasFilterChange }) => {
     return (
         <TableHead>
             <TableRow id="track-list-header">
                 {headers.map((header) => (
                     <TableCell
-                        key={header}
-                        sortDirection={orderBy === header ? order : false}
+                        key={header.id}
+                        sortDirection={orderBy === header.id ? order : false}
                     >
                         <TableSortLabel
-                            active={orderBy === header}
+                            active={orderBy === header.id}
                             direction={orderBy === header ? order : 'asc'}
-                            onClick={() => handleSort(header, order, setOrder, orderBy, setOrderBy)}
+                            onClick={() => handleSort(header.id, order, setOrder, orderBy, setOrderBy)}
                         >
-                            {header}
-                            {header === 'Area' && (
+                            {header.label}
+                            {header.id === 'area' && (
                                 <AreaSelector
                                     areas={areas}
                                     areasFilter={areasFilter}
@@ -158,11 +149,11 @@ const mapTracksToTableRows = (tracks, onTrackClicked) => {
 
 export const ControlPanel = (props) => {
     const [order, setOrder] = useState('asc');
-    const [orderBy, setOrderBy] = useState('Start');
+    const [orderBy, setOrderBy] = useState('starttime');
     const [areasFilter, setAreasFilter] = useState('');
 
     const sortedrows = React.useMemo(() => {
-        const comparator = comparators[headers.indexOf(orderBy)];
+        const comparator = headers.find(header => header.id === orderBy).comparator;
         const sortedTracks = props.tracks.slice().sort(comparator);
         return order === 'asc' ? sortedTracks : sortedTracks.reverse();
     });

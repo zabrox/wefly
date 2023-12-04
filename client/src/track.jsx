@@ -35,7 +35,6 @@ const generateColor = () => {
     return () => {
         const color = colorpallete[i];
         i = (i + 1) % colorpallete.length;
-        console.log(i);
         return color;
     }
 }
