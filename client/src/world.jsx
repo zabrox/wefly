@@ -35,6 +35,7 @@ const initializeCesium = (cesiumContainerRef) => {
         density: 0.0005,
         minimumBrightness: 1.0,
     });
+    document.getElementsByClassName('cesium-viewer-bottom')[0].remove();
 }
 
 const zoomToTracks = (tracks) => {

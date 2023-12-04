@@ -1,10 +1,6 @@
 #control-panel {
-    width: 0%;
-}
-
-#control-panel th,
-td {
-    white-space: nowrap;
+    width: 40%;
+    overflow: auto;
 }
 
 #tracklist {
@@ -12,14 +8,10 @@ td {
     height: 88%;
 }
 
-#data-picker-container {
+#date-picker-container {
     margin: 10px;
 }
 
-#areafilter {
-    margin: 0 0 0 auto;
-}
-
-#arealist {
-    overflow: auto;
+#tracklist th, td {
+    white-space: nowrap;
 }
