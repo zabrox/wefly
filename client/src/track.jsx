@@ -3,17 +3,43 @@ import dayjs from "dayjs";
 import * as dbscan from 'density-clustering';
 
 const colorpallete = [
-    Cesium.Color.RED,
-    Cesium.Color.BLUE,
-    Cesium.Color.YELLOW,
-    Cesium.Color.ORANGE,
-    Cesium.Color.PURPLE,
-    Cesium.Color.CYAN,
+    Cesium.Color.AQUA,
+    Cesium.Color.AQUAMARINE,
+    Cesium.Color.BLUEVIOLET,
     Cesium.Color.CHARTREUSE,
-    Cesium.Color.CRIMSON,
     Cesium.Color.CORAL,
+    Cesium.Color.CRIMSON,
+    Cesium.Color.CYAN,
+    Cesium.Color.DARKORANGE,
+    Cesium.Color.DARKORCHID,
+    Cesium.Color.DEEPPINK,
+    Cesium.Color.DEEPSKYBLUE,
+    Cesium.Color.FUCHSIA,
     Cesium.Color.GOLD,
-    Cesium.Color.MAGENTA];
+    Cesium.Color.GREENYELLOW,
+    Cesium.Color.HOTPINK,
+    Cesium.Color.LIGHTBLUE,
+    Cesium.Color.LIGHTGREEN,
+    Cesium.Color.LIGHTPINK,
+    Cesium.Color.LIME,
+    Cesium.Color.MAGENTA,
+    Cesium.Color.ORANGE,
+    Cesium.Color.RED,
+    Cesium.Color.TOMATO,
+    Cesium.Color.YELLOW,
+    Cesium.Color.YELLOWGREEN,
+];
+
+const generateColor = () => {
+    let i = 0;
+    return () => {
+        const color = colorpallete[i];
+        i = (i + 1) % colorpallete.length;
+        console.log(i);
+        return color;
+    }
+}
+const colorGenerator = generateColor();
 
 export class Track {
     pilotname = "";
@@ -29,7 +55,7 @@ export class Track {
     #maxAltitude = undefined;
 
     constructor() {
-        this.color = colorpallete[Math.floor(Math.random() * colorpallete.length)];
+        this.color = colorGenerator();
         this.id = crypto.randomUUID();
     }
 
@@ -98,7 +124,7 @@ export class Track {
                 point: {
                     pixelSize: 6,
                     color: this.color.withAlpha(0.7),
-                    outlineColor: Cesium.Color.BLACK,
+                    outlineColor: Cesium.Color.BLACK.withAlpha(0.8),
                     outlineWidth: 2,
                     scaleByDistance: new Cesium.NearFarScalar(100, 3, 10000, 0.8),
                 },
@@ -116,7 +142,7 @@ export class Track {
         this.#trackEntity = viewer.entities.add({
             polyline: {
                 positions: this.cartesians,
-                width: 3,
+                width: 4,
                 material: this.color,
             },
         });
@@ -145,7 +171,7 @@ export class TrackGroup {
         const MIN_ICON_SIZE = 30;
         const MAX_ICON_SIZE = 250;
         const COEFFICIENT = (MAX_ICON_SIZE - MIN_ICON_SIZE) / 200;
-        let size  = MIN_ICON_SIZE + this.tracks.length * COEFFICIENT;
+        let size = MIN_ICON_SIZE + this.tracks.length * COEFFICIENT;
         size = size > MAX_ICON_SIZE ? MAX_ICON_SIZE : size;
         this.#trackGroupEntity = viewer.entities.add({
             position: this.cartesian,
