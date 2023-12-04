@@ -1,3 +1,8 @@
+#control-panel {
+    width: 40%;
+    overflow: auto;
+}
+
 #tracklist {
     overflow: auto;
     height: 88%;
