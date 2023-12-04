@@ -17,7 +17,7 @@ const mapTracksToTableRows = (tracks, onTrackClicked) => {
     return tracks.map((track, i) => (
         <TableRow
             key={"tr" + i}
-            id={track.id}
+            id={`trackrow-${track.id}`}
             onClick={() => { onTrackClicked(track.id) }}
             style={{
                 backgroundColor: track.isShowingTrackLine() ? track.color.toCssHexString() : '',

@@ -45,7 +45,7 @@ export const ControlPanel = (props) => {
 };
 
 export const scrollToTrack = (trackid) => {
-    const row = document.getElementById(trackid);
+    const row = document.getElementById(`trackrow-${trackid}`);
     if (row !== null) {
         row.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }

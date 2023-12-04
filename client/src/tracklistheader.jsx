@@ -103,7 +103,6 @@ export const TrackListHeader = ({ tracks, order, setOrder, orderBy, setOrderBy, 
                 {Headers.map((header) => (
                     <TableCell
                         key={header.id}
-                        id={header.id}
                         sortDirection={orderBy === header.id ? order : false}
                     >
                         <TableSortLabel
