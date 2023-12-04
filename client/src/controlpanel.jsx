@@ -82,7 +82,8 @@ const AreaSelector = ({ areas, areasFilter, onAreasFilterChange }) => {
                 setShowAreaSelector(!showAreaSelector)
                 event.stopPropagation();
             }}>
-                <FilterListIcon />
+                <FilterListIcon
+                    style={{color: areasFilter.length != 0 && areasFilter.length != areas.length ? '0099FF': ''}}/>
             </IconButton>
             <Dialog open={showAreaSelector} onClose={() => setShowAreaSelector(false)}>
                 <DialogTitle>Select area...</DialogTitle>
