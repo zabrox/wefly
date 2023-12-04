@@ -17,7 +17,7 @@ export const ControlPanel = (props) => {
 
     return (
         <div id='control-panel'>
-            <div id='data-picker-container'><center>
+            <div id='date-picker-container'><center>
                 <DatePicker defaultValue={props['date']} format="YYYY-MM-DD (ddd)" onChange={(newDate) => props.onDateChange(newDate)} />
             </center></div>
             <TableContainer id='tracklist'>

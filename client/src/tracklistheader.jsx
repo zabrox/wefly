@@ -107,7 +107,7 @@ export const TrackListHeader = ({ tracks, order, setOrder, orderBy, setOrderBy, 
                     >
                         <TableSortLabel
                             active={orderBy === header.id}
-                            direction={orderBy === header ? order : 'asc'}
+                            direction={orderBy === header.id ? order : 'asc'}
                             onClick={() => handleSort(header.id, order, setOrder, orderBy, setOrderBy)}
                         >
                             {header.label}
