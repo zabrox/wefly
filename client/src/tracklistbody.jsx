@@ -21,7 +21,6 @@ const mapTracksToTableRows = (tracks, onTrackClicked) => {
             onClick={() => { onTrackClicked(track.id) }}
             style={{
                 backgroundColor: track.isShowingTrackLine() ? track.color.toCssHexString() : '',
-                scrollMarginTop: document.getElementById('track-list-header').clientHeight,
             }}>{
                 Headers.map((header) => (
                     <TrackCell key={track.pilotname + header.id} track={track} header={header} />
