@@ -26,7 +26,7 @@ export const AreaSelector = ({ areas, areasFilter, onAreasFilterChange }) => {
                 event.stopPropagation();
             }}>
                 <FilterListIcon
-                    style={{ color: areasFilter.length != 0 && areasFilter.length != areas.length ? '0099FF' : '' }} />
+                    style={{ color: areasFilter.length != 0 && areasFilter.length != areas.length ? 'e95800' : '' }} />
             </IconButton>
             <Dialog id='areaselector' open={showAreaSelector} onClose={() => setShowAreaSelector(false)}>
                 <DialogTitle>Select area...</DialogTitle>

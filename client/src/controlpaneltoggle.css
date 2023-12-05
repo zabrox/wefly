@@ -1,0 +1,15 @@
+#control-panel-toggle {
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+}
+
+#control-panel-toggle-button {
+    width: 32px;
+    height: 32px;
+    z-index: 1;
+    color: #e95800;
+    background-color: transparent;
+}

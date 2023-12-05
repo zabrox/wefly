@@ -2,12 +2,24 @@
     position: fixed;
     height: 100%;
     width: 100%;
+    display: flex;
 }
 
 #cesium {
+    position: absolute;
     top: 0;
     height: 100%;
-    width: 60%;
+    width: 100%;
+    z-index: 0;
+}
+
+#dragger {
+    top: 0px;
+    height: 100%;
+    width: 5px;
+    z-index: 1;
+    cursor: ew-resize;
+    background-color: rgba(192, 192, 192, 0.5);
 }
 
 .cesium-infoBox-title {

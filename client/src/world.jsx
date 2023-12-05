@@ -5,9 +5,11 @@ import { ControlPanel, scrollToTrack } from "./controlpanel";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
+import { useMedia } from 'use-media';
 import { parseTrackJson, dbscanTracks } from "./track";
+import { Dragger } from "./dragger";
+import { ControlPanelToggle } from "./controlpaneltoggle";
 import "./world.css";
-import './SplitView.css';
 
 const BASE_URL = "http://localhost:3001/";
 let viewer = undefined;
@@ -135,7 +137,7 @@ const handleTrackClick = (state, trackid) => {
 const handleDateChange = (newDate) => {
     viewer.entities.removeAll();
     const date = dayjs(newDate);
-    loadTracks({ date: date }, setState);
+    loadTracks({ ...state, date: date }, setState);
 }
 
 const World = () => {
@@ -143,10 +145,11 @@ const World = () => {
     [state, setState] = React.useState({
         tracks: [],
         date: dayjs(),
+        controlPanelSize: document.documentElement.clientWidth * 0.4,
+        prevControlPanelSize: 0,
     });
 
     React.useEffect(() => {
-        SplitView.activate(document.getElementById("main"))
         initializeCesium(cesiumContainerRef);
         loadTracks(state, setState);
         registerEventHandlerOnPointClick();
@@ -157,21 +160,38 @@ const World = () => {
         };
     }, []);
 
+    const mediaQuery = {
+        mobile: '(max-width: 752px)',
+        tablet: '(min-width: 752px) and (max-width: 1122px)',
+        pc: '(min-width: 1122px)',
+    }
+    const media = { isMobile: false, isTablet: false, isPc: true };
+    media.isMobile = useMedia(mediaQuery.mobile);
+    media.isTablet = useMedia(mediaQuery.tablet);
+    media.isPc = useMedia(mediaQuery.pc);
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div id='main' className='split-view horizontal'>
+            <div id='main'>
+                <div
+                    ref={cesiumContainerRef}
+                    id="cesium" />
                 <ControlPanel
                     date={state['date']}
                     onDateChange={(newDate) => handleDateChange(newDate)}
                     tracks={state['tracks']}
                     onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }}
-                    onControlPanelWidthChange={(width) => handleControlPanelWidthChange(width)} />
-                <div className='gutter' />
-                <div
-                    ref={cesiumContainerRef}
-                    id="cesium" />
+                    onControlPanelWidthChange={(width) => handleControlPanelWidthChange(width)}
+                    controlPanelSize={state.controlPanelSize}
+                    media={media} />
+                <Dragger
+                    controlPanelSize={state.controlPanelSize}
+                    setControlPanelSize={(width) => setState({ ...state, controlPanelSize: width })} />
+                <ControlPanelToggle
+                    state={state}
+                    setState={setState} />
             </div>
-        </LocalizationProvider>
+        </LocalizationProvider >
     );
 };
 
