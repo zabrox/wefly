@@ -140,13 +140,26 @@ const handleDateChange = (newDate) => {
     loadTracks({ ...state, date: date }, setState);
 }
 
+const judgeMedia = () => {
+    const clientWidth = document.documentElement.clientWidth;
+    if (clientWidth <= 752) {
+        return { isMobile: true, isTablet: false, isPc: false };
+    } else if (clientWidth <= 1122) {
+        return { isMobile: false, isTablet: true, isPc: false };
+    }
+    return { isMobile: false, isTablet: false, isPc: true };
+}
+
 const World = () => {
     const cesiumContainerRef = React.useRef(null);
+    const media = judgeMedia();
+
     [state, setState] = React.useState({
         tracks: [],
         date: dayjs(),
-        controlPanelSize: document.documentElement.clientWidth * 0.4,
-        prevControlPanelSize: 0,
+        controlPanelSize: 0,
+        prevControlPanelSize: media.isPc ?
+            document.documentElement.clientWidth * 0.4 : document.documentElement.clientWidth * 0.8,
     });
 
     React.useEffect(() => {
@@ -160,16 +173,6 @@ const World = () => {
         };
     }, []);
 
-    const mediaQuery = {
-        mobile: '(max-width: 752px)',
-        tablet: '(min-width: 752px) and (max-width: 1122px)',
-        pc: '(min-width: 1122px)',
-    }
-    const media = { isMobile: false, isTablet: false, isPc: true };
-    media.isMobile = useMedia(mediaQuery.mobile);
-    media.isTablet = useMedia(mediaQuery.tablet);
-    media.isPc = useMedia(mediaQuery.pc);
-
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div id='main'>
@@ -181,7 +184,6 @@ const World = () => {
                     onDateChange={(newDate) => handleDateChange(newDate)}
                     tracks={state['tracks']}
                     onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }}
-                    onControlPanelWidthChange={(width) => handleControlPanelWidthChange(width)}
                     controlPanelSize={state.controlPanelSize}
                     media={media} />
                 <Dragger
