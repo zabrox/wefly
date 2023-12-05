@@ -1,11 +1,14 @@
 #control-panel {
-    width: 40%;
-    overflow: auto;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
 }
 
 #tracklist {
+    height: 100%;
     overflow: auto;
-    height: 88%;
 }
 
 #date-picker-container {
@@ -14,4 +17,5 @@
 
 #tracklist th, td {
     white-space: nowrap;
+    background-color: rgba(255, 255, 255, 0.5);
 }

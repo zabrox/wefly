@@ -2,12 +2,32 @@
     position: fixed;
     height: 100%;
     width: 100%;
+    display: flex;
 }
 
 #cesium {
+    position: absolute;
     top: 0;
     height: 100%;
-    width: 60%;
+    width: 100%;
+}
+
+#dragger {
+    top: 0px;
+    height: 100%;
+    width: 10px;
+    z-index: 1;
+    cursor: ew-resize;
+}
+
+#overlay-container {
+    position: absolute;
+    display: flex;
+    resize: horizontal;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
 }
 
 .cesium-infoBox-title {
