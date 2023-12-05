@@ -125,7 +125,7 @@ export class Track {
                     color: this.color.withAlpha(0.7),
                     outlineColor: Cesium.Color.BLACK.withAlpha(0.8),
                     outlineWidth: 2,
-                    scaleByDistance: new Cesium.NearFarScalar(100, 3, 10000, 0.8),
+                    scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 80000, 0.3),
                 },
                 description: `
                     <table>

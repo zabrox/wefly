@@ -90,7 +90,7 @@ const registerEventHandlerOnPointClick = () => {
                     if (!track.isShowingTrackLine()) {
                         handleTrackClick(state, track.id);
                     }
-                    scrollToTrack(track.id);
+                    setTimeout(() => scrollToTrack(track.id), 100);
                 } else if ('groupid' in entityId) {
                     const group = trackGroups.find(group => group.groupid === entityId.groupid);
                     group.zoomToTrackGroup(viewer);
