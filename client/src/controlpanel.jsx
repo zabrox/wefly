@@ -18,7 +18,13 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
     return (
         <div id='control-panel' style={{ width: controlPanelSize }}>
             <div id='date-picker-container'><center>
-                <DatePicker defaultValue={date} format="YYYY-MM-DD (ddd)" onChange={(newDate) => onDateChange(newDate)} />
+                <DatePicker
+                    defaultValue={date}
+                    format="YYYY-MM-DD (ddd)"
+                    onChange={(newDate) => {
+                        setAreasFilter('');
+                        onDateChange(newDate)
+                    }} />
             </center></div>
             <TableContainer id='tracklist'>
                 <Table size="medium">
