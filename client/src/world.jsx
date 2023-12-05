@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { useMedia } from 'use-media';
 import { parseTrackJson, dbscanTracks } from "./track";
 import { Dragger } from "./dragger";
+import { ControlPanelToggle } from "./controlpaneltoggle";
 import "./world.css";
 import './SplitView.css';
 
@@ -145,7 +146,8 @@ const World = () => {
     [state, setState] = React.useState({
         tracks: [],
         date: dayjs(),
-        controlPanelSize: 0,
+        controlPanelSize: 300,
+        prevControlPanelSize: 0,
     });
 
     React.useEffect(() => {
@@ -187,6 +189,9 @@ const World = () => {
                 <Dragger
                     controlPanelSize={state.controlPanelSize}
                     setControlPanelSize={(width) => setState({ ...state, controlPanelSize: width })} />
+                <ControlPanelToggle
+                    state={state}
+                    setState={setState} />
             </div>
         </LocalizationProvider >
     );

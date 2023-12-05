@@ -20,27 +20,25 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
             <div id='date-picker-container'><center>
                 <DatePicker defaultValue={date} format="YYYY-MM-DD (ddd)" onChange={(newDate) => onDateChange(newDate)} />
             </center></div>
-            <div id='tracklist'>
-                <TableContainer>
-                    <Table stickyHeader size="medium">
-                        <TrackListHeader
-                            tracks={tracks}
-                            order={order}
-                            setOrder={setOrder}
-                            orderBy={orderBy}
-                            setOrderBy={setOrderBy}
-                            areasFilter={areasFilter}
-                            onAreasFilterChange={setAreasFilter} />
-                        <TrackListBody
-                            tracks={tracks}
-                            onTrackClicked={onTrackClicked}
-                            orderBy={orderBy}
-                            order={order}
-                            areasFilter={areasFilter}
-                        />
-                    </Table>
-                </TableContainer >
-            </div>
+            <TableContainer id='tracklist'>
+                <Table stickyHeader size="medium">
+                    <TrackListHeader
+                        tracks={tracks}
+                        order={order}
+                        setOrder={setOrder}
+                        orderBy={orderBy}
+                        setOrderBy={setOrderBy}
+                        areasFilter={areasFilter}
+                        onAreasFilterChange={setAreasFilter} />
+                    <TrackListBody
+                        tracks={tracks}
+                        onTrackClicked={onTrackClicked}
+                        orderBy={orderBy}
+                        order={order}
+                        areasFilter={areasFilter}
+                    />
+                </Table>
+            </TableContainer >
             {notracks}
         </div>
     );
