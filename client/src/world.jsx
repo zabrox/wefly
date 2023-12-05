@@ -10,7 +10,6 @@ import { parseTrackJson, dbscanTracks } from "./track";
 import { Dragger } from "./dragger";
 import { ControlPanelToggle } from "./controlpaneltoggle";
 import "./world.css";
-import './SplitView.css';
 
 const BASE_URL = "http://localhost:3001/";
 let viewer = undefined;
@@ -146,12 +145,11 @@ const World = () => {
     [state, setState] = React.useState({
         tracks: [],
         date: dayjs(),
-        controlPanelSize: 300,
+        controlPanelSize: document.documentElement.clientWidth * 0.4,
         prevControlPanelSize: 0,
     });
 
     React.useEffect(() => {
-        SplitView.activate(document.getElementById("main"))
         initializeCesium(cesiumContainerRef);
         loadTracks(state, setState);
         registerEventHandlerOnPointClick();

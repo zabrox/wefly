@@ -21,7 +21,7 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                 <DatePicker defaultValue={date} format="YYYY-MM-DD (ddd)" onChange={(newDate) => onDateChange(newDate)} />
             </center></div>
             <TableContainer id='tracklist'>
-                <Table stickyHeader size="medium">
+                <Table size="medium">
                     <TrackListHeader
                         tracks={tracks}
                         order={order}
