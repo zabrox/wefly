@@ -16,6 +16,7 @@ let viewer = undefined;
 let state = undefined;
 let setState = undefined;
 let trackGroups = Array();
+let media = undefined;
 
 const initializeCesium = (cesiumContainerRef) => {
     Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNjMxN2Y3Ni04YWU3LTQwNjctYmYyNC05Yjc4MTljOTY3OGYiLCJpZCI6MTY5NTkxLCJpYXQiOjE2OTYyNDYyMTB9.CYkH9qKRpMU0kzQWkjXuvqgr-09nICUdta83AZIxAy8";
@@ -75,7 +76,7 @@ const loadTracks = (state, setState) => {
 
 const initializeTracks = (tracks) => {
     tracks.forEach(track => {
-        track.initializeTrackEntity(viewer);
+        track.initializeTrackEntity(viewer, media);
     });
 };
 
@@ -152,7 +153,7 @@ const judgeMedia = () => {
 
 const World = () => {
     const cesiumContainerRef = React.useRef(null);
-    const media = judgeMedia();
+    media = judgeMedia();
 
     [state, setState] = React.useState({
         tracks: [],

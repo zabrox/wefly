@@ -109,7 +109,7 @@ export class Track {
         this.#trackPointEntities.forEach(entity => entity.show = true);
     }
 
-    #initializeTrackPointEntities(viewer) {
+    #initializeTrackPointEntities(viewer, media) {
         let lastPoint = this.times[0];
         this.cartesians.forEach((cartesian, index) => {
             if (this.times[index].diff(lastPoint, 'seconds') < 60) {
@@ -121,11 +121,11 @@ export class Track {
                 name: this.pilotname,
                 trackid: this.id,
                 point: {
-                    pixelSize: 6,
+                    pixelSize: media.isMobile ? 4: 5,
                     color: this.color.withAlpha(0.7),
-                    outlineColor: Cesium.Color.BLACK.withAlpha(0.8),
-                    outlineWidth: 2,
-                    scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 80000, 0.3),
+                    outlineColor: Cesium.Color.BLACK.withAlpha(0.5),
+                    outlineWidth: 1,
+                    scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.3),
                 },
                 description: `
                     <table>
@@ -148,9 +148,9 @@ export class Track {
         this.#trackEntity.show = false;
     };
 
-    initializeTrackEntity(viewer) {
+    initializeTrackEntity(viewer, media) {
         this.#initializeTrackLineEntity(viewer);
-        this.#initializeTrackPointEntities(viewer);
+        this.#initializeTrackPointEntities(viewer, media);
     }
 }
 
