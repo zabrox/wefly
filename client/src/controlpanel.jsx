@@ -17,15 +17,16 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                     WeFly
                 </Typography>
             </AppBar>
-            <div id='date-picker-container'><center>
+            <div id='date-picker-container'
+                style={controlPanelSize === 0 ? { display: 'none' } : {}}><center>
                 <DatePicker
-                    defaultValue={date}
-                    format="YYYY-MM-DD (ddd)"
-                    onChange={(newDate) => {
-                        setAreasFilter('');
-                        onDateChange(newDate)
-                    }} />
-            </center></div>
+                defaultValue={date}
+                format="YYYY-MM-DD (ddd)"
+                onChange={(newDate) => {
+                    setAreasFilter('');
+                    onDateChange(newDate)
+                }} />
+        </center></div>
             <TableContainer id='tracklist'>
                 <Table size="medium">
                     <TrackListHeader
@@ -45,7 +46,7 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                     />
                 </Table>
             </TableContainer >
-        </div>
+        </div >
     );
 };
 

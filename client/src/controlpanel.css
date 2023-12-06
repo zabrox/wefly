@@ -13,7 +13,7 @@
 }
 
 #date-picker-container {
-    margin: 10px;
+    padding: 10px;
 }
 
 #tracklist th, td {
@@ -26,5 +26,5 @@
 }
 #title {
     margin: auto;
-    padding: 10px 20px 10px 20px;
+    padding: 10px 20px;
 }
