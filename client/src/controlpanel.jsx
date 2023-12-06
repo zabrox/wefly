@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, TableContainer, } from '@mui/material';
+import { Stack, AppBar, Typography, Table, TableContainer, } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
@@ -10,13 +10,13 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
     const [orderBy, setOrderBy] = useState('starttime');
     const [areasFilter, setAreasFilter] = useState('');
 
-    let notracks = <div></div>;
-    if (tracks.length === 0) {
-        notracks = <div style={{ padding: "10px" }}><center>No tracks.</center></div>;
-    }
-
     return (
         <div id='control-panel' style={{ width: controlPanelSize }}>
+            <AppBar id='app-bar' position="static">
+                <Typography id='title' variant="h5" >
+                    WeFly
+                </Typography>
+            </AppBar>
             <div id='date-picker-container'><center>
                 <DatePicker
                     defaultValue={date}
@@ -45,7 +45,6 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                     />
                 </Table>
             </TableContainer >
-            {notracks}
         </div>
     );
 };
