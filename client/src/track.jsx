@@ -1,6 +1,7 @@
 import * as Cesium from "cesium";
 import dayjs from "dayjs";
 import * as dbscan from 'density-clustering';
+import track_group_pin from '/images/track_group_pin.svg';
 
 const colorpallete = [
     Cesium.Color.AQUA,
@@ -176,7 +177,7 @@ export class TrackGroup {
             position: this.cartesian,
             groupid: this.groupid,
             billboard: {
-                image: 'images/track_group_pin.svg',
+                image: track_group_pin,
                 height: size,
                 width: size * 5 / 6,
                 pixelOffset: new Cesium.Cartesian2(0, -size / 2),

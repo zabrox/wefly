@@ -1,14 +1,14 @@
 const express = require('express')
 const { glob } = require('glob')
 const app = express()
-const port = 3001
+const port = 80
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
 // list tracks
-app.get('/tracks/:date', (req, res) => {
+app.get('/api/tracks/:date', (req, res) => {
   glob(`tracks/${req.params.date}/*.json`).then(files => {
     // add CORS header
     res.header("Access-Control-Allow-Origin", "*")
@@ -18,7 +18,7 @@ app.get('/tracks/:date', (req, res) => {
   })
 })
 
-app.get('/tracks/:date/:track', (req, res) => {
+app.get('/api/tracks/:date/:track', (req, res) => {
   // add CORS header
   res.header("Access-Control-Allow-Origin", "*")
   res.sendFile(`${__dirname}/tracks/${req.params.date}/${req.params.track}`)
