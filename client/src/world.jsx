@@ -51,7 +51,7 @@ const zoomToTracks = (tracks) => {
 
 const loadTracks = (state, setState) => {
     const date = state['date'];
-    const tracksurl = `${BASE_URL}tracks/${date.format('YYYY-MM-DD')}/`;
+    const tracksurl = `/api/tracks/${date.format('YYYY-MM-DD')}/`;
     axios({ method: "get", url: tracksurl, responseType: "json" }).then(response => {
         const tracknames = response.data;
         Promise.all(tracknames.map(trackname => {

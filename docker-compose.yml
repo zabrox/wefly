@@ -1,0 +1,33 @@
+services:
+  client:
+    image: wefly-client:latest
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    networks:
+      - wefly-network
+  api:
+    image: wefly-server:latest
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    networks:
+      - wefly-network
+    volumes:
+      - ./track_loader/tracks:/app/tracks
+  nginx:
+    image: nginx:latest
+    networks:
+      - wefly-network
+    ports: 
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - client
+      - api
+
+networks:
+  wefly-network:
+    driver: bridge
+    internal: true
