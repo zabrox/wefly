@@ -11,7 +11,6 @@ import { Dragger } from "./dragger";
 import { ControlPanelToggle } from "./controlpaneltoggle";
 import "./world.css";
 
-const BASE_URL = "http://localhost:3001/";
 let viewer = undefined;
 let state = undefined;
 let setState = undefined;
@@ -51,7 +50,7 @@ const zoomToTracks = (tracks) => {
 
 const loadTracks = (state, setState) => {
     const date = state['date'];
-    const tracksurl = `/api/tracks/${date.format('YYYY-MM-DD')}/`;
+    const tracksurl = `${import.meta.env.VITE_API_URL}/tracks/${date.format('YYYY-MM-DD')}/`;
     axios({ method: "get", url: tracksurl, responseType: "json" }).then(response => {
         const tracknames = response.data;
         Promise.all(tracknames.map(trackname => {
