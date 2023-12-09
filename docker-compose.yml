@@ -7,9 +7,9 @@ services:
     networks:
       - wefly-network
   api:
-    image: wefly-server:latest
+    image: wefly-api-server:latest
     build:
-      context: ./server
+      context: ./api-server
       dockerfile: Dockerfile
     networks:
       - wefly-network
