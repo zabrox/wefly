@@ -20,6 +20,17 @@ class Track:
     activity = ""
     igcpath = ""
 
+    def get_metadata(self):
+        return {
+            'pilotname': self.pilotname,
+            'location': self.location,
+            'duration': self.duration,
+            'distance': self.distance,
+            'trackid': self.trackid,
+            'lasttime': self.lasttime,
+            'activity': self.activity,
+        }
+
     def __str__(self):
         return "pilotname: " + self.pilotname + " location: " + self.location
 

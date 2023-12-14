@@ -4,10 +4,13 @@ import math
 import re
 import sys
 import csv
+import os
+from google.cloud import storage, firestore
 from export_tracks import Track
 
 AREAS_FILE = "./areas.cup"
 RADIUS = 0.1
+
 
 class Area:
     name = ""
@@ -76,7 +79,7 @@ def load_areas():
             areas.append(Area(name, lat, lon))
     return areas
 
-def nearest_area(areas, dict):
+def find_nearest_area(areas, dict):
     nearest_dist = 100000
     nearest_area = None
     for area in areas:
@@ -86,12 +89,19 @@ def nearest_area(areas, dict):
             nearest_area = area
     return nearest_area
 
-def find_nearest_area(areas, dict):
-    area = nearest_area(areas, dict)
-    return area
+def upload_file_to_gcs(bucket, db, track: Track):
+    jsonpath = track.igcpath.replace(".igc", ".json")
+    blob = bucket.blob(os.path.basename(jsonpath))
+    blob.upload_from_filename(jsonpath)
+    file_url = blob.public_url
+    doc_ref = db.collection('tracks').document(os.path.basename(track.igcpath).replace(".igc", ""))
+    metadata = track.get_metadata()
+    metadata['file_url'] = file_url
+    doc_ref.set(metadata)
 
 def convert_tracks(date, tracks: [Track]):
     areas = load_areas()
+
     for track in tracks:
         try:
             dict = igc_to_json(date, track)
@@ -101,3 +111,16 @@ def convert_tracks(date, tracks: [Track]):
             json.dump(dict, open(track.igcpath.replace(".igc", ".json"), 'w'), indent=4)
         except Exception as e:
             print(f"convert failed. file: {track.igcpath} error: {e}", sys.stderr)
+
+    # Google Cloud Storage クライアントの初期化
+    storage_client = storage.Client()
+    bucket = storage_client.bucket('wefly')
+    # Firestore クライアントの初期化
+    db = firestore.Client()
+
+    for track in tracks:
+        try:
+            upload_file_to_gcs(bucket, db, track)
+        except Exception as e:
+            print(f"upload failed. file: {track.igcpath} error: {e}", sys.stderr)
+
