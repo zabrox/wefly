@@ -5,7 +5,6 @@ import { ControlPanel, scrollToTrack } from "./controlpanel";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
-import { useMedia } from 'use-media';
 import { parseTrackJson, dbscanTracks } from "./track";
 import { Dragger } from "./dragger";
 import { ControlPanelToggle } from "./controlpaneltoggle";
@@ -51,10 +50,11 @@ const zoomToTracks = (tracks) => {
 const loadTracks = (state, setState) => {
     const date = state['date'];
     const tracksurl = `${import.meta.env.VITE_API_URL}/tracks/${date.format('YYYY-MM-DD')}/`;
+    const trackurl = `${import.meta.env.VITE_API_URL}/track/`;
     axios({ method: "get", url: tracksurl, responseType: "json" }).then(response => {
-        const tracknames = response.data;
-        Promise.all(tracknames.map(trackname => {
-            return axios.get(`${tracksurl}${trackname}`).then(response => {
+        const trackids = response.data;
+        Promise.all(trackids.map(trackid => {
+            return axios.get(`${trackurl}${trackid}`).then(response => {
                 return parseTrackJson(response.data);
             })
         })).then((tracks) => {

@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
 
 // list tracks
 app.get('/api/tracks/:date', (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*")
   // parse date using dayjs
   const startOfDay = new Date(req.params.date);
   startOfDay.setHours(0, 0, 0, 0);
@@ -36,12 +37,16 @@ app.get('/api/tracks/:date', (req, res) => {
       snapshot.forEach(doc => {
         tracks.push(doc.data().trackid);
       });
-      res.header("Access-Control-Allow-Origin", "*")
       res.send(tracks);
-    });
+    })
+    .catch(err => {
+      console.error('ERROR:', err);
+      res.status(500).send('Internal Server Error');
+    })
 })
 
 app.get('/api/track/:trackid', (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*")
   const promise = db.collection('tracks')
     .where('trackid', '==', req.params.trackid).get()
     .then(snapshot => {
@@ -51,11 +56,15 @@ app.get('/api/track/:trackid', (req, res) => {
       }
       const doc = snapshot.docs[0];
       const basename = doc.data().file_url.split('/').pop();
-      storage.bucket(bucketName).file(basename).download().then(contents => {
-        contents = contents.toString();
-        res.header("Access-Control-Allow-Origin", "*")
-        res.send(contents);
-      });
+      storage.bucket(bucketName).file(basename).download()
+        .then(contents => {
+          contents = contents.toString();
+          res.send(contents);
+        })
+        .catch(err => {
+          console.error('ERROR:', err);
+          res.status(500).send('Internal Server Error');
+        });
     });
 })
 
