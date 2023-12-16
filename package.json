@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "all": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "cd server && npm start",
+    "all": "concurrently \"npm run api-server\" \"npm run client\"",
+    "api-server": "cd api-server && npm start",
     "client": "cd client && npm run dev"
   },
   "author": "",
