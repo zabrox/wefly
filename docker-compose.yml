@@ -1,18 +1,25 @@
 services:
   client:
-    image: wefly-client:latest
+    image: asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-client:latest
     build:
       context: ./client
       dockerfile: Dockerfile
     networks:
       - wefly-network
   api:
-    image: wefly-api-server:latest
+    image: asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-api-server:latest
     build:
       context: ./api-server
       dockerfile: Dockerfile
     networks:
       - wefly-network
+    volumes:
+      - ./track_loader/tracks:/app/tracks
+  track_loader:
+    image: asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/track_loader:latest
+    build:
+      context: ./track_loader
+      dockerfile: Dockerfile
     volumes:
       - ./track_loader/tracks:/app/tracks
   nginx:

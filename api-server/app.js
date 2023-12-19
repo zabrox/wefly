@@ -4,7 +4,7 @@ const Firestore = require('@google-cloud/firestore')
 const { Storage } = require('@google-cloud/storage')
 
 const app = express()
-const port = 3001
+const port = 8080
 
 const db = new Firestore({
   projectId: 'wefly-407313',
