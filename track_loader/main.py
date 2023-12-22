@@ -8,6 +8,7 @@ import re
 
 from export_tracks import export_tracks
 from convert_tracks import convert_tracks
+from aggregate_tracks import aggregate_tracks
 
 if __name__ == "__main__":
     date = datetime.datetime.now().strftime("%Y-%m-%d")
@@ -15,3 +16,4 @@ if __name__ == "__main__":
         date = sys.argv[1]
     tracks = export_tracks(date)
     convert_tracks(date, tracks)
+    aggregate_tracks(date)
