@@ -199,10 +199,7 @@ const checkJsonValidity = (json) => {
         json.hasOwnProperty('distance');
 }
 const checkTrackPointValidity = (json) => {
-    return json.hasOwnProperty('longitude') &&
-        json.hasOwnProperty('latitude') &&
-        json.hasOwnProperty('altitude') &&
-        json.hasOwnProperty('time');
+    return json.length === 4
 }
 
 export const parseTrackJson = (json) => {
@@ -222,9 +219,9 @@ export const parseTrackJson = (json) => {
             console.error("Invalid track point json. " + point)
             return undefined;
         }
-        track.cartesians.push(Cesium.Cartesian3.fromDegrees(point.longitude, point.latitude, point.altitude));
-        track.altitudes.push(point.altitude);
-        track.times.push(dayjs(point.time));
+        track.cartesians.push(Cesium.Cartesian3.fromDegrees(point[2], point[1], point[3]));
+        track.altitudes.push(point[3]);
+        track.times.push(dayjs(point[0]));
     });
     return track;
 }

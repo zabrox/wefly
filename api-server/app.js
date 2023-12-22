@@ -18,16 +18,19 @@ app.get('/', (req, res) => {
 })
 
 // list tracks
-app.get('/api/tracks/:date', (req, res) => {
+app.get('/api/tracklist', (req, res) => {
   res.header("Access-Control-Allow-Origin", "*")
-  // parse date using dayjs
-  const startOfDay = new Date(req.params.date);
+  if (req.query.date === undefined) {
+    res.status(400).send('Bad Request');
+    return;
+  }
+  const startOfDay = new Date(req.query.date);
   startOfDay.setHours(0, 0, 0, 0);
-  const endOfDay = new Date(req.params.date)
+  const endOfDay = new Date(req.query.date)
   endOfDay.setHours(23, 59, 59, 999);
   db.collection('tracks')
     .where('lasttime', '>=', startOfDay)
-    .where('lasttime', '<', endOfDay).get()
+    .where('lasttime', '<=', endOfDay).get()
     .then(snapshot => {
       if (snapshot.empty) {
         res.status(404).send('No matching documents.');
@@ -45,27 +48,18 @@ app.get('/api/tracks/:date', (req, res) => {
     })
 })
 
-app.get('/api/track/:trackid', (req, res) => {
+app.get('/api/tracks', (req, res) => {
   res.header("Access-Control-Allow-Origin", "*")
-  const promise = db.collection('tracks')
-    .where('trackid', '==', req.params.trackid).get()
-    .then(snapshot => {
-      if (snapshot.empty) {
-        res.status(404).send('No matching documents.');
-        return;
-      }
-      const doc = snapshot.docs[0];
-      const basename = doc.data().file_url.split('/').pop();
-      storage.bucket(bucketName).file(basename).download()
-        .then(contents => {
-          contents = contents.toString();
-          res.send(contents);
-        })
-        .catch(err => {
-          console.error('ERROR:', err);
-          res.status(500).send('Internal Server Error');
-        });
-    });
+  if (req.query.date === undefined) {
+    res.status(400).send('Bad Request');
+    return;
+  }
+  storage.bucket(bucketName).file(`${req.query.date}/japan.json`).download().then(snapshot => {
+    res.send(JSON.parse(snapshot.toString()));
+  }).catch(err => {
+    console.error('ERROR:', err);
+    res.status(500).send('Internal Server Error');
+  });
 })
 
 app.listen(port, () => {
