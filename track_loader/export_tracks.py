@@ -90,7 +90,7 @@ def export_tracks(date: str):
     if not os.path.exists(TRACK_DIR + date):
         os.makedirs(TRACK_DIR + date)
     for t in tracks:
-        print(t)
+        print(f'download track for {t}')
         download_igc(t, date)
-    print(str(len(tracks)))
+    print(f'downloaded {str(len(tracks))} tracks')
     return tracks

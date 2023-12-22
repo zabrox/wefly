@@ -11,6 +11,10 @@ from export_tracks import Track
 AREAS_FILE = "./areas.cup"
 RADIUS = 0.1
 
+TIME=0
+LATITUDE=1
+LONGITUDE=2
+ALTITUDE=3
 
 class Area:
     name = ""
@@ -33,12 +37,12 @@ def parse_igc_line(date, line):
         longitude = line[15:23]
         longitude = float(longitude[0:3]) + float(longitude[3:]) / 100000
         altitude = line[31:36]
-        return {
-            'time': convert_to_timestring(date, time),
-            'latitude': convert_to_degrees(latitude),
-            'longitude': convert_to_degrees(longitude),
-            'altitude': int(altitude)
-        }
+        return [
+            convert_to_timestring(date, time),
+            convert_to_degrees(latitude),
+            convert_to_degrees(longitude),
+            int(altitude)
+        ]
     return None
 
 def convert_to_timestring(date, time):
@@ -83,15 +87,15 @@ def find_nearest_area(areas, dict):
     nearest_dist = 100000
     nearest_area = None
     for area in areas:
-        dist = math.sqrt(math.pow(dict['track_points'][0]['latitude'] - area.latitude, 2) + math.pow(dict['track_points'][0]['longitude'] - area.longitude, 2))
+        dist = math.sqrt(math.pow(dict['track_points'][0][LATITUDE] - area.latitude, 2) + math.pow(dict['track_points'][0][LONGITUDE] - area.longitude, 2))
         if dist < RADIUS and dist < nearest_dist:
             nearest_dist = dist
             nearest_area = area
     return nearest_area
 
-def upload_file_to_gcs(bucket, db, track: Track):
+def upload_file_to_gcs(date, bucket, db, track: Track):
     jsonpath = track.igcpath.replace(".igc", ".json")
-    blob = bucket.blob(os.path.basename(jsonpath))
+    blob = bucket.blob(f'{date}/{os.path.basename(jsonpath)}')
     blob.upload_from_filename(jsonpath)
     file_url = blob.public_url
     doc_ref = db.collection('tracks').document(os.path.basename(track.igcpath).replace(".igc", ""))
@@ -103,6 +107,7 @@ def convert_tracks(date, tracks: [Track]):
     areas = load_areas()
 
     for track in tracks:
+        print(f'start convert {track.igcpath}')
         try:
             dict = igc_to_json(date, track)
             area = find_nearest_area(areas, dict)
@@ -119,8 +124,9 @@ def convert_tracks(date, tracks: [Track]):
     db = firestore.Client()
 
     for track in tracks:
+        print(f'upload track {track.igcpath}')
         try:
-            upload_file_to_gcs(bucket, db, track)
+            upload_file_to_gcs(date, bucket, db, track)
         except Exception as e:
             print(f"upload failed. file: {track.igcpath} error: {e}", sys.stderr)
 

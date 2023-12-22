@@ -49,25 +49,18 @@ const zoomToTracks = (tracks) => {
 
 const loadTracks = (state, setState) => {
     const date = state['date'];
-    const tracksurl = `${import.meta.env.VITE_API_URL}/tracks/${date.format('YYYY-MM-DD')}/`;
-    const trackurl = `${import.meta.env.VITE_API_URL}/track/`;
-    axios({ method: "get", url: tracksurl, responseType: "json" }).then(response => {
-        const trackids = response.data;
-        Promise.all(trackids.map(trackid => {
-            return axios.get(`${trackurl}${trackid}`).then(response => {
-                return parseTrackJson(response.data);
-            })
-        })).then((tracks) => {
-            // filter tracks less than 5 minutes
-            tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
-            trackGroups = dbscanTracks(tracks);
-            trackGroups.forEach(group => group.initializeTrackGroupEntity(viewer));
-            setState({ ...state, tracks: tracks });
-            initializeTracks(tracks);
-            zoomToTracks(tracks);
-        }).catch(error => {
-            console.error(error);
-        });
+    const tracksurl = `${import.meta.env.VITE_API_URL}/tracks?date=`;
+    axios({ method: "get", url: `${tracksurl}${date.format('YYYY-MM-DD')}`, responseType: "json" }).then(response => {
+        let tracks = response.data.map(trackjson => {
+            return parseTrackJson(trackjson);
+        })
+        // filter tracks less than 5 minutes
+        tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
+        trackGroups = dbscanTracks(tracks);
+        trackGroups.forEach(group => group.initializeTrackGroupEntity(viewer));
+        setState({ ...state, tracks: tracks });
+        initializeTracks(tracks);
+        zoomToTracks(tracks);
     }).catch(error => {
         console.error(error);
     });
