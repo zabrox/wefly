@@ -4,6 +4,7 @@ from google.cloud import firestore, storage
 import datetime
 import os
 import json
+import gzip
 
 def aggregate_tracks(datestr):
     date = datetime.datetime.strptime(datestr, '%Y-%m-%d')
@@ -33,8 +34,9 @@ def aggregate_tracks(datestr):
 
     # Combine all data into one JSON
     combined_data = json.dumps(aggregated_data)
+    gzip_data = gzip.compress(combined_data.encode('utf-8'))
 
     # Upload to GCS
-    print(f'upload aggregated json {datestr}/japan.json')
-    new_blob = bucket.blob(f'{datestr}/japan.json')
-    new_blob.upload_from_string(combined_data, content_type='application/json')
+    print(f'upload aggregated json {datestr}/japan.json.gz')
+    new_blob = bucket.blob(f'{datestr}/japan.json.gz')
+    new_blob.upload_from_string(gzip_data, content_type='application/json')
