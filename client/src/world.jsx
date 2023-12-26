@@ -173,7 +173,7 @@ const World = () => {
     const cesiumContainerRef = React.useRef(null);
     media = judgeMedia();
     const defaultControlPanelSize = media.isPc ?
-            document.documentElement.clientWidth * 0.4 : document.documentElement.clientWidth * 0.8;
+            document.documentElement.clientWidth * 0.4 : document.documentElement.clientWidth * 0.9;
 
     [state, setState] = React.useState({
         tracks: [],
