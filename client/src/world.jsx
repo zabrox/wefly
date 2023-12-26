@@ -38,6 +38,7 @@ const initializeCesium = (cesiumContainerRef) => {
         minimumBrightness: 1.0,
     });
     document.getElementsByClassName('cesium-viewer-bottom')[0].remove();
+    viewer.camera.percentageChanged = 0.0001;
 }
 
 const zoomToTracks = (tracks) => {
@@ -119,19 +120,23 @@ const registerEventHandlerOnPointClick = () => {
 
 const registerEventListenerOnCameraMove = () => {
     viewer.camera.changed.addEventListener(() => {
-        const cameraAltitude = viewer.scene.camera.positionCartographic.height;
-        if (cameraAltitude > 70000) {
-            trackGroups.forEach(group => group.showTrackGroup(true));
-            state['tracks'].forEach(track => {
-                track.fadeOut();
-            });
-        } else {
-            trackGroups.forEach(group => group.showTrackGroup(false));
-            state['tracks'].forEach(track => {
-                track.fadeIn();
-            });
-        }
+        fadeTracksDependingOnAltitude();
     });
+}
+
+const fadeTracksDependingOnAltitude = () => {
+    const cameraAltitude = viewer.scene.camera.positionCartographic.height;
+    if (cameraAltitude > 70000) {
+        trackGroups.forEach(group => group.showTrackGroup(true));
+        state['tracks'].forEach(track => {
+            track.fadeOut();
+        });
+    } else {
+        trackGroups.forEach(group => group.showTrackGroup(false));
+        state['tracks'].forEach(track => {
+            track.fadeIn();
+        });
+    }
 }
 
 const handleTrackClick = (state, trackid) => {
