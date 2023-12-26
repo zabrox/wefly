@@ -172,13 +172,14 @@ const judgeMedia = () => {
 const World = () => {
     const cesiumContainerRef = React.useRef(null);
     media = judgeMedia();
+    const defaultControlPanelSize = media.isPc ?
+            document.documentElement.clientWidth * 0.4 : document.documentElement.clientWidth * 0.8;
 
     [state, setState] = React.useState({
         tracks: [],
         date: dayjs(),
-        controlPanelSize: 0,
-        prevControlPanelSize: media.isPc ?
-            document.documentElement.clientWidth * 0.4 : document.documentElement.clientWidth * 0.8,
+        controlPanelSize: defaultControlPanelSize,
+        prevControlPanelSize: defaultControlPanelSize,
     });
 
     React.useEffect(() => {
