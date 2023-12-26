@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Stack, AppBar, Typography, Table, TableContainer, } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers';
+import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
 import './controlpanel.css';
@@ -19,7 +19,7 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
             </AppBar>
             <div id='date-picker-container'
                 style={controlPanelSize === 0 ? { display: 'none' } : {}}><center>
-                <DatePicker
+                <DesktopDatePicker
                 defaultValue={date}
                 format="YYYY-MM-DD (ddd)"
                 onChange={(newDate) => {

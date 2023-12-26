@@ -2,6 +2,8 @@ const express = require('express')
 const { glob } = require('glob')
 const Firestore = require('@google-cloud/firestore')
 const { Storage } = require('@google-cloud/storage')
+const zlib = require('zlib')
+const Buffer = require('buffer').Buffer;
 
 const app = express()
 const port = 8080
@@ -48,19 +50,52 @@ app.get('/api/tracklist', (req, res) => {
     })
 })
 
-app.get('/api/tracks', (req, res) => {
+const decompressGzip = (buffer) => {
+  return new Promise((resolve, reject) => {
+    zlib.gunzip(buffer, (err, result) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(result);
+    });
+  });
+}
+
+app.get('/api/tracks', async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*")
   if (req.query.date === undefined) {
     res.status(400).send('Bad Request');
     return;
   }
-  storage.bucket(bucketName).file(`${req.query.date}/japan.json`).download().then(snapshot => {
-    res.send(JSON.parse(snapshot.toString()));
-  }).catch(err => {
-    console.error('ERROR:', err);
-    res.status(500).send('Internal Server Error');
+
+  let file = undefined;
+  try {
+    const bucket = storage.bucket(bucketName);
+    file = bucket.file(`${req.query.date}/japan.json.gz`);
+  } catch (error) {
+    console.error('ERROR:', error);
+    res.status(404).send('Not Found');
+    return;
+  }
+
+  const readStream = file.createReadStream();
+  readStream.on('error', (error) => {
+    console.error('ReadStream error:', error);
+    res.status(500).send(`Error: ${error.message}`);
+    return;
   });
-})
+
+  readStream.pipe(zlib.createGunzip())
+    .on('data', (data) => {
+      res.write(data);
+    })
+    .on('end', () => {
+      res.end();
+    })
+    .on('error', (error) => {
+      res.status(500).send(`Error: ${error.message}`);
+    });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

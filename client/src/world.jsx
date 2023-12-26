@@ -17,6 +17,7 @@ let trackGroups = Array();
 let media = undefined;
 
 const initializeCesium = (cesiumContainerRef) => {
+    console.debug('initializeCesium');
     Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNjMxN2Y3Ni04YWU3LTQwNjctYmYyNC05Yjc4MTljOTY3OGYiLCJpZCI6MTY5NTkxLCJpYXQiOjE2OTYyNDYyMTB9.CYkH9qKRpMU0kzQWkjXuvqgr-09nICUdta83AZIxAy8";
     viewer = new Cesium.Viewer(cesiumContainerRef.current, {
         terrain: Cesium.Terrain.fromWorldTerrain(),
@@ -40,36 +41,54 @@ const initializeCesium = (cesiumContainerRef) => {
 }
 
 const zoomToTracks = (tracks) => {
+    console.time('zoomToTracks');
     let cartesians = new Array();
     if (tracks.length > 0) {
         tracks.forEach(track => cartesians.push(...track.cartesians));
         viewer.camera.flyToBoundingSphere(Cesium.BoundingSphere.fromPoints(cartesians), { duration: 1 });
     }
+    console.timeEnd('zoomToTracks');
 }
 
-const loadTracks = (state, setState) => {
+const loadTracks = async (state, setState) => {
     const date = state['date'];
     const tracksurl = `${import.meta.env.VITE_API_URL}/tracks?date=`;
-    axios({ method: "get", url: `${tracksurl}${date.format('YYYY-MM-DD')}`, responseType: "json" }).then(response => {
-        let tracks = response.data.map(trackjson => {
-            return parseTrackJson(trackjson);
-        })
-        // filter tracks less than 5 minutes
-        tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
-        trackGroups = dbscanTracks(tracks);
-        trackGroups.forEach(group => group.initializeTrackGroupEntity(viewer));
-        setState({ ...state, tracks: tracks });
-        initializeTracks(tracks);
-        zoomToTracks(tracks);
-    }).catch(error => {
+    let response = undefined;
+    try {
+        console.time('loadTracks');
+        response = await axios({ method: "get", url: `${tracksurl}${date.format('YYYY-MM-DD')}`, responseType: "json" });
+        console.timeEnd('loadTracks');
+    } catch (error) {
         console.error(error);
-    });
-}
+        return;
+    }
+    let tracks = await parseAllTracks(response.data);
+    // filter tracks less than 5 minutes
+    tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
+    setState({ ...state, tracks: tracks });
+    console.time('dbscanTracks');
+    trackGroups = dbscanTracks(tracks);
+    trackGroups.forEach(group => group.initializeTrackGroupEntity(viewer));
+    console.timeEnd('dbscanTracks');
+    zoomToTracks(tracks);
+    initializeTracks(tracks);
+};
 
-const initializeTracks = (tracks) => {
-    tracks.forEach(track => {
-        track.initializeTrackEntity(viewer, media);
-    });
+const parseAllTracks = async (tracks) => {
+    console.time('parseAllTracks');
+    const parsedTracks = await Promise.all(tracks.map((trackjson) => {
+        return new Promise((resolve) => resolve(parseTrackJson(trackjson)));
+    }));
+    console.timeEnd('parseAllTracks');
+    return parsedTracks;
+};
+
+const initializeTracks = async (tracks) => {
+    console.time('initializeTracks');
+    Promise.all(tracks.map((track) => {
+        return new Promise((resolve) => resolve(track.initializeTrackEntity(viewer, media)));
+    }));
+    console.timeEnd('initializeTracks');
 };
 
 const registerEventHandlerOnPointClick = () => {
@@ -116,6 +135,7 @@ const registerEventListenerOnCameraMove = () => {
 }
 
 const handleTrackClick = (state, trackid) => {
+    console.debug('handleTrackClick');
     const copy_tracks = [...state['tracks']];
     const index = copy_tracks.findIndex(track => track.id === trackid)
     const target_track = copy_tracks[index];
@@ -128,6 +148,7 @@ const handleTrackClick = (state, trackid) => {
 };
 
 const handleDateChange = (newDate) => {
+    console.debug('handleDateChange');
     viewer.entities.removeAll();
     const date = dayjs(newDate);
     loadTracks({ ...state, date: date }, setState);
