@@ -77,18 +77,18 @@ const loadTracks = async (state, setState) => {
 
 const parseAllTracks = async (tracks) => {
     console.time('parseAllTracks');
-    const parsedTracks = await Promise.all(tracks.map((trackjson) => {
-        return new Promise((resolve) => resolve(parseTrackJson(trackjson)));
-    }));
+    const parsedTracks = tracks.map((trackjson) => {
+        return parseTrackJson(trackjson);
+    });
     console.timeEnd('parseAllTracks');
     return parsedTracks;
 };
 
 const initializeTracks = async (tracks) => {
     console.time('initializeTracks');
-    Promise.all(tracks.map((track) => {
-        return new Promise((resolve) => resolve(track.initializeTrackEntity(viewer, media)));
-    }));
+    tracks.forEach((track) => {
+        track.initializeTrackEntity(viewer, media);
+    });
     console.timeEnd('initializeTracks');
 };
 
