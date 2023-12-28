@@ -5,7 +5,8 @@
   "scripts": {
     "all": "concurrently \"npm run api-server\" \"npm run client\"",
     "api-server": "cd api-server && npm start",
-    "client": "cd client && npm run dev"
+    "client": "cd client && npm run dev",
+    "deploy": "docker compose build && docker push asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/track_loader:1.0 && docker push asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-client:1.0 && docker push asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-api-server:1.0"
   },
   "author": "",
   "license": "ISC",
