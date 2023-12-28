@@ -52,6 +52,7 @@ const zoomToTracks = (tracks) => {
 }
 
 const loadTracks = async (state, setState) => {
+    setState({ ...state, tracks: [], loadingTracks: true });
     const date = state['date'];
     const tracksurl = `${import.meta.env.VITE_API_URL}/tracks?date=`;
     let response = undefined;
@@ -61,18 +62,19 @@ const loadTracks = async (state, setState) => {
         console.timeEnd('loadTracks');
     } catch (error) {
         console.error(error);
+        setState({ ...state, loadingTracks: false });
         return;
     }
     let tracks = parseAllTracks(response.data);
     // filter tracks less than 5 minutes
     tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
-    setState({ ...state, tracks: tracks });
     console.time('dbscanTracks');
     trackGroups = dbscanTracks(tracks);
     trackGroups.forEach(group => group.initializeTrackGroupEntity(viewer));
     console.timeEnd('dbscanTracks');
     zoomToTracks(tracks);
     initializeTracks(tracks);
+    setState({ ...state, tracks: tracks, loadingTracks: false });
 };
 
 const parseAllTracks = tracks => {
@@ -152,7 +154,7 @@ const handleTrackClick = (state, trackid) => {
     }
 };
 
-const handleDateChange = (newDate) => {
+const handleDateChange = (state, setState, newDate) => {
     console.debug('handleDateChange');
     viewer.entities.removeAll();
     const date = dayjs(newDate);
@@ -180,6 +182,7 @@ const World = () => {
         date: dayjs(),
         controlPanelSize: defaultControlPanelSize,
         prevControlPanelSize: defaultControlPanelSize,
+        loadingTracks: false,
     });
 
     React.useEffect(() => {
@@ -201,11 +204,11 @@ const World = () => {
                     id="cesium" />
                 <ControlPanel
                     date={state['date']}
-                    onDateChange={(newDate) => handleDateChange(newDate)}
+                    onDateChange={(newDate) => handleDateChange(state, setState, newDate)}
                     tracks={state['tracks']}
                     onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }}
                     controlPanelSize={state.controlPanelSize}
-                    media={media} />
+                    loadingTracks={state.loadingTracks} />
                 <Dragger
                     controlPanelSize={state.controlPanelSize}
                     setControlPanelSize={(width) => setState({ ...state, controlPanelSize: width })} />
