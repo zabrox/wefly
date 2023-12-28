@@ -7,10 +7,6 @@
     transition: width 0.1s ease-in-out;
 }
 
-#tracklist {
-    height: 88%;
-    overflow: auto;
-}
 
 #date-picker-container {
     padding: 10px;
