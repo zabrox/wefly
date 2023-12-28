@@ -1,9 +1,9 @@
 const express = require('express')
-const { glob } = require('glob')
 const Firestore = require('@google-cloud/firestore')
 const { Storage } = require('@google-cloud/storage')
 const zlib = require('zlib')
-const Buffer = require('buffer').Buffer;
+const util = require('util');
+const gzipUncompress = util.promisify(zlib.unzip);
 
 const app = express()
 const port = 8080
@@ -12,7 +12,10 @@ const db = new Firestore({
   projectId: 'wefly-407313',
   keyFilename: './wefly-407313-855d6567493e.json',
 })
-const storage = new Storage();
+const storage = new Storage({
+  projectId: 'wefly-407313',
+  keyFilename: './wefly-407313-855d6567493e.json',
+});
 const bucketName = 'wefly';
 
 app.get('/', (req, res) => {
@@ -50,53 +53,27 @@ app.get('/api/tracklist', (req, res) => {
     })
 })
 
-const decompressGzip = (buffer) => {
-  return new Promise((resolve, reject) => {
-    zlib.gunzip(buffer, (err, result) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(result);
-    });
-  });
-}
-
 app.get('/api/tracks', async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*")
   if (req.query.date === undefined) {
     res.status(400).send('Bad Request');
     return;
   }
-
-  let file = undefined;
+  
   try {
     const bucket = storage.bucket(bucketName);
-    file = bucket.file(`${req.query.date}/japan.json.gz`);
+    const file = bucket.file(`${req.query.date}/japan.json.gz`);
+    const fileContentsBuffer = (await file.download())[0];
+    const uncompressedBuffer = await gzipUncompress(fileContentsBuffer);
+
+    res.send(uncompressedBuffer.toString('utf-8'));
   } catch (error) {
     console.error('ERROR:', error);
-    res.status(404).send('Not Found');
-    return;
+    res.status(500).send(`Error: ${error.message}`);
   }
 
-  const readStream = file.createReadStream();
-  readStream.on('error', (error) => {
-    console.error('ReadStream error:', error);
-    res.status(500).send(`Error: ${error.message}`);
-    return;
-  });
-
-  readStream.pipe(zlib.createGunzip())
-    .on('data', (data) => {
-      res.write(data);
-    })
-    .on('end', () => {
-      res.end();
-    })
-    .on('error', (error) => {
-      res.status(500).send(`Error: ${error.message}`);
-    });
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`WeFly API server listening on port ${port}`)
 })

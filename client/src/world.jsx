@@ -63,7 +63,7 @@ const loadTracks = async (state, setState) => {
         console.error(error);
         return;
     }
-    let tracks = await parseAllTracks(response.data);
+    let tracks = parseAllTracks(response.data);
     // filter tracks less than 5 minutes
     tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
     setState({ ...state, tracks: tracks });
@@ -75,7 +75,7 @@ const loadTracks = async (state, setState) => {
     initializeTracks(tracks);
 };
 
-const parseAllTracks = async (tracks) => {
+const parseAllTracks = tracks => {
     console.time('parseAllTracks');
     const parsedTracks = tracks.map((trackjson) => {
         return parseTrackJson(trackjson);
@@ -84,7 +84,7 @@ const parseAllTracks = async (tracks) => {
     return parsedTracks;
 };
 
-const initializeTracks = async (tracks) => {
+const initializeTracks = tracks => {
     console.time('initializeTracks');
     tracks.forEach((track) => {
         track.initializeTrackEntity(viewer, media);

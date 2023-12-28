@@ -13,8 +13,8 @@ services:
       dockerfile: Dockerfile
     networks:
       - wefly-network
-    volumes:
-      - ./track_loader/tracks:/app/tracks
+    ports:
+      - "8080:8080"
   track_loader:
     image: asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/track_loader:1.0
     build:
@@ -28,8 +28,6 @@ services:
       - wefly-network
     ports: 
       - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - client
       - api
