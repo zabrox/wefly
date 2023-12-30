@@ -24,7 +24,6 @@ app.get('/', (req, res) => {
 
 // list tracks
 app.get('/api/tracklist', (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*")
   if (req.query.date === undefined) {
     res.status(400).send('Bad Request');
     return;
@@ -54,7 +53,6 @@ app.get('/api/tracklist', (req, res) => {
 })
 
 app.get('/api/tracks', async (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*")
   if (req.query.date === undefined) {
     res.status(400).send('Bad Request');
     return;
