@@ -23,6 +23,14 @@ const cutDownAreaName = (area) => {
 
 export const Headers = [
     {
+        id: 'activity',
+        label: 'Activity',
+        numeric: false,
+        defaultOrder: 'asc',
+        comparator: compareByKey.bind(null, 'activity'),
+        display: (track) => (track.activity),
+    },
+    {
         id: 'pilotname',
         label: 'Pilot',
         numeric: false,

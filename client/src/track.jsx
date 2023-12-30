@@ -49,6 +49,7 @@ export class Track {
     color;
     id;
     distance = 0;
+    activity = "";
     #showLine = false;
     #trackEntity = undefined;
     #trackPointEntities = new Array();
@@ -196,7 +197,8 @@ export class TrackGroup {
 const checkJsonValidity = (json) => {
     return json.hasOwnProperty('track_points') &&
         json.hasOwnProperty('pilotname') &&
-        json.hasOwnProperty('distance');
+        json.hasOwnProperty('distance') &&
+        json.hasOwnProperty('activity');
 }
 const checkTrackPointValidity = (json) => {
     return json.length === 4
@@ -214,6 +216,7 @@ export const parseTrackJson = (json) => {
     if (json.area !== undefined) {
         track.area = json.area.split('_')[0];
     }
+    track.activity = json.activity;
     json.track_points.forEach(point => {
         if (checkTrackPointValidity(point) === false) {
             console.error("Invalid track point json. " + point)
