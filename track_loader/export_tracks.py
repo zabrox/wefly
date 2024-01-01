@@ -5,6 +5,7 @@ import datetime
 import sys
 import os
 import re
+from google.cloud import storage, firestore
 
 TRACK_DIR = "./tracks/"
 MAX_PAGES = 100
@@ -18,7 +19,6 @@ class Track:
     trackid = 0
     lasttime = ""
     activity = ""
-    igcpath = ""
 
     def get_metadata(self):
         return {
@@ -31,50 +31,58 @@ class Track:
             'activity': self.activity,
         }
 
+    def filename(self):
+        return self.pilotname + "_" + self.lasttime.strftime("%Y%m%d%H%M%S")
+
     def __str__(self):
-        return "pilotname: " + self.pilotname + " location: " + self.location
+        return "pilotname: " + self.pilotname + " location: " + self.location + " id: " + str(self.trackid) + " lasttime: " + str(self.lasttime)
 
 
 def download_html(url: str):
     response = requests.get(url)
     return response.text
 
+def parse_track_row(trackrow: BeautifulSoup):
+    track = Track()
+    track.pilotname = re.search(r'[a-zA-Z0-9\-]+', trackrow.find('span', class_='liveusername').find('a').text).group()
+    last_locations = trackrow.find_all('div', class_='list_last_location')
+    last_time = trackrow.find_all('div', class_='list_last_time')
+    track.location = last_locations[0].text.replace("was at  ", "")
+    track.altitude = re.search(r'\d+ m', last_locations[1].text).group()
+    track.duration = re.search(r'\d{2}:\d{2}:\d{2}', last_locations[1].text).group()
+    track.distance = re.search(r'\[Max\] [\d\.]+ km', last_locations[2].text).group().replace("[Max] ", "")
+    lasttime_str = re.search(r'\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2} UTC', last_time[0].text).group()
+    track.lasttime = datetime.datetime.strptime(lasttime_str, '%d-%m-%Y %H:%M:%S %Z')
+    trackid  = trackrow.find_all(attrs={'data-action': 'track_info'})
+    track.trackid = trackid[0].get('data-trackid')
+    track.activity = trackrow.find('img', class_='activityImg')['alt']
+    return track
+
 def get_list_table_elements(html: str):
     soup = BeautifulSoup(html, 'html.parser')
     tracktables = soup.find_all('table', class_='tracktable')
     tracks = []
     for trackrow in tracktables:
-        track = Track()
-        track.pilotname = re.search(r'[a-zA-Z0-9\-]+', trackrow.find('span', class_='liveusername').find('a').text).group()
-        last_locations = trackrow.find_all('div', class_='list_last_location')
-        last_time = trackrow.find_all('div', class_='list_last_time')
-        track.location = last_locations[0].text.replace("was at  ", "")
-        track.altitude = re.search(r'\d+ m', last_locations[1].text).group()
-        track.duration = re.search(r'\d{2}:\d{2}:\d{2}', last_locations[1].text).group()
-        track.distance = re.search(r'\[Max\] [\d\.]+ km', last_locations[2].text).group().replace("[Max] ", "")
-        lasttime_str = re.search(r'\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2} UTC', last_time[0].text).group()
-        track.lasttime = datetime.datetime.strptime(lasttime_str, '%d-%m-%Y %H:%M:%S %Z')
-        trackid  = trackrow.find_all(attrs={'data-action': 'track_info'})
-        track.trackid = trackid[0].get('data-trackid')
-        track.activity = trackrow.find('img', class_='activityImg')['alt']
+        try:
+            track = parse_track_row(trackrow)
+            # skip parsing if it already exists on firestore
+            db = firestore.Client()
+            doc_ref = db.collection('tracks').document(track.filename())
+            doc = doc_ref.get()
+            if doc.exists:
+                print(f'skipping track since it already exists {track}')
+                continue
+        except:
+            print(f'failed to parse track {track}')
+            continue
         tracks.append(track)
-    return tracks
 
-def filter_tracks_by_location(tracks: [Track], locations: [str]):
-    ret = []
-    for track in tracks:
-        for location in locations:
-            if re.search(location, track.location):
-                ret.append(track)
-                break
-    return ret
+    return tracks
 
 def download_igc(track: Track, date: str):
     url = "https://www.livetrack24.com/leo_live.php?op=igc&trackID=" + track.trackid
     response = requests.get(url)
-    igcpath = TRACK_DIR + date + "/" + track.pilotname + "_" + track.lasttime.strftime("%Y%m%d%H%M%S") + ".igc"
-    track.igcpath = igcpath
-    with open(igcpath, 'wb') as f:
+    with open(track.filename() + ".igc", 'wb') as f:
         f.write(response.content)
 
 def export_tracks(date: str):
