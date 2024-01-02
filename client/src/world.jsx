@@ -62,7 +62,7 @@ const loadTracks = async (state, setState) => {
         console.timeEnd('loadTracks');
     } catch (error) {
         console.error(error);
-        setState({ ...state, loadingTracks: false });
+        setState({ ...state, tracks: [], loadingTracks: false });
         return;
     }
     let tracks = parseAllTracks(response.data);
