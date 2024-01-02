@@ -28,6 +28,10 @@ app.get('/api/tracklist', (req, res) => {
     res.status(400).send('Bad Request');
     return;
   }
+  // add CORS header for local development
+  if (req.headers.origin !== undefined) {
+    res.set('Access-Control-Allow-Origin', req.headers.origin);
+  }
   const startOfDay = new Date(req.query.date);
   startOfDay.setHours(0, 0, 0, 0);
   const endOfDay = new Date(req.query.date)
@@ -56,6 +60,10 @@ app.get('/api/tracks', async (req, res) => {
   if (req.query.date === undefined) {
     res.status(400).send('Bad Request');
     return;
+  }
+  // add CORS header for local development
+  if (req.headers.origin !== undefined) {
+    res.set('Access-Control-Allow-Origin', req.headers.origin);
   }
   
   try {

@@ -20,8 +20,6 @@ services:
     build:
       context: ./track_loader
       dockerfile: Dockerfile
-    volumes:
-      - ./track_loader/tracks:/app/tracks
   nginx:
     image: nginx:latest
     networks:
