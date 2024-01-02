@@ -1,0 +1,14 @@
+hostRules:
+- hosts:
+  - '*'
+  pathMatcher: path-matcher-1
+kind: compute#urlMap
+name: wefly-url-map
+defaultService: https://www.googleapis.com/compute/v1/projects/wefly-407313/global/backendServices/wefly-backend
+pathMatchers:
+- defaultService: https://www.googleapis.com/compute/v1/projects/wefly-407313/global/backendServices/wefly-backend
+  name: path-matcher-1
+  pathRules:
+  - paths:
+    - /api/*
+    service: https://www.googleapis.com/compute/v1/projects/wefly-407313/global/backendServices/wefly-api-server-backend
