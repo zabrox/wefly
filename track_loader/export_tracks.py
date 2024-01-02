@@ -72,8 +72,8 @@ def get_list_table_elements(html: str):
             if doc.exists:
                 print(f'skipping track since it already exists {track}')
                 continue
-        except:
-            print(f'failed to parse track {track}')
+        except Exception as e:
+            print(f'failed to parse track {track} {e}')
             continue
         tracks.append(track)
 
@@ -82,7 +82,7 @@ def get_list_table_elements(html: str):
 def download_igc(track: Track, date: str):
     url = "https://www.livetrack24.com/leo_live.php?op=igc&trackID=" + track.trackid
     response = requests.get(url)
-    with open(track.filename() + ".igc", 'wb') as f:
+    with open("tracks/" + track.filename() + ".igc", 'wb') as f:
         f.write(response.content)
 
 def export_tracks(date: str):

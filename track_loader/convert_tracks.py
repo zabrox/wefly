@@ -57,7 +57,7 @@ def convert_to_degrees(coord):
     return degrees + (minutes * 1.6666)
 
 def igc_to_json(date, track):
-    with open(track.igcpath, 'r') as file:
+    with open("tracks/" + track.filename() + ".igc", 'r') as file:
         lines = file.readlines()
 
     track_points = [parse_igc_line(date, line) for line in lines if line.startswith('B')]
@@ -94,11 +94,11 @@ def find_nearest_area(areas, dict):
     return nearest_area
 
 def upload_file_to_gcs(date, bucket, db, track: Track):
-    jsonpath = track.igcpath.replace(".igc", ".json")
+    jsonpath = track.filename() + ".json"
     blob = bucket.blob(f'{date}/{os.path.basename(jsonpath)}')
     blob.upload_from_filename(jsonpath)
     file_url = blob.public_url
-    doc_ref = db.collection('tracks').document(os.path.basename(track.igcpath).replace(".igc", ""))
+    doc_ref = db.collection('tracks').document(track.filename())
     metadata = track.get_metadata()
     metadata['file_url'] = file_url
     doc_ref.set(metadata)
@@ -107,15 +107,15 @@ def convert_tracks(date, tracks: [Track]):
     areas = load_areas()
 
     for track in tracks:
-        print(f'start convert {track.igcpath}')
+        print(f'start convert {track.filename()}')
         try:
             dict = igc_to_json(date, track)
             area = find_nearest_area(areas, dict)
             if area != None:
                 dict['area'] = area.name
-            json.dump(dict, open(track.igcpath.replace(".igc", ".json"), 'w'), indent=4)
+            json.dump(dict, open(track.filename() +  ".json", 'w'), indent=4)
         except Exception as e:
-            print(f"convert failed. file: {track.igcpath} error: {e}", sys.stderr)
+            print(f"convert failed. file: {track.filename()} error: {e}", sys.stderr)
 
     # Google Cloud Storage クライアントの初期化
     storage_client = storage.Client()
@@ -124,9 +124,9 @@ def convert_tracks(date, tracks: [Track]):
     db = firestore.Client()
 
     for track in tracks:
-        print(f'upload track {track.igcpath}')
+        print(f'upload track {track.filename()}')
         try:
             upload_file_to_gcs(date, bucket, db, track)
         except Exception as e:
-            print(f"upload failed. file: {track.igcpath} error: {e}", sys.stderr)
+            print(f"upload failed. file: {track.filename()} error: {e}", sys.stderr)
 
