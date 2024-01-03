@@ -19,6 +19,7 @@ class Track:
     trackid = 0
     lasttime = ""
     activity = ""
+    status = ""
 
     def get_metadata(self):
         return {
@@ -56,6 +57,7 @@ def parse_track_row(trackrow: BeautifulSoup):
     trackid  = trackrow.find_all(attrs={'data-action': 'track_info'})
     track.trackid = trackid[0].get('data-trackid')
     track.activity = trackrow.find('img', class_='activityImg')['alt']
+    track.status = trackrow.find('span', class_='track_status')
     return track
 
 def get_list_table_elements(html: str):
@@ -65,6 +67,10 @@ def get_list_table_elements(html: str):
     for trackrow in tracktables:
         try:
             track = parse_track_row(trackrow)
+            # skip if track is live
+            if track.status == 'Live!':
+                print(f'skipping track since it is live {track}')
+                continue
             # skip parsing if it already exists on firestore
             db = firestore.Client()
             doc_ref = db.collection('tracks').document(track.filename())
