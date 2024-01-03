@@ -17,7 +17,7 @@ if __name__ == "__main__":
     tracks = export_tracks(date)
     if len(tracks) == 0:
         print("no tracks found")
-        exit(1)
+        exit(0)
 
     convert_tracks(date, tracks)
     aggregate_tracks(date)
