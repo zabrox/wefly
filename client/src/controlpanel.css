@@ -10,6 +10,7 @@
 
 #date-picker-container {
     padding: 10px;
+    height: 10%;
 }
 
 #tracklist th, td {
@@ -19,8 +20,15 @@
 
 #app-bar {
     background-color: #e95800;
+    height: 9%;
 }
 #title {
     margin: auto;
     padding: 10px 20px;
+}
+#tracklist-container {
+    width: 100%;
+    height: 77%;
+    overflow: auto;
+    display: inline-flex;
 }
