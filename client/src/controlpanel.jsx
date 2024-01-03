@@ -29,7 +29,7 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                         }} />
                 </center>
             </div>
-            <Box sx={{ width: '100%', height: '100%', overflow: 'auto', display: 'inline-flex' }}>
+            <Box id='tracklist-container'>
                 <TableContainer id='tracklist'>
                     <Table size="medium">
                         <TrackListHeader
