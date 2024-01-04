@@ -57,7 +57,7 @@ def convert_to_degrees(coord):
     return degrees + (minutes * 1.6666)
 
 def igc_to_json(date, track):
-    with open("tracks/" + track.filename() + ".igc", 'r') as file:
+    with open("tracks/" + date + "/" + track.filename() + ".igc", 'r') as file:
         lines = file.readlines()
 
     track_points = [parse_igc_line(date, line) for line in lines if line.startswith('B')]

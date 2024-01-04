@@ -2,42 +2,13 @@
 import requests
 from bs4 import BeautifulSoup
 import datetime
-import sys
 import os
 import re
-from google.cloud import storage, firestore
+from google.cloud import firestore
+from track import Track
 
 TRACK_DIR = "./tracks/"
 MAX_PAGES = 100
-
-class Track:
-    pilotname = ""
-    location = ""
-    altitude = 0
-    duration = 0
-    distance = 0
-    trackid = 0
-    lasttime = ""
-    activity = ""
-    status = ""
-
-    def get_metadata(self):
-        return {
-            'pilotname': self.pilotname,
-            'location': self.location,
-            'duration': self.duration,
-            'distance': self.distance,
-            'trackid': self.trackid,
-            'lasttime': self.lasttime,
-            'activity': self.activity,
-        }
-
-    def filename(self):
-        return self.pilotname + "_" + self.lasttime.strftime("%Y%m%d%H%M%S")
-
-    def __str__(self):
-        return "pilotname: " + self.pilotname + " location: " + self.location + " id: " + str(self.trackid) + " lasttime: " + str(self.lasttime)
-
 
 def download_html(url: str):
     response = requests.get(url)
@@ -57,7 +28,9 @@ def parse_track_row(trackrow: BeautifulSoup):
     trackid  = trackrow.find_all(attrs={'data-action': 'track_info'})
     track.trackid = trackid[0].get('data-trackid')
     track.activity = trackrow.find('img', class_='activityImg')['alt']
-    track.status = trackrow.find('span', class_='track_status')
+    status = trackrow.find('span', class_='track_status')
+    if status is not None and status.text == 'Live!':
+        track.isLive = True
     return track
 
 def get_list_table_elements(html: str):
@@ -68,7 +41,7 @@ def get_list_table_elements(html: str):
         try:
             track = parse_track_row(trackrow)
             # skip if track is live
-            if track.status == 'Live!':
+            if track.isLive:
                 print(f'skipping track since it is live {track}')
                 continue
             # skip parsing if it already exists on firestore
@@ -88,7 +61,7 @@ def get_list_table_elements(html: str):
 def download_igc(track: Track, date: str):
     url = "https://www.livetrack24.com/leo_live.php?op=igc&trackID=" + track.trackid
     response = requests.get(url)
-    with open("tracks/" + track.filename() + ".igc", 'wb') as f:
+    with open(TRACK_DIR + date + "/" + track.filename() + ".igc", 'wb') as f:
         f.write(response.content)
 
 def export_tracks(date: str):
