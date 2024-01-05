@@ -2,18 +2,16 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "staging" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "staging" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
       name: checkout repository
-    - uses: actions/setup-node@v4.0.1
     - name: Build the Docker image
-      run: npm run deploy
+      run: ./build_all_images.sh
+      working-directory: ./staging
