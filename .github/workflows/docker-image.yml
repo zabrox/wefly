@@ -14,4 +14,4 @@ jobs:
       name: checkout repository
     - name: Build the Docker image
       run: ./build_all_images.sh
-      working-directory: ./staging
+      working-directory: ./scripts
