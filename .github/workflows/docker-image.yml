@@ -29,6 +29,13 @@ jobs:
 
     - name: Authorize Docker push
       run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+
+    - name: Create Google Cloud Security Key File
+      run: echo ${{ secrets.GOOGLE_CLOUD_SECURITY_KEY }} > wefly-407313-855d6567493e.json
+      working-directory: ./api-server
+    - name: Create Google Cloud Security Key File
+      run: echo ${{ secrets.GOOGLE_CLOUD_SECURITY_KEY }} > wefly-407313-855d6567493e.json
+      working-directory: ./track_loader
       
     - name: Docker build client
       run: docker build -f Dockerfile.staging -t asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-client:staging .
