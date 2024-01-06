@@ -12,6 +12,28 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       name: checkout repository
-    - name: Build the Docker image
-      run: ./build_all_images.sh
-      working-directory: ./scripts
+    - uses: docker/setup-buildx-action@v3.0.0
+      name: Set up Docker Buildx
+    - uses: docker/build-push-action@v5.1.0
+      with:
+        push: true
+        tag: asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/track_loader:1.0
+        context: ./track_loader
+        secrets: |
+          GOOGLE_APPLICATION_CREDENTIALS=${{secrets.GOOGLE_CLOUD_CREDENTIAL}}
+          
+    - uses: docker/build-push-action@v5.1.0
+      with:
+        push: true
+        tag: asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-client:1.0
+        context: ./client
+        secrets: |
+          GOOGLE_APPLICATION_CREDENTIALS=${{secrets.GOOGLE_CLOUD_CREDENTIAL}}
+          
+    - uses: docker/build-push-action@v5.1.0
+      with:
+        push: true
+        tag: asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-api-server:1.0
+        context: ./api-server
+        secrets: |
+          GOOGLE_APPLICATION_CREDENTIALS=${{secrets.GOOGLE_CLOUD_CREDENTIAL}}
