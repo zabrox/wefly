@@ -56,7 +56,7 @@ def get_list_table_elements(html: str):
             continue
         tracks.append(track)
 
-    return tracks
+    return tracks, len(tracktables) > 0
 
 def download_igc(track: Track, date: str):
     url = "https://www.livetrack24.com/leo_live.php?op=igc&trackID=" + track.trackid
@@ -70,8 +70,8 @@ def export_tracks(date: str):
     for i in range(MAX_PAGES):
         url = baseurl + str(i+1)
         html = download_html(url)
-        ts = get_list_table_elements(html)
-        if len(ts) == 0:
+        ts, cont = get_list_table_elements(html)
+        if not cont:
             break
         tracks.extend(ts)
     if not os.path.exists(TRACK_DIR + date):
