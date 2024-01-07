@@ -53,7 +53,8 @@ jobs:
     - name: Login to Google Cloud
       uses: ./.github/actions/google-cloud-login
       with:
-        secrets: inherit
+        SERVICE_ACCOUNT_EMAIL: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+        WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
       
     - name: Deploy client to Cloud Run
       run: |-
