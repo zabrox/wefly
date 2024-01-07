@@ -9,14 +9,8 @@ const gzipUncompress = util.promisify(zlib.unzip);
 const app = express()
 const port = 8080
 
-const db = new Firestore({
-  projectId: 'wefly-407313',
-  keyFilename: './wefly-407313-855d6567493e.json',
-})
-const storage = new Storage({
-  projectId: 'wefly-407313',
-  keyFilename: './wefly-407313-855d6567493e.json',
-});
+const db = new Firestore()
+const storage = new Storage();
 const bucketName = 'wefly';
 
 app.get('/', (req, res) => {
