@@ -3,6 +3,7 @@ name: Merge to Staging
 permissions:
   contents: read
   id-token: write
+  pull-requests: write
 
 env:
   PROJECT_ID: wefly-407313
@@ -24,7 +25,7 @@ jobs:
       with:
         destination_branch: main
         source_branch: ${{ github.event.repository.default_branch }}
-        pr_title: "[Automated] Merge ${{ github.ref_name }} into ${{ github.event.repository.default_branch }}"
+        pr_title: "[Automated] Realease of ${{ github.ref_name }}"
         pr_body: "Automated Pull Request"
 
     # Automatically merge the pull request if conditions are met
