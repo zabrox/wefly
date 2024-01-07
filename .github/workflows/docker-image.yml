@@ -4,6 +4,9 @@ permissions:
   contents: read
   id-token: write
 
+env:
+  PROJECT_ID: wefly-407313
+  
 on:
   push:
     branches: [ "staging" ]
@@ -31,18 +34,27 @@ jobs:
       run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
       
     - name: Docker build client
-      run: docker build -f Dockerfile.staging -t asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-client:staging .
+      run: docker build -f Dockerfile.staging -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:staging .
       working-directory: ./client
     - name: Docker build api-server
-      run: docker build -t asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-api-server:staging .
+      run: docker build -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:staging .
       working-directory: ./api-server
     - name: Docker build track_loader
-      run: docker build -t asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/track_loader:staging .
+      run: docker build -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:staging .
       working-directory: ./track_loader
   
     - name: Docker push client
-      run : docker push asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-client:staging
+      run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:staging
     - name: Docker push api-server
-      run : docker push asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-api-server:staging
+      run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:staging
     - name: Docker push track_loader
-      run : docker push asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/track_loader:staging
+      run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:staging
+      
+    - name: Deploy to Cloud Run
+      run: |-
+        gcloud run deploy wefly-client-staging \
+          --project=$PROJECT_ID \
+          --image=asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:staging \
+          --region=us-central1 \
+          --service-account=github-action-sa@wefly-407313.iam.gserviceaccount.com \
+          --allow-unauthenticated
