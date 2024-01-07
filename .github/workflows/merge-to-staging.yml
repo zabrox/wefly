@@ -22,6 +22,8 @@ jobs:
 
     - name: Login to Google Cloud
       uses: ./.github/actions/google-cloud-login
+      with:
+        secrets: inherit
       
     - name: Authorize Docker push
       run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
