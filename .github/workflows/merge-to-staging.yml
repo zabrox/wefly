@@ -51,6 +51,9 @@ jobs:
     needs:
       - build-image
     steps:
+    - uses: actions/checkout@v3
+      name: checkout repository
+
     - name: Login to Google Cloud
       uses: ./.github/actions/google-cloud-login
       with:
