@@ -35,11 +35,11 @@ jobs:
       run: docker pull asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:staging
   
     - name: Docker tag client
-      run : docker tag asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:staging -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:${{ github.ref_name }}
+      run : docker tag asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:staging asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:${{ github.ref_name }}
     - name: Docker tag api-server
-      run : docker tag asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:staging -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:${{ github.ref_name }}
+      run : docker tag asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:staging asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:${{ github.ref_name }}
     - name: Docker tag track_loader
-      run : docker tag asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:staging -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:${{ github.ref_name }}
+      run : docker tag asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:staging asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:${{ github.ref_name }}
       
     - name: Docker push client
       run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:${{ github.ref_name }}
