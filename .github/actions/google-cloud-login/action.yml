@@ -1,10 +1,10 @@
 name: 'Google Cloud Login'
 description: 'Authenticate to Google Cloud'
 inputs:
-  SERVICE_ACCOUNT_EMAIL:
+  service_account_email:
     description: 'The service account email to authenticate with'
     required: true
-  WORKLOAD_IDENTITY_PROVIDER:
+  workload_identity_provider:
     description: 'The workload identity provider to authenticate with'
     required: true
 runs:
@@ -14,8 +14,8 @@ runs:
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v0.4.0'
       with:
-        SERVICE_ACCOUNT_EMAIL: ${{ inputs.SERVICE_ACCOUNT_EMAIL }}
-        workload_identity_provider: ${{ inputs.WORKLOAD_IDENTITY_PROVIDER }}
+        service_account_email: ${{ inputs.service_account_email }}
+        workload_identity_provider: ${{ inputs.workload_identity_provider }}
 
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v0
