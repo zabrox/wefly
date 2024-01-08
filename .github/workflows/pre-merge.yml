@@ -1,0 +1,21 @@
+name: Pre-Merge check
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches-ignore:
+      - staging
+      - main
+
+jobs:
+  run-test-on-track-loader:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      name: checkout repository
+
+    - name: run tests
+      run: python3 -m unittest discover -s tests -p 'test_*.py'
+      working-directory: "./track_loader"
