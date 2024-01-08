@@ -99,7 +99,7 @@ export class Track {
 
     showTrackLine(b) {
         this.#showLine = b;
-        this.#trackEntity.show = b;
+        // this.#trackEntity.show = b;
     }
 
     fadeOut() {
@@ -108,7 +108,7 @@ export class Track {
     }
     fadeIn() {
         this.#trackEntity.show = this.#showLine;
-        this.#trackPointEntities.forEach(entity => entity.show = true);
+        this.#trackPointEntities.forEach(entity => entity.show = false);
     }
 
     #initializeTrackPointEntities(viewer, media) {
@@ -123,7 +123,7 @@ export class Track {
                 name: this.pilotname,
                 trackid: this.id,
                 point: {
-                    pixelSize: media.isMobile ? 4: 5,
+                    pixelSize: media.isMobile ? 4 : 5,
                     color: this.color.withAlpha(0.7),
                     outlineColor: Cesium.Color.BLACK.withAlpha(0.5),
                     outlineWidth: 1,
@@ -144,7 +144,11 @@ export class Track {
             polyline: {
                 positions: this.cartesians,
                 width: 4,
-                material: this.color,
+                material: new Cesium.PolylineOutlineMaterialProperty({
+                    color: this.color.brighten(0.5, new Cesium.Color()),
+                    outlineColor: this.color,
+                    outlineWidth: 2,
+                }),
             },
         });
         this.#trackEntity.show = false;
@@ -153,6 +157,47 @@ export class Track {
     initializeTrackEntity(viewer, media) {
         this.#initializeTrackLineEntity(viewer);
         this.#initializeTrackPointEntities(viewer, media);
+    }
+
+    playback(viewer) {
+        const pathEntity = viewer.entities.add({
+            position: new Cesium.SampledPositionProperty(),
+            path: {
+                material: new Cesium.PolylineOutlineMaterialProperty({
+                    color: this.color.brighten(0.5, new Cesium.Color()),
+                    outlineColor: this.color,
+                    outlineWidth: 2,
+                }),
+                width: 4,
+                leadTime: 0,
+                trailTime: 900,
+            }
+        });
+        const positionProperty = pathEntity.position;
+        for (let i = 0; i < this.cartesians.length; i++) {
+            const time = Cesium.JulianDate.fromIso8601(this.times[i].format('YYYY-MM-DDTHH:mm:ssZ'));
+            positionProperty.addSample(time, this.cartesians[i]);
+        };
+        const start = Cesium.JulianDate.fromIso8601(this.times[0].format('YYYY-MM-DDTHH:mm:ssZ'));
+        const stop = Cesium.JulianDate.fromIso8601(this.times[this.times.length - 1].format('YYYY-MM-DDTHH:mm:ssZ'));
+
+        viewer.clock.startTime = start;
+        viewer.clock.stopTime = stop;
+        viewer.clock.currentTime = start.clone();
+        viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP; // Loop at the end
+        viewer.clock.multiplier = 10; // Speed up the playback
+
+        viewer.entities.add({
+            position: positionProperty,
+            point: {
+                pixelSize: 8,
+                color: this.color.brighten(0.5, new Cesium.Color()),
+                outlineColor: this.color.darken(0.2, new Cesium.Color()),
+                outlineWidth: 3,
+                scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.3),
+            }
+        });
+        viewer.clock.shouldAnimate = true;
     }
 }
 

@@ -147,7 +147,8 @@ const handleTrackClick = (state, trackid) => {
     const index = copy_tracks.findIndex(track => track.id === trackid)
     const target_track = copy_tracks[index];
     const show = !target_track.isShowingTrackLine();
-    target_track.showTrackLine(show);
+    //target_track.showTrackLine(show);
+    target_track.playback(viewer);
     setState({ ...state, tracks: copy_tracks });
     if (show) {
         zoomToTracks([target_track]);
