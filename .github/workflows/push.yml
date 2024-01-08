@@ -23,3 +23,17 @@ jobs:
     - name: run tests
       run: python3 -m unittest discover -s tests -p 'test_*.py'
       working-directory: "./track_loader"
+
+  run-test-on-api-server:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      name: checkout repository
+
+    - name: npm install
+      run: npm install
+      working-directory: "./api-server"
+
+    - name: run tests
+      run: npm run test
+      working-directory: "./api-server"
