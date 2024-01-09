@@ -1,6 +1,7 @@
+import React, { useEffect } from "react";
 import * as Cesium from "cesium";
 
-export class CesiumMap {
+class CesiumMap extends React.Component {
     viewer = undefined;
 
     initializeCesium(cesiumContainerRef) {
@@ -89,3 +90,21 @@ export class CesiumMap {
         this.viewer.entities.removeAll();
     }
 }
+
+export const cesiumMap = new CesiumMap();
+
+export const CesiumMapContainer = ({ onTrackPointClick, onTrackGroupClick, tracks, trackGroups }) => {
+    const cesiumContainerRef = React.useRef(null);
+
+    useEffect(() => {
+        cesiumMap.initializeCesium(cesiumContainerRef);
+        cesiumMap.registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick);
+    }, []);
+    useEffect(() => {
+        cesiumMap.registerEventListenerOnCameraMove(tracks, trackGroups);
+    }, [tracks, trackGroups]);
+
+    return (
+        <div ref={cesiumContainerRef} id="cesium" />
+    );
+};

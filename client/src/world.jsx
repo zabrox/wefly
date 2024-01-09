@@ -5,17 +5,15 @@ import { ControlPanel, scrollToTrack } from "./controlpanel";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
-import { CesiumMap } from "./cesiummap";
+import { cesiumMap, CesiumMapContainer } from "./cesiummap";
 import { parseTrackJson, dbscanTracks } from "./track";
 import { Dragger } from "./dragger";
 import { ControlPanelToggle } from "./controlpaneltoggle";
 import { MessageDialog } from "./messagedialog";
 import "./world.css";
 
-let cesiumMap = new CesiumMap();
 let state = undefined;
 let setState = undefined;
-let trackGroups = Array();
 let media = undefined;
 
 const loadTracks = async (state, setState) => {
@@ -36,14 +34,12 @@ const loadTracks = async (state, setState) => {
     // filter tracks less than 5 minutes
     tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
     console.time('dbscanTracks');
-    trackGroups = dbscanTracks(tracks);
+    const trackGroups = dbscanTracks(tracks);
     trackGroups.forEach(group => group.initializeTrackGroupEntity(cesiumMap.viewer));
-    cesiumMap.registerEventHandlerOnPointClick(handleTrackPointClick, handleTrackGroupClick);
-    cesiumMap.registerEventListenerOnCameraMove(tracks, trackGroups);
     console.timeEnd('dbscanTracks');
     cesiumMap.zoomToTracks(tracks);
     initializeTracks(tracks);
-    setState({ ...state, tracks: tracks, loadingTracks: false });
+    setState({ ...state, tracks: tracks, trackGroups: trackGroups, loadingTracks: false });
 };
 
 const parseAllTracks = tracks => {
@@ -92,7 +88,7 @@ const handleTrackPointClick = (entityId) => {
 }
 
 const handleTrackGroupClick = (entityId) => {
-    const group = trackGroups.find(group => group.groupid === entityId.groupid);
+    const group = state['trackGroups'].find(group => group.groupid === entityId.groupid);
     cesiumMap.zoomToTrackGroup(group);
     cesiumMap.viewer.selectedEntity = undefined;
 }
@@ -108,13 +104,14 @@ const judgeMedia = () => {
 }
 
 const World = () => {
-    const cesiumContainerRef = React.useRef(null);
     media = judgeMedia();
     const defaultControlPanelSize = media.isPc ?
         document.documentElement.clientWidth * 0.4 : document.documentElement.clientWidth * 0.85;
 
     [state, setState] = React.useState({
         tracks: [],
+        trackGroups: [],
+        filteredTracks: [],
         date: dayjs(),
         controlPanelSize: defaultControlPanelSize,
         prevControlPanelSize: defaultControlPanelSize,
@@ -122,16 +119,17 @@ const World = () => {
     });
 
     React.useEffect(() => {
-        cesiumMap.initializeCesium(cesiumContainerRef);
         loadTracks(state, setState);
     }, []);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div id='main'>
-                <div
-                    ref={cesiumContainerRef}
-                    id="cesium" />
+                <CesiumMapContainer
+                    onTrackPointClick={handleTrackPointClick}
+                    onTrackGroupClick={handleTrackGroupClick}
+                    tracks={state['tracks']}
+                    trackGroups={state['trackGroups']} />
                 <ControlPanel
                     date={state['date']}
                     onDateChange={(newDate) => handleDateChange(state, setState, newDate)}
