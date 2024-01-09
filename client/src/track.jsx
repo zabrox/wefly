@@ -186,12 +186,6 @@ export class TrackGroup {
         });
         this.#trackGroupEntity.show = this.#show;
     }
-
-    zoomToTrackGroup(viewer) {
-        const cartesians = new Array();
-        this.tracks.forEach(track => cartesians.push(...track.cartesians));
-        viewer.camera.flyToBoundingSphere(Cesium.BoundingSphere.fromPoints(cartesians), { duration: 1 });
-    }
 }
 
 const checkJsonValidity = (json) => {
