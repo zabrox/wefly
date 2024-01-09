@@ -1,5 +1,5 @@
 import { TableHead, TableRow, TableCell, TableSortLabel } from '@mui/material';
-import { AreaSelector } from './areaselector';
+import { TrackFilter } from './trackfilter';
 
 const compareByKey = (key, a, b) => {
     const valueA = typeof a[key] === 'function' ? a[key]() : a[key];
@@ -91,20 +91,22 @@ const handleSort = (header, order, setOrder, orderBy, setOrderBy) => {
     setOrderBy(header);
 };
 
-function listAreas(tracks) {
-    const areaNamesSet = new Set();
+function listTracksBy(key, tracks) {
+    const namesSet = new Set();
 
     tracks.forEach(track => {
-        if (track.area && !areaNamesSet.has(track.area)) {
-            areaNamesSet.add(track.area);
+        if (track[key] && !namesSet.has(track[key])) {
+            namesSet.add(track[key]);
         }
     });
 
-    return Array.from(areaNamesSet).sort();
+    return Array.from(namesSet).sort();
 }
 
-export const TrackListHeader = ({ tracks, order, setOrder, orderBy, setOrderBy, areasFilter, onAreasFilterChange }) => {
-    const areas = listAreas(tracks);
+export const TrackListHeader = ({ tracks, order, setOrder, orderBy, setOrderBy, areasFilter, onAreasFilterChange, pilotsFilter, onPilotsFilterChange, activitiesFilter, onActivitiesFilterChange }) => {
+    const areas = listTracksBy('area', tracks);
+    const pilots = listTracksBy('pilotname', tracks);
+    const activities = listTracksBy('activity', tracks);
     return (
         <TableHead>
             <TableRow id="track-list-header">
@@ -120,10 +122,20 @@ export const TrackListHeader = ({ tracks, order, setOrder, orderBy, setOrderBy, 
                         >
                             {header.label}
                             {header.id === 'area' && (
-                                <AreaSelector
-                                    areas={areas}
-                                    areasFilter={areasFilter}
-                                    onAreasFilterChange={onAreasFilterChange} />)}
+                                <TrackFilter
+                                    filterContents={areas}
+                                    trackFilter={areasFilter}
+                                    onTrackFilterChange={onAreasFilterChange} />)}
+                            {header.id === 'pilotname' && (
+                                <TrackFilter
+                                    filterContents={pilots}
+                                    trackFilter={pilotsFilter}
+                                    onTrackFilterChange={onPilotsFilterChange} />)}
+                            {header.id === 'activity' && (
+                                <TrackFilter
+                                    filterContents={activities}
+                                    trackFilter={activitiesFilter}
+                                    onTrackFilterChange={onActivitiesFilterChange} />)}
                         </TableSortLabel>
                     </TableCell>
                 ))}
