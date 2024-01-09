@@ -110,7 +110,7 @@ export class Track {
     filter(b) {
         this.#filtered = b;
         this.#trackPointEntities.forEach(entity => entity.show = !b);
-        if (this.#trackLineEntity.show === true) {
+        if (this.isShowingTrackLine() === true) {
             this.#trackLineEntity.show = !b;
         }
     }
