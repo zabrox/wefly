@@ -10,6 +10,8 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('starttime');
     const [areasFilter, setAreasFilter] = useState('');
+    const [pilotsFilter, setPilotsFilter] = useState('');
+    const [activitiesFilter, setActivitiesFilter] = useState('');
 
     return (
         <div id='control-panel' style={{ width: controlPanelSize, height: '100%' }}>
@@ -39,13 +41,19 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                             orderBy={orderBy}
                             setOrderBy={setOrderBy}
                             areasFilter={areasFilter}
-                            onAreasFilterChange={setAreasFilter} />
+                            onAreasFilterChange={setAreasFilter}
+                            pilotsFilter={pilotsFilter}
+                            onPilotsFilterChange={setPilotsFilter}
+                            activitiesFilter={activitiesFilter}
+                            onActivitiesFilterChange={setActivitiesFilter} />
                         <TrackListBody
                             tracks={tracks}
                             onTrackClicked={onTrackClicked}
                             orderBy={orderBy}
                             order={order}
                             areasFilter={areasFilter}
+                            pilotsFilter={pilotsFilter}
+                            activitiesFilter={activitiesFilter}
                         />
                     </Table>
                 </TableContainer >
