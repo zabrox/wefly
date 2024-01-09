@@ -8,32 +8,35 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Message from './message.json';
 
 export const MessageDialog = () => {
-  const [open, setOpen] = React.useState(true);
+    if (Message.title === undefined || Message.body === undefined) {
+        return null;
+    }
+    const [open, setOpen] = React.useState(true);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+    const handleClose = () => {
+        setOpen(false);
+    };
 
-  return (
-    <React.Fragment>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          { Message.title }
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            { Message.body }
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>OK</Button>
-        </DialogActions>
-      </Dialog>
-    </React.Fragment>
-  );
+    return (
+        <React.Fragment>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    {Message.title}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {Message.body}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>OK</Button>
+                </DialogActions>
+            </Dialog>
+        </React.Fragment>
+    );
 }
