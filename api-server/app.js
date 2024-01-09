@@ -4,13 +4,9 @@ const { Storage } = require('@google-cloud/storage')
 const fs = require('fs');
 const zlib = require('zlib')
 const util = require('util');
-const gzipUncompress = util.promisify(zlib.unzip);
 
 const app = express()
-const port = 8080
 
-const db = new Firestore()
-const storage = new Storage();
 const bucketName = 'wefly';
 
 app.get('/', (req, res) => {
@@ -31,6 +27,8 @@ app.get('/api/tracklist', (req, res) => {
   startOfDay.setHours(0, 0, 0, 0);
   const endOfDay = new Date(req.query.date)
   endOfDay.setHours(23, 59, 59, 999);
+
+  const db = new Firestore()
   db.collection('tracks')
     .where('lasttime', '>=', startOfDay)
     .where('lasttime', '<=', endOfDay).get()
@@ -51,37 +49,6 @@ app.get('/api/tracklist', (req, res) => {
     })
 })
 
-// cache tracks
-const cache_tracks = (date, tracks_json) => {
-  const cache_dir = './cache';
-  const max_cache_days = 30;
-
-  if (!fs.existsSync(cache_dir)) {
-    fs.mkdirSync(cache_dir);
-  }
-  // return if file exists
-  const cache_file = `${cache_dir}/${date}.json`;
-  if (fs.existsSync(cache_file)) {
-    return;
-  }
-  // rotate cache if cache size is over 10
-  const cache_files = fs.readdirSync(cache_dir);
-  if (cache_files.length >= max_cache_days) {
-    cache_files.sort();
-    fs.unlinkSync(`${cache_dir}/${cache_files[0]}`);
-  }
-  fs.writeFileSync(cache_file, tracks_json);
-}
-
-const read_cache_tracks = (date) => {
-  const cache_dir = './cache';
-  const cache_file = `${cache_dir}/${date}.json`;
-  if (!fs.existsSync(cache_file)) {
-    return null;
-  }
-  return fs.readFileSync(cache_file);
-}
-
 app.get('/api/tracks', async (req, res) => {
   if (req.query.date === undefined) {
     res.status(400).send('Bad Request');
@@ -92,20 +59,14 @@ app.get('/api/tracks', async (req, res) => {
     res.set('Access-Control-Allow-Origin', req.headers.origin);
   }
 
-  // check cache
-  const cache_json = read_cache_tracks(req.query.date);
-  if (cache_json !== null) {
-    res.send(cache_json);
-    return;
-  }
-
   try {
+    const storage = new Storage();
     const bucket = storage.bucket(bucketName);
     const file = bucket.file(`${req.query.date}/japan.json.gz`);
     const fileContentsBuffer = (await file.download())[0];
+    const gzipUncompress = util.promisify(zlib.unzip);
     const uncompressedBuffer = await gzipUncompress(fileContentsBuffer);
 
-    cache_tracks(req.query.date, uncompressedBuffer.toString('utf-8'));
     res.send(uncompressedBuffer.toString('utf-8'));
   } catch (error) {
     console.error('ERROR:', error);
@@ -113,6 +74,4 @@ app.get('/api/tracks', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`WeFly API server listening on port ${port}`)
-})
+module.exports = app

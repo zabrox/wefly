@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { parseTrackJson, dbscanTracks } from "./track";
 import { Dragger } from "./dragger";
 import { ControlPanelToggle } from "./controlpaneltoggle";
+import { MessageDialog } from "./messagedialog";
 import "./world.css";
 
 let viewer = undefined;
@@ -215,6 +216,7 @@ const World = () => {
                 <ControlPanelToggle
                     state={state}
                     setState={setState} />
+                <MessageDialog />
             </div>
         </LocalizationProvider >
     );
