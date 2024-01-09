@@ -51,7 +51,8 @@ export class Track {
     distance = 0;
     activity = "";
     #showLine = false;
-    #trackEntity = undefined;
+    #filtered = false;
+    #trackLineEntity = undefined;
     #trackPointEntities = new Array();
     #maxAltitude = undefined;
 
@@ -99,26 +100,40 @@ export class Track {
 
     showTrackLine(b) {
         this.#showLine = b;
-        this.#trackEntity.show = b;
+        this.#trackLineEntity.show = b;
+    }
+
+    isFiltered() {
+        return this.#filtered;
+    }
+
+    filter(b) {
+        this.#filtered = b;
+        this.#trackPointEntities.forEach(entity => entity.show = !b);
+        if (this.#trackLineEntity.show === true) {
+            this.#trackLineEntity.show = !b;
+        }
     }
 
     fadeOut() {
-        this.#trackEntity.show = false;
+        this.#trackLineEntity.show = false;
         this.#trackPointEntities.forEach(entity => entity.show = false);
     }
     fadeIn() {
-        this.#trackEntity.show = this.#showLine;
-        this.#trackPointEntities.forEach(entity => entity.show = true);
+        if (this.#filtered === false) {
+            this.#trackLineEntity.show = this.#showLine;
+            this.#trackPointEntities.forEach(entity => entity.show = true);
+        }
     }
 
-    #initializeTrackPointEntities(viewer, media) {
+    #initializeTrackPointEntities(cesiumMap, media) {
         let lastPoint = this.times[0];
         this.cartesians.forEach((cartesian, index) => {
             if (this.times[index].diff(lastPoint, 'seconds') < 60) {
                 return;
             }
             lastPoint = this.times[index];
-            this.#trackPointEntities.push(viewer.entities.add({
+            this.#trackPointEntities.push(cesiumMap.viewer.entities.add({
                 position: cartesian,
                 name: this.pilotname,
                 trackid: this.id,
@@ -139,20 +154,20 @@ export class Track {
         });
     };
 
-    #initializeTrackLineEntity(viewer) {
-        this.#trackEntity = viewer.entities.add({
+    #initializeTrackLineEntity(cesiumMap) {
+        this.#trackLineEntity = cesiumMap.viewer.entities.add({
             polyline: {
                 positions: this.cartesians,
                 width: 4,
                 material: this.color,
             },
         });
-        this.#trackEntity.show = false;
+        this.#trackLineEntity.show = false;
     };
 
-    initializeTrackEntity(viewer, media) {
-        this.#initializeTrackLineEntity(viewer);
-        this.#initializeTrackPointEntities(viewer, media);
+    initializeTrackEntity(cesiumMap, media) {
+        this.#initializeTrackLineEntity(cesiumMap);
+        this.#initializeTrackPointEntities(cesiumMap, media);
     }
 }
 
@@ -168,13 +183,13 @@ export class TrackGroup {
         this.#trackGroupEntity.show = b;
     }
 
-    initializeTrackGroupEntity(viewer) {
+    initializeTrackGroupEntity(cesiumMap) {
         const MIN_ICON_SIZE = 30;
         const MAX_ICON_SIZE = 250;
         const COEFFICIENT = (MAX_ICON_SIZE - MIN_ICON_SIZE) / 200;
         let size = MIN_ICON_SIZE + this.tracks.length * COEFFICIENT;
         size = size > MAX_ICON_SIZE ? MAX_ICON_SIZE : size;
-        this.#trackGroupEntity = viewer.entities.add({
+        this.#trackGroupEntity = cesiumMap.viewer.entities.add({
             position: this.cartesian,
             groupid: this.groupid,
             billboard: {
@@ -185,12 +200,6 @@ export class TrackGroup {
             },
         });
         this.#trackGroupEntity.show = this.#show;
-    }
-
-    zoomToTrackGroup(viewer) {
-        const cartesians = new Array();
-        this.tracks.forEach(track => cartesians.push(...track.cartesians));
-        viewer.camera.flyToBoundingSphere(Cesium.BoundingSphere.fromPoints(cartesians), { duration: 1 });
     }
 }
 
