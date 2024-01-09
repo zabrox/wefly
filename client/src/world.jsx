@@ -35,7 +35,7 @@ const loadTracks = async (state, setState) => {
     tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
     console.time('dbscanTracks');
     const trackGroups = dbscanTracks(tracks);
-    trackGroups.forEach(group => group.initializeTrackGroupEntity(cesiumMap.viewer));
+    trackGroups.forEach(group => group.initializeTrackGroupEntity(cesiumMap));
     console.timeEnd('dbscanTracks');
     cesiumMap.zoomToTracks(tracks);
     initializeTracks(tracks);
@@ -54,7 +54,7 @@ const parseAllTracks = tracks => {
 const initializeTracks = tracks => {
     console.time('initializeTracks');
     tracks.forEach((track) => {
-        track.initializeTrackEntity(cesiumMap.viewer, media);
+        track.initializeTrackEntity(cesiumMap, media);
     });
     console.timeEnd('initializeTracks');
 };
@@ -90,7 +90,6 @@ const handleTrackPointClick = (entityId) => {
 const handleTrackGroupClick = (entityId) => {
     const group = state['trackGroups'].find(group => group.groupid === entityId.groupid);
     cesiumMap.zoomToTrackGroup(group);
-    cesiumMap.viewer.selectedEntity = undefined;
 }
 
 const judgeMedia = () => {

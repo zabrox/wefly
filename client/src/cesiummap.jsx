@@ -43,6 +43,7 @@ class CesiumMap extends React.Component {
         const cartesians = new Array();
         group.tracks.forEach(track => cartesians.push(...track.cartesians));
         this.viewer.camera.flyToBoundingSphere(Cesium.BoundingSphere.fromPoints(cartesians), { duration: 1 });
+        this.viewer.selectedEntity = undefined;
     }
 
     registerEventHandlerOnPointClick(handleTrackPointClick, handleTrackGroupClick) {
