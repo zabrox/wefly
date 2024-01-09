@@ -5,52 +5,16 @@ import { ControlPanel, scrollToTrack } from "./controlpanel";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from 'dayjs';
+import { cesiumMap, CesiumMapContainer } from "./cesiummap";
 import { parseTrackJson, dbscanTracks } from "./track";
 import { Dragger } from "./dragger";
 import { ControlPanelToggle } from "./controlpaneltoggle";
 import { MessageDialog } from "./messagedialog";
 import "./world.css";
 
-let viewer = undefined;
 let state = undefined;
 let setState = undefined;
-let trackGroups = Array();
 let media = undefined;
-
-const initializeCesium = (cesiumContainerRef) => {
-    console.debug('initializeCesium');
-    Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNjMxN2Y3Ni04YWU3LTQwNjctYmYyNC05Yjc4MTljOTY3OGYiLCJpZCI6MTY5NTkxLCJpYXQiOjE2OTYyNDYyMTB9.CYkH9qKRpMU0kzQWkjXuvqgr-09nICUdta83AZIxAy8";
-    viewer = new Cesium.Viewer(cesiumContainerRef.current, {
-        terrain: Cesium.Terrain.fromWorldTerrain(),
-        timeline: false,
-        animation: false,
-        baseLayerPicker: false,
-        geocoder: false,
-        homeButton: false,
-        sceneModePicker: false,
-        navigationHelpButton: false,
-        fullscreenButton: false,
-        terrainShadows: Cesium.ShadowMode.DISABLED,
-    });
-    viewer.scene.globe.depthTestAgainstTerrain = false;
-    viewer.fog = new Cesium.Fog({
-        enabled: true,
-        density: 0.0005,
-        minimumBrightness: 1.0,
-    });
-    document.getElementsByClassName('cesium-viewer-bottom')[0].remove();
-    viewer.camera.percentageChanged = 0.0001;
-}
-
-const zoomToTracks = (tracks) => {
-    console.time('zoomToTracks');
-    let cartesians = new Array();
-    if (tracks.length > 0) {
-        tracks.forEach(track => cartesians.push(...track.cartesians));
-        viewer.camera.flyToBoundingSphere(Cesium.BoundingSphere.fromPoints(cartesians), { duration: 1 });
-    }
-    console.timeEnd('zoomToTracks');
-}
 
 const loadTracks = async (state, setState) => {
     setState({ ...state, tracks: [], loadingTracks: true });
@@ -70,12 +34,12 @@ const loadTracks = async (state, setState) => {
     // filter tracks less than 5 minutes
     tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
     console.time('dbscanTracks');
-    trackGroups = dbscanTracks(tracks);
-    trackGroups.forEach(group => group.initializeTrackGroupEntity(viewer));
+    const trackGroups = dbscanTracks(tracks);
+    trackGroups.forEach(group => group.initializeTrackGroupEntity(cesiumMap));
     console.timeEnd('dbscanTracks');
-    zoomToTracks(tracks);
+    cesiumMap.zoomToTracks(tracks);
     initializeTracks(tracks);
-    setState({ ...state, tracks: tracks, loadingTracks: false });
+    setState({ ...state, tracks: tracks, trackGroups: trackGroups, loadingTracks: false });
 };
 
 const parseAllTracks = tracks => {
@@ -90,57 +54,10 @@ const parseAllTracks = tracks => {
 const initializeTracks = tracks => {
     console.time('initializeTracks');
     tracks.forEach((track) => {
-        track.initializeTrackEntity(viewer, media);
+        track.initializeTrackEntity(cesiumMap, media);
     });
     console.timeEnd('initializeTracks');
 };
-
-const registerEventHandlerOnPointClick = () => {
-    // Event handler for clicking on track points
-    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-    handler.setInputAction(function (click) {
-        const pickedObject = viewer.scene.pick(click.position);
-        if (Cesium.defined(pickedObject) && Cesium.defined(pickedObject.id)) {
-            const entityId = pickedObject.id;
-            if (entityId instanceof Cesium.Entity) {
-                if ('trackid' in entityId) {
-                    const track = state.tracks.find(track => track.id === entityId.trackid);
-                    if (!track.isShowingTrackLine()) {
-                        handleTrackClick(state, track.id);
-                    }
-                    setTimeout(() => scrollToTrack(track.id), 100);
-                } else if ('groupid' in entityId) {
-                    const group = trackGroups.find(group => group.groupid === entityId.groupid);
-                    group.zoomToTrackGroup(viewer);
-                    viewer.selectedEntity = undefined;
-                } else {
-                    viewer.selectedEntity = undefined;
-                }
-            }
-        }
-    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-};
-
-const registerEventListenerOnCameraMove = () => {
-    viewer.camera.changed.addEventListener(() => {
-        fadeTracksDependingOnAltitude();
-    });
-}
-
-const fadeTracksDependingOnAltitude = () => {
-    const cameraAltitude = viewer.scene.camera.positionCartographic.height;
-    if (cameraAltitude > 70000) {
-        trackGroups.forEach(group => group.showTrackGroup(true));
-        state['tracks'].forEach(track => {
-            track.fadeOut();
-        });
-    } else {
-        trackGroups.forEach(group => group.showTrackGroup(false));
-        state['tracks'].forEach(track => {
-            track.fadeIn();
-        });
-    }
-}
 
 const handleTrackClick = (state, trackid) => {
     console.debug('handleTrackClick');
@@ -151,15 +68,28 @@ const handleTrackClick = (state, trackid) => {
     target_track.showTrackLine(show);
     setState({ ...state, tracks: copy_tracks });
     if (show) {
-        zoomToTracks([target_track]);
+        cesiumMap.zoomToTracks([target_track]);
     }
 };
 
 const handleDateChange = (state, setState, newDate) => {
     console.debug('handleDateChange');
-    viewer.entities.removeAll();
+    cesiumMap.removeAllEntities();
     const date = dayjs(newDate);
     loadTracks({ ...state, date: date }, setState);
+}
+
+const handleTrackPointClick = (entityId) => {
+    const track = state.tracks.find(track => track.id === entityId.trackid);
+    if (!track.isShowingTrackLine()) {
+        handleTrackClick(state, track.id);
+    }
+    setTimeout(() => scrollToTrack(track.id), 100);
+}
+
+const handleTrackGroupClick = (entityId) => {
+    const group = state['trackGroups'].find(group => group.groupid === entityId.groupid);
+    cesiumMap.zoomToTrackGroup(group);
 }
 
 const judgeMedia = () => {
@@ -173,13 +103,14 @@ const judgeMedia = () => {
 }
 
 const World = () => {
-    const cesiumContainerRef = React.useRef(null);
     media = judgeMedia();
     const defaultControlPanelSize = media.isPc ?
-            document.documentElement.clientWidth * 0.4 : document.documentElement.clientWidth * 0.85;
+        document.documentElement.clientWidth * 0.4 : document.documentElement.clientWidth * 0.85;
 
     [state, setState] = React.useState({
         tracks: [],
+        trackGroups: [],
+        filteredTracks: [],
         date: dayjs(),
         controlPanelSize: defaultControlPanelSize,
         prevControlPanelSize: defaultControlPanelSize,
@@ -187,22 +118,17 @@ const World = () => {
     });
 
     React.useEffect(() => {
-        initializeCesium(cesiumContainerRef);
         loadTracks(state, setState);
-        registerEventHandlerOnPointClick();
-        registerEventListenerOnCameraMove();
-
-        return () => {
-            viewer.destroy();
-        };
     }, []);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div id='main'>
-                <div
-                    ref={cesiumContainerRef}
-                    id="cesium" />
+                <CesiumMapContainer
+                    onTrackPointClick={handleTrackPointClick}
+                    onTrackGroupClick={handleTrackGroupClick}
+                    tracks={state['tracks']}
+                    trackGroups={state['trackGroups']} />
                 <ControlPanel
                     date={state['date']}
                     onDateChange={(newDate) => handleDateChange(state, setState, newDate)}
