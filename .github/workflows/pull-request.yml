@@ -1,0 +1,21 @@
+name: Pull-Request
+
+permissions:
+  pull-requests: write
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  run-test-on-track-loader:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: akiojin/auto-review-github-action@v1
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        with:
+            openai-api-key: ${{ secrets.CHATGPT_API_KEY }}
+            target: 'jsx,js,yml,css,html,md,py'
+            model: 'gpt-4'
+            language: '日本語'
