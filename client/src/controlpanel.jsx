@@ -27,6 +27,8 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                         format="YYYY-MM-DD (ddd)"
                         onChange={(newDate) => {
                             setAreasFilter('');
+                            setPilotsFilter('');
+                            setActivitiesFilter('');
                             onDateChange(newDate)
                         }} />
                 </center>
