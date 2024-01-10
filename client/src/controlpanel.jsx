@@ -1,17 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppBar, Typography, Table, TableContainer, Box } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
 import { ProgressBar } from './progressbar';
 import './controlpanel.css';
+import { Filter } from './trackfilter';
+import { Label } from 'recharts';
 
-export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, controlPanelSize, loadingTracks}) => {
+function listTracksBy(key, tracks) {
+    const namesSet = new Set();
+
+    tracks.forEach(track => {
+        if (track[key] && !namesSet.has(track[key])) {
+            namesSet.add(track[key]);
+        }
+    });
+
+    return Array.from(namesSet).sort();
+}
+
+export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, controlPanelSize, loadingTracks }) => {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('starttime');
-    const [areasFilter, setAreasFilter] = useState('');
-    const [pilotsFilter, setPilotsFilter] = useState('');
-    const [activitiesFilter, setActivitiesFilter] = useState('');
+    const [filter, setFilter] = useState(new Filter());
+
+    useEffect(() => {
+        const newFilter = filter;
+        const areas = listTracksBy('area', tracks);
+        const pilots = listTracksBy('pilotname', tracks);
+        const activities = listTracksBy('activity', tracks);
+        newFilter.setContents(pilots, activities, areas);
+        setFilter(newFilter);
+    }, [tracks]);
+
 
     return (
         <div id='control-panel' style={{ width: controlPanelSize, height: '100%' }}>
@@ -26,13 +48,16 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                         defaultValue={date}
                         format="YYYY-MM-DD (ddd)"
                         onChange={(newDate) => {
-                            setAreasFilter('');
-                            setPilotsFilter('');
-                            setActivitiesFilter('');
+                            const newFilter = filter;
+                            newFilter.clear();
+                            setFilter(newFilter);
                             onDateChange(newDate)
                         }} />
                 </center>
             </div>
+            <Typography id='tracknumber-label' >
+                {filter.filterTracks(tracks).length} tracks
+            </Typography>
             <Box id='tracklist-container'>
                 <TableContainer id='tracklist'>
                     <Table size="medium">
@@ -42,21 +67,14 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                             setOrder={setOrder}
                             orderBy={orderBy}
                             setOrderBy={setOrderBy}
-                            areasFilter={areasFilter}
-                            onAreasFilterChange={setAreasFilter}
-                            pilotsFilter={pilotsFilter}
-                            onPilotsFilterChange={setPilotsFilter}
-                            activitiesFilter={activitiesFilter}
-                            onActivitiesFilterChange={setActivitiesFilter} />
+                            filter={filter}
+                            setFilter={setFilter} />
                         <TrackListBody
                             tracks={tracks}
                             onTrackClicked={onTrackClicked}
                             orderBy={orderBy}
                             order={order}
-                            areasFilter={areasFilter}
-                            pilotsFilter={pilotsFilter}
-                            activitiesFilter={activitiesFilter}
-                        />
+                            filter={filter} />
                     </Table>
                 </TableContainer >
                 <ProgressBar show={loadingTracks} controlPanelSize={controlPanelSize} />

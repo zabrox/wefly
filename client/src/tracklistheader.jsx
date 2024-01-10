@@ -79,34 +79,15 @@ export const Headers = [
         display: (track) => (`${track.distance}km`),
     },
 ];
-const handleSort = (header, order, setOrder, orderBy, setOrderBy) => {
-    // flip the order if the same header is clicked
-    // otherwise, set the order to ascending
-    const targetHeader = Headers.find(h => h.id === header);
-    let newOrder = targetHeader.defaultOrder;
-    if (header === orderBy) {
-        newOrder = order === 'asc' ? 'desc' : 'asc';
-    }
-    setOrder(newOrder);
-    setOrderBy(header);
-};
 
-function listTracksBy(key, tracks) {
-    const namesSet = new Set();
+export const TrackListHeader = ({ tracks, order, setOrder, orderBy, setOrderBy, filter, setFilter }) => {
 
-    tracks.forEach(track => {
-        if (track[key] && !namesSet.has(track[key])) {
-            namesSet.add(track[key]);
-        }
-    });
+    const handleSort = (property) => {
+        const isAcsc = orderBy === property && order === 'asc';
+        setOrder(isAcsc ? 'desc' : 'asc');
+        setOrderBy(property);
+    };
 
-    return Array.from(namesSet).sort();
-}
-
-export const TrackListHeader = ({ tracks, order, setOrder, orderBy, setOrderBy, areasFilter, onAreasFilterChange, pilotsFilter, onPilotsFilterChange, activitiesFilter, onActivitiesFilterChange }) => {
-    const areas = listTracksBy('area', tracks);
-    const pilots = listTracksBy('pilotname', tracks);
-    const activities = listTracksBy('activity', tracks);
     return (
         <TableHead>
             <TableRow id="track-list-header">
@@ -118,24 +99,15 @@ export const TrackListHeader = ({ tracks, order, setOrder, orderBy, setOrderBy, 
                         <TableSortLabel
                             active={orderBy === header.id}
                             direction={orderBy === header.id ? order : 'asc'}
-                            onClick={() => handleSort(header.id, order, setOrder, orderBy, setOrderBy)}
+                            onClick={() => handleSort(header.id)}
                         >
                             {header.label}
-                            {header.id === 'area' && (
+                            {['area', 'pilotname', 'activity'].includes(header.id) && (
                                 <TrackFilter
-                                    filterContents={areas}
-                                    trackFilter={areasFilter}
-                                    onTrackFilterChange={onAreasFilterChange} />)}
-                            {header.id === 'pilotname' && (
-                                <TrackFilter
-                                    filterContents={pilots}
-                                    trackFilter={pilotsFilter}
-                                    onTrackFilterChange={onPilotsFilterChange} />)}
-                            {header.id === 'activity' && (
-                                <TrackFilter
-                                    filterContents={activities}
-                                    trackFilter={activitiesFilter}
-                                    onTrackFilterChange={onActivitiesFilterChange} />)}
+                                    tracks={tracks}
+                                    filterkey={header.id}
+                                    filter={filter}
+                                    setFilter={setFilter} />)}
                         </TableSortLabel>
                     </TableCell>
                 ))}
