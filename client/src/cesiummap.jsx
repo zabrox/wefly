@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import * as Cesium from "cesium";
 import track_group_pin from '/images/track_group_pin.svg';
+import { SCATTER_MODE, PLAYBACK_MODE } from './mode';
 
 class CesiumMap extends React.Component {
     viewer = undefined;
@@ -32,7 +33,7 @@ class CesiumMap extends React.Component {
         this.viewer.camera.percentageChanged = 0.0001;
     }
 
-    trackPointEntitiyId(track, index) {
+    #trackPointEntitiyId(track, index) {
         return `trackpoint-${track.id}-${index}`;
     }
     #initializeTrackPointEntities(track) {
@@ -43,7 +44,7 @@ class CesiumMap extends React.Component {
             }
             lastPoint = track.times[index];
             this.viewer.entities.add({
-                id: this.trackPointEntitiyId(track, index),
+                id: this.#trackPointEntitiyId(track, index),
                 trackid: track.id,
                 position: cartesian,
                 name: track.pilotname,
@@ -64,12 +65,12 @@ class CesiumMap extends React.Component {
         });
     };
 
-    tracklineEntitiyId(track) {
+    #tracklineEntitiyId(track) {
         return `trackline-${track.id}`;
     }
     #initializeTrackLineEntity(track) {
         this.viewer.entities.add({
-            id: this.tracklineEntitiyId(track),
+            id: this.#tracklineEntitiyId(track),
             polyline: {
                 positions: track.cartesians,
                 width: 4,
@@ -165,10 +166,10 @@ class CesiumMap extends React.Component {
                 hidden.push(track);
                 return;
             }
-            const entity = this.viewer.entities.getById(this.tracklineEntitiyId(track));
+            const entity = this.viewer.entities.getById(this.#tracklineEntitiyId(track));
             entity.show = track.isSelected();
             for (let i = 0; i < track.cartesians.length; i++) {
-                const entity = this.viewer.entities.getById(this.trackPointEntitiyId(track, i));
+                const entity = this.viewer.entities.getById(this.#trackPointEntitiyId(track, i));
                 if (entity === undefined) {
                     continue;
                 }
@@ -179,10 +180,11 @@ class CesiumMap extends React.Component {
     }
     #hideTracks(tracks) {
         tracks.forEach(track => {
-            const entity = this.viewer.entities.getById(this.tracklineEntitiyId(track));
+            const entity = this.viewer.entities.getById(this.#tracklineEntitiyId(track));
+            if (entity === undefined) return;
             entity.show = false;
             for (let i = 0; i < track.cartesians.length; i++) {
-                const entity = this.viewer.entities.getById(this.trackPointEntitiyId(track, i));
+                const entity = this.viewer.entities.getById(this.#trackPointEntitiyId(track, i));
                 if (entity === undefined) {
                     continue;
                 }
@@ -208,28 +210,57 @@ class CesiumMap extends React.Component {
         });
     }
 
+    #showTimeline() {
+        const timelineElement = document.querySelector('.cesium-viewer-timelineContainer');
+        if (timelineElement) {
+            timelineElement.style.display = 'block';
+        }
+        const animationElement = document.querySelector('.cesium-viewer-animationContainer');
+        if (animationElement) {
+            animationElement.style.display = 'block';
+        }
+    }
+    #hideTimeline() {
+        const timelineElement = document.querySelector('.cesium-viewer-timelineContainer');
+        if (timelineElement) {
+            timelineElement.style.display = 'none';
+        }
+        const animationElement = document.querySelector('.cesium-viewer-animationContainer');
+        if (animationElement) {
+            animationElement.style.display = 'none';
+        }
+    }
+
+
     #isHighAltitude() {
         const cameraAltitude = this.viewer.scene.camera.positionCartographic.height;
         return cameraAltitude > 70000;
     }
-    render(tracks, trackGroups, filter) {
-        if (this.#isHighAltitude()) {
-            this.#showTrackGroups(trackGroups);
-            this.#hideTracks(tracks);
-        } else {
+    render(tracks, trackGroups, filter, mode) {
+        if (mode == SCATTER_MODE) {
+            if (this.#isHighAltitude()) {
+                this.#showTrackGroups(trackGroups);
+                this.#hideTracks(tracks);
+            } else {
+                this.#hideTrackGroups(trackGroups);
+                this.#showTracks(tracks, filter);
+            }
+            this.#hideTimeline();
+        } else if (mode == PLAYBACK_MODE) {
             this.#hideTrackGroups(trackGroups);
-            this.#showTracks(tracks, filter);
+            this.#hideTracks(tracks);
+            this.#showTimeline();
         }
     }
 
-    registerEventListenerOnCameraMove(tracks, trackGroups, filter) {
+    registerEventListenerOnCameraMove(tracks, trackGroups, filter, mode) {
         if (this.#removeCameraMoveEvent !== undefined) {
             this.#removeCameraMoveEvent();
         }
         this.#removeCameraMoveEvent = this.viewer.camera.changed.addEventListener(() => {
             if (this.#isHighAltitude() == this.#highAltitude) return;
             this.#highAltitude = this.#isHighAltitude();
-            this.render(tracks, trackGroups, filter);
+            this.render(tracks, trackGroups, filter, mode);
         });
     }
 
@@ -240,7 +271,7 @@ class CesiumMap extends React.Component {
 
 export const cesiumMap = new CesiumMap();
 
-export const CesiumMapContainer = ({ onTrackPointClick, onTrackGroupClick, tracks, trackGroups, filter }) => {
+export const CesiumMapContainer = ({ onTrackPointClick, onTrackGroupClick, tracks, trackGroups, filter, mode }) => {
     const cesiumContainerRef = React.useRef(null);
 
     useEffect(() => {
@@ -248,9 +279,9 @@ export const CesiumMapContainer = ({ onTrackPointClick, onTrackGroupClick, track
         cesiumMap.registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick);
     }, []);
     useEffect(() => {
-        cesiumMap.registerEventListenerOnCameraMove(tracks, trackGroups, filter);
-        cesiumMap.render(tracks, trackGroups, filter);
-    }, [tracks, trackGroups, filter]);
+        cesiumMap.registerEventListenerOnCameraMove(tracks, trackGroups, filter, mode);
+        cesiumMap.render(tracks, trackGroups, filter, mode);
+    }, [tracks, trackGroups, filter, mode]);
 
     return (
         <div ref={cesiumContainerRef} id="cesium" />

@@ -1,5 +1,4 @@
 import React from "react";
-import * as Cesium from "cesium";
 import axios from "axios";
 import { ControlPanel, scrollToTrack } from "./controlpanel";
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -11,6 +10,8 @@ import { Dragger } from "./dragger";
 import { ControlPanelToggle } from "./controlpaneltoggle";
 import { MessageDialog } from "./messagedialog";
 import { Filter } from './trackfilter';
+import { stopPlayback } from './playbacker';
+import { PLAYBACK_MODE, SCATTER_MODE } from './mode';
 import "./world.css";
 
 let state = undefined;
@@ -38,7 +39,7 @@ const loadTracks = async (state, setState) => {
     const trackGroups = dbscanTracks(tracks);
     console.timeEnd('dbscanTracks');
     cesiumMap.onTrackLoad(tracks, trackGroups, state.filter);
-    setState({ ...state, tracks: tracks, trackGroups: trackGroups, loadingTracks: false });
+    setState({ ...state, tracks: tracks, trackGroups: trackGroups, loadingTracks: false, mode: SCATTER_MODE });
 };
 
 const parseAllTracks = tracks => {
@@ -65,6 +66,7 @@ const handleTrackClick = (state, trackid) => {
 
 const handleDateChange = (state, setState, newDate) => {
     console.debug('handleDateChange');
+    stopPlayback((mode) => setState({ ...state, mode: mode }));
     cesiumMap.removeAllEntities();
     const date = dayjs(newDate);
     loadTracks({ ...state, date: date }, setState);
@@ -105,6 +107,7 @@ const World = () => {
         controlPanelSize: defaultControlPanelSize,
         loadingTracks: false,
         filter: new Filter(),
+        mode: SCATTER_MODE,
     });
 
     React.useEffect(() => {
@@ -120,7 +123,8 @@ const World = () => {
                     tracks={state.tracks}
                     trackGroups={state.trackGroups}
                     setState={setState}
-                    filter={state.filter} />
+                    filter={state.filter}
+                    mode={state.mode} />
                 <ControlPanel
                     date={state.date}
                     onDateChange={(newDate) => handleDateChange(state, setState, newDate)}
@@ -129,7 +133,9 @@ const World = () => {
                     controlPanelSize={state.controlPanelSize}
                     loadingTracks={state.loadingTracks}
                     filter={state.filter}
-                    setFilter={(filter) => setState({...state, filter: filter})} />
+                    setFilter={(filter) => setState({ ...state, filter: filter })}
+                    mode={state.mode}
+                    setMode={(mode) => setState({ ...state, mode: mode })} />
                 <Dragger
                     controlPanelSize={state.controlPanelSize}
                     setControlPanelSize={(width) => setState({ ...state, controlPanelSize: width })} />

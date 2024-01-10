@@ -1,10 +1,13 @@
 import * as Cesium from 'cesium';
 import { cesiumMap } from './cesiummap';
+import { SCATTER_MODE, PLAYBACK_MODE } from './mode';
 
 const speed = 20;
 const trailTime = 900;
 
-export const playback = (targetTracks, allTracks) => {
+let playbackEntities = [];
+
+export const playback = (targetTracks, setMode) => {
     if (targetTracks.length === 0) {
         return;
     }
@@ -31,13 +34,14 @@ export const playback = (targetTracks, allTracks) => {
                 trailTime: trailTime,
             }
         });
+        playbackEntities.push(pathEntity);
         const positionProperty = pathEntity.position;
         for (let i = 0; i < track.cartesians.length; i++) {
             const time = Cesium.JulianDate.fromIso8601(track.times[i].format('YYYY-MM-DDTHH:mm:ssZ'));
             positionProperty.addSample(time, track.cartesians[i]);
         };
 
-        cesiumMap.viewer.entities.add({
+        playbackEntities.push(cesiumMap.viewer.entities.add({
             position: positionProperty,
             point: {
                 pixelSize: 8,
@@ -46,15 +50,25 @@ export const playback = (targetTracks, allTracks) => {
                 outlineWidth: 3,
                 scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.3),
             }
-        });
+        }));
     });
+    setMode(PLAYBACK_MODE);
+    cesiumMap.viewer.animation.viewModel.timeFormatter = (date, viewModel) => {
+        date = Cesium.JulianDate.toDate(date);
+        return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    };
     cesiumMap.viewer.timeline.updateFromClock();
     cesiumMap.viewer.timeline.zoomTo(start, stop);
-    cesiumMap.viewer.clock.shouldAnimate = true;
     cesiumMap.zoomToTracks([sorted[0]]);
+    setTimeout(() => cesiumMap.viewer.clock.shouldAnimate = true, 2000);
+
 }
 
-export const stopPlayback = () => {
+export const stopPlayback = (setMode) => {
     cesiumMap.viewer.clock.shouldAnimate = false;
-    cesiumMap.viewer.entities.removeAll();
+    playbackEntities.forEach(entity => {
+        cesiumMap.viewer.entities.remove(entity);
+    })
+    playbackEntities = [];
+    setMode(SCATTER_MODE);
 }

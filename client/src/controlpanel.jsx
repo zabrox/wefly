@@ -5,7 +5,9 @@ import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
 import { ProgressBar } from './progressbar';
 import './controlpanel.css';
-import { ActionDial } from './actiondial';
+import { ScatterModeActionDial } from './scattermodeactiondial';
+import { PlaybackModeActionDial } from './playbackmodeactiondial';
+import { PLAYBACK_MODE, SCATTER_MODE } from './mode';
 
 function listTracksBy(key, tracks) {
     const namesSet = new Set();
@@ -19,7 +21,8 @@ function listTracksBy(key, tracks) {
     return Array.from(namesSet).sort();
 }
 
-export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, controlPanelSize, loadingTracks, filter, setFilter }) => {
+export const ControlPanel = (
+    { date, onDateChange, tracks, onTrackClicked, controlPanelSize, loadingTracks, filter, setFilter, mode, setMode }) => {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('starttime');
 
@@ -31,7 +34,6 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
         newFilter.setContents(pilots, activities, areas);
         setFilter(newFilter);
     }, [tracks]);
-
 
     return (
         <div id='control-panel' style={{ width: controlPanelSize, height: '100%' }}>
@@ -77,7 +79,12 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                 </TableContainer >
                 <ProgressBar show={loadingTracks} controlPanelSize={controlPanelSize} />
             </Box>
-            <ActionDial tracks={tracks} controlPanelSize={controlPanelSize}></ActionDial>
+            {mode == SCATTER_MODE &&
+                <ScatterModeActionDial tracks={tracks} filter={filter} controlPanelSize={controlPanelSize} setMode={setMode}></ScatterModeActionDial>
+            }
+            {mode == PLAYBACK_MODE &&
+                <PlaybackModeActionDial controlPanelSize={controlPanelSize} setMode={setMode}></PlaybackModeActionDial>
+            }
         </div >
     );
 };
