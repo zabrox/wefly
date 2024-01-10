@@ -4,6 +4,8 @@ import track_group_pin from '/images/track_group_pin.svg';
 
 class CesiumMap extends React.Component {
     viewer = undefined;
+    #highAltitude = true;
+    #removeCameraMoveEvent;
 
     initializeCesium(cesiumContainerRef) {
         console.debug('initializeCesium');
@@ -157,7 +159,6 @@ class CesiumMap extends React.Component {
     };
 
     #showTracks(tracks, filter) {
-        console.log(filter);
         const hidden = [];
         tracks.forEach(track => {
             if (filter.filtersTrack(track)) {
@@ -193,19 +194,26 @@ class CesiumMap extends React.Component {
     #showTrackGroups(trackGroups) {
         trackGroups.forEach(group => {
             const entity = this.viewer.entities.getById(this.#trackGroupEntitiyId(group));
-            entity.show = true;
+            if (entity !== undefined) {
+                entity.show = true;
+            }
         });
     }
     #hideTrackGroups(trackGroups) {
         trackGroups.forEach(group => {
             const entity = this.viewer.entities.getById(this.#trackGroupEntitiyId(group));
-            entity.show = false;
+            if (entity !== undefined) {
+                entity.show = false;
+            }
         });
     }
 
-    render(tracks, trackGroups, filter) {
+    #isHighAltitude() {
         const cameraAltitude = this.viewer.scene.camera.positionCartographic.height;
-        if (cameraAltitude > 70000) {
+        return cameraAltitude > 70000;
+    }
+    render(tracks, trackGroups, filter) {
+        if (this.#isHighAltitude()) {
             this.#showTrackGroups(trackGroups);
             this.#hideTracks(tracks);
         } else {
@@ -215,7 +223,12 @@ class CesiumMap extends React.Component {
     }
 
     registerEventListenerOnCameraMove(tracks, trackGroups, filter) {
-        this.viewer.camera.changed.addEventListener(() => {
+        if (this.#removeCameraMoveEvent !== undefined) {
+            this.#removeCameraMoveEvent();
+        }
+        this.#removeCameraMoveEvent = this.viewer.camera.changed.addEventListener(() => {
+            if (this.#isHighAltitude() == this.#highAltitude) return;
+            this.#highAltitude = this.#isHighAltitude();
             this.render(tracks, trackGroups, filter);
         });
     }

@@ -53,13 +53,6 @@ export class Filter {
     }
 }
 
-const filterTrackEntities = (tracks, filter) => {
-    const unfiltered = filter.filterTracks(tracks);
-    const filtered = tracks.filter((track) => !unfiltered.includes(track));
-    filtered.forEach((track) => track.filter(true));
-    unfiltered.forEach((track) => track.filter(false));
-}
-
 export const TrackFilter = ({ tracks, filterkey, filter, setFilter }) => {
     const [showTrackFilter, setShowTrackFilter] = useState(false);
 
@@ -75,7 +68,6 @@ export const TrackFilter = ({ tracks, filterkey, filter, setFilter }) => {
         }
 
         setFilter(newTrackFilter);
-        filterTrackEntities(tracks, newTrackFilter);
     };
 
     return (
