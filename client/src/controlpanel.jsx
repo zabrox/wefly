@@ -5,7 +5,6 @@ import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
 import { ProgressBar } from './progressbar';
 import './controlpanel.css';
-import { Filter } from './trackfilter';
 import { ActionDial } from './actiondial';
 
 function listTracksBy(key, tracks) {
@@ -20,10 +19,9 @@ function listTracksBy(key, tracks) {
     return Array.from(namesSet).sort();
 }
 
-export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, controlPanelSize, loadingTracks }) => {
+export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, controlPanelSize, loadingTracks, filter, setFilter }) => {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('starttime');
-    const [filter, setFilter] = useState(new Filter());
 
     useEffect(() => {
         const newFilter = filter;

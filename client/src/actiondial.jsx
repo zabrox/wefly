@@ -32,10 +32,10 @@ export const ActionDial = ({ tracks, controlPanelSize }) => {
                 icon={<PlayArrowIcon />}
                 tooltipTitle='再生'
                 tooltipOpen
-                onClick={() => {
-                    const selectedTracks = tracks.filter(track => !track.isFiltered() && track.isShowingTrackLine());
-                    playback(selectedTracks);
-                }}
+                // onClick={() => {
+                //     const selectedTracks = tracks.filter(track => !track.isFiltered() && track.isSelected());
+                //     playback(selectedTracks);
+                // }}
                 />
             <SpeedDialAction
                 key='全て再生'

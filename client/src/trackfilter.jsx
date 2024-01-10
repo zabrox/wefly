@@ -14,8 +14,8 @@ export class Filter {
 
     constructor(instance) {
         if (instance) {
-            this.contents = {...instance.contents};
-            this.filters = {...instance.filters};
+            this.contents = { ...instance.contents };
+            this.filters = { ...instance.filters };
         } else {
             this.contents[this.PILOTNAME_KEY] = new Array();
             this.contents[this.ACTIVITY_KEY] = new Array();
@@ -44,6 +44,12 @@ export class Filter {
                 (this.filters[this.ACTIVITY_KEY].length == 0 || this.filters[this.ACTIVITY_KEY].includes(track.activity)) &&
                 (this.filters[this.AREA_KEY].length == 0 || this.filters[this.AREA_KEY].includes(track.area));
         });
+    }
+
+    filtersTrack(track) {
+        return !((this.filters[this.PILOTNAME_KEY].length == 0 || this.filters[this.PILOTNAME_KEY].includes(track.pilotname)) &&
+            (this.filters[this.ACTIVITY_KEY].length == 0 || this.filters[this.ACTIVITY_KEY].includes(track.activity)) &&
+            (this.filters[this.AREA_KEY].length == 0 || this.filters[this.AREA_KEY].includes(track.area)));
     }
 }
 
