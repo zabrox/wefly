@@ -6,6 +6,7 @@ import { TrackListBody } from './tracklistbody';
 import { ProgressBar } from './progressbar';
 import './controlpanel.css';
 import { Filter } from './trackfilter';
+import { Label } from 'recharts';
 
 function listTracksBy(key, tracks) {
     const namesSet = new Set();
@@ -54,6 +55,9 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                         }} />
                 </center>
             </div>
+            <Typography id='tracknumber-label' >
+                {filter.filterTracks(tracks).length} tracks
+            </Typography>
             <Box id='tracklist-container'>
                 <TableContainer id='tracklist'>
                     <Table size="medium">
