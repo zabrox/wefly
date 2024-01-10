@@ -55,7 +55,7 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                         }} />
                 </center>
             </div>
-            <Typography id='tracknumber-label' >
+            <Typography id='tracknumber-label' style={controlPanelSize === 0 ? { display: 'none' } : {}}>
                 {filter.filterTracks(tracks).length} tracks
             </Typography>
             <Box id='tracklist-container'>
