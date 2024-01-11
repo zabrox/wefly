@@ -48,7 +48,7 @@ export const playback = (targetTracks, setMode) => {
                 color: track.color.brighten(0.5, new Cesium.Color()),
                 outlineColor: track.color.darken(0.2, new Cesium.Color()),
                 outlineWidth: 3,
-                scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.3),
+                scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 1.0),
             }
         }));
     });
