@@ -14,8 +14,8 @@ export class Filter {
 
     constructor(instance) {
         if (instance) {
-            this.contents = {...instance.contents};
-            this.filters = {...instance.filters};
+            this.contents = { ...instance.contents };
+            this.filters = { ...instance.filters };
         } else {
             this.contents[this.PILOTNAME_KEY] = new Array();
             this.contents[this.ACTIVITY_KEY] = new Array();
@@ -45,13 +45,12 @@ export class Filter {
                 (this.filters[this.AREA_KEY].length == 0 || this.filters[this.AREA_KEY].includes(track.area));
         });
     }
-}
 
-const filterTrackEntities = (tracks, filter) => {
-    const unfiltered = filter.filterTracks(tracks);
-    const filtered = tracks.filter((track) => !unfiltered.includes(track));
-    filtered.forEach((track) => track.filter(true));
-    unfiltered.forEach((track) => track.filter(false));
+    filtersTrack(track) {
+        return !((this.filters[this.PILOTNAME_KEY].length == 0 || this.filters[this.PILOTNAME_KEY].includes(track.pilotname)) &&
+            (this.filters[this.ACTIVITY_KEY].length == 0 || this.filters[this.ACTIVITY_KEY].includes(track.activity)) &&
+            (this.filters[this.AREA_KEY].length == 0 || this.filters[this.AREA_KEY].includes(track.area)));
+    }
 }
 
 export const TrackFilter = ({ tracks, filterkey, filter, setFilter }) => {
@@ -69,7 +68,6 @@ export const TrackFilter = ({ tracks, filterkey, filter, setFilter }) => {
         }
 
         setFilter(newTrackFilter);
-        filterTrackEntities(tracks, newTrackFilter);
     };
 
     return (

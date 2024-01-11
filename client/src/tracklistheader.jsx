@@ -24,7 +24,7 @@ const cutDownAreaName = (area) => {
 export const Headers = [
     {
         id: 'activity',
-        label: 'Activity',
+        label: '種別',
         numeric: false,
         defaultOrder: 'asc',
         comparator: compareByKey.bind(null, 'activity'),
@@ -32,7 +32,7 @@ export const Headers = [
     },
     {
         id: 'pilotname',
-        label: 'Pilot',
+        label: 'パイロット',
         numeric: false,
         defaultOrder: 'asc',
         comparator: compareByKey.bind(null, 'pilotname'),
@@ -40,7 +40,7 @@ export const Headers = [
     },
     {
         id: 'area',
-        label: 'Area',
+        label: 'エリア',
         numeric: false,
         defaultOrder: 'asc',
         comparator: compareByKey.bind(null, 'area'),
@@ -48,7 +48,7 @@ export const Headers = [
     },
     {
         id: 'starttime',
-        label: 'Start',
+        label: '開始時刻',
         numeric: false,
         defaultOrder: 'asc',
         comparator: compareByKey.bind(null, 'startTime'),
@@ -56,7 +56,7 @@ export const Headers = [
     },
     {
         id: 'duration',
-        label: 'Duration',
+        label: '飛行時間',
         numeric: true,
         defaultOrder: 'desc',
         comparator: compareByKey.bind(null, 'duration'),
@@ -64,7 +64,7 @@ export const Headers = [
     },
     {
         id: 'maxalt',
-        label: 'Max Alt.',
+        label: '最高高度',
         numeric: true,
         defaultOrder: 'desc',
         comparator: compareByKey.bind(null, 'maxAltitude'),
@@ -72,7 +72,7 @@ export const Headers = [
     },
     {
         id: 'distance',
-        label: 'Distance',
+        label: '距離',
         numeric: true,
         defaultOrder: 'desc',
         comparator: compareByKey.bind(null, 'distance'),
