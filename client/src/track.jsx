@@ -1,7 +1,6 @@
 import * as Cesium from "cesium";
 import dayjs from "dayjs";
 import * as dbscan from 'density-clustering';
-import track_group_pin from '/images/track_group_pin.svg';
 
 const colorpallete = [
     Cesium.Color.AQUA,
@@ -50,10 +49,7 @@ export class Track {
     id;
     distance = 0;
     activity = "";
-    #showLine = false;
-    #filtered = false;
-    #trackLineEntity = undefined;
-    #trackPointEntities = new Array();
+    #selected = false;
     #maxAltitude = undefined;
 
     constructor() {
@@ -94,80 +90,11 @@ export class Track {
         return this.#maxAltitude;
     }
 
-    isShowingTrackLine() {
-        return this.#showLine;
+    isSelected() {
+        return this.#selected;
     }
-
-    showTrackLine(b) {
-        this.#showLine = b;
-        this.#trackLineEntity.show = b;
-    }
-
-    isFiltered() {
-        return this.#filtered;
-    }
-
-    filter(b) {
-        this.#filtered = b;
-        this.#trackPointEntities.forEach(entity => entity.show = !b);
-        if (this.isShowingTrackLine() === true) {
-            this.#trackLineEntity.show = !b;
-        }
-    }
-
-    fadeOut() {
-        this.#trackLineEntity.show = false;
-        this.#trackPointEntities.forEach(entity => entity.show = false);
-    }
-    fadeIn() {
-        if (this.#filtered === false) {
-            this.#trackLineEntity.show = this.#showLine;
-            this.#trackPointEntities.forEach(entity => entity.show = true);
-        }
-    }
-
-    #initializeTrackPointEntities(cesiumMap, media) {
-        let lastPoint = this.times[0];
-        this.cartesians.forEach((cartesian, index) => {
-            if (this.times[index].diff(lastPoint, 'seconds') < 60) {
-                return;
-            }
-            lastPoint = this.times[index];
-            this.#trackPointEntities.push(cesiumMap.viewer.entities.add({
-                position: cartesian,
-                name: this.pilotname,
-                trackid: this.id,
-                point: {
-                    pixelSize: media.isMobile ? 4: 5,
-                    color: this.color.withAlpha(0.7),
-                    outlineColor: Cesium.Color.BLACK.withAlpha(0.5),
-                    outlineWidth: 1,
-                    scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.3),
-                },
-                description: `
-                    <table>
-                        <tr><th>Time</th><td>${this.times[index].format('YYYY-MM-DD HH:mm:ss')}</td></tr>
-                        <tr><th>Altitude</th><td>${this.altitudes[index]}m</td></tr>
-                    </table>
-                `,
-            }));
-        });
-    };
-
-    #initializeTrackLineEntity(cesiumMap) {
-        this.#trackLineEntity = cesiumMap.viewer.entities.add({
-            polyline: {
-                positions: this.cartesians,
-                width: 4,
-                material: this.color,
-            },
-        });
-        this.#trackLineEntity.show = false;
-    };
-
-    initializeTrackEntity(cesiumMap, media) {
-        this.#initializeTrackLineEntity(cesiumMap);
-        this.#initializeTrackPointEntities(cesiumMap, media);
+    select(b) {
+        this.#selected = b;
     }
 }
 
@@ -175,32 +102,6 @@ export class TrackGroup {
     groupid = 0;
     cartesian = new Cesium.Cartesian3();
     tracks = new Array();
-    #show = false;
-    #trackGroupEntity = undefined;
-
-    showTrackGroup(b) {
-        this.#show = b;
-        this.#trackGroupEntity.show = b;
-    }
-
-    initializeTrackGroupEntity(cesiumMap) {
-        const MIN_ICON_SIZE = 30;
-        const MAX_ICON_SIZE = 250;
-        const COEFFICIENT = (MAX_ICON_SIZE - MIN_ICON_SIZE) / 200;
-        let size = MIN_ICON_SIZE + this.tracks.length * COEFFICIENT;
-        size = size > MAX_ICON_SIZE ? MAX_ICON_SIZE : size;
-        this.#trackGroupEntity = cesiumMap.viewer.entities.add({
-            position: this.cartesian,
-            groupid: this.groupid,
-            billboard: {
-                image: track_group_pin,
-                height: size,
-                width: size * 5 / 6,
-                pixelOffset: new Cesium.Cartesian2(0, -size / 2),
-            },
-        });
-        this.#trackGroupEntity.show = this.#show;
-    }
 }
 
 const checkJsonValidity = (json) => {

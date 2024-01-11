@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { AppBar, Typography, Table, TableContainer, Box } from '@mui/material';
+import { AppBar, Typography, Table, TableContainer, Box, SpeedDial } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
 import { ProgressBar } from './progressbar';
 import './controlpanel.css';
-import { Filter } from './trackfilter';
-import { Label } from 'recharts';
+import { ScatterModeActionDial } from './scattermodeactiondial';
+import { PlaybackModeActionDial } from './playbackmodeactiondial';
+import { PLAYBACK_MODE, SCATTER_MODE } from './mode';
 
 function listTracksBy(key, tracks) {
     const namesSet = new Set();
@@ -20,10 +21,10 @@ function listTracksBy(key, tracks) {
     return Array.from(namesSet).sort();
 }
 
-export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, controlPanelSize, loadingTracks }) => {
+export const ControlPanel = (
+    { date, onDateChange, tracks, onTrackClicked, controlPanelSize, loadingTracks, filter, setFilter, mode, setMode }) => {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('starttime');
-    const [filter, setFilter] = useState(new Filter());
 
     useEffect(() => {
         const newFilter = filter;
@@ -33,7 +34,6 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
         newFilter.setContents(pilots, activities, areas);
         setFilter(newFilter);
     }, [tracks]);
-
 
     return (
         <div id='control-panel' style={{ width: controlPanelSize, height: '100%' }}>
@@ -79,6 +79,12 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                 </TableContainer >
                 <ProgressBar show={loadingTracks} controlPanelSize={controlPanelSize} />
             </Box>
+            {mode == SCATTER_MODE &&
+                <ScatterModeActionDial tracks={tracks} filter={filter} controlPanelSize={controlPanelSize} setMode={setMode}></ScatterModeActionDial>
+            }
+            {mode == PLAYBACK_MODE &&
+                <PlaybackModeActionDial controlPanelSize={controlPanelSize} setMode={setMode}></PlaybackModeActionDial>
+            }
         </div >
     );
 };

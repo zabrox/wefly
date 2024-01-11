@@ -13,7 +13,7 @@ const mapTracksToTableRows = (tracks, onTrackClicked) => {
             id={`trackrow-${track.id}`}
             onClick={() => { onTrackClicked(track.id) }}
             style={{
-                backgroundColor: track.isShowingTrackLine() ? track.color.withAlpha(0.6).toCssHexString() : '',
+                backgroundColor: track.isSelected() ? track.color.withAlpha(0.6).toCssHexString() : '',
             }}>{
                 Headers.map((header) => (
                     <TrackCell key={track.pilotname + header.id} track={track} header={header} />

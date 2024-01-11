@@ -1,5 +1,4 @@
 import React from "react";
-import * as Cesium from "cesium";
 import axios from "axios";
 import { ControlPanel, scrollToTrack } from "./controlpanel";
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -10,6 +9,9 @@ import { parseTrackJson, dbscanTracks } from "./track";
 import { Dragger } from "./dragger";
 import { ControlPanelToggle } from "./controlpaneltoggle";
 import { MessageDialog } from "./messagedialog";
+import { Filter } from './trackfilter';
+import { stopPlayback } from './playbacker';
+import { PLAYBACK_MODE, SCATTER_MODE } from './mode';
 import "./world.css";
 
 let state = undefined;
@@ -18,7 +20,7 @@ let media = undefined;
 
 const loadTracks = async (state, setState) => {
     setState({ ...state, tracks: [], loadingTracks: true });
-    const date = state['date'];
+    const date = state.date;
     const tracksurl = `${import.meta.env.VITE_API_URL}/tracks?date=`;
     let response = undefined;
     try {
@@ -35,11 +37,9 @@ const loadTracks = async (state, setState) => {
     tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
     console.time('dbscanTracks');
     const trackGroups = dbscanTracks(tracks);
-    trackGroups.forEach(group => group.initializeTrackGroupEntity(cesiumMap));
     console.timeEnd('dbscanTracks');
-    cesiumMap.zoomToTracks(tracks);
-    initializeTracks(tracks);
-    setState({ ...state, tracks: tracks, trackGroups: trackGroups, loadingTracks: false });
+    cesiumMap.onTrackLoad(tracks, trackGroups, state.filter);
+    setState({ ...state, tracks: tracks, trackGroups: trackGroups, loadingTracks: false, mode: SCATTER_MODE });
 };
 
 const parseAllTracks = tracks => {
@@ -51,44 +51,37 @@ const parseAllTracks = tracks => {
     return parsedTracks;
 };
 
-const initializeTracks = tracks => {
-    console.time('initializeTracks');
-    tracks.forEach((track) => {
-        track.initializeTrackEntity(cesiumMap, media);
-    });
-    console.timeEnd('initializeTracks');
-};
-
 const handleTrackClick = (state, trackid) => {
     console.debug('handleTrackClick');
-    const copy_tracks = [...state['tracks']];
+    const copy_tracks = [...state.tracks];
     const index = copy_tracks.findIndex(track => track.id === trackid)
     const target_track = copy_tracks[index];
-    const show = !target_track.isShowingTrackLine();
-    target_track.showTrackLine(show);
+    const select = !target_track.isSelected();
+    target_track.select(select);
     setState({ ...state, tracks: copy_tracks });
-    if (show) {
+    if (select) {
         cesiumMap.zoomToTracks([target_track]);
     }
 };
 
 const handleDateChange = (state, setState, newDate) => {
     console.debug('handleDateChange');
+    stopPlayback((mode) => setState({ ...state, mode: mode }));
     cesiumMap.removeAllEntities();
     const date = dayjs(newDate);
     loadTracks({ ...state, date: date }, setState);
 }
 
-const handleTrackPointClick = (entityId) => {
-    const track = state.tracks.find(track => track.id === entityId.trackid);
-    if (!track.isShowingTrackLine()) {
-        handleTrackClick(state, track.id);
+const handleTrackPointClick = (trackid) => {
+    const track = state.tracks.find(track => track.id === trackid);
+    if (!track.isSelected()) {
+        handleTrackClick(state, trackid);
     }
-    setTimeout(() => scrollToTrack(track.id), 100);
+    setTimeout(() => scrollToTrack(trackid), 100);
 }
 
-const handleTrackGroupClick = (entityId) => {
-    const group = state['trackGroups'].find(group => group.groupid === entityId.groupid);
+const handleTrackGroupClick = (groupid) => {
+    const group = state.trackGroups.find(group => group.groupid === groupid);
     cesiumMap.zoomToTrackGroup(group);
 }
 
@@ -110,11 +103,11 @@ const World = () => {
     [state, setState] = React.useState({
         tracks: [],
         trackGroups: [],
-        filteredTracks: [],
         date: dayjs(),
         controlPanelSize: defaultControlPanelSize,
-        prevControlPanelSize: defaultControlPanelSize,
         loadingTracks: false,
+        filter: new Filter(),
+        mode: SCATTER_MODE,
     });
 
     React.useEffect(() => {
@@ -127,15 +120,22 @@ const World = () => {
                 <CesiumMapContainer
                     onTrackPointClick={handleTrackPointClick}
                     onTrackGroupClick={handleTrackGroupClick}
-                    tracks={state['tracks']}
-                    trackGroups={state['trackGroups']} />
+                    tracks={state.tracks}
+                    trackGroups={state.trackGroups}
+                    setState={setState}
+                    filter={state.filter}
+                    mode={state.mode} />
                 <ControlPanel
-                    date={state['date']}
+                    date={state.date}
                     onDateChange={(newDate) => handleDateChange(state, setState, newDate)}
-                    tracks={state['tracks']}
+                    tracks={state.tracks}
                     onTrackClicked={(trackid) => { handleTrackClick(state, trackid) }}
                     controlPanelSize={state.controlPanelSize}
-                    loadingTracks={state.loadingTracks} />
+                    loadingTracks={state.loadingTracks}
+                    filter={state.filter}
+                    setFilter={(filter) => setState({ ...state, filter: filter })}
+                    mode={state.mode}
+                    setMode={(mode) => setState({ ...state, mode: mode })} />
                 <Dragger
                     controlPanelSize={state.controlPanelSize}
                     setControlPanelSize={(width) => setState({ ...state, controlPanelSize: width })} />
