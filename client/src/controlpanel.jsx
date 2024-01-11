@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { AppBar, Typography, Table, TableContainer, Box } from '@mui/material';
+import { AppBar, Typography, Table, TableContainer, Box, SpeedDial } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
 import { ProgressBar } from './progressbar';
 import './controlpanel.css';
 import { Filter } from './trackfilter';
-import { Label } from 'recharts';
+import { ActionDial } from './actiondial';
 
 function listTracksBy(key, tracks) {
     const namesSet = new Set();
@@ -79,6 +79,7 @@ export const ControlPanel = ({ date, onDateChange, tracks, onTrackClicked, contr
                 </TableContainer >
                 <ProgressBar show={loadingTracks} controlPanelSize={controlPanelSize} />
             </Box>
+            <ActionDial tracks={tracks} controlPanelSize={controlPanelSize}></ActionDial>
         </div >
     );
 };

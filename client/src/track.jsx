@@ -138,7 +138,7 @@ export class Track {
                 name: this.pilotname,
                 trackid: this.id,
                 point: {
-                    pixelSize: media.isMobile ? 4: 5,
+                    pixelSize: media.isMobile ? 4 : 5,
                     color: this.color.withAlpha(0.7),
                     outlineColor: Cesium.Color.BLACK.withAlpha(0.5),
                     outlineWidth: 1,
@@ -159,7 +159,11 @@ export class Track {
             polyline: {
                 positions: this.cartesians,
                 width: 4,
-                material: this.color,
+                material: new Cesium.PolylineOutlineMaterialProperty({
+                    color: this.color.brighten(0.5, new Cesium.Color()),
+                    outlineColor: this.color,
+                    outlineWidth: 2,
+                }),
             },
         });
         this.#trackLineEntity.show = false;
