@@ -23,9 +23,9 @@ export const ScatterModeActionDial = ({ tracks, filter, controlPanelSize, setMod
                 }}
             />,
             <SpeedDialAction
-                key='リスト全再生'
+                key='リスト再生'
                 icon={<PlaylistPlayIcon />}
-                tooltipTitle='リスト全再生'
+                tooltipTitle='リスト再生'
                 tooltipOpen
                 onClick={() => {
                     const unfiltered = filter.filterTracks(tracks);
