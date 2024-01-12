@@ -11,16 +11,18 @@ export const playback = (targetTracks, setMode) => {
     if (targetTracks.length === 0) {
         return;
     }
-    const sorted = targetTracks.sort((a, b) => a.startTime().localeCompare(b.startTime()));
-    const start = Cesium.JulianDate.fromIso8601(sorted[0].times[0].format('YYYY-MM-DDTHH:mm:ssZ'));
-    const stop = Cesium.JulianDate.fromIso8601(sorted[sorted.length - 1].times[sorted[sorted.length - 1].times.length - 1].format('YYYY-MM-DDTHH:mm:ssZ'));
+    const sortedByStart = targetTracks.sort((a, b) => a.startTime().localeCompare(b.startTime()));
+    const reversedByEnd = targetTracks.sort((a, b) => b.endTime().localeCompare(a.endTime()));
+    const start = Cesium.JulianDate.fromIso8601(sortedByStart[0].times[0].format('YYYY-MM-DDTHH:mm:ssZ'));
+    const stop = Cesium.JulianDate.fromIso8601(reversedByEnd[0].times[reversedByEnd[0].times.length - 1].format('YYYY-MM-DDTHH:mm:ssZ'));
+    Cesium.JulianDate.addSeconds(stop, trailTime + 60, stop);
     cesiumMap.viewer.clock.startTime = start;
     cesiumMap.viewer.clock.stopTime = stop;
     cesiumMap.viewer.clock.currentTime = start.clone();
     cesiumMap.viewer.clock.clockRange = Cesium.ClockRange.CLAMPED; // Loop at the end
     cesiumMap.viewer.clock.multiplier = speed;
 
-    sorted.forEach((track) => {
+    sortedByStart.forEach((track) => {
         const pathEntity = cesiumMap.viewer.entities.add({
             position: new Cesium.SampledPositionProperty(),
             path: {
