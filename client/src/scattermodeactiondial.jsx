@@ -1,12 +1,11 @@
 import { SpeedDial, SpeedDialAction } from '@mui/material';
-import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
 import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { playback } from './playbacker';
 
 export const ScatterModeActionDial = ({ tracks, filter, controlPanelSize, setMode }) => {
     return (
-        <SpeedDial id='scatter-modeaction-dial' ariaLabel='Scatter Mode Action Dial' size="medium" icon={<FlightTakeoffIcon />}
+        <SpeedDial id='scatter-modeaction-dial' ariaLabel='Scatter Mode Action Dial' size="medium" icon={<PlayArrowIcon />}
             sx={{
                 position: 'absolute',
                 bottom: '50px',
@@ -24,9 +23,9 @@ export const ScatterModeActionDial = ({ tracks, filter, controlPanelSize, setMod
                 }}
             />,
             <SpeedDialAction
-                key='全て再生'
+                key='リスト全再生'
                 icon={<PlaylistPlayIcon />}
-                tooltipTitle='全て再生'
+                tooltipTitle='リスト全再生'
                 tooltipOpen
                 onClick={() => {
                     const unfiltered = filter.filterTracks(tracks);
