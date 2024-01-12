@@ -11,10 +11,21 @@ export const playback = (targetTracks, setMode) => {
     if (targetTracks.length === 0) {
         return;
     }
-    const sortedByStart = targetTracks.sort((a, b) => a.startTime().localeCompare(b.startTime()));
-    const reversedByEnd = targetTracks.sort((a, b) => b.endTime().localeCompare(a.endTime()));
+    const sortedByStart = targetTracks.toSorted((a, b) => {
+        const d1 = new Date(a.startTime());
+        const d2 = new Date(b.startTime());
+        return d1 - d2;
+    });
+    const reversedByEnd = targetTracks.toSorted((a, b) => {
+        const d1 = new Date(a.endTime());
+        const d2 = new Date(b.endTime());
+        return d2 - d1;
+    });
+    console.log(sortedByStart[0].startTime());
     const start = Cesium.JulianDate.fromIso8601(sortedByStart[0].times[0].format('YYYY-MM-DDTHH:mm:ssZ'));
+    console.log(start.toString());
     const stop = Cesium.JulianDate.fromIso8601(reversedByEnd[0].times[reversedByEnd[0].times.length - 1].format('YYYY-MM-DDTHH:mm:ssZ'));
+    console.log(stop.toString());
     Cesium.JulianDate.addSeconds(stop, trailTime + 60, stop);
     cesiumMap.viewer.clock.startTime = start;
     cesiumMap.viewer.clock.stopTime = stop;
@@ -57,12 +68,12 @@ export const playback = (targetTracks, setMode) => {
     setMode(PLAYBACK_MODE);
     cesiumMap.viewer.animation.viewModel.timeFormatter = (date, viewModel) => {
         date = Cesium.JulianDate.toDate(date);
-        return `${('00'+ date.getHours()).slice(-2)}:${('00' + date.getMinutes()).slice(-2)}:${('00' + date.getSeconds()).slice(-2)}`;
+        return `${('00' + date.getHours()).slice(-2)}:${('00' + date.getMinutes()).slice(-2)}:${('00' + date.getSeconds()).slice(-2)}`;
     };
     cesiumMap.viewer.timeline.updateFromClock();
     cesiumMap.viewer.timeline.zoomTo(start, stop);
     cesiumMap.zoomToTracks(targetTracks);
-    cesiumMap.viewer.clock.shouldAnimate = true;
+    setTimeout(() => cesiumMap.viewer.clock.shouldAnimate = true, 1000);
 
 }
 
