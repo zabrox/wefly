@@ -2,7 +2,7 @@ import * as Cesium from 'cesium';
 import { cesiumMap } from './cesiummap';
 import { SCATTER_MODE, PLAYBACK_MODE } from './mode';
 
-const speed = 20;
+const speed = 30;
 const trailTime = 900;
 
 let playbackEntities = [];
@@ -55,12 +55,12 @@ export const playback = (targetTracks, setMode) => {
     setMode(PLAYBACK_MODE);
     cesiumMap.viewer.animation.viewModel.timeFormatter = (date, viewModel) => {
         date = Cesium.JulianDate.toDate(date);
-        return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+        return `${('00'+ date.getHours()).slice(-2)}:${('00' + date.getMinutes()).slice(-2)}:${('00' + date.getSeconds()).slice(-2)}`;
     };
     cesiumMap.viewer.timeline.updateFromClock();
     cesiumMap.viewer.timeline.zoomTo(start, stop);
-    cesiumMap.zoomToTracks([sorted[0]]);
-    setTimeout(() => cesiumMap.viewer.clock.shouldAnimate = true, 2000);
+    cesiumMap.zoomToTracks(targetTracks);
+    cesiumMap.viewer.clock.shouldAnimate = true;
 
 }
 
