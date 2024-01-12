@@ -1,18 +1,22 @@
+import React from "react";
 import ArrowCircleLeft from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRight from '@mui/icons-material/ArrowCircleRight';
 import './controlpaneltoggle.css';
 
-export const ControlPanelToggle = ({ state, setState }) => {
+export const ControlPanelToggle = ({ controlPanelSize, setControlPanelSize }) => {
+    const [prevControlPanelSize, setPrevControlPanelSize] = React.useState(controlPanelSize);
+
     return (
         <div id='control-panel-toggle'>
-            {state.controlPanelSize === 0 ?
+            {controlPanelSize === 0 ?
                 <ArrowCircleRight
                     id='control-panel-toggle-button'
-                    onClick={() => setState({...state, controlPanelSize: state.prevControlPanelSize})} /> :
+                    onClick={() => setControlPanelSize(prevControlPanelSize)} /> :
                 <ArrowCircleLeft
                     id='control-panel-toggle-button'
                     onClick={() => {
-                        setState({...state, controlPanelSize: 0, prevControlPanelSize: state.controlPanelSize});
+                        setPrevControlPanelSize(controlPanelSize);
+                        setControlPanelSize(0);
                     }} />}
         </div>
     )

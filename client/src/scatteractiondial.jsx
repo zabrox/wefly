@@ -1,9 +1,9 @@
 import { SpeedDial, SpeedDialAction } from '@mui/material';
 import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { playback } from './playbacker';
+import { playback } from './playbackmap';
 
-export const ScatterModeActionDial = ({ tracks, filter, controlPanelSize, setMode }) => {
+export const ScatterActionDial = ({ tracks, filter, controlPanelSize, setMode }) => {
     return (
         <SpeedDial id='scatter-modeaction-dial' ariaLabel='Scatter Mode Action Dial' size="medium" icon={<PlayArrowIcon />}
             sx={{

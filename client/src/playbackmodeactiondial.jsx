@@ -1,6 +1,6 @@
 import { SpeedDial } from '@mui/material';
 import StopIcon from '@mui/icons-material/Stop';
-import { stopPlayback } from './playbacker';
+import { stopPlayback } from './playbackmap';
 
 export const PlaybackModeActionDial = ({ controlPanelSize, setMode }) => {
     return (

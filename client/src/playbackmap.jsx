@@ -1,5 +1,5 @@
 import * as Cesium from 'cesium';
-import { cesiumMap } from './cesiummap';
+import * as CesiumMap from './cesiummap';
 import { SCATTER_MODE, PLAYBACK_MODE } from './mode';
 
 const speed = 30;
@@ -27,14 +27,14 @@ export const playback = (targetTracks, setMode) => {
     const stop = Cesium.JulianDate.fromIso8601(reversedByEnd[0].times[reversedByEnd[0].times.length - 1].format('YYYY-MM-DDTHH:mm:ssZ'));
     console.log(stop.toString());
     Cesium.JulianDate.addSeconds(stop, trailTime + 60, stop);
-    cesiumMap.viewer.clock.startTime = start;
-    cesiumMap.viewer.clock.stopTime = stop;
-    cesiumMap.viewer.clock.currentTime = start.clone();
-    cesiumMap.viewer.clock.clockRange = Cesium.ClockRange.CLAMPED; // Loop at the end
-    cesiumMap.viewer.clock.multiplier = speed;
+    CesiumMap.viewer.clock.startTime = start;
+    CesiumMap.viewer.clock.stopTime = stop;
+    CesiumMap.viewer.clock.currentTime = start.clone();
+    CesiumMap.viewer.clock.clockRange = Cesium.ClockRange.CLAMPED; // Loop at the end
+    CesiumMap.viewer.clock.multiplier = speed;
 
     sortedByStart.forEach((track) => {
-        const pathEntity = cesiumMap.viewer.entities.add({
+        const pathEntity = CesiumMap.viewer.entities.add({
             position: new Cesium.SampledPositionProperty(),
             path: {
                 material: new Cesium.PolylineOutlineMaterialProperty({
@@ -54,7 +54,7 @@ export const playback = (targetTracks, setMode) => {
             positionProperty.addSample(time, track.cartesians[i]);
         };
 
-        playbackEntities.push(cesiumMap.viewer.entities.add({
+        playbackEntities.push(CesiumMap.viewer.entities.add({
             position: positionProperty,
             point: {
                 pixelSize: 8,
@@ -66,22 +66,33 @@ export const playback = (targetTracks, setMode) => {
         }));
     });
     setMode(PLAYBACK_MODE);
-    cesiumMap.viewer.animation.viewModel.timeFormatter = (date, viewModel) => {
+    CesiumMap.viewer.animation.viewModel.timeFormatter = (date, viewModel) => {
         date = Cesium.JulianDate.toDate(date);
         return `${('00' + date.getHours()).slice(-2)}:${('00' + date.getMinutes()).slice(-2)}:${('00' + date.getSeconds()).slice(-2)}`;
     };
-    cesiumMap.viewer.timeline.updateFromClock();
-    cesiumMap.viewer.timeline.zoomTo(start, stop);
-    cesiumMap.zoomToTracks(targetTracks);
-    setTimeout(() => cesiumMap.viewer.clock.shouldAnimate = true, 1000);
+    CesiumMap.viewer.timeline.updateFromClock();
+    CesiumMap.viewer.timeline.zoomTo(start, stop);
+    CesiumMap.zoomToTracks(targetTracks);
+    setTimeout(() => CesiumMap.viewer.clock.shouldAnimate = true, 1000);
 
 }
 
 export const stopPlayback = (setMode) => {
-    cesiumMap.viewer.clock.shouldAnimate = false;
+    CesiumMap.viewer.clock.shouldAnimate = false;
     playbackEntities.forEach(entity => {
-        cesiumMap.viewer.entities.remove(entity);
+        CesiumMap.viewer.entities.remove(entity);
     })
     playbackEntities = [];
     setMode(SCATTER_MODE);
+}
+
+const showTimeline = () => {
+    const timelineElement = document.querySelector('.cesium-viewer-timelineContainer');
+    if (timelineElement) {
+        timelineElement.style.display = 'block';
+    }
+    const animationElement = document.querySelector('.cesium-viewer-animationContainer');
+    if (animationElement) {
+        animationElement.style.display = 'block';
+    }
 }
