@@ -111,7 +111,7 @@ export const TrackListHeader = ({ tracks, scatterState, setScatterState }) => {
                                     tracks={tracks}
                                     filterkey={header.id}
                                     filter={scatterState.filter}
-                                    setFilter={scatterState.setFilter} />)}
+                                    setFilter={(filter) => setScatterState({...scatterState, filter: filter})} />)}
                         </TableSortLabel>
                     </TableCell>
                 ))}

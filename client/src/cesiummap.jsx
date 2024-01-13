@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import * as Cesium from "cesium";
 
-let viewer = undefined;
+export let viewer = undefined;
 
 const initializeCesium = (cesiumContainerRef) => {
     console.debug('initializeCesium');

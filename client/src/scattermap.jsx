@@ -1,13 +1,10 @@
+import React, { useEffect } from "react";
 import track_group_pin from '/images/track_group_pin.svg';
 import * as Cesium from "cesium";
+import * as CesiumMap from './cesiummap';
 
 let highAltitude = true;
-
-export const onTrackLoad = (tracks, trackGroups) => {
-    initializeTrackEntity(tracks);
-    initializeTrackGroupEntity(trackGroups);
-    zoomToTracks(tracks);
-}
+let removeCameraMoveEvent = undefined;
 
 const trackPointEntitiyId = (track, index) => {
     return `trackpoint-${track.id}-${index}`;
@@ -19,7 +16,7 @@ const initializeTrackPointEntities = (track) => {
             return;
         }
         lastPoint = track.times[index];
-        viewer.entities.add({
+        CesiumMap.viewer.entities.add({
             id: trackPointEntitiyId(track, index),
             trackid: track.id,
             position: cartesian,
@@ -45,7 +42,7 @@ const tracklineEntitiyId = (track) => {
     return `trackline-${track.id}`;
 }
 const initializeTrackLineEntity = (track) => {
-    viewer.entities.add({
+    CesiumMap.viewer.entities.add({
         id: tracklineEntitiyId(track),
         polyline: {
             positions: track.cartesians,
@@ -78,7 +75,7 @@ const initializeTrackGroupEntity = (trackGroups) => {
     trackGroups.forEach(trackGroup => {
         let size = MIN_ICON_SIZE + trackGroup.tracks.length * COEFFICIENT;
         size = size > MAX_ICON_SIZE ? MAX_ICON_SIZE : size;
-        viewer.entities.add({
+        CesiumMap.viewer.entities.add({
             id: trackGroupEntitiyId(trackGroup),
             position: trackGroup.cartesian,
             groupid: trackGroup.groupid,
@@ -93,20 +90,23 @@ const initializeTrackGroupEntity = (trackGroups) => {
     });
 }
 
-const registerEventHandlerOnPointClick = (handleTrackPointClick, handleTrackGroupClick) => {
+const registerEventHandlerOnPointClick = (handleTrackPointClick, handleTrackGroupClick, tracks, trackGroups) => {
+    if (tracks.length === 0 || trackGroups.length === 0) {
+        return;
+    }
     // Event handler for clicking on track points
-    const handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+    const handler = new Cesium.ScreenSpaceEventHandler(CesiumMap.viewer.scene.canvas);
     handler.setInputAction((click) => {
-        const pickedObject = viewer.scene.pick(click.position);
+        const pickedObject = CesiumMap.viewer.scene.pick(click.position);
         if (Cesium.defined(pickedObject) && Cesium.defined(pickedObject.id)) {
             const entityId = pickedObject.id;
             if (entityId instanceof Cesium.Entity) {
                 if ('trackid' in entityId) {
-                    handleTrackPointClick(entityId.trackid);
+                    handleTrackPointClick(entityId.trackid, tracks);
                 } else if ('groupid' in entityId) {
-                    handleTrackGroupClick(entityId.groupid);
+                    handleTrackGroupClick(entityId.groupid, trackGroups);
                 } else {
-                    viewer.selectedEntity = undefined;
+                    CesiumMap.viewer.selectedEntity = undefined;
                 }
             }
         }
@@ -120,10 +120,10 @@ const showTracks = (tracks, filter) => {
             hidden.push(track);
             return;
         }
-        const entity = viewer.entities.getById(tracklineEntitiyId(track));
+        const entity = CesiumMap.viewer.entities.getById(tracklineEntitiyId(track));
         entity.show = track.isSelected();
         for (let i = 0; i < track.cartesians.length; i++) {
-            const entity = viewer.entities.getById(trackPointEntitiyId(track, i));
+            const entity = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, i));
             if (entity === undefined) {
                 continue;
             }
@@ -134,11 +134,11 @@ const showTracks = (tracks, filter) => {
 }
 const hideTracks = (tracks) => {
     tracks.forEach(track => {
-        const entity = viewer.entities.getById(tracklineEntitiyId(track));
+        const entity = CesiumMap.viewer.entities.getById(tracklineEntitiyId(track));
         if (entity === undefined) return;
         entity.show = false;
         for (let i = 0; i < track.cartesians.length; i++) {
-            const entity = viewer.entities.getById(trackPointEntitiyId(track, i));
+            const entity = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, i));
             if (entity === undefined) {
                 continue;
             }
@@ -149,7 +149,7 @@ const hideTracks = (tracks) => {
 
 const showTrackGroups = (trackGroups) => {
     trackGroups.forEach(group => {
-        const entity = viewer.entities.getById(trackGroupEntitiyId(group));
+        const entity = CesiumMap.viewer.entities.getById(trackGroupEntitiyId(group));
         if (entity !== undefined) {
             entity.show = true;
         }
@@ -157,7 +157,7 @@ const showTrackGroups = (trackGroups) => {
 }
 const hideTrackGroups = (trackGroups) => {
     trackGroups.forEach(group => {
-        const entity = viewer.entities.getById(trackGroupEntitiyId(group));
+        const entity = CesiumMap.viewer.entities.getById(trackGroupEntitiyId(group));
         if (entity !== undefined) {
             entity.show = false;
         }
@@ -165,7 +165,7 @@ const hideTrackGroups = (trackGroups) => {
 }
 
 const isHighAltitude = () => {
-    const cameraAltitude = viewer.scene.camera.positionCartographic.height;
+    const cameraAltitude = CesiumMap.viewer.scene.camera.positionCartographic.height;
     return cameraAltitude > 70000;
 }
 const hideTimeline = () => {
@@ -183,7 +183,7 @@ const registerEventListenerOnCameraMove = (tracks, trackGroups, filter) => {
     if (removeCameraMoveEvent !== undefined) {
         removeCameraMoveEvent();
     }
-    removeCameraMoveEvent = viewer.camera.changed.addEventListener(() => {
+    removeCameraMoveEvent = CesiumMap.viewer.camera.changed.addEventListener(() => {
         if (isHighAltitude() == highAltitude) return;
         highAltitude = isHighAltitude();
         render(tracks, trackGroups, filter);
@@ -201,16 +201,22 @@ const render = (tracks, trackGroups, filter) => {
     hideTimeline();
 }
 
+export const onTrackLoad = (tracks, trackGroups) => {
+    initializeTrackEntity(tracks);
+    initializeTrackGroupEntity(trackGroups);
+    CesiumMap.zoomToTracks(tracks);
+}
+
 export const ScatterMap = ({onTrackPointClick, onTrackGroupClick, tracks, trackGroups, filter}) => {
     useEffect(() => {
-        registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick);
-    }, []);
+        registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick, tracks, trackGroups);
+    }, [tracks, trackGroups]);
     useEffect(() => {
         registerEventListenerOnCameraMove(tracks, trackGroups, filter);
         render(tracks, trackGroups, filter);
     }, [tracks, trackGroups, filter]);
 
     return (
-        <div ref={cesiumContainerRef} id="scattermap" />
+        <div id="scattermap" />
     );
 }
