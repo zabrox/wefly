@@ -30,9 +30,9 @@ export const ControlPanel = () => {
                 <ScatterControlPanel state={state} setState={setState} />
                 <PlaybackControlPanel state={state} setState={setState} />
             </div>
-            <Dragger
+            {/* <Dragger
                 state={state}
-                setState={setState} />
+                setState={setState} /> */}
             <ControlPanelToggle
                 controlPanelSize={state.controlPanelSize}
                 setControlPanelSize={(width) => setState({ ...state, controlPanelSize: width })} />
