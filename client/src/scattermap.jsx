@@ -55,7 +55,6 @@ const initializeTrackLineEntity = (track) => {
         },
         show: false,
     });
-    track.select(false);
 };
 
 const initializeTrackEntity = (tracks) => {
@@ -120,7 +119,6 @@ const showTracks = (tracks, filter) => {
     const entity = CesiumMap.viewer.entities.getById(tracklineEntitiyId(tracks[0]));
     if (entity === undefined) {
         initializeTrackEntity(tracks);
-        return;
     }
 
     const hidden = [];
@@ -163,7 +161,6 @@ const showTrackGroups = (trackGroups) => {
     const entity = CesiumMap.viewer.entities.getById(trackGroupEntitiyId(trackGroups[0]));
     if (entity === undefined) {
         initializeTrackGroupEntity(trackGroups);
-        return;
     }
     trackGroups.forEach(group => {
         const entity = CesiumMap.viewer.entities.getById(trackGroupEntitiyId(group));

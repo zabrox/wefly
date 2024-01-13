@@ -1,15 +1,15 @@
 import React from "react";
 import './dragger.css';
 
-export const Dragger = ({ controlPanelSize, setControlPanelSize }) => {
+export const Dragger = ({ state, setState }) => {
     const handleMouseDown = React.useCallback((e) => {
         document.body.classList.add('noselect');
 
         const startX = e.clientX;
-        const startWidth = controlPanelSize;
+        const startWidth = state.controlPanelSize;
 
         const doDrag = (e) => {
-            setControlPanelSize(startWidth + e.clientX - startX);
+            setState({...state, controlPanelSize: startWidth + e.clientX - startX});
         }
 
         const stopDrag = () => {
@@ -19,7 +19,7 @@ export const Dragger = ({ controlPanelSize, setControlPanelSize }) => {
 
         document.addEventListener('mousemove', doDrag);
         document.addEventListener('mouseup', stopDrag);
-    }, [controlPanelSize]);
+    }, [state.controlPanelSize]);
 
     return (
         <div id='dragger' onMouseDown={handleMouseDown} />

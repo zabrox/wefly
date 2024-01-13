@@ -21,7 +21,7 @@ export const ScatterActionDial = ({ state, setState, filter }) => {
                 tooltipOpen
                 onClick={() => {
                     leaveScatterMode();
-                    setState({ ...state, mode: Mode.PLAYBACK_MODE });
+                    setState({ ...state, mode: Mode.PLAYBACK_SELECTED_MODE });
                 }}
             />,
             <SpeedDialAction
@@ -31,7 +31,7 @@ export const ScatterActionDial = ({ state, setState, filter }) => {
                 tooltipOpen
                 onClick={() => {
                     leaveScatterMode();
-                    setState({ ...state, mode: Mode.PLAYBACK_MODE });
+                    setState({ ...state, mode: Mode.PLAYBACK_LIST_MODE });
                 }}
             />
         </SpeedDial>

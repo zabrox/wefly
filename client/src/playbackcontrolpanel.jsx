@@ -5,12 +5,16 @@ import './playbackcontrolpanel.css';
 import { playback } from './playbackmap';
 
 export const PlaybackControlPanel = ({ state, setState }) => {
-    if (state.mode !== Mode.PLAYBACK_MODE) {
+    if (!([Mode.PLAYBACK_LIST_MODE, Mode.PLAYBACK_SELECTED_MODE]).includes(state.mode)) {
         return null;
     }
 
     React.useEffect(() => {
-        playback(state.tracks);
+        let targets = state.tracks;
+        if (state.mode === Mode.PLAYBACK_SELECTED_MODE) {
+            targets = targets.filter(track => track.isSelected());
+        }
+        playback(targets);
         setState({ ...state, controlPanelSize: 0});
     }, []);
 
