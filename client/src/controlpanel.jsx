@@ -1,6 +1,8 @@
 import React from 'react';
 import { AppBar, Typography } from '@mui/material';
 import { ScatterControlPanel } from './scattercontrolpanel';
+import { PlaybackControlPanel } from './playbackcontrolpanel';
+import * as Mode from './mode';
 import './controlpanel.css';
 
 export const ControlPanel = ({ state, setState }) => {
@@ -12,6 +14,7 @@ export const ControlPanel = ({ state, setState }) => {
                 </Typography>
             </AppBar>
             <ScatterControlPanel state={state} setState={setState} />
+            <PlaybackControlPanel state={state} setState={setState} />
         </div >
     );
 };

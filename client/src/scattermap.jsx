@@ -114,6 +114,15 @@ const registerEventHandlerOnPointClick = (handleTrackPointClick, handleTrackGrou
 };
 
 const showTracks = (tracks, filter) => {
+    if (tracks.length === 0) {
+        return;
+    }
+    const entity = CesiumMap.viewer.entities.getById(tracklineEntitiyId(tracks[0]));
+    if (entity === undefined) {
+        initializeTrackEntity(tracks);
+        return;
+    }
+
     const hidden = [];
     tracks.forEach(track => {
         if (filter.filtersTrack(track)) {
@@ -148,6 +157,14 @@ const hideTracks = (tracks) => {
 }
 
 const showTrackGroups = (trackGroups) => {
+    if (trackGroups.length === 0) {
+        return;
+    }
+    const entity = CesiumMap.viewer.entities.getById(trackGroupEntitiyId(trackGroups[0]));
+    if (entity === undefined) {
+        initializeTrackGroupEntity(trackGroups);
+        return;
+    }
     trackGroups.forEach(group => {
         const entity = CesiumMap.viewer.entities.getById(trackGroupEntitiyId(group));
         if (entity !== undefined) {
@@ -201,22 +218,19 @@ const render = (tracks, trackGroups, filter) => {
     hideTimeline();
 }
 
-export const onTrackLoad = (tracks, trackGroups) => {
-    initializeTrackEntity(tracks);
-    initializeTrackGroupEntity(trackGroups);
-    CesiumMap.zoomToTracks(tracks);
+export const leaveScatterMode = () => {
+    CesiumMap.removeAllEntities();
+    removeCameraMoveEvent();
 }
 
-export const ScatterMap = ({onTrackPointClick, onTrackGroupClick, tracks, trackGroups, filter}) => {
+export const ScatterMap = ({onTrackPointClick, onTrackGroupClick, tracks, trackGroups, filter, mode}) => {
     useEffect(() => {
         registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick, tracks, trackGroups);
     }, [tracks, trackGroups]);
     useEffect(() => {
         registerEventListenerOnCameraMove(tracks, trackGroups, filter);
         render(tracks, trackGroups, filter);
-    }, [tracks, trackGroups, filter]);
+    }, [tracks, trackGroups, filter, mode]);
 
-    return (
-        <div id="scattermap" />
-    );
+    return null;
 }

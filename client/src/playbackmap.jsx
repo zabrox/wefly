@@ -1,13 +1,13 @@
 import * as Cesium from 'cesium';
 import * as CesiumMap from './cesiummap';
-import { SCATTER_MODE, PLAYBACK_MODE } from './mode';
+import { SCATTER_MODE } from './mode';
 
 const speed = 30;
 const trailTime = 900;
 
 let playbackEntities = [];
 
-export const playback = (targetTracks, setMode) => {
+export const playback = (targetTracks) => {
     if (targetTracks.length === 0) {
         return;
     }
@@ -21,11 +21,8 @@ export const playback = (targetTracks, setMode) => {
         const d2 = new Date(b.endTime());
         return d2 - d1;
     });
-    console.log(sortedByStart[0].startTime());
     const start = Cesium.JulianDate.fromIso8601(sortedByStart[0].times[0].format('YYYY-MM-DDTHH:mm:ssZ'));
-    console.log(start.toString());
     const stop = Cesium.JulianDate.fromIso8601(reversedByEnd[0].times[reversedByEnd[0].times.length - 1].format('YYYY-MM-DDTHH:mm:ssZ'));
-    console.log(stop.toString());
     Cesium.JulianDate.addSeconds(stop, trailTime + 60, stop);
     CesiumMap.viewer.clock.startTime = start;
     CesiumMap.viewer.clock.stopTime = stop;
@@ -65,25 +62,22 @@ export const playback = (targetTracks, setMode) => {
             }
         }));
     });
-    setMode(PLAYBACK_MODE);
     CesiumMap.viewer.animation.viewModel.timeFormatter = (date, viewModel) => {
         date = Cesium.JulianDate.toDate(date);
         return `${('00' + date.getHours()).slice(-2)}:${('00' + date.getMinutes()).slice(-2)}:${('00' + date.getSeconds()).slice(-2)}`;
     };
     CesiumMap.viewer.timeline.updateFromClock();
     CesiumMap.viewer.timeline.zoomTo(start, stop);
-    CesiumMap.zoomToTracks(targetTracks);
+    showTimeline();
     setTimeout(() => CesiumMap.viewer.clock.shouldAnimate = true, 1000);
-
 }
 
-export const stopPlayback = (setMode) => {
+export const stopPlayback = () => {
     CesiumMap.viewer.clock.shouldAnimate = false;
     playbackEntities.forEach(entity => {
         CesiumMap.viewer.entities.remove(entity);
     })
     playbackEntities = [];
-    setMode(SCATTER_MODE);
 }
 
 const showTimeline = () => {

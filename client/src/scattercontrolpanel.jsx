@@ -10,7 +10,8 @@ import { parseTrackJson, dbscanTracks } from './track';
 import { Filter } from './trackfilter';
 import { ScatterActionDial } from './scatteractiondial';
 import * as CesiumMap from './cesiummap';
-import { ScatterMap, onTrackLoad } from './scattermap';
+import { ScatterMap } from './scattermap';
+import * as Mode from './mode';
 import './scattercontrolpanel.css';
 
 const loadTracks = async (state, setState, scatterState, setScatterState) => {
@@ -35,7 +36,7 @@ const loadTracks = async (state, setState, scatterState, setScatterState) => {
     console.time('dbscanTracks');
     const trackGroups = dbscanTracks(tracks);
     console.timeEnd('dbscanTracks');
-    onTrackLoad(tracks, trackGroups);
+    CesiumMap.zoomToTracks(tracks);
     setState({ ...state, tracks: tracks, trackGroups: trackGroups, });
     setScatterState({ ...scatterState, loading: false });
 };
@@ -49,10 +50,8 @@ const parseAllTracks = tracks => {
     return parsedTracks;
 };
 
-
 const handleDateChange = (state, setState, scatterState, setScatterState, newDate) => {
     console.debug('handleDateChange');
-    // stopPlayback((mode) => setState({ ...state, mode: mode }));
     CesiumMap.removeAllEntities();
     const date = dayjs(newDate);
     loadTracks(state, setState, { ...scatterState, date: date }, setScatterState);
@@ -66,7 +65,7 @@ const scrollToTrack = (trackid) => {
 }
 
 
-function listup(key, tracks) {
+const listup = (key, tracks) => {
     const namesSet = new Set();
 
     tracks.forEach(track => {
@@ -102,8 +101,6 @@ export const ScatterControlPanel = ({ state, setState }) => {
     }, [state.tracks]);
 
     const handleTrackGroupClick = (groupid, trackGroups) => {
-        console.log(trackGroups);
-        console.log(groupid);
         const group = trackGroups.find(group => group.groupid === groupid);
         CesiumMap.zoomToTrackGroup(group);
     }
@@ -123,13 +120,15 @@ export const ScatterControlPanel = ({ state, setState }) => {
         const target_track = copy_tracks[index];
         const select = !target_track.isSelected();
         target_track.select(select);
-        console.log(target_track);
         setState({ ...state, tracks: copy_tracks });
         if (select) {
             CesiumMap.zoomToTracks([target_track]);
         }
     }, [state.tracks]);
 
+    if (state.mode !== Mode.SCATTER_MODE) {
+        return null;
+    }
     return (
         <div id='scatter-control-panel' style={{ width: state.controlPanelSize, height: '100%' }}>
             <div id='date-picker-container'
@@ -166,16 +165,16 @@ export const ScatterControlPanel = ({ state, setState }) => {
                 <ProgressBar show={scatterState.loading} controlPanelSize={state.controlPanelSize} />
             </Box>
             <ScatterActionDial
-                tracks={state.tracks}
-                filter={scatterState.filter}
-                controlPanelSize={state.controlPanelSize}
-                setMode={(mode) => setState({ ...state, mode: mode })} />
+                state={state}
+                setState={setState}
+                filter={scatterState.filter} />
             <ScatterMap
                 onTrackPointClick={handleTrackPointClick}
-                onTrackGroupClick={(handleTrackGroupClick)}
+                onTrackGroupClick={handleTrackGroupClick}
                 tracks={state.tracks}
                 trackGroups={state.trackGroups}
-                filter={scatterState.filter} />
+                filter={scatterState.filter}
+                mode={state.mode} />
         </div >
     );
 };
