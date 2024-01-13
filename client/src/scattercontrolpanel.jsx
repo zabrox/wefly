@@ -146,12 +146,8 @@ export const ScatterControlPanel = ({ state, setState }) => {
                     <Table size="medium">
                         <TrackListHeader
                             tracks={state.tracks}
-                            order={scatterState.order}
-                            setOrder={(order) => setScatterState({ ...scatterState, order: order })}
-                            orderBy={scatterState.orderBy}
-                            setOrderBy={(orderBy) => setScatterState({ ...scatterState, orderBy: orderBy })}
-                            filter={scatterState.filter}
-                            setFilter={(filter) => setScatterState({ ...scatterState, filter: filter })} />
+                            scatterState={scatterState}
+                            setScatterState={setScatterState} />
                         <TrackListBody
                             tracks={state.tracks}
                             onTrackClicked={(trackid) => handleTrackClick(state, setState, trackid)}

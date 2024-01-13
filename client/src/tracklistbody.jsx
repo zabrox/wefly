@@ -1,6 +1,6 @@
 import React from 'react';
 import { TableBody, TableRow, TableCell } from '@mui/material';
-import { Headers } from './tracklistheader';
+import { headers } from './tracklistheader';
 
 const TrackCell = ({ track, header }) => {
     return (<TableCell className={header.id}>{header.display(track)}</TableCell>);
@@ -15,7 +15,7 @@ const mapTracksToTableRows = (tracks, onTrackClicked) => {
             style={{
                 backgroundColor: track.isSelected() ? track.color.withAlpha(0.6).toCssHexString() : '',
             }}>{
-                Headers.map((header) => (
+                headers.map((header) => (
                     <TrackCell key={track.pilotname + header.id} track={track} header={header} />
                 ))
             }
@@ -25,7 +25,7 @@ const mapTracksToTableRows = (tracks, onTrackClicked) => {
 
 export const TrackListBody = ({ tracks, onTrackClicked, orderBy, order, filter }) => {
     const sortedrows = React.useMemo(() => {
-        const comparator = Headers.find(header => header.id === orderBy).comparator;
+        const comparator = headers.find(header => header.id === orderBy).comparator;
         const sortedTracks = tracks.slice().sort(comparator);
         return order === 'asc' ? sortedTracks : sortedTracks.reverse();
     });

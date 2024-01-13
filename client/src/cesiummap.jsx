@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import * as Cesium from "cesium";
-import { SCATTER_MODE, PLAYBACK_MODE } from './mode';
 
 let viewer = undefined;
 
@@ -9,8 +8,8 @@ const initializeCesium = (cesiumContainerRef) => {
     Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNjMxN2Y3Ni04YWU3LTQwNjctYmYyNC05Yjc4MTljOTY3OGYiLCJpZCI6MTY5NTkxLCJpYXQiOjE2OTYyNDYyMTB9.CYkH9qKRpMU0kzQWkjXuvqgr-09nICUdta83AZIxAy8";
     viewer = new Cesium.Viewer(cesiumContainerRef.current, {
         terrain: Cesium.Terrain.fromWorldTerrain(),
-        timeline: true,
-        animation: true,
+        timeline: false,
+        animation: false,
         baseLayerPicker: false,
         geocoder: false,
         homeButton: false,
@@ -50,7 +49,7 @@ export const removeAllEntities = () => {
     viewer.entities.removeAll();
 }
 
-export const CesiumMapContainer = ({ state, setState, onTrackPointClick, onTrackGroupClick }) => {
+export const CesiumMapContainer = () => {
     const cesiumContainerRef = React.useRef(null);
 
     useEffect(() => {

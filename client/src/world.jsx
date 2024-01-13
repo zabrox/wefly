@@ -38,11 +38,7 @@ const World = () => {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div id='main'>
-                {/* <CesiumMap.CesiumMapContainer
-                    state={state}
-                    setState={setState}
-                    onTrackPointClick={handleTrackPointClick}
-    onTrackGroupClick={handleTrackGroupClick} /> */}
+                <CesiumMap.CesiumMapContainer />
                 <ControlPanel state={state} setState={setState} />
                 <Dragger
                     controlPanelSize={state.controlPanelSize}
