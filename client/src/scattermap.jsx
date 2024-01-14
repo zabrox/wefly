@@ -5,6 +5,7 @@ import * as CesiumMap from './cesiummap';
 
 let highAltitude = true;
 let removeCameraMoveEvent = undefined;
+let clickHandler = undefined;
 
 const trackPointEntitiyId = (track, index) => {
     return `trackpoint-${track.id}-${index}`;
@@ -94,8 +95,8 @@ const registerEventHandlerOnPointClick = (handleTrackPointClick, handleTrackGrou
         return;
     }
     // Event handler for clicking on track points
-    const handler = new Cesium.ScreenSpaceEventHandler(CesiumMap.viewer.scene.canvas);
-    handler.setInputAction((click) => {
+    clickHandler = new Cesium.ScreenSpaceEventHandler(CesiumMap.viewer.scene.canvas);
+    clickHandler.setInputAction((click) => {
         const pickedObject = CesiumMap.viewer.scene.pick(click.position);
         if (Cesium.defined(pickedObject) && Cesium.defined(pickedObject.id)) {
             const entityId = pickedObject.id;
@@ -218,12 +219,14 @@ const render = (tracks, trackGroups, filter) => {
 export const leaveScatterMode = () => {
     CesiumMap.removeAllEntities();
     removeCameraMoveEvent();
+    clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    clickHandler = undefined;
 }
 
 export const ScatterMap = ({onTrackPointClick, onTrackGroupClick, tracks, trackGroups, filter, mode}) => {
     useEffect(() => {
         registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick, tracks, trackGroups);
-    }, [tracks, trackGroups]);
+    }, [tracks, trackGroups, mode]);
     useEffect(() => {
         registerEventListenerOnCameraMove(tracks, trackGroups, filter);
         render(tracks, trackGroups, filter);
