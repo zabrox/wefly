@@ -26,6 +26,15 @@ const initializeCesium = (cesiumContainerRef) => {
     });
     document.getElementsByClassName('cesium-viewer-bottom')[0].remove();
     viewer.camera.percentageChanged = 0.0001;
+    viewer.selectionIndicator.viewModel.selectionIndicatorElement.style.visibility = 'hidden';
+}
+
+export const zoomToPoints = (cartesians) => {
+    console.time('zoomToPoints');
+    if (cartesians.length > 0) {
+        viewer.camera.flyToBoundingSphere(Cesium.BoundingSphere.fromPoints(cartesians), { duration: 1 });
+    }
+    console.timeEnd('zoomToPoints');
 }
 
 export const zoomToTracks = (tracks) => {

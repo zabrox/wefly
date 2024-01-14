@@ -1,11 +1,91 @@
+import React from 'react';
 import * as Cesium from 'cesium';
 import * as CesiumMap from './cesiummap';
-import { SCATTER_MODE } from './mode';
+import * as Mode from './mode';
+import { keyframes } from '@emotion/react';
 
 const speed = 30;
 const trailTime = 900;
+let clickHandler = undefined;
+let onTickRemoveCallback = undefined;
+let previousTime;
 
-let playbackEntities = [];
+const showTimeline = () => {
+    const timelineElement = document.querySelector('.cesium-viewer-timelineContainer');
+    if (timelineElement) {
+        timelineElement.style.display = 'block';
+    }
+    const animationElement = document.querySelector('.cesium-viewer-animationContainer');
+    if (animationElement) {
+        animationElement.style.display = 'block';
+    }
+}
+
+const focusOnMovingTrack = (entity) => {
+    const pathEntity = CesiumMap.viewer.entities.getById(entity.id);
+    if (!pathEntity) return;
+
+    const trackPositionProperty = pathEntity.position;
+
+    if (onTickRemoveCallback) {
+        onTickRemoveCallback();
+    }
+    onTickRemoveCallback = CesiumMap.viewer.clock.onTick.addEventListener(function (clock) {
+        const currentTime = clock.currentTime;
+
+        // クロックが進行していない場合、更新をスキップ
+        if (Cesium.JulianDate.equals(previousTime, currentTime)) {
+            return;
+        }
+        previousTime = currentTime;
+
+        const currentPosition = trackPositionProperty.getValue(currentTime);
+        if (currentPosition) {
+            const distance = Cesium.Cartesian3.distance(CesiumMap.viewer.camera.positionWC, currentPosition);
+            CesiumMap.viewer.camera.lookAt(
+                currentPosition,
+                new Cesium.HeadingPitchRange(CesiumMap.viewer.camera.heading, CesiumMap.viewer.camera.pitch, distance)
+            );
+        }
+    });
+}
+
+const handlePlaybackPointClick = (entity) => {
+    const currentTime = CesiumMap.viewer.clock.currentTime;
+    const position = entity.position.getValue(currentTime);
+    CesiumMap.viewer.camera.lookAt(
+        position,
+        new Cesium.HeadingPitchRange(CesiumMap.viewer.camera.heading, CesiumMap.viewer.camera.pitch, 5000));
+
+    focusOnMovingTrack(entity);
+}
+
+const registerEventHandlerOnPointClick = () => {
+    // Event handler for clicking on track points
+    clickHandler = new Cesium.ScreenSpaceEventHandler(CesiumMap.viewer.scene.canvas);
+    clickHandler.setInputAction((click) => {
+        const pickedObject = CesiumMap.viewer.scene.pick(click.position);
+        if (Cesium.defined(pickedObject) && Cesium.defined(pickedObject.id)) {
+            const entityId = pickedObject.id;
+            if (entityId instanceof Cesium.Entity) {
+                if ('trackid' in entityId) {
+                    handlePlaybackPointClick(entityId);
+                } else {
+                    CesiumMap.viewer.selectedEntity = undefined;
+                }
+            }
+        } else {
+            if (onTickRemoveCallback) {
+                CesiumMap.viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+                onTickRemoveCallback();
+            }
+        }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+};
+
+const playbackPointId = (track) => {
+    return `playback-point-${track.id}`;
+}
 
 export const playback = (targetTracks) => {
     if (targetTracks.length === 0) {
@@ -44,15 +124,16 @@ export const playback = (targetTracks) => {
                 trailTime: trailTime,
             }
         });
-        playbackEntities.push(pathEntity);
         const positionProperty = pathEntity.position;
         for (let i = 0; i < track.cartesians.length; i++) {
             const time = Cesium.JulianDate.fromIso8601(track.times[i].format('YYYY-MM-DDTHH:mm:ssZ'));
             positionProperty.addSample(time, track.cartesians[i]);
         };
 
-        playbackEntities.push(CesiumMap.viewer.entities.add({
+        CesiumMap.viewer.entities.add({
+            id: playbackPointId(track),
             position: positionProperty,
+            trackid: track.id,
             point: {
                 pixelSize: 8,
                 color: track.color.brighten(0.5, new Cesium.Color()),
@@ -60,7 +141,7 @@ export const playback = (targetTracks) => {
                 outlineWidth: 3,
                 scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 1.0),
             }
-        }));
+        });
     });
     CesiumMap.viewer.animation.viewModel.timeFormatter = (date, viewModel) => {
         date = Cesium.JulianDate.toDate(date);
@@ -68,25 +149,36 @@ export const playback = (targetTracks) => {
     };
     CesiumMap.viewer.timeline.updateFromClock();
     CesiumMap.viewer.timeline.zoomTo(start, stop);
+    CesiumMap.viewer.infoBox.container.style.display = 'none';
+
     showTimeline();
     setTimeout(() => CesiumMap.viewer.clock.shouldAnimate = true, 1000);
 }
 
 export const stopPlayback = () => {
     CesiumMap.viewer.clock.shouldAnimate = false;
-    playbackEntities.forEach(entity => {
-        CesiumMap.viewer.entities.remove(entity);
-    })
-    playbackEntities = [];
+    CesiumMap.viewer.infoBox.container.style.display = 'block';
+    CesiumMap.viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
+    CesiumMap.removeAllEntities();
+    if (clickHandler) {
+        clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        clickHandler = undefined;
+    }
+    if (onTickRemoveCallback) {
+        onTickRemoveCallback();
+    }
 }
 
-const showTimeline = () => {
-    const timelineElement = document.querySelector('.cesium-viewer-timelineContainer');
-    if (timelineElement) {
-        timelineElement.style.display = 'block';
+export const PlaybackMap = ({ tracks, mode }) => {
+    let targetTracks = tracks;
+    if (mode == Mode.PLAYBACK_SELECTED_MODE) {
+        targetTracks = tracks.filter(track => track.isSelected());
     }
-    const animationElement = document.querySelector('.cesium-viewer-animationContainer');
-    if (animationElement) {
-        animationElement.style.display = 'block';
-    }
+
+    React.useEffect(() => {
+        registerEventHandlerOnPointClick();
+        playback(targetTracks);
+    }, [tracks]);
+
+    return null;
 }
