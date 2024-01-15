@@ -1,5 +1,5 @@
 
-#playlist th, td {
+#playlist-container th, td {
     white-space: nowrap;
     background-color: transparent;
 }

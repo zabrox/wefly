@@ -1,12 +1,12 @@
 import React from 'react';
+import dayjs from 'dayjs';
 import * as Cesium from 'cesium';
 import * as CesiumMap from './cesiummap';
-import * as Mode from './mode';
-import { keyframes } from '@emotion/react';
 
 const speed = 30;
 const trailTime = 900;
 let clickHandler = undefined;
+let onTickFollowTrackRemoveCallback = undefined;
 let onTickRemoveCallback = undefined;
 let previousTime;
 
@@ -27,10 +27,10 @@ const followTrack = (entity) => {
 
     const trackPositionProperty = pathEntity.position;
 
-    if (onTickRemoveCallback) {
-        onTickRemoveCallback();
+    if (onTickFollowTrackRemoveCallback) {
+        onTickFollowTrackRemoveCallback();
     }
-    onTickRemoveCallback = CesiumMap.viewer.clock.onTick.addEventListener(function (clock) {
+    onTickFollowTrackRemoveCallback = CesiumMap.viewer.clock.onTick.addEventListener(function (clock) {
         const currentTime = clock.currentTime;
 
         // クロックが進行していない場合、更新をスキップ
@@ -75,13 +75,28 @@ const registerEventHandlerOnPointClick = () => {
                 }
             }
         } else {
-            if (onTickRemoveCallback) {
+            if (onTickFollowTrackRemoveCallback) {
                 CesiumMap.viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
-                onTickRemoveCallback();
+                onTickFollowTrackRemoveCallback();
             }
         }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
+
+const registerEventHandlerOnTick = (onTickEventHandler) => {
+    if (onTickRemoveCallback) {
+        onTickRemoveCallback();
+    }
+    onTickRemoveCallback = CesiumMap.viewer.clock.onTick.addEventListener((clock) => {
+        const currentTime = dayjs(clock.currentTime);
+
+        // クロックが進行していない場合、更新をスキップ
+        if (Cesium.JulianDate.equals(previousTime, currentTime)) {
+            return;
+        }
+        onTickEventHandler(dayjs(Cesium.JulianDate.toDate(clock.currentTime)));
+    });
+}
 
 const playbackPointId = (track) => {
     return `playback-point-${track.id}`;
@@ -171,14 +186,18 @@ export const stopPlayback = () => {
         clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
         clickHandler = undefined;
     }
+    if (onTickFollowTrackRemoveCallback) {
+        onTickFollowTrackRemoveCallback();
+    }
     if (onTickRemoveCallback) {
         onTickRemoveCallback();
     }
 }
 
-export const PlaybackMap = ({ playbackTracks }) => {
+export const PlaybackMap = ({ playbackTracks, onTickEventHandler }) => {
     React.useEffect(() => {
         registerEventHandlerOnPointClick();
+        registerEventHandlerOnTick(onTickEventHandler);
         playback(playbackTracks);
     }, [playbackTracks]);
 
