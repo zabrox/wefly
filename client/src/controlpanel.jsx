@@ -17,6 +17,7 @@ export const ControlPanel = () => {
         trackGroups: [],
         controlPanelSize: defaultControlPanelSize,
         mode: SCATTER_MODE,
+        actionTargetTracks: [],
     });
 
     return (

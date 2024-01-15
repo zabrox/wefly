@@ -1,8 +1,8 @@
+import React from 'react';
 import { SpeedDial, SpeedDialAction } from '@mui/material';
 import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { leaveScatterMode } from './scattermap';
-import * as CesiumMap from './cesiummap';
 import * as Mode from './mode';
 
 export const ScatterActionDial = ({ state, setState, filter }) => {
@@ -19,20 +19,20 @@ export const ScatterActionDial = ({ state, setState, filter }) => {
                 icon={<PlayArrowIcon />}
                 tooltipTitle='選択中のトラックを再生'
                 tooltipOpen
-                onClick={() => {
+                onClick={React.useCallback(() => {
                     leaveScatterMode();
-                    setState({ ...state, mode: Mode.PLAYBACK_SELECTED_MODE });
-                }}
+                    setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: state.tracks.filter(track => track.isSelected()) });
+                }, [state.tracks])}
             />,
             <SpeedDialAction
                 key='リスト再生'
                 icon={<PlaylistPlayIcon />}
                 tooltipTitle='リスト再生'
                 tooltipOpen
-                onClick={() => {
+                onClick={React.useCallback(() => {
                     leaveScatterMode();
-                    setState({ ...state, mode: Mode.PLAYBACK_LIST_MODE });
-                }}
+                    setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: filter.filterTracks(state.tracks) });
+                }, [state.tracks, filter])}
             />
         </SpeedDial>
     );

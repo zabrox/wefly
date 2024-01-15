@@ -21,7 +21,7 @@ const showTimeline = () => {
     }
 }
 
-const focusOnMovingTrack = (entity) => {
+const followTrack = (entity) => {
     const pathEntity = CesiumMap.viewer.entities.getById(entity.id);
     if (!pathEntity) return;
 
@@ -50,14 +50,14 @@ const focusOnMovingTrack = (entity) => {
     });
 }
 
-const handlePlaybackPointClick = (entity) => {
+const focusOnEntity = (entity) => {
     const currentTime = CesiumMap.viewer.clock.currentTime;
     const position = entity.position.getValue(currentTime);
     CesiumMap.viewer.camera.lookAt(
         position,
-        new Cesium.HeadingPitchRange(CesiumMap.viewer.camera.heading, CesiumMap.viewer.camera.pitch, 5000));
+        new Cesium.HeadingPitchRange(CesiumMap.viewer.camera.heading, CesiumMap.viewer.camera.pitch, 3000));
 
-    focusOnMovingTrack(entity);
+    followTrack(entity);
 }
 
 const registerEventHandlerOnPointClick = () => {
@@ -69,7 +69,7 @@ const registerEventHandlerOnPointClick = () => {
             const entityId = pickedObject.id;
             if (entityId instanceof Cesium.Entity) {
                 if ('trackid' in entityId) {
-                    handlePlaybackPointClick(entityId);
+                    focusOnEntity(entityId);
                 } else {
                     CesiumMap.viewer.selectedEntity = undefined;
                 }
@@ -85,6 +85,13 @@ const registerEventHandlerOnPointClick = () => {
 
 const playbackPointId = (track) => {
     return `playback-point-${track.id}`;
+}
+
+export const focusOnTrack = (track) => {
+    const entity = CesiumMap.viewer.entities.getById(playbackPointId(track));
+    if (entity) {
+        focusOnEntity(entity);
+    }
 }
 
 export const playback = (targetTracks) => {
@@ -169,16 +176,11 @@ export const stopPlayback = () => {
     }
 }
 
-export const PlaybackMap = ({ tracks, mode }) => {
-    let targetTracks = tracks;
-    if (mode == Mode.PLAYBACK_SELECTED_MODE) {
-        targetTracks = tracks.filter(track => track.isSelected());
-    }
-
+export const PlaybackMap = ({ playbackTracks }) => {
     React.useEffect(() => {
         registerEventHandlerOnPointClick();
-        playback(targetTracks);
-    }, [tracks]);
+        playback(playbackTracks);
+    }, [playbackTracks]);
 
     return null;
 }
