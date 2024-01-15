@@ -88,8 +88,8 @@ export const PlayList = ({ state, playbackState }) => {
     }, [playbackState.currentTime]);
 
     const sortedTracks = React.useMemo(() => {
-        return state.tracks.slice().sort((a, b) => a.startTime().localeCompare(b.startTime()));
-    }, [state.tracks]);
+        return state.actionTargetTracks.slice().sort((a, b) => a.startTime().localeCompare(b.startTime()));
+    }, [state.actionTargetTracks]);
 
     return (
         <TableContainer id='playlist-container'>
