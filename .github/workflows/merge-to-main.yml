@@ -82,7 +82,7 @@ jobs:
 
     - name: Deploy track_loader to Cloud Run
       run: |-
-        gcloud run deploy track_loader \
+        gcloud run jobs deploy track_loader \
           --project=$PROJECT_ID \
           --image=asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:$TAG \
           --region=us-central1 \
