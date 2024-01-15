@@ -9,12 +9,16 @@ env:
   PROJECT_ID: wefly-407313
   
 on:
-  push:
-    branches: [ "main" ]
+  pull_request:
+    branches: 
+      - main
+    types: [closed]
 
 jobs:
   build-image:
     runs-on: ubuntu-latest
+    env:
+      TAG: ${{ github.event.pull_request.title }}
     steps:
     - uses: actions/checkout@v3
       name: checkout repository
@@ -31,31 +35,19 @@ jobs:
     - name: Docker build client
       run: docker build -f Dockerfile -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:$TAG .
       working-directory: ./client
-      env:
-        TAG: ${{ github.event.pull_request.title }}
     - name: Docker build api-server
       run: docker build -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:$TAG .
       working-directory: ./api-server
-      env:
-        TAG: ${{ github.event.pull_request.title }}
     - name: Docker build track_loader
       run: docker build -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:$TAG .
       working-directory: ./track_loader
-      env:
-        TAG: ${{ github.event.pull_request.title }}
   
     - name: Docker push client
       run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:$TAG
-      env:
-        TAG: ${{ github.event.pull_request.title }}
     - name: Docker push api-server
       run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:$TAG
-      env:
-        TAG: ${{ github.event.pull_request.title }}
     - name: Docker push track_loader
       run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:$TAG
-      env:
-        TAG: ${{ github.event.pull_request.title }}
       
   deploy:
     runs-on: ubuntu-latest
