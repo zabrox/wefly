@@ -1,0 +1,88 @@
+name: Merge to Main
+
+permissions:
+  contents: read
+  id-token: write
+  pull-requests: read
+
+env:
+  PROJECT_ID: wefly-407313
+  TAG: ${{ github.event.pull_request.title }}
+  
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      name: checkout repository
+
+    - name: Login to Google Cloud
+      uses: ./.github/actions/google-cloud-login
+      with:
+        service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+        workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+      
+    - name: Authorize Docker push
+      run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+      
+    - name: Docker build client
+      run: docker build -f Dockerfile -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:$TAG .
+      working-directory: ./client
+    - name: Docker build api-server
+      run: docker build -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:$TAG .
+      working-directory: ./api-server
+    - name: Docker build track_loader
+      run: docker build -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:$TAG .
+      working-directory: ./track_loader
+  
+    - name: Docker push client
+      run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:$TAG
+    - name: Docker push api-server
+      run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:$TAG
+    - name: Docker push track_loader
+      run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:$TAG
+      
+  deploy:
+    runs-on: ubuntu-latest
+    needs:
+      - build-image
+    steps:
+    - uses: actions/checkout@v3
+      name: checkout repository
+
+    - name: Login to Google Cloud
+      uses: ./.github/actions/google-cloud-login
+      with:
+        service_account_email: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
+        workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+      
+    - name: Deploy client to Cloud Run
+      run: |-
+        gcloud run deploy wefly-client \
+          --project=$PROJECT_ID \
+          --image=asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:$TAG \
+          --region=us-central1 \
+          --service-account=github-action-sa@wefly-407313.iam.gserviceaccount.com \
+          --allow-unauthenticated
+
+    - name: Deploy api-server to Cloud Run
+      run: |-
+        gcloud run deploy wefly-api-server \
+          --project=$PROJECT_ID \
+          --image=asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:$TAG \
+          --region=us-central1 \
+          --service-account=github-action-sa@wefly-407313.iam.gserviceaccount.com \
+          --allow-unauthenticated
+
+    - name: Deploy track_loader to Cloud Run
+      run: |-
+        gcloud run deploy track_loader \
+          --project=$PROJECT_ID \
+          --image=asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:$TAG \
+          --region=us-central1 \
+          --service-account=github-action-sa@wefly-407313.iam.gserviceaccount.com \
+          --allow-unauthenticated
