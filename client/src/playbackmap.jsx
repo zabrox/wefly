@@ -102,11 +102,51 @@ const playbackPointId = (track) => {
     return `playback-point-${track.id}`;
 }
 
+const createPlaybakcPoint = (track, positionProperty) => {
+    CesiumMap.viewer.entities.add({
+        id: playbackPointId(track),
+        position: positionProperty,
+        trackid: track.id,
+        point: {
+            pixelSize: 8,
+            color: track.color.brighten(0.5, new Cesium.Color()),
+            outlineColor: track.color.darken(0.2, new Cesium.Color()),
+            outlineWidth: 3,
+            scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 1.0),
+        }
+    });
+}
+
 export const focusOnTrack = (track) => {
     const entity = CesiumMap.viewer.entities.getById(playbackPointId(track));
     if (entity) {
         focusOnEntity(entity);
     }
+}
+
+const labelId = (track) => {
+    return `label-${track.id}`;
+}
+const createPilotLabels = (track, positionProperty) => {
+    CesiumMap.viewer.entities.add({
+        id: labelId(track),
+        position: positionProperty, // Cesium.Cartesian3 position
+        trackid: track.id,
+        label: {
+            text: track.pilotname,
+            font: '30px Arial',
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+            pixelOffset: new Cesium.Cartesian2(0, -25), // Adjust as needed
+            fillColor: Cesium.Color.BLACK,
+            showBackground: true,
+            style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+            backgroundColor: track.color.withAlpha(0.8),
+            backgroundPadding: new Cesium.Cartesian2(13, 13),
+            distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 50000),
+            scale: 0.3,
+            scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.3),
+        }
+    });
 }
 
 export const playback = (targetTracks) => {
@@ -152,18 +192,8 @@ export const playback = (targetTracks) => {
             positionProperty.addSample(time, track.cartesians[i]);
         };
 
-        CesiumMap.viewer.entities.add({
-            id: playbackPointId(track),
-            position: positionProperty,
-            trackid: track.id,
-            point: {
-                pixelSize: 8,
-                color: track.color.brighten(0.5, new Cesium.Color()),
-                outlineColor: track.color.darken(0.2, new Cesium.Color()),
-                outlineWidth: 3,
-                scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 1.0),
-            }
-        });
+        createPlaybakcPoint(track, positionProperty);
+        createPilotLabels(track, positionProperty);
     });
     CesiumMap.viewer.animation.viewModel.timeFormatter = (date, viewModel) => {
         date = Cesium.JulianDate.toDate(date);
