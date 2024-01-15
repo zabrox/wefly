@@ -7,6 +7,7 @@ permissions:
 
 env:
   PROJECT_ID: wefly-407313
+  TAG: ${{ github.event.pull_request.title }}
   
 on:
   pull_request:
@@ -17,8 +18,6 @@ on:
 jobs:
   build-image:
     runs-on: ubuntu-latest
-    env:
-      TAG: ${{ github.event.pull_request.title }}
     steps:
     - uses: actions/checkout@v3
       name: checkout repository
