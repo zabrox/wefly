@@ -21,7 +21,7 @@ const cutDownAreaName = (area) => {
     return area;
 }
 
-export const Headers = [
+export const headers = [
     {
         id: 'activity',
         label: '種別',
@@ -80,34 +80,38 @@ export const Headers = [
     },
 ];
 
-export const TrackListHeader = ({ tracks, order, setOrder, orderBy, setOrderBy, filter, setFilter }) => {
+export const TrackListHeader = ({ tracks, scatterState, setScatterState }) => {
 
     const handleSort = (property) => {
-        const isAcsc = orderBy === property && order === 'asc';
-        setOrder(isAcsc ? 'desc' : 'asc');
-        setOrderBy(property);
+        let order = false;
+        if (scatterState.orderBy === property) {
+            order = scatterState.order == 'asc' ? 'desc' : 'asc';
+        } else {
+            order = headers.find(header => header.id === property).defaultOrder;
+        }
+        setScatterState({ ...scatterState, orderBy: property, order: order })
     };
 
     return (
         <TableHead>
             <TableRow id="track-list-header">
-                {Headers.map((header) => (
+                {headers.map((header) => (
                     <TableCell
                         key={header.id}
-                        sortDirection={orderBy === header.id ? order : false}
+                        sortDirection={scatterState.orderBy === header.id ? scatterState.order : false}
                     >
                         <TableSortLabel
-                            active={orderBy === header.id}
-                            direction={orderBy === header.id ? order : 'asc'}
-                            onClick={() => handleSort(header.id)}
+                            active={scatterState.orderBy === header.id}
+                            direction={scatterState.orderBy === header.id ? scatterState.order : 'asc'}
+                            onClick={() => handleSort(header.id, headers)}
                         >
                             {header.label}
                             {['area', 'pilotname', 'activity'].includes(header.id) && (
                                 <TrackFilter
                                     tracks={tracks}
                                     filterkey={header.id}
-                                    filter={filter}
-                                    setFilter={setFilter} />)}
+                                    filter={scatterState.filter}
+                                    setFilter={(filter) => setScatterState({...scatterState, filter: filter})} />)}
                         </TableSortLabel>
                     </TableCell>
                 ))}

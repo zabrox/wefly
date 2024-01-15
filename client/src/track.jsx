@@ -75,6 +75,12 @@ export class Track {
         }
         return this.times[0].format('YYYY-MM-DD HH:mm:ss');
     }
+    endTime() {
+        if (this.times.length === 0) {
+            return undefined;
+        }
+        return this.times[this.times.length - 1].format('YYYY-MM-DD HH:mm:ss');
+    }
 
     pointtime(index) {
         if (this.times.length <= index) {

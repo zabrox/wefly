@@ -1,0 +1,10 @@
+
+#playlist-container th, td {
+    white-space: nowrap;
+    background-color: transparent;
+}
+
+#playlist-container {
+    width: 100%;
+    overflow: auto;
+}

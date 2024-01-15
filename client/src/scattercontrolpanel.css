@@ -1,0 +1,28 @@
+#scatter-control-panel {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+#date-picker-container {
+    padding: 10px;
+    height: 10%;
+}
+
+#tracknumber-label {
+    text-align: right;
+    margin: 0 30px;
+    color: #303030;
+    font-size: 13px;
+    height: 3%;
+}
+
+#tracklist th, td {
+    white-space: nowrap;
+    background-color: transparent;
+}
+
+#tracklist-container {
+    width: 100%;
+    height: 77%;
+    overflow: auto;
+}

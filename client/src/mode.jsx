@@ -1,2 +1,2 @@
-export const SCATTER_MODE = "scatter";
-export const PLAYBACK_MODE = "playback";
+export const SCATTER_MODE = 0;
+export const PLAYBACK_MODE = 1;
