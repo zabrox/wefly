@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Button } from '@mui/material';
 import track_group_pin from '/images/track_group_pin.svg';
 import * as Cesium from "cesium";
 import * as CesiumMap from './cesiummap';
@@ -95,6 +96,9 @@ const registerEventHandlerOnPointClick = (handleTrackPointClick, handleTrackGrou
         return;
     }
     // Event handler for clicking on track points
+    if (clickHandler !== undefined) {
+        clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
     clickHandler = new Cesium.ScreenSpaceEventHandler(CesiumMap.viewer.scene.canvas);
     clickHandler.setInputAction((click) => {
         const pickedObject = CesiumMap.viewer.scene.pick(click.position);
@@ -223,14 +227,14 @@ export const leaveScatterMode = () => {
     clickHandler = undefined;
 }
 
-export const ScatterMap = ({onTrackPointClick, onTrackGroupClick, tracks, trackGroups, filter, mode}) => {
+export const ScatterMap = ({onTrackPointClick, onTrackGroupClick, state, scatterState}) => {
     useEffect(() => {
-        registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick, tracks, trackGroups);
-    }, [tracks, trackGroups, mode]);
+        registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick, state.tracks, state.trackGroups);
+    }, [state]);
     useEffect(() => {
-        registerEventListenerOnCameraMove(tracks, trackGroups, filter);
-        render(tracks, trackGroups, filter);
-    }, [tracks, trackGroups, filter, mode]);
+        registerEventListenerOnCameraMove(state.tracks, state.trackGroups, scatterState.filter);
+        render(state.tracks, state.trackGroups, scatterState.filter);
+    }, [state, scatterState]);
 
     return null;
 }
