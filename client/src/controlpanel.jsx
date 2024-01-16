@@ -16,13 +16,15 @@ export const ControlPanel = () => {
         tracks: [],
         trackGroups: [],
         controlPanelSize: defaultControlPanelSize,
+        isControlPanelOpen: true,
         mode: SCATTER_MODE,
         actionTargetTracks: [],
     });
 
     return (
         <div id='control-panel-wrapper'>
-            <div id='control-panel' style={{ width: state.controlPanelSize, height: '100%' }}>
+            <div id='control-panel'
+                style={state.isControlPanelOpen ? { width: state.controlPanelSize, height: '100%', } : { display: 'none' }}>
                 <AppBar id='app-bar' position="static">
                     <Typography id='title' variant="h5" >
                         WeFly
@@ -35,8 +37,8 @@ export const ControlPanel = () => {
                 state={state}
                 setState={setState} /> */}
             <ControlPanelToggle
-                controlPanelSize={state.controlPanelSize}
-                setControlPanelSize={(width) => setState({ ...state, controlPanelSize: width })} />
+                state={state}
+                setState={setState} />
         </div >
     );
 };
