@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import axios from "axios";
 import dayjs from 'dayjs';
 import { Typography, Table, TableContainer, Box, SpeedDial } from '@mui/material';
@@ -78,7 +78,7 @@ const listup = (key, tracks) => {
 }
 
 export const ScatterControlPanel = ({ state, setState }) => {
-    const [scatterState, setScatterState] = useState({
+    const [scatterState, setScatterState] = React.useState({
         loadingTracks: false,
         date: dayjs(),
         order: 'asc',
@@ -87,11 +87,11 @@ export const ScatterControlPanel = ({ state, setState }) => {
         loading: false,
     });
 
-    useEffect(() => {
+    React.useEffect(() => {
         loadTracks(state, setState, scatterState, setScatterState);
     }, []);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const newFilter = scatterState.filter;
         const areas = listup('area', state.tracks);
         const pilots = listup('pilotname', state.tracks);
@@ -107,13 +107,15 @@ export const ScatterControlPanel = ({ state, setState }) => {
 
     const handleTrackPointClick = (trackid, tracks) => {
         const track = tracks.find(track => track.id === trackid);
-        if (!track.isSelected()) {
-            handleTrackClick(track.id);
-        }
+        setTimeout(() => {
+            if (!track.isSelected()) {
+                handleTrackClick(track.id);
+            }
+        });
         setTimeout(() => scrollToTrack(trackid), 100);
     }
 
-    const handleTrackClick = useCallback((trackid) => {
+    const handleTrackClick = React.useCallback((trackid) => {
         console.debug('handleTrackClick');
         const copy_tracks = [...state.tracks];
         const index = copy_tracks.findIndex(track => track.id === trackid)
@@ -124,27 +126,28 @@ export const ScatterControlPanel = ({ state, setState }) => {
         if (select) {
             CesiumMap.zoomToTracks([target_track]);
         }
-    }, [state.tracks]);
+    }, [state.tracks, state.isControlPanelOpen]);
 
     if (state.mode !== Mode.SCATTER_MODE) {
         return null;
     }
+
+
     return (
-        <div id='scatter-control-panel' style={{ width: state.controlPanelSize, height: '100%' }}>
-            <div id='date-picker-container'
-                style={state.controlPanelSize === 0 ? { display: 'none' } : {}}><center>
-                    <DesktopDatePicker
-                        defaultValue={scatterState.date}
-                        format="YYYY-MM-DD (ddd)"
-                        onChange={(newDate) => {
-                            const newFilter = scatterState.filter;
-                            newFilter.clear();
-                            setScatterState({ ...scatterState, filter: newFilter });
-                            handleDateChange(state, setState, scatterState, setScatterState, newDate)
-                        }} />
-                </center>
+        <div id='scatter-control-panel'>
+            <div id='date-picker-container'><center>
+                <DesktopDatePicker
+                    defaultValue={scatterState.date}
+                    format="YYYY-MM-DD (ddd)"
+                    onChange={(newDate) => {
+                        const newFilter = scatterState.filter;
+                        newFilter.clear();
+                        setScatterState({ ...scatterState, filter: newFilter });
+                        handleDateChange(state, setState, scatterState, setScatterState, newDate)
+                    }} />
+            </center>
             </div>
-            <Typography id='tracknumber-label' style={state.controlPanelSize === 0 ? { display: 'none' } : {}}>
+            <Typography id='tracknumber-label'>
                 {scatterState.filter.filterTracks(state.tracks).length} tracks
             </Typography>
             <Box id='tracklist-container'>

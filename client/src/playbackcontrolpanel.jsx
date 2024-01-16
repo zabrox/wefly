@@ -9,10 +9,6 @@ import { Box } from '@mui/material';
 import './playbackcontrolpanel.css';
 
 export const PlaybackControlPanel = ({ state, setState }) => {
-    if (state.mode !== Mode.PLAYBACK_MODE) {
-        return null;
-    }
-
     const [playbackState, setPlaybackState] = React.useState({
         currentTime: dayjs(),
     });
@@ -26,10 +22,14 @@ export const PlaybackControlPanel = ({ state, setState }) => {
         setPlaybackState({ ...playbackState, currentTime: date })
     }
 
+    if (state.mode !== Mode.PLAYBACK_MODE) {
+        return null;
+    }
+
     return (
         <div id='playback-control-panel' style={{ width: state.controlPanelSize, height: '100%' }}>
             <PlaybackMap playbackTracks={state.actionTargetTracks} onTickEventHandler={handleTickEvent} />
-            {state.controlPanelSize !== 0 &&
+            {state.isControlPanelOpen &&
                 <div>
                     <Box id='back-button-container'>
                         <ArrowBackIcon id='back-button-icon' onClick={backToScatterMode} />
