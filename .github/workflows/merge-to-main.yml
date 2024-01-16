@@ -96,9 +96,9 @@ jobs:
     - uses: actions/checkout@v3
       name: checkout repository
     - uses: ncipollo/release-action@v1
-      name: $TAG
+      name: ${{ github.event.pull_request.title }}
       with:
         artifacts: "source.zip"
-        name: $TAG
+        name: ${{ github.event.pull_request.title }}
         body: ${{ github.event.pull_request.body }}
-        tag: $TAG
+        tag: ${{ github.event.pull_request.title }}
