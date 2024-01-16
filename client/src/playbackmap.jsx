@@ -232,7 +232,7 @@ export const PlaybackMap = ({ state, onTickEventHandler }) => {
         registerEventHandlerOnPointClick();
         registerEventHandlerOnTick(onTickEventHandler);
         playback(state.actionTargetTracks);
-    }, [state]);
+    }, [state.actionTargetTracks]);
 
     return null;
 }
