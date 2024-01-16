@@ -62,6 +62,9 @@ const focusOnEntity = (entity) => {
 
 const registerEventHandlerOnPointClick = () => {
     // Event handler for clicking on track points
+    if (clickHandler) {
+        clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
     clickHandler = new Cesium.ScreenSpaceEventHandler(CesiumMap.viewer.scene.canvas);
     clickHandler.setInputAction((click) => {
         const pickedObject = CesiumMap.viewer.scene.pick(click.position);
@@ -224,12 +227,12 @@ export const stopPlayback = () => {
     }
 }
 
-export const PlaybackMap = ({ playbackTracks, onTickEventHandler }) => {
+export const PlaybackMap = ({ state, onTickEventHandler }) => {
     React.useEffect(() => {
         registerEventHandlerOnPointClick();
         registerEventHandlerOnTick(onTickEventHandler);
-        playback(playbackTracks);
-    }, [playbackTracks]);
+        playback(state.actionTargetTracks);
+    }, [state]);
 
     return null;
 }

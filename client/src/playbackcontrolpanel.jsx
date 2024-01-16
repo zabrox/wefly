@@ -13,14 +13,14 @@ export const PlaybackControlPanel = ({ state, setState }) => {
         currentTime: dayjs(),
     });
 
-    const backToScatterMode = () => {
+    const backToScatterMode = React.useCallback(() => {
         stopPlayback();
         setState({ ...state, mode: Mode.SCATTER_MODE });
-    };
+    }, [state]);
 
-    const handleTickEvent = (date) => {
+    const handleTickEvent = React.useCallback((date) => {
         setPlaybackState({ ...playbackState, currentTime: date })
-    }
+    }, [playbackState]);
 
     if (state.mode !== Mode.PLAYBACK_MODE) {
         return null;
@@ -28,7 +28,7 @@ export const PlaybackControlPanel = ({ state, setState }) => {
 
     return (
         <div id='playback-control-panel' style={{ width: state.controlPanelSize, height: '100%' }}>
-            <PlaybackMap playbackTracks={state.actionTargetTracks} onTickEventHandler={handleTickEvent} />
+            <PlaybackMap state={state} onTickEventHandler={handleTickEvent} />
             {state.isControlPanelOpen &&
                 <div>
                     <Box id='back-button-container'>
