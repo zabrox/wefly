@@ -12,7 +12,7 @@ runs:
   steps:
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth'
+      uses: 'google-github-actions/auth@v2'
       with:
         service_account: ${{ inputs.service_account_email }}
         workload_identity_provider: ${{ inputs.workload_identity_provider }}
