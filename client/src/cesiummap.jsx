@@ -8,6 +8,7 @@ const initializeCesium = (cesiumContainerRef) => {
     Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNjMxN2Y3Ni04YWU3LTQwNjctYmYyNC05Yjc4MTljOTY3OGYiLCJpZCI6MTY5NTkxLCJpYXQiOjE2OTYyNDYyMTB9.CYkH9qKRpMU0kzQWkjXuvqgr-09nICUdta83AZIxAy8";
     viewer = new Cesium.Viewer(cesiumContainerRef.current, {
         terrain: Cesium.Terrain.fromWorldTerrain(),
+        imageryProvider: new Cesium.IonImageryProvider({ assetId: 3954 }),
         timeline: true,
         animation: true,
         baseLayerPicker: false,

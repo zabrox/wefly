@@ -7,7 +7,7 @@ import * as Mode from './mode';
 
 export const ScatterActionDial = ({ state, setState, filter }) => {
     return (
-        <SpeedDial id='scatter-modeaction-dial' ariaLabel='Scatter Mode Action Dial' size="medium" icon={<PlayArrowIcon />}
+        <SpeedDial id='scatter-action-dial' ariaLabel='Scatter Mode Action Dial' size="medium" icon={<PlayArrowIcon />}
             sx={{
                 position: 'absolute',
                 bottom: '50px',

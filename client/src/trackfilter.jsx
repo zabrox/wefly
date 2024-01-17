@@ -72,7 +72,7 @@ export const TrackFilter = ({ tracks, filterkey, filter, setFilter }) => {
 
     return (
         <div onClick={(event) => event.stopPropagation()}>
-            <IconButton id='trackfilter-icon' onClick={(event) => {
+            <IconButton id={`trackfilter-icon-${filterkey}`} onClick={(event) => {
                 setShowTrackFilter(!showTrackFilter)
                 event.stopPropagation();
             }}>
