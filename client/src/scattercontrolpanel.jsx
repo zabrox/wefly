@@ -81,7 +81,7 @@ export const ScatterControlPanel = ({ state, setState }) => {
         order: 'asc',
         orderBy: 'starttime',
         filter: new Filter(),
-        loading: false,
+        loading: true,
     });
 
     React.useEffect(() => {
