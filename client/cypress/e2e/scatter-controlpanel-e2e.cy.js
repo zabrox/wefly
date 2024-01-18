@@ -1,8 +1,14 @@
 import dayjs from 'dayjs';
 
 describe('WeFly Application Launch and Initial Display', () => {
+  beforeEach(() => {
+    cy.visit('http://localhost:3000');
+    cy.get('.MuiCircularProgress-root').should('be.visible');
+    cy.get('#track-list-body').find('tr', { timeout: 10000 }).should('have.length', 122);
+    cy.get('.MuiCircularProgress-root').should('not.be.visible');
+  });
+
   it('successfully loads and displays the initial ScatterMode with correct track count', () => {
-    cy.visit('http://localhost:3000')
     cy.get('#cesium').invoke('css', 'z-index', '10000');
     cy.get('#cesium').should('be.visible')
     cy.get('#cesium').invoke('css', 'z-index', '-1');
@@ -23,7 +29,6 @@ describe('WeFly Application Launch and Initial Display', () => {
   });
 
   it('should toggle the ControlPanel visibility on button click', () => {
-    cy.visit('http://localhost:3000')
     cy.get('#control-panel').should('be.visible');
 
     cy.get('#control-panel-toggle').click();
@@ -129,9 +134,6 @@ describe('WeFly Application Launch and Initial Display', () => {
   ]
   sortCondition.forEach((condition) => {
     it(`sorts by ${condition.column} correctly`, () => {
-      cy.visit('http://localhost:3000')
-      cy.get('#track-list-body').find('tr', { timeout: 10000 }).should('have.length', 122)
-
       if (condition.scrollRight) {
         cy.get('#tracklist').scrollTo('right')
       }
@@ -170,9 +172,6 @@ describe('WeFly Application Launch and Initial Display', () => {
   ];
   filterCondition.forEach((condition) => {
     it(`filters tracks by a single filter ${condition.column}`, () => {
-      cy.visit('http://localhost:3000')
-      cy.get('#track-list-body').find('tr', { timeout: 10000 }).should('have.length', 122)
-
       cy.get(`#trackfilter-icon-${condition.column}`).click();
       cy.get('[role=dialog]').should('be.visible');
       cy.get('#trackfilter-list li').eq(0).click();
@@ -198,9 +197,6 @@ describe('WeFly Application Launch and Initial Display', () => {
   });
 
   it('filters tracks by multiple filters', () => {
-    cy.visit('http://localhost:3000')
-    cy.get('#track-list-body').find('tr', { timeout: 10000 }).should('have.length', 122)
-
     cy.get(`#trackfilter-icon-area`).click();
     cy.get('[role=dialog]').should('be.visible');
     cy.get('#trackfilter-list li').eq(4).click(); // Ashio West
@@ -216,5 +212,14 @@ describe('WeFly Application Launch and Initial Display', () => {
       cy.wrap(row).find('td').eq(0).should('have.text', 'Flex wing FAI1');
       cy.wrap(row).find('td').eq(2).should('have.text', ' Ashio West');
     });
+  });
+
+  it.only('change date', () => {
+    cy.get(`#date-picker-container input`).clear();
+    cy.get(`#date-picker-container input`).type('2021-01-01');
+
+    cy.get('.MuiCircularProgress-root').should('be.visible');
+    cy.get('#track-list-body').find('tr', { timeout: 10000 }).should('have.length', 122);
+    cy.get('.MuiCircularProgress-root').should('not.be.visible');
   });
 });
