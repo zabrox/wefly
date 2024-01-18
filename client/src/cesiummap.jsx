@@ -8,14 +8,13 @@ const initializeCesium = (cesiumContainerRef) => {
     Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNjMxN2Y3Ni04YWU3LTQwNjctYmYyNC05Yjc4MTljOTY3OGYiLCJpZCI6MTY5NTkxLCJpYXQiOjE2OTYyNDYyMTB9.CYkH9qKRpMU0kzQWkjXuvqgr-09nICUdta83AZIxAy8";
     viewer = new Cesium.Viewer(cesiumContainerRef.current, {
         terrain: Cesium.Terrain.fromWorldTerrain(),
-        timeline: true,
-        animation: true,
+        baseLayer: Cesium.ImageryLayer.fromProviderAsync(Cesium.IonImageryProvider.fromAssetId(Number(import.meta.env.VITE_IMAGERY_ASSET_ID))),
         baseLayerPicker: false,
         geocoder: false,
         homeButton: false,
         sceneModePicker: false,
         navigationHelpButton: false,
-        fullscreenButton: false,
+        fullscreenButton: true,
         terrainShadows: Cesium.ShadowMode.DISABLED,
     });
     viewer.scene.globe.depthTestAgainstTerrain = false;

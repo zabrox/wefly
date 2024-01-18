@@ -97,6 +97,7 @@ export const TrackListHeader = ({ tracks, scatterState, setScatterState }) => {
             <TableRow id="track-list-header">
                 {headers.map((header) => (
                     <TableCell
+                        className={header.id}
                         key={header.id}
                         sortDirection={scatterState.orderBy === header.id ? scatterState.order : false}
                     >
@@ -105,7 +106,7 @@ export const TrackListHeader = ({ tracks, scatterState, setScatterState }) => {
                             direction={scatterState.orderBy === header.id ? scatterState.order : 'asc'}
                             onClick={() => handleSort(header.id, headers)}
                         >
-                            {header.label}
+                            <div className='label-text'>{header.label}</div>
                             {['area', 'pilotname', 'activity'].includes(header.id) && (
                                 <TrackFilter
                                     tracks={tracks}

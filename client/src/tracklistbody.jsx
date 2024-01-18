@@ -33,7 +33,7 @@ export const TrackListBody = ({ tracks, onTrackClicked, orderBy, order, filter }
     const unfilteredTracks = filter.filterTracks(sortedrows);
 
     return (
-        <TableBody>{
+        <TableBody id='track-list-body'>{
             mapTracksToTableRows(unfilteredTracks, onTrackClicked)
         }</TableBody>
     );
