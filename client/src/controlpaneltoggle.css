@@ -7,9 +7,10 @@
 }
 
 #control-panel-toggle-button {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     z-index: 1;
     color: #e95800;
-    background-color: transparent;
+    background-color: white;
+    border-radius: 50%;
 }
