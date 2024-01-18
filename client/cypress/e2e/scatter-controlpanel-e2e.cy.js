@@ -24,8 +24,6 @@ describe('WeFly Application Launch and Initial Display', () => {
     cy.get('#track-list-body').find('tr').eq(0).find('td').eq(1).should('have.text', 'Hken')
     cy.get('#track-list-body').find('tr').eq(1).find('td').eq(1).should('have.text', 'tmai24')
     cy.get('#track-list-body').find('tr').eq(2).find('td').eq(1).should('have.text', 'nabekatsu')
-
-    // TODO: CesiumMapにTrackGroupアイコンが表示されることを確認
   });
 
   it('should toggle the ControlPanel visibility on button click', () => {
