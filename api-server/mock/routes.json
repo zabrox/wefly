@@ -1,3 +1,4 @@
 {
+    "/api/tracks?date=2024-01-10": "/tracks_2024_01_10",
     "/api/tracks?date=:date": "/tracks"
 }

@@ -6,7 +6,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
 import { ProgressBar } from './progressbar';
-import { parseTrackJson, dbscanTracks } from './track';
+import { parseAllTracks, dbscanTracks } from './track';
 import { Filter } from './trackfilter';
 import { ScatterActionDial } from './scatteractiondial';
 import * as CesiumMap from './cesiummap';
@@ -37,15 +37,6 @@ const loadTracks = async (state, setState, scatterState, setScatterState) => {
     CesiumMap.zoomToTracks(tracks);
     setState({ ...state, tracks: tracks, trackGroups: trackGroups, });
     setScatterState({ ...scatterState, loading: false });
-};
-
-const parseAllTracks = tracks => {
-    console.time('parseAllTracks');
-    const parsedTracks = tracks.map((trackjson) => {
-        return parseTrackJson(trackjson);
-    });
-    console.timeEnd('parseAllTracks');
-    return parsedTracks;
 };
 
 const handleDateChange = (state, setState, scatterState, setScatterState, newDate) => {
