@@ -132,7 +132,7 @@ describe('WeFly Application Launch and Initial Display', () => {
         cy.get('#track-list-body').find('tr').eq(0).should('have.css', 'background-color', 'rgba(0, 0, 0, 0)');
     });
 
-    it.only('Date change', () => {
+    it('Date change', () => {
         cy.get(`#date-picker-container button`).click();
         cy.contains('.MuiPickersLayout-root button', "10").click();
 
