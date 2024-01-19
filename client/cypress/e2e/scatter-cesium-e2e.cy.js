@@ -146,5 +146,19 @@ describe('WeFly Application Launch and Initial Display', () => {
                 expect(billboards.length).to.equal(4);
             });
         });
+
+        cy.get(`#date-picker-container button`).click();
+        cy.contains('.MuiPickersLayout-root button', "11").click();
+
+        cy.get('#track-list-body').find('tr', { timeout: 10000 }).should('have.length', 0);
+
+        cy.window().then((win) => {
+            const cesiumViewer = win.cesiumViewer;
+
+            cy.wrap(null).should(() => {
+                const billboards = cesiumViewer.entities.values.filter(e => e.billboard);
+                expect(billboards.length).to.equal(0);
+            });
+        });
     });
 });

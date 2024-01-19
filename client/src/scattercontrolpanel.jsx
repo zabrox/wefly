@@ -25,7 +25,8 @@ const loadTracks = async (state, setState, scatterState, setScatterState) => {
         console.timeEnd('loadTracks');
     } catch (error) {
         console.error(error);
-        setState({ ...state, tracks: [] });
+        setState({ ...state, tracks: [], trackGroups: []  });
+        setScatterState({ ...scatterState, loading: false });
         return;
     }
     let tracks = parseAllTracks(response.data);
