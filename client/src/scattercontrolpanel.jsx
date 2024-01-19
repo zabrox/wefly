@@ -93,7 +93,7 @@ export const ScatterControlPanel = ({ state, setState }) => {
             handleTrackClick(trackid);
         }
         setTimeout(() => setState(s => { return { ...state, isControlPanelOpen: true } }));
-        setTimeout(() => scrollToTrack(trackid), 100);
+        setTimeout(() => scrollToTrack(trackid), 500);
     }, [state]);
 
     const handleTrackClick = React.useCallback((trackid) => {
