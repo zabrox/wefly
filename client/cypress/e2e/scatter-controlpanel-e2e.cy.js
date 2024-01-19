@@ -24,8 +24,6 @@ describe('WeFly Application Launch and Initial Display', () => {
     cy.get('#track-list-body').find('tr').eq(0).find('td').eq(1).should('have.text', 'Hken')
     cy.get('#track-list-body').find('tr').eq(1).find('td').eq(1).should('have.text', 'tmai24')
     cy.get('#track-list-body').find('tr').eq(2).find('td').eq(1).should('have.text', 'nabekatsu')
-
-    // TODO: CesiumMapにTrackGroupアイコンが表示されることを確認
   });
 
   it('should toggle the ControlPanel visibility on button click', () => {
@@ -214,12 +212,19 @@ describe('WeFly Application Launch and Initial Display', () => {
     });
   });
 
-  it.only('change date', () => {
-    cy.get(`#date-picker-container input`).clear();
-    cy.get(`#date-picker-container input`).type('2021-01-01');
+  it('change date', () => {
+    // 2024-01-10を選択
+    cy.get(`#date-picker-container button`).click();
+    cy.contains('.MuiPickersLayout-root button', "10").click();
 
-    cy.get('.MuiCircularProgress-root').should('be.visible');
-    cy.get('#track-list-body').find('tr', { timeout: 10000 }).should('have.length', 122);
+    cy.get('#track-list-body').find('tr', { timeout: 10000 }).should('have.length', 12);
+    cy.get('.MuiCircularProgress-root').should('not.be.visible');
+
+    // 2024-01-11を選択
+    cy.get(`#date-picker-container button`).click();
+    cy.contains('.MuiPickersLayout-root button', "11").click();
+
+    cy.get('#track-list-body').find('tr', { timeout: 10000 }).should('have.length', 0);
     cy.get('.MuiCircularProgress-root').should('not.be.visible');
   });
 });

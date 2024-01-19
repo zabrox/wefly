@@ -230,6 +230,9 @@ export const leaveScatterMode = () => {
 export const ScatterMap = ({onTrackPointClick, onTrackGroupClick, state, scatterState}) => {
     useEffect(() => {
         registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick, state.tracks, state.trackGroups);
+        // register callbacks on click for E2E test
+        window.selectTrackGroup = (groupid) => onTrackGroupClick(groupid, state.trackGroups);
+        window.selectTrackPoint = (trackid) => onTrackPointClick(trackid, state.tracks);
     }, [state]);
     useEffect(() => {
         registerEventListenerOnCameraMove(state.tracks, state.trackGroups, scatterState.filter);

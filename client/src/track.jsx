@@ -54,7 +54,6 @@ export class Track {
 
     constructor() {
         this.color = colorGenerator();
-        this.id = crypto.randomUUID();
     }
 
     duration() {
@@ -120,13 +119,24 @@ const checkTrackPointValidity = (json) => {
     return json.length === 4
 }
 
-export const parseTrackJson = (json) => {
+export const parseAllTracks = json => {
+    console.time('parseAllTracks');
+    const parsedTracks = new Array();
+    for (let i = 0; i < json.length; i++) {
+        parsedTracks.push(parseTrackJson(json[i], i));
+    }
+    console.timeEnd('parseAllTracks');
+    return parsedTracks;
+};
+
+const parseTrackJson = (json, trackid) => {
     const track = new Track();
     // check json validity
     if (checkJsonValidity(json) === false) {
         console.error("Invalid track json. " + json)
         return undefined;
     }
+    track.id = trackid;
     track.pilotname = json.pilotname;
     track.distance = parseFloat(json.distance.replace(' km', ''));
     if (json.area !== undefined) {
