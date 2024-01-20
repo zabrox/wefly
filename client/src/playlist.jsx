@@ -5,7 +5,7 @@ import { focusOnTrack } from './playbackmap';
 import * as CesiumMap from './cesiummap';
 import './playlist.css';
 
-const FlightArrow = ({ track }) => {
+const PlaybackRange = ({ track }) => {
     const flightDuration = track.times[track.times.length - 1].diff(track.times[0], 'seconds');
     const totalFlightDuration = Cesium.JulianDate.secondsDifference(CesiumMap.viewer.clock.stopTime, CesiumMap.viewer.clock.startTime);
     const startPosition = Cesium.JulianDate.secondsDifference(
@@ -15,27 +15,20 @@ const FlightArrow = ({ track }) => {
 
     const color = track.color.withAlpha(0.8);
     // Styles for the flight duration bar
-    const flightBarStyle = {
-        position: 'absolute',
-        top: '-5px',
+    const playbackRangeStyle = {
+        position: 'relative',
         left: `${startPosition}%`,
         width: `${width}%`,
         height: '10px',
         background: `linear-gradient(90deg, ${color.toCssHexString()}, ${color.darken(0.2, new Cesium.Color()).toCssHexString()})`,
         borderRadius: '10px',
-    };
-    // 追加: 親コンテナとして機能する div のスタイル
-    const flightArrowContainerStyle = {
-        position: 'relative',
-        height: '100%', // バーの親コンテナの高さをTableCellと同じにする
-        width: '100%', // TableCellの幅いっぱいにする
+        verticalAlign: 'middle',
     };
 
     return (
-        <TableCell className="flight-arrow" sx={{width: '90%'}}>
-            <div style={flightArrowContainerStyle}>
-                <div style={flightBarStyle}></div>
-                {/* Render the arrow or bar here */}
+        <TableCell className='playback-range-cell'>
+            <div className='playback-range-container'>
+                <div style={playbackRangeStyle}></div>
             </div>
         </TableCell>
     );
@@ -47,37 +40,55 @@ const mapTracksToTableRows = (tracks) => {
             key={"tr" + i}
             id={`trackrow-${track.id}`}
             onClick={() => { focusOnTrack(track) }} >
-            <TableCell className={`trackid-${track.id}`}>{track.pilotname}</TableCell>
-            <FlightArrow track={track} />
+            <TableCell id='pilotname'>
+                {track.pilotname}
+            </TableCell>
+            <PlaybackRange track={track} />
         </TableRow>
     ));
 };
 
-export const PlayList = ({ state, playbackState }) => {
-    // headers[0].display = React.useCallback((track) => {
-    //     if (track.times[0] <= playbackState.currentTime && playbackState.currentTime <= track.times[track.times.length - 1]) {
-    //         return <ParaglidingIcon style={{
-    //             width: '25',
-    //             height: '25',
-    //             borderRadius: '50%',
-    //             color: track.color.brighten(0.8, new Cesium.Color()).toCssHexString(),
-    //             backgroundColor: track.color.darken(0.2, new Cesium.Color()).toCssHexString(),}}/>;
-    //     } else {
-    //         return null;
-    //     }
-    // }, [playbackState.currentTime]);
+const calculateTimeLinePosition = (currentTime) => {
+    const totalFlightDuration = Cesium.JulianDate.secondsDifference(
+        CesiumMap.viewer.clock.stopTime,
+        CesiumMap.viewer.clock.startTime);
+    const currentPosition = Cesium.JulianDate.secondsDifference(
+        Cesium.JulianDate.fromIso8601(currentTime.format('YYYY-MM-DDTHH:mm:ssZ')),
+        CesiumMap.viewer.clock.startTime) / totalFlightDuration * 100;
+    return currentPosition;
+}
 
+const CurrentTimelineBar = ({ tracks, playbackState }) => {
+    const timelineBarStyle = React.useMemo(() => {
+        return {
+            position: 'relative',
+            left: `${calculateTimeLinePosition(playbackState.currentTime)}%`,
+            height: `${52.41 * (tracks.length)}px`,
+            width: '3px',
+            background: '#e95800',
+        };
+    }, [tracks, playbackState]);
+
+    return (
+        <div id='timeline-bar' style={timelineBarStyle} />
+    )
+}
+
+export const PlayList = ({ state, playbackState }) => {
     const sortedTracks = React.useMemo(() => {
         return state.actionTargetTracks.slice().sort((a, b) => a.startTime().localeCompare(b.startTime()));
     }, [state.actionTargetTracks]);
 
     return (
         <TableContainer id='playlist-container'>
-            <Table>
+            <Table id='playlist-table'>
                 <TableBody>{
                     mapTracksToTableRows(sortedTracks)
                 }</TableBody>
             </Table>
-        </TableContainer>
+            <div id='timelinebar-container'>
+                <CurrentTimelineBar tracks={sortedTracks} playbackState={playbackState} />
+            </div>
+        </TableContainer >
     );
 };
