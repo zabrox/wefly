@@ -1,10 +1,35 @@
-
-#playlist-container th, td {
+/* #playlist-container th, td {
     white-space: nowrap;
     background-color: transparent;
-}
+} */
 
 #playlist-container {
+    position: relative;
     width: 100%;
-    overflow: auto;
+    height: 100%;
+}
+
+.playback-range-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+#playlist-table {
+    table-layout: fixed;
+}
+#playlist-table .playback-range-cell {
+    padding: 0px;
+}
+#pilotname {
+    width: 100px;
+}
+
+#timelinebar-container {
+    position: absolute;
+    top: 0px;
+    left: 132px;
+    width: calc(100% - 132px);
+    height: 100%;
+    z-index: -1;
 }

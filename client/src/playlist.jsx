@@ -1,62 +1,38 @@
 import React from 'react';
 import * as Cesium from 'cesium';
-import { Table, TableHead, TableRow, TableCell, TableContainer, TableBody } from '@mui/material';
-import ParaglidingIcon from '@mui/icons-material/Paragliding';
+import { Table, TableRow, TableCell, TableContainer, TableBody } from '@mui/material';
 import { focusOnTrack } from './playbackmap';
+import * as CesiumMap from './cesiummap';
 import './playlist.css';
 
-const MAX_AREA_NAME_LENGTH = 17;
-const cutDownAreaName = (area) => {
-    if (area === undefined) {
-        return '';
-    }
-    if (area.length > MAX_AREA_NAME_LENGTH) {
-        return area.slice(0, MAX_AREA_NAME_LENGTH) + '...';
-    }
-    return area;
-}
+const PlaybackRange = ({ track }) => {
+    const flightDuration = track.times[track.times.length - 1].diff(track.times[0], 'seconds');
+    const totalFlightDuration = Cesium.JulianDate.secondsDifference(CesiumMap.viewer.clock.stopTime, CesiumMap.viewer.clock.startTime);
+    const startPosition = Cesium.JulianDate.secondsDifference(
+        Cesium.JulianDate.fromIso8601(track.times[0].format('YYYY-MM-DDTHH:mm:ssZ')),
+        CesiumMap.viewer.clock.startTime) / totalFlightDuration * 100;
+    const width = flightDuration / totalFlightDuration * 100;
 
-const headers = [
-    {
-        id: 'status',
-        label: '',
-        numeric: false,
-        defaultOrder: 'asc',
-        display: undefined,
-    },
-    {
-        id: 'activity',
-        label: '種別',
-        numeric: false,
-        defaultOrder: 'asc',
-        display: (track) => (track.activity),
-    },
-    {
-        id: 'pilotname',
-        label: 'パイロット',
-        numeric: false,
-        defaultOrder: 'asc',
-        display: (track) => (track.pilotname),
-    },
-    {
-        id: 'area',
-        label: 'エリア',
-        numeric: false,
-        defaultOrder: 'asc',
-        display: (track) => (cutDownAreaName(track.area)),
-    },
-    {
-        id: 'starttime',
-        label: '開始時刻',
-        numeric: false,
-        defaultOrder: 'asc',
-        display: (track) => (track.startTime().split(' ')[1]),
-    },
-];
+    const color = track.color.withAlpha(0.8);
+    // Styles for the flight duration bar
+    const playbackRangeStyle = {
+        position: 'relative',
+        left: `${startPosition}%`,
+        width: `${width}%`,
+        height: '10px',
+        background: `linear-gradient(90deg, ${color.toCssHexString()}, ${color.darken(0.2, new Cesium.Color()).toCssHexString()})`,
+        borderRadius: '10px',
+        verticalAlign: 'middle',
+    };
 
-const TrackCell = ({ track, header }) => {
-    return (<TableCell className={header.id}>{header.display(track)}</TableCell>);
-}
+    return (
+        <TableCell className='playback-range-cell'>
+            <div className='playback-range-container'>
+                <div style={playbackRangeStyle}></div>
+            </div>
+        </TableCell>
+    );
+};
 
 const mapTracksToTableRows = (tracks) => {
     return tracks.map((track, i) => (
@@ -64,51 +40,55 @@ const mapTracksToTableRows = (tracks) => {
             key={"tr" + i}
             id={`trackrow-${track.id}`}
             onClick={() => { focusOnTrack(track) }} >
-            {
-                headers.map((header) => (
-                    <TrackCell key={track.pilotname + header.id} track={track} header={header} />
-                ))
-            }
+            <TableCell id='pilotname'>
+                {track.pilotname}
+            </TableCell>
+            <PlaybackRange track={track} />
         </TableRow>
     ));
 };
 
-export const PlayList = ({ state, playbackState }) => {
-    headers[0].display = React.useCallback((track) => {
-        if (track.times[0] <= playbackState.currentTime && playbackState.currentTime <= track.times[track.times.length - 1]) {
-            return <ParaglidingIcon style={{
-                width: '25',
-                height: '25',
-                borderRadius: '50%',
-                color: track.color.brighten(0.8, new Cesium.Color()).toCssHexString(),
-                backgroundColor: track.color.darken(0.2, new Cesium.Color()).toCssHexString(),}}/>;
-        } else {
-            return null;
-        }
-    }, [playbackState.currentTime]);
+const calculateTimeLinePosition = (currentTime) => {
+    const totalFlightDuration = Cesium.JulianDate.secondsDifference(
+        CesiumMap.viewer.clock.stopTime,
+        CesiumMap.viewer.clock.startTime);
+    const currentPosition = Cesium.JulianDate.secondsDifference(
+        Cesium.JulianDate.fromIso8601(currentTime.format('YYYY-MM-DDTHH:mm:ssZ')),
+        CesiumMap.viewer.clock.startTime) / totalFlightDuration * 100;
+    return currentPosition;
+}
 
+const CurrentTimelineBar = ({ tracks, playbackState }) => {
+    const timelineBarStyle = React.useMemo(() => {
+        return {
+            position: 'relative',
+            left: `${calculateTimeLinePosition(playbackState.currentTime)}%`,
+            height: `${52.41 * (tracks.length)}px`,
+            width: '3px',
+            background: '#e95800',
+        };
+    }, [tracks, playbackState]);
+
+    return (
+        <div id='timeline-bar' style={timelineBarStyle} />
+    )
+}
+
+export const PlayList = ({ state, playbackState }) => {
     const sortedTracks = React.useMemo(() => {
         return state.actionTargetTracks.slice().sort((a, b) => a.startTime().localeCompare(b.startTime()));
     }, [state.actionTargetTracks]);
 
     return (
         <TableContainer id='playlist-container'>
-            <Table>
-                <TableHead>
-                    <TableRow id="playlist-header">
-                        {headers.map((header) => (
-                            <TableCell
-                                key={header.id}
-                            >
-                                {header.label}
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
+            <Table id='playlist-table'>
                 <TableBody>{
                     mapTracksToTableRows(sortedTracks)
                 }</TableBody>
             </Table>
-        </TableContainer>
+            <div id='timelinebar-container'>
+                <CurrentTimelineBar tracks={sortedTracks} playbackState={playbackState} />
+            </div>
+        </TableContainer >
     );
 };

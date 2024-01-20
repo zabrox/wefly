@@ -10,7 +10,7 @@ import './controlpanel.css';
 
 export const ControlPanel = () => {
     const defaultControlPanelSize = judgeMedia().isPc ?
-        document.documentElement.clientWidth * 0.4 : document.documentElement.clientWidth * 0.85;
+        document.documentElement.clientWidth * 0.4 : document.documentElement.clientWidth;
 
     const [state, setState] = React.useState({
         tracks: [],
