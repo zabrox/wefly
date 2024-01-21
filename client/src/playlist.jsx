@@ -5,7 +5,7 @@ import { focusOnTrack } from './playbackmap';
 import * as CesiumMap from './cesiummap';
 import './playlist.css';
 
-const PlaybackRange = ({ track }) => {
+const PlaybackRange = ({ track, currentTime }) => {
     const flightDuration = track.times[track.times.length - 1].diff(track.times[0], 'seconds');
     const totalFlightDuration = Cesium.JulianDate.secondsDifference(CesiumMap.viewer.clock.stopTime, CesiumMap.viewer.clock.startTime);
     const startPosition = Cesium.JulianDate.secondsDifference(
@@ -13,7 +13,12 @@ const PlaybackRange = ({ track }) => {
         CesiumMap.viewer.clock.startTime) / totalFlightDuration * 100;
     const width = flightDuration / totalFlightDuration * 100;
 
-    const color = track.color.withAlpha(0.8);
+    let color;
+    if (currentTime.isAfter(track.times[0]) && currentTime.isBefore(track.times[track.times.length - 1])) {
+        color = track.color.withAlpha(0.8);
+    } else {
+        color = Cesium.Color.GRAY;
+    }
     // Styles for the flight duration bar
     const playbackRangeStyle = {
         position: 'relative',
@@ -34,7 +39,7 @@ const PlaybackRange = ({ track }) => {
     );
 };
 
-const mapTracksToTableRows = (tracks) => {
+const mapTracksToTableRows = (tracks, currentTime) => {
     return tracks.map((track, i) => (
         <TableRow
             key={"tr" + i}
@@ -43,7 +48,7 @@ const mapTracksToTableRows = (tracks) => {
             <TableCell id='pilotname'>
                 {track.pilotname}
             </TableCell>
-            <PlaybackRange track={track} />
+            <PlaybackRange track={track} currentTime={currentTime} />
         </TableRow>
     ));
 };
@@ -66,6 +71,7 @@ const CurrentTimelineBar = ({ tracks, playbackState }) => {
             height: `${52.41 * (tracks.length)}px`,
             width: '3px',
             background: '#e95800',
+            zIndex: 100,
         };
     }, [tracks, playbackState]);
 
@@ -83,7 +89,7 @@ export const PlayList = ({ state, playbackState }) => {
         <TableContainer id='playlist-container'>
             <Table id='playlist-table'>
                 <TableBody>{
-                    mapTracksToTableRows(sortedTracks)
+                    mapTracksToTableRows(sortedTracks, playbackState.currentTime)
                 }</TableBody>
             </Table>
             <div id='timelinebar-container'>
