@@ -223,11 +223,13 @@ const render = (tracks, trackGroups, filter) => {
 export const leaveScatterMode = () => {
     CesiumMap.removeAllEntities();
     removeCameraMoveEvent();
-    clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
-    clickHandler = undefined;
+    if (clickHandler) {
+        clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        clickHandler = undefined;
+    }
 }
 
-export const ScatterMap = ({onTrackPointClick, onTrackGroupClick, state, scatterState}) => {
+export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatterState }) => {
     useEffect(() => {
         registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick, state.tracks, state.trackGroups);
         // register callbacks on click for E2E test
