@@ -1,0 +1,29 @@
+#timeline-handle {
+    position: fixed;
+    padding: 5px;
+    color: #ffffff;
+    border-radius: 10%;
+    background-color: #e95800;
+    border-style: solid;
+    border-color: #ffffff;
+    border-width: 3px;
+    box-shadow: 3px 3px rgba(128, 128, 128, 0.5);
+    user-select: none;
+    pointer-events: all;
+}
+
+#timeline-handle-time {
+    text-align: center;
+    color: white;
+}
+
+#timeline-handle-control-container {
+    display: flex;
+    margin: 5px auto;
+    justify-content: center;
+}
+
+#timeline-handle-control-container svg {
+    width: 30px;
+    height: 30px;
+}

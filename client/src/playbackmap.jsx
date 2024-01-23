@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import * as Cesium from 'cesium';
 import * as CesiumMap from './cesiummap';
 
-const speed = 30;
+const speed = 32;
 const trailTime = 900;
 let clickHandler = undefined;
 let onTickFollowTrackRemoveCallback = undefined;
