@@ -1,11 +1,11 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { Button, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Mode from './mode';
 import { PlaybackMap, stopPlayback } from './playbackmap';
 import { PlayList } from './playlist';
-import { Box } from '@mui/material';
 import './playbackcontrolpanel.css';
 
 export const PlaybackControlPanel = ({ state, setState }) => {
@@ -28,7 +28,7 @@ export const PlaybackControlPanel = ({ state, setState }) => {
 
     return (
         <div id='playback-control-panel' style={{ width: state.controlPanelSize, height: '100%' }}>
-            <PlaybackMap state={state} onTickEventHandler={handleTickEvent} />
+            <PlaybackMap state={state} playbackState={playbackState} onTickEventHandler={handleTickEvent} />
             {state.isControlPanelOpen &&
                 <div>
                     <Box id='back-button-container'>
@@ -38,7 +38,7 @@ export const PlaybackControlPanel = ({ state, setState }) => {
                     <Typography id='playback-title'>トラックの再生</Typography>
                     <Box id='playback-info-container'>
                         <Typography id='playback-time'>
-                            {playbackState.currentTime.format('YYYY-MM-DD hh:mm:ss')}
+                            {playbackState.currentTime.format('YYYY-MM-DD HH:mm:ss')}
                         </Typography>
                         <Typography id='playbacknumber-label'>
                             {state.actionTargetTracks.length} tracks
@@ -46,7 +46,7 @@ export const PlaybackControlPanel = ({ state, setState }) => {
                     </Box>
                 </div>
             }
-            <PlayList state={state} playbackState={playbackState} />
+            <PlayList state={state} playbackState={playbackState} setPlaybackState={setPlaybackState} />
         </div >
     );
 };

@@ -27,7 +27,7 @@ describe('WeFly Application Launch and Initial Display', () => {
     });
 
     it('interacts with TrackGroup icon and checks the changes', () => {
-        cy.get('#control-panel-toggle').click();
+        cy.get('#control-panel-toggle svg').click();
         cy.get('#control-panel').should('not.be.visible');
 
         cy.window().then((win) => {
@@ -63,7 +63,7 @@ describe('WeFly Application Launch and Initial Display', () => {
     });
 
     it('TrackPoint click', () => {
-        cy.get('#control-panel-toggle').click();
+        cy.get('#control-panel-toggle svg').click();
         cy.get('#control-panel').should('not.be.visible');
 
         cy.window().then((win) => {

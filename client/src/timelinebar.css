@@ -1,0 +1,8 @@
+
+#timelinebar-container {
+    position: absolute;
+    top: 0px;
+    left: 132px;
+    width: calc(100% - 132px);
+    height: 100%;
+}

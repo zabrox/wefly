@@ -29,10 +29,10 @@ describe('WeFly Application Launch and Initial Display', () => {
   it('should toggle the ControlPanel visibility on button click', () => {
     cy.get('#control-panel').should('be.visible');
 
-    cy.get('#control-panel-toggle').click();
+    cy.get('#control-panel-toggle svg').click();
     cy.get('#control-panel').should('not.be.visible');
 
-    cy.get('#control-panel-toggle').click();
+    cy.get('#control-panel-toggle svg').click();
     cy.get('#control-panel').should('be.visible');
   });
 
@@ -132,9 +132,6 @@ describe('WeFly Application Launch and Initial Display', () => {
   ]
   sortCondition.forEach((condition) => {
     it(`sorts by ${condition.column} correctly`, () => {
-      if (condition.scrollRight) {
-        cy.get('#tracklist').scrollTo('right')
-      }
       cy.get(`#track-list-header .${condition.column} .label-text`).should('be.visible').click();
 
       // 昇順ソートの確認
