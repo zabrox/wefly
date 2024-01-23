@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import * as Cesium from 'cesium';
 import * as CesiumMap from './cesiummap';
 
-const speed = 30;
+const speed = 32;
 const trailTime = 900;
 let clickHandler = undefined;
 let onTickFollowTrackRemoveCallback = undefined;
@@ -105,7 +105,7 @@ const playbackPointId = (track) => {
     return `playback-point-${track.id}`;
 }
 
-const createPlaybakcPoint = (track, positionProperty) => {
+const createPlaybackPoint = (track, positionProperty) => {
     CesiumMap.viewer.entities.add({
         id: playbackPointId(track),
         position: positionProperty,
@@ -195,7 +195,7 @@ export const playback = (targetTracks) => {
             positionProperty.addSample(time, track.cartesians[i]);
         };
 
-        createPlaybakcPoint(track, positionProperty);
+        createPlaybackPoint(track, positionProperty);
         createPilotLabels(track, positionProperty);
     });
     CesiumMap.viewer.animation.viewModel.timeFormatter = (date, viewModel) => {
@@ -227,7 +227,7 @@ export const stopPlayback = () => {
     }
 }
 
-export const PlaybackMap = ({ state, onTickEventHandler }) => {
+export const PlaybackMap = ({ state, playbackState, onTickEventHandler }) => {
     React.useEffect(() => {
         registerEventHandlerOnPointClick();
         registerEventHandlerOnTick(onTickEventHandler);

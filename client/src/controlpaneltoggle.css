@@ -13,4 +13,5 @@
     color: #e95800;
     background-color: white;
     border-radius: 50%;
+    box-shadow: 3px 3px rgba(128, 128, 128, 0.5);
 }

@@ -1,0 +1,15 @@
+#timelinebar-container {
+    position: absolute;
+    top: 0px;
+    left: 132px;
+    width: calc(100% - 132px);
+    height: 100%;
+    pointer-events: none;
+}
+
+#timeline-bar {
+    position: relative;
+    width: 3px;
+    background: #e95800;
+    box-shadow: 3px 3px rgba(128, 128, 128, 0.5);
+}
