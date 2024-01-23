@@ -3,7 +3,7 @@ import * as Cesium from 'cesium';
 import { Table, TableRow, TableCell, TableContainer, TableBody } from '@mui/material';
 import { focusOnTrack } from './playbackmap';
 import * as CesiumMap from './cesiummap';
-import { TimelineBar } from './timelinebar';
+import { TimelineBarContainer } from './timelinebar';
 import './playlist.css';
 
 const PlaybackRange = ({ track, currentTime }) => {
@@ -66,7 +66,7 @@ export const PlayList = ({ state, playbackState, setPlaybackState }) => {
                     mapTracksToTableRows(sortedTracks, playbackState.currentTime)
                 }</TableBody>
             </Table>
-            <TimelineBar
+            <TimelineBarContainer
                 tracks={sortedTracks}
                 playbackState={playbackState}
                 setPlaybackState={setPlaybackState} />

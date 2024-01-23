@@ -14,13 +14,54 @@ const calculateTimeLinePosition = (currentTime) => {
     return currentPosition;
 }
 
-export const TimelineBar = ({ tracks, playbackState, setPlaybackState }) => {
-    const [isDragging, setIsDragging] = React.useState(false);
+const TimelineBarHandle = ({tracks, playbackState, handleMouseDown}) => {
+    const timelineHandleStyle = React.useMemo(() => {
+        const timelineContainer = document.getElementById('timelinebar-container');
+        const playlistTable = document.getElementById('playlist-table');
+        let left = 0;
+        let top = 0;
+        const radius = 18;
+        if (timelineContainer && timelineContainer.getClientRects()[0]) {
+            const rect = timelineContainer.getClientRects()[0];
+            left = rect.left + rect.width * calculateTimeLinePosition(playbackState.currentTime) / 100 - radius - 1;
+            top = rect.top + rect.height * 0.7;
+        }
+        if (playlistTable && playlistTable.getClientRects()[0]) {
+            const rect = playlistTable.getClientRects()[0];
+            if (rect.top + rect.height < top) {
+                top = rect.top + rect.height;
+            }
+        }
 
+        return {
+            position: 'fixed',
+            left: left,
+            top: top,
+            height: `${radius * 2}px`,
+            width: `${radius * 2}px`,
+            color: '#ffffff',
+            borderRadius: '50%',
+            backgroundColor: '#e95800',
+            borderStyle: 'solid',
+            borderColor: '#ffffff',
+            borderWidth: '3px',
+        };
+    }, [tracks, playbackState]);
+
+    return (
+        <div id='timeline-handle'
+            style={timelineHandleStyle}
+            onMouseDown={handleMouseDown}
+            onTouchStart={handleMouseDown}
+        />
+    );
+}
+
+const TimelineBar = ({tracks, playbackState}) => {
     const timelineBarStyle = React.useMemo(() => {
         const playlistTable = document.getElementById('playlist-table');
         let height = 0;
-        if (playlistTable && playlistTable.getClientRects()[0]){
+        if (playlistTable && playlistTable.getClientRects()[0]) {
             height = playlistTable.getClientRects()[0].height;
         }
 
@@ -33,29 +74,13 @@ export const TimelineBar = ({ tracks, playbackState, setPlaybackState }) => {
         };
     }, [tracks, playbackState]);
 
-    const timelineHandleStyle = React.useMemo(() => {
-        const timelineContainer = document.getElementById('timelinebar-container');
-        let left = 0;
-        const radius = 18;
-        if (timelineContainer && timelineContainer.getClientRects()[0]) {
-            const rect = timelineContainer.getClientRects()[0];
-            left = rect.left + rect.width * calculateTimeLinePosition(playbackState.currentTime) / 100 - radius - 1;
-        }
+    return (
+        <div id='timeline-bar' style={timelineBarStyle}/>
+    );
+}
 
-        return {
-            position: 'fixed',
-            left: left,
-            top: '80%',
-            height: `${radius * 2}px`,
-            width: `${radius * 2}px`,
-            color: '#ffffff',
-            borderRadius: '50%',
-            backgroundColor: '#e95800',
-            borderStyle: 'solid',
-            borderColor: '#ffffff',
-            borderWidth: '3px',
-        };
-    }, [tracks, playbackState]);
+export const TimelineBarContainer = ({ tracks, playbackState, setPlaybackState }) => {
+    const [isDragging, setIsDragging] = React.useState(false);
 
     const handleMouseDown = ((e) => {
         setIsDragging(true);
@@ -65,10 +90,8 @@ export const TimelineBar = ({ tracks, playbackState, setPlaybackState }) => {
         setIsDragging(false);
         CesiumMap.viewer.clock.shouldAnimate = true;
     });
-    const handleMouseMove = React.useCallback((e) => {
+    const handleMove = React.useCallback((x, rect) => {
         if (isDragging) {
-            const rect = e.currentTarget.getBoundingClientRect();
-            const x = e.clientX - rect.left;
             const totalFlightDuration = Cesium.JulianDate.secondsDifference(
                 CesiumMap.viewer.clock.stopTime,
                 CesiumMap.viewer.clock.startTime);
@@ -80,21 +103,16 @@ export const TimelineBar = ({ tracks, playbackState, setPlaybackState }) => {
             setPlaybackState({ ...playbackState, currentTime: currentTime });
         }
     }, [playbackState]);
-    const handleTouchMove = React.useCallback((e) => {
-        if (isDragging) {
-            const rect = document.getElementById('timelinebar-container').getBoundingClientRect();
-            const x = e.touches[0].clientX - rect.left;
-            const totalFlightDuration = Cesium.JulianDate.secondsDifference(
-                CesiumMap.viewer.clock.stopTime,
-                CesiumMap.viewer.clock.startTime);
-            const currentTime = dayjs(Cesium.JulianDate.toDate(Cesium.JulianDate.addSeconds(
-                CesiumMap.viewer.clock.startTime,
-                totalFlightDuration * x / rect.width,
-                new Cesium.JulianDate())));
-            CesiumMap.viewer.clock.currentTime = Cesium.JulianDate.fromIso8601(currentTime.format('YYYY-MM-DDTHH:mm:ssZ'));
-            setPlaybackState({ ...playbackState, currentTime: currentTime });
-        }
-    }, [playbackState]);
+    const handleMouseMove = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        handleMove(x, rect);
+    };
+    const handleTouchMove = (e) => {
+        const rect = document.getElementById('timelinebar-container').getBoundingClientRect();
+        const x = e.touches[0].clientX - rect.left;
+        handleMove(x, rect);
+    }
 
     return (
         <div id='timelinebar-container'
@@ -103,16 +121,8 @@ export const TimelineBar = ({ tracks, playbackState, setPlaybackState }) => {
             onTouchEnd={handleMouseUp}
             onMouseMove={handleMouseMove}
             onTouchMove={handleTouchMove}>
-            <div id='timeline-bar'
-                style={timelineBarStyle}
-                onMouseDown={handleMouseDown}
-                onTouchStart={handleMouseDown}
-            />
-            <div id='timeline-handle'
-                style={timelineHandleStyle}
-                onMouseDown={handleMouseDown}
-                onTouchStart={handleMouseDown}
-            />
+            <TimelineBar tracks={tracks} playbackState={playbackState} handleMouseDown={handleMouseDown}/>
+            <TimelineBarHandle tracks={tracks} playbackState={playbackState} handleMouseDown={handleMouseDown}/>
         </div>
     )
 }
