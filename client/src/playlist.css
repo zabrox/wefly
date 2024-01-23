@@ -1,7 +1,8 @@
-/* #playlist-container th, td {
+#playlist-container th, td {
     white-space: nowrap;
     background-color: transparent;
-} */
+    user-select: none;
+}
 
 #playlist-container {
     position: relative;
@@ -23,13 +24,4 @@
 }
 #pilotname {
     width: 100px;
-}
-
-#timelinebar-container {
-    position: absolute;
-    top: 0px;
-    left: 132px;
-    width: calc(100% - 132px);
-    height: 100%;
-    z-index: -1;
 }

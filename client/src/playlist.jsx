@@ -3,6 +3,7 @@ import * as Cesium from 'cesium';
 import { Table, TableRow, TableCell, TableContainer, TableBody } from '@mui/material';
 import { focusOnTrack } from './playbackmap';
 import * as CesiumMap from './cesiummap';
+import { TimelineBar } from './timelinebar';
 import './playlist.css';
 
 const PlaybackRange = ({ track, currentTime }) => {
@@ -53,34 +54,7 @@ const mapTracksToTableRows = (tracks, currentTime) => {
     ));
 };
 
-const calculateTimeLinePosition = (currentTime) => {
-    const totalFlightDuration = Cesium.JulianDate.secondsDifference(
-        CesiumMap.viewer.clock.stopTime,
-        CesiumMap.viewer.clock.startTime);
-    const currentPosition = Cesium.JulianDate.secondsDifference(
-        Cesium.JulianDate.fromIso8601(currentTime.format('YYYY-MM-DDTHH:mm:ssZ')),
-        CesiumMap.viewer.clock.startTime) / totalFlightDuration * 100;
-    return currentPosition;
-}
-
-const CurrentTimelineBar = ({ tracks, playbackState }) => {
-    const timelineBarStyle = React.useMemo(() => {
-        return {
-            position: 'relative',
-            left: `${calculateTimeLinePosition(playbackState.currentTime)}%`,
-            height: `${52.41 * (tracks.length)}px`,
-            width: '3px',
-            background: '#e95800',
-            zIndex: 100,
-        };
-    }, [tracks, playbackState]);
-
-    return (
-        <div id='timeline-bar' style={timelineBarStyle} />
-    )
-}
-
-export const PlayList = ({ state, playbackState }) => {
+export const PlayList = ({ state, playbackState, setPlaybackState }) => {
     const sortedTracks = React.useMemo(() => {
         return state.actionTargetTracks.slice().sort((a, b) => a.startTime().localeCompare(b.startTime()));
     }, [state.actionTargetTracks]);
@@ -92,9 +66,10 @@ export const PlayList = ({ state, playbackState }) => {
                     mapTracksToTableRows(sortedTracks, playbackState.currentTime)
                 }</TableBody>
             </Table>
-            <div id='timelinebar-container'>
-                <CurrentTimelineBar tracks={sortedTracks} playbackState={playbackState} />
-            </div>
+            <TimelineBar
+                tracks={sortedTracks}
+                playbackState={playbackState}
+                setPlaybackState={setPlaybackState} />
         </TableContainer >
     );
 };
