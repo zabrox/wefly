@@ -67,7 +67,6 @@ export const PlayList = ({ state, playbackState, setPlaybackState }) => {
                 }</TableBody>
             </Table>
             <TimelineBarContainer
-                tracks={sortedTracks}
                 playbackState={playbackState}
                 setPlaybackState={setPlaybackState} />
         </TableContainer >

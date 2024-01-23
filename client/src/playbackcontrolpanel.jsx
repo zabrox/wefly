@@ -37,9 +37,6 @@ export const PlaybackControlPanel = ({ state, setState }) => {
                     </Box>
                     <Typography id='playback-title'>トラックの再生</Typography>
                     <Box id='playback-info-container'>
-                        <Typography id='playback-time'>
-                            {playbackState.currentTime.format('YYYY-MM-DD HH:mm:ss')}
-                        </Typography>
                         <Typography id='playbacknumber-label'>
                             {state.actionTargetTracks.length} tracks
                         </Typography>
