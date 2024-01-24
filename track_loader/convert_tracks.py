@@ -8,7 +8,7 @@ import os
 from google.cloud import storage, firestore
 from export_tracks import Track
 
-AREAS_FILE = "./areas.cup"
+AREAS_FILE = "./areas.jp.cup"
 RADIUS = 0.1
 
 TIME=0
