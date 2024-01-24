@@ -37,9 +37,6 @@ const TimelineBar = ({ playbackState }) => {
 export const TimelineBarContainer = ({ playbackState, setPlaybackState }) => {
     const [isDragging, setIsDragging] = React.useState(false);
 
-    const handleClick = ((e) => {
-        document.getElementById('playlist-table').click();
-    });
     const handleMouseDown = ((e) => {
         setIsDragging(true);
     });
@@ -72,7 +69,6 @@ export const TimelineBarContainer = ({ playbackState, setPlaybackState }) => {
 
     return (
         <div id='timelinebar-container'
-            onClick={handleClick}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
             onTouchEnd={handleMouseUp}
