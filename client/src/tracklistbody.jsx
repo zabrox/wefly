@@ -3,7 +3,13 @@ import { TableBody, TableRow, TableCell } from '@mui/material';
 import { headers } from './tracklistheader';
 
 const TrackCell = ({ track, header }) => {
-    return (<TableCell className={header.id}>{header.display(track)}</TableCell>);
+    let style = {};
+    if (header.id === 'activity') {
+        style = {
+            textAlign: 'center',
+        };
+    }
+    return (<TableCell style={style} className={header.id}>{header.display(track)}</TableCell>);
 }
 
 const mapTracksToTableRows = (tracks, onTrackClicked) => {
