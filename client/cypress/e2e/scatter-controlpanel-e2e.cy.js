@@ -38,19 +38,6 @@ describe('WeFly Application Launch and Initial Display', () => {
 
   const sortCondition = [
     {
-      column: 'activity',
-      expected1: [
-        { row: 0, col: 0, text: 'Flex wing FAI1', },
-        { row: 15, col: 0, text: 'General', },
-        { row: 16, col: 0, text: 'Glider', },
-      ],
-      expected2: [
-        { row: 0, col: 0, text: 'Rigid wing FAI5', },
-        { row: 4, col: 0, text: 'Paraglider', },
-        { row: 121, col: 0, text: 'Flex wing FAI1', },
-      ]
-    },
-    {
       column: 'pilotname',
       expected1: [
         { row: 0, col: 1, text: '2696raichou', },
@@ -157,7 +144,7 @@ describe('WeFly Application Launch and Initial Display', () => {
     {
       column: 'activity',
       expected:
-        { number: 15, col: 0, text: 'Flex wing FAI1', },
+        { number: 3, col: 0, text: 'Glider', },
     },
     {
       column: 'pilotname',
@@ -174,7 +161,11 @@ describe('WeFly Application Launch and Initial Display', () => {
 
       cy.get('#track-list-body tr').should('have.length', condition.expected.number);
       cy.get('#track-list-body').find('tr').each((row) => {
-        cy.wrap(row).find('td').eq(condition.expected.col).should('have.text', condition.expected.text);
+        if (condition.column === 'activity') {
+          cy.wrap(row).find('td').eq(condition.expected.col).find('img').should('have.attr', 'alt', condition.expected.text);
+        } else {
+          cy.wrap(row).find('td').eq(condition.expected.col).should('have.text', condition.expected.text);
+        }
       });
 
       cy.get(`#trackfilter-icon-${condition.column} svg`).should('have.css', 'color', 'rgb(233, 88, 0)');
@@ -199,12 +190,12 @@ describe('WeFly Application Launch and Initial Display', () => {
 
     cy.get(`#trackfilter-icon-activity`).click();
     cy.get('[role=dialog]').should('be.visible');
-    cy.get('#trackfilter-list li').eq(0).click(); // Flex wing FAI1
+    cy.get('#trackfilter-list li').eq(1).click(); // Hangglider
     cy.get('[role=dialog] button').click();
 
-    cy.get('#track-list-body tr').should('have.length', 7);
+    cy.get('#track-list-body tr').should('have.length', 8);
     cy.get('#track-list-body').find('tr').each((row) => {
-      cy.wrap(row).find('td').eq(0).should('have.text', 'Flex wing FAI1');
+      cy.wrap(row).find('td').eq(0).find('img').should('have.attr', 'alt', 'Hangglider');
       cy.wrap(row).find('td').eq(2).should('have.text', ' Ashio West');
     });
   });

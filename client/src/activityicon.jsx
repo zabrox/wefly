@@ -19,9 +19,9 @@ export const ActivityIcon = ({ track }) => {
 
     return (
         <div style={divstyle}>
-            {track.activity === 'Paraglider' && <img src={ParagliderIcon} style={svgstyle} />}
-            {track.activity === 'Glider' && <img src={GliderIcon} style={svgstyle} />}
-            {track.activity === 'Hangglider' && <img src={HanggliderIcon} style={svgstyle} />}
+            {track.activity === 'Paraglider' && <img src={ParagliderIcon} style={svgstyle} alt={track.activity} />}
+            {track.activity === 'Glider' && <img src={GliderIcon} style={svgstyle} alt={track.activity} />}
+            {track.activity === 'Hangglider' && <img src={HanggliderIcon} style={svgstyle} alt={track.activity} />}
         </div>
     )
 }
