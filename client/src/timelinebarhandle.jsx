@@ -38,8 +38,7 @@ const calculateTopPosition = (playlistTable, defaultTop) => {
     return defaultTop;
 };
 
-export const TimelineBarHandle = ({ playbackState, setPlaybackState }) => {
-    const [isDragging, setIsDragging] = React.useState(false);
+export const TimelineBarHandle = ({ playbackState, onMouseDown }) => {
     const [isPause, setIsPause] = React.useState(false);
 
     const timelineHandleStyle = React.useMemo(() => {
@@ -58,35 +57,6 @@ export const TimelineBarHandle = ({ playbackState, setPlaybackState }) => {
         };
     }, [playbackState]);
 
-    const handleMouseDown = (e) => {
-        setIsDragging(true);
-    };
-    const handleMouseUp = (e) => {
-        setIsDragging(false);
-    };
-    const handleMove = React.useCallback((x, rect) => {
-        if (isDragging) {
-            const totalFlightDuration = Cesium.JulianDate.secondsDifference(
-                CesiumMap.viewer.clock.stopTime,
-                CesiumMap.viewer.clock.startTime);
-            const currentTime = dayjs(Cesium.JulianDate.toDate(Cesium.JulianDate.addSeconds(
-                CesiumMap.viewer.clock.startTime,
-                totalFlightDuration * x / rect.width,
-                new Cesium.JulianDate())));
-            CesiumMap.viewer.clock.currentTime = Cesium.JulianDate.fromIso8601(currentTime.format('YYYY-MM-DDTHH:mm:ssZ'));
-            setPlaybackState({ ...playbackState, currentTime: currentTime });
-        }
-    }, [playbackState]);
-    const handleMouseMove = (e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        handleMove(x, rect);
-    };
-    const handleTouchMove = (e) => {
-        const rect = document.getElementById('timelinebar-container').getBoundingClientRect();
-        const x = e.touches[0].clientX - rect.left;
-        handleMove(x, rect);
-    }
     const handlePause = React.useCallback((e) => {
         setIsPause(!isPause);
         CesiumMap.viewer.clock.shouldAnimate = false;
@@ -111,13 +81,8 @@ export const TimelineBarHandle = ({ playbackState, setPlaybackState }) => {
     return (
         <div id='timeline-handle'
             style={timelineHandleStyle}
-            onMouseDown={handleMouseDown}
-            onTouchStart={handleMouseDown}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            onTouchEnd={handleMouseUp}
-            onMouseMove={handleMouseMove}
-            onTouchMove={handleTouchMove}>
+            onMouseDown={onMouseDown}
+            onTouchStart={onMouseDown}>
             <center>
                 <Typography id='timeline-handle-time'>
                     {playbackState.currentTime.format('HH:mm:ss')}
