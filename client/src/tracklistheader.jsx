@@ -1,5 +1,6 @@
 import { TableHead, TableRow, TableCell, TableSortLabel } from '@mui/material';
 import { TrackFilter } from './trackfilter';
+import { ActivityIcon } from './activityicon';
 
 const compareByKey = (key, a, b) => {
     const valueA = typeof a[key] === 'function' ? a[key]() : a[key];
@@ -24,11 +25,11 @@ const cutDownAreaName = (area) => {
 export const headers = [
     {
         id: 'activity',
-        label: '種別',
+        label: '',
         numeric: false,
         defaultOrder: 'asc',
         comparator: compareByKey.bind(null, 'activity'),
-        display: (track) => (track.activity),
+        display: (track) => <ActivityIcon track={track} />,
     },
     {
         id: 'pilotname',
@@ -112,7 +113,7 @@ export const TrackListHeader = ({ tracks, scatterState, setScatterState }) => {
                                     tracks={tracks}
                                     filterkey={header.id}
                                     filter={scatterState.filter}
-                                    setFilter={(filter) => setScatterState({...scatterState, filter: filter})} />)}
+                                    setFilter={(filter) => setScatterState({ ...scatterState, filter: filter })} />)}
                         </TableSortLabel>
                     </TableCell>
                 ))}
