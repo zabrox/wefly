@@ -143,6 +143,11 @@ const parseTrackJson = (json, trackid) => {
         track.area = json.area.split('_')[0];
     }
     track.activity = json.activity;
+    if (['Flex wing FAI1', 'Rigid wing FAI5'].includes(track.activity)) {
+        track.activity = 'Hangglider';
+    } else if (!['Paraglider', 'Glider'].includes(track.activity)) {
+        track.activity = 'Other';
+    }
     json.track_points.forEach(point => {
         if (checkTrackPointValidity(point) === false) {
             console.error("Invalid track point json. " + point)
