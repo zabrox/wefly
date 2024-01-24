@@ -3,7 +3,7 @@ import * as Cesium from "cesium";
 
 export let viewer = undefined;
 
-const initializeCesium = (cesiumContainerRef) => {
+const initializeCesium = async (cesiumContainerRef) => {
     console.debug('initializeCesium');
     Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkNjMxN2Y3Ni04YWU3LTQwNjctYmYyNC05Yjc4MTljOTY3OGYiLCJpZCI6MTY5NTkxLCJpYXQiOjE2OTYyNDYyMTB9.CYkH9qKRpMU0kzQWkjXuvqgr-09nICUdta83AZIxAy8";
     viewer = new Cesium.Viewer(cesiumContainerRef.current, {
@@ -18,9 +18,11 @@ const initializeCesium = (cesiumContainerRef) => {
         terrainShadows: Cesium.ShadowMode.DISABLED,
     });
     viewer.scene.globe.depthTestAgainstTerrain = false;
+    const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2275207);
+    viewer.scene.primitives.add(tileset);
     viewer.fog = new Cesium.Fog({
         enabled: true,
-        density: 0.0005,
+        density: 0.05,
         minimumBrightness: 1.0,
     });
     document.getElementsByClassName('cesium-viewer-bottom')[0].remove();
