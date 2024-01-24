@@ -4,7 +4,6 @@
     left: 132px;
     width: calc(100% - 132px);
     height: 100%;
-    pointer-events: none;
 }
 
 #timeline-bar {
