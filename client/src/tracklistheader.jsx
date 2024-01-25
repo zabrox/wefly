@@ -1,6 +1,7 @@
 import { TableHead, TableRow, TableCell, TableSortLabel } from '@mui/material';
 import { TrackFilter } from './trackfilter';
 import { ActivityIcon } from './activityicon';
+import './tracklistheader.css';
 
 const compareByKey = (key, a, b) => {
     const valueA = typeof a[key] === 'function' ? a[key]() : a[key];
@@ -37,7 +38,14 @@ export const headers = [
         numeric: false,
         defaultOrder: 'asc',
         comparator: compareByKey.bind(null, 'pilotname'),
-        display: (track) => (track.pilotname),
+        display: (track) => {
+            return (
+                <div>
+                    <img className='piloticon' src={`https://storage.cloud.google.com/wefly-lake/pilot_icons/${track.pilotname}.png`} />
+                    {track.pilotname}
+                </div>
+            );
+        }
     },
     {
         id: 'area',
