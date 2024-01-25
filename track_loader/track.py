@@ -8,6 +8,7 @@ class Track:
     lasttime = ""
     activity = ""
     isLive = False
+    piloticonurl = ""
 
     def get_metadata(self):
         return {

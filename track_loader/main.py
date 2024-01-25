@@ -6,6 +6,7 @@ import sys
 import os
 import re
 
+from upload_pilot_icon import upload_pilot_icon
 from export_tracks import export_tracks
 from convert_tracks import convert_tracks
 from aggregate_tracks import aggregate_tracks
@@ -19,6 +20,7 @@ if __name__ == "__main__":
         print("no tracks found")
         exit(0)
 
+    upload_pilot_icon(tracks)
     convert_tracks(date, tracks)
     aggregate_tracks(date)
 

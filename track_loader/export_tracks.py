@@ -28,6 +28,7 @@ def parse_track_row(trackrow: BeautifulSoup):
     trackid  = trackrow.find_all(attrs={'data-action': 'track_info'})
     track.trackid = trackid[0].get('data-trackid')
     track.activity = trackrow.find('img', class_='activityImg')['alt']
+    track.piloticonurl = trackrow.find('img', class_='zoomImg')['src']
     status = trackrow.find('span', class_='track_status')
     if status is not None and status.text == 'Live!':
         track.isLive = True
