@@ -103,6 +103,33 @@ class TestConvertTracks(unittest.TestCase):
             self.assertEqual(result['track_points'][1], ['2023-01-01T02:01:53.000Z', 35.239807074, 134.97937749, 681])
             self.assertEqual(result['track_points'][2], ['2023-01-01T02:02:07.000Z', 35.239823740000006, 134.979360824, 681])
 
+    def test_igc_to_json_cross_0_oclock(self):
+        # Mock data
+        date = '2023-01-01'
+        track = MagicMock()
+        track.filename.return_value = 'cross_0_oclock'
+        track.pilotname = 'ashida'
+        track.distance = 100
+        track.duration = 2
+        track.activity = 'Paraglider'
+
+        with open('tests/cross_0_oclock.igc', 'r') as f:
+            file_content = f.read()
+
+        open_mock = unittest.mock.mock_open(read_data=file_content)
+        with unittest.mock.patch('builtins.open', open_mock):
+            result = convert_tracks.igc_to_json(date, track)
+
+            # Assertions
+            self.assertEqual(result['pilotname'], 'ashida')
+            self.assertEqual(result['distance'], 100)
+            self.assertEqual(result['duration'], 2)
+            self.assertEqual(result['activity'], 'Paraglider')
+            self.assertEqual(len(result['track_points']), 3)
+            self.assertEqual(result['track_points'][0], ['2022-12-31T23:59:59.000Z', 35.239857072, 134.97931082600002, 685])
+            self.assertEqual(result['track_points'][1], ['2023-01-01T00:00:00.000Z', 35.239807074, 134.97937749, 681])
+            self.assertEqual(result['track_points'][2], ['2023-01-01T00:00:01.000Z', 35.239823740000006, 134.979360824, 681])
+
 if __name__ == '__main__':
     unittest.main()
     
