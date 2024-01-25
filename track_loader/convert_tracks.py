@@ -5,6 +5,7 @@ import re
 import sys
 import csv
 import os
+import datetime
 from google.cloud import storage, firestore
 from export_tracks import Track
 
@@ -30,20 +31,18 @@ class Area:
         return "name: " + self.name + " location: " + str(self.latitude) + " " + str(self.longitude)
 
 def parse_igc_line(date, line):
-    if line.startswith('B'):
-        time = line[1:7]
-        latitude = line[7:14]
-        latitude = float(latitude[0:2]) + float(latitude[2:]) / 100000
-        longitude = line[15:23]
-        longitude = float(longitude[0:3]) + float(longitude[3:]) / 100000
-        altitude = line[31:36]
-        return [
-            convert_to_timestring(date, time),
-            convert_to_degrees(latitude),
-            convert_to_degrees(longitude),
-            int(altitude)
-        ]
-    return None
+    time = line[1:7]
+    latitude = line[7:14]
+    latitude = float(latitude[0:2]) + float(latitude[2:]) / 100000
+    longitude = line[15:23]
+    longitude = float(longitude[0:3]) + float(longitude[3:]) / 100000
+    altitude = line[31:36]
+    return [
+        convert_to_timestring(date, time),
+        convert_to_degrees(latitude),
+        convert_to_degrees(longitude),
+        int(altitude)
+    ]
 
 def convert_to_timestring(date, time):
     hour = time[0:2]
@@ -60,8 +59,17 @@ def igc_to_json(date, track):
     with open("tracks/" + date + "/" + track.filename() + ".igc", 'r') as file:
         lines = file.readlines()
 
-    track_points = [parse_igc_line(date, line) for line in lines if line.startswith('B')]
+    blines = [line for line in lines if line.startswith('B')]
+    if len(blines) == 0:
+        return None
+
+    track_points = [parse_igc_line(date, line) for line in blines]
     track_points = [point for point in track_points if point is not None]
+    for point in track_points:
+        if point[TIME] > track_points[-1][TIME]:
+            dt = datetime.datetime.strptime(point[TIME], '%Y-%m-%dT%H:%M:%S.%fZ')
+            day_before = dt - datetime.timedelta(days=1)
+            point[TIME] = day_before.strftime('%Y-%m-%dT%H:%M:%S.000Z')
 
     dict = {'track_points': track_points}
     dict['pilotname'] = track.pilotname
