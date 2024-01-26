@@ -3,3 +3,4 @@ tracks/
 dist/
 __pycache__/
 cache/
+.vscode/
