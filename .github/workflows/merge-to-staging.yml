@@ -63,7 +63,7 @@ jobs:
         gcloud run deploy wefly-client-staging \
           --project=$PROJECT_ID \
           --image=asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:staging \
-          --region=us-central1 \
+          --region=asia-northeast1 \
           --service-account=github-action-sa@wefly-407313.iam.gserviceaccount.com \
           --allow-unauthenticated
 
@@ -72,6 +72,6 @@ jobs:
         gcloud run deploy wefly-api-server-staging \
           --project=$PROJECT_ID \
           --image=asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:staging \
-          --region=us-central1 \
+          --region=asia-northeast1 \
           --service-account=github-action-sa@wefly-407313.iam.gserviceaccount.com \
           --allow-unauthenticated
