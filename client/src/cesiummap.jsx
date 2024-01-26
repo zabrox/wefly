@@ -9,6 +9,8 @@ const initializeCesium = async (cesiumContainerRef) => {
     viewer = new Cesium.Viewer(cesiumContainerRef.current, {
         terrain: Cesium.Terrain.fromWorldTerrain(),
         baseLayer: Cesium.ImageryLayer.fromProviderAsync(Cesium.IonImageryProvider.fromAssetId(Number(import.meta.env.VITE_IMAGERY_ASSET_ID))),
+        timeline: false,
+        animation: false,
         baseLayerPicker: false,
         geocoder: false,
         homeButton: false,
