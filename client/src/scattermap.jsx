@@ -187,17 +187,6 @@ const isHighAltitude = () => {
     const cameraAltitude = CesiumMap.viewer.scene.camera.positionCartographic.height;
     return cameraAltitude > 70000;
 }
-const hideTimeline = () => {
-    const timelineElement = document.querySelector('.cesium-viewer-timelineContainer');
-    if (timelineElement) {
-        timelineElement.style.display = 'none';
-    }
-    const animationElement = document.querySelector('.cesium-viewer-animationContainer');
-    if (animationElement) {
-        animationElement.style.display = 'none';
-    }
-}
-
 const registerEventListenerOnCameraMove = (tracks, trackGroups, filter) => {
     if (removeCameraMoveEvent !== undefined) {
         removeCameraMoveEvent();
@@ -217,7 +206,6 @@ const render = (tracks, trackGroups, filter) => {
         hideTrackGroups(trackGroups);
         showTracks(tracks, filter);
     }
-    hideTimeline();
 }
 
 export const leaveScatterMode = () => {

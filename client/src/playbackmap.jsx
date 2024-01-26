@@ -10,17 +10,6 @@ let onTickFollowTrackRemoveCallback = undefined;
 let onTickRemoveCallback = undefined;
 let previousTime;
 
-const showTimeline = () => {
-    const timelineElement = document.querySelector('.cesium-viewer-timelineContainer');
-    if (timelineElement) {
-        timelineElement.style.display = 'block';
-    }
-    const animationElement = document.querySelector('.cesium-viewer-animationContainer');
-    if (animationElement) {
-        animationElement.style.display = 'block';
-    }
-}
-
 const followTrack = (entity) => {
     const pathEntity = CesiumMap.viewer.entities.getById(entity.id);
     if (!pathEntity) return;
@@ -198,15 +187,8 @@ export const playback = (targetTracks) => {
         createPlaybackPoint(track, positionProperty);
         createPilotLabels(track, positionProperty);
     });
-    CesiumMap.viewer.animation.viewModel.timeFormatter = (date, viewModel) => {
-        date = Cesium.JulianDate.toDate(date);
-        return `${('00' + date.getHours()).slice(-2)}:${('00' + date.getMinutes()).slice(-2)}:${('00' + date.getSeconds()).slice(-2)}`;
-    };
-    CesiumMap.viewer.timeline.updateFromClock();
-    CesiumMap.viewer.timeline.zoomTo(start, stop);
     CesiumMap.viewer.infoBox.container.style.display = 'none';
 
-    showTimeline();
     setTimeout(() => CesiumMap.viewer.clock.shouldAnimate = true, 1000);
 }
 
