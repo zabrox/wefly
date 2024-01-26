@@ -20,13 +20,16 @@ const initializeCesium = async (cesiumContainerRef) => {
         terrainShadows: Cesium.ShadowMode.DISABLED,
     });
     viewer.scene.globe.depthTestAgainstTerrain = false;
-    const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2275207);
-    viewer.scene.primitives.add(tileset);
-    viewer.fog = new Cesium.Fog({
-        enabled: true,
-        density: 0.05,
-        minimumBrightness: 1.0,
-    });
+    // const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2275207, {
+    //     dynamicScreenSpaceError: true,
+    //     dynamicScreenSpaceErrorDensity: 100.0,
+    //     dynamicScreenSpaceErrorFactor: 100.0,
+    // });
+    // viewer.scene.primitives.add(tileset);
+    viewer.scene.fog.enabled = true;
+    viewer.scene.fog.density = 0.0003;
+    viewer.scene.fog.minimumBrightness = 0.8;
+    viewer.scene.globe.atmosphereLightIntensity = 30;
     document.getElementsByClassName('cesium-viewer-bottom')[0].remove();
     viewer.camera.percentageChanged = 0.0001;
     viewer.selectionIndicator.viewModel.selectionIndicatorElement.style.visibility = 'hidden';
