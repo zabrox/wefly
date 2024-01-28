@@ -38,7 +38,7 @@ const calculateTopPosition = (playlistTable, defaultTop) => {
     return defaultTop;
 };
 
-export const TimelineBarHandle = ({ playbackState, onMouseDown }) => {
+export const TimelineBarHandle = ({ playbackState }) => {
     const [isPause, setIsPause] = React.useState(false);
 
     const timelineHandleStyle = React.useMemo(() => {
@@ -77,21 +77,14 @@ export const TimelineBarHandle = ({ playbackState, onMouseDown }) => {
         CesiumMap.viewer.clock.multiplier = multiplier > minMultiplier ? multiplier / 2 : minMultiplier;
         e.stopPropagation();
     }
-    const stopPropagation = (e) => {
-        e.stopPropagation();
-    }
 
     return (
         <div id='timeline-handle'
-            style={timelineHandleStyle}
-            onMouseDown={onMouseDown}
-            onTouchStart={onMouseDown}>
+            style={timelineHandleStyle}>
             <Typography id='timeline-handle-time'>
                 {playbackState.currentTime.format('HH:mm:ss')}
             </Typography>
-            <div id='timeline-handle-control-container'
-                onMouseDown={stopPropagation}
-                onTouchStart={stopPropagation}>
+            <div id='timeline-handle-control-container'>
                 <FastRewindIcon id='timeline-fastrewind-icon' 
                     onClick={handleSpeedDown} />
                 <PauseIcon id='timeline-pause-icon'
