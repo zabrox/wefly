@@ -77,6 +77,9 @@ export const TimelineBarHandle = ({ playbackState }) => {
         CesiumMap.viewer.clock.multiplier = multiplier > minMultiplier ? multiplier / 2 : minMultiplier;
         e.stopPropagation();
     }
+    const stopPropagation = (e) => {
+        e.stopPropagation();
+    }
 
     return (
         <div id='timeline-handle'
@@ -84,7 +87,8 @@ export const TimelineBarHandle = ({ playbackState }) => {
             <Typography id='timeline-handle-time'>
                 {playbackState.currentTime.format('HH:mm:ss')}
             </Typography>
-            <div id='timeline-handle-control-container'>
+            <div id='timeline-handle-control-container'
+                onClick={stopPropagation}>
                 <FastRewindIcon id='timeline-fastrewind-icon' 
                     onClick={handleSpeedDown} />
                 <PauseIcon id='timeline-pause-icon'
