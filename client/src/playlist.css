@@ -6,18 +6,17 @@
 
 #playlist-container {
     position: relative;
-    width: 100%;
     height: 100%;
 }
 
-.playback-range-container {
+.playback-range-canvas {
     position: relative;
-    height: 100%;
-    width: 100%;
+    height: 50px;
 }
 
 #playlist-table {
     table-layout: fixed;
+    width: 100%;
 }
 #playlist-table .playback-range-cell {
     padding: 0px;

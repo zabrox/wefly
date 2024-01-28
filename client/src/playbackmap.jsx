@@ -141,7 +141,7 @@ const createPilotLabels = (track, positionProperty) => {
     });
 }
 
-export const playback = (targetTracks) => {
+const playback = (targetTracks) => {
     if (targetTracks.length === 0) {
         return;
     }
