@@ -1,12 +1,13 @@
 import React from 'react';
 import * as Cesium from 'cesium';
+import dayjs from 'dayjs';
 import { Table, TableRow, TableCell, TableContainer, TableBody } from '@mui/material';
 import { focusOnTrack } from './playbackmap';
 import * as CesiumMap from './cesiummap';
 import { TimelineBarContainer } from './timelinebar';
 import './playlist.css';
 
-const PlaybackRange = ({ track, currentTime }) => {
+const PlaybackRange = ({ track, playbackState, setPlaybackState }) => {
     const [playbackRangeState, setPlaybackRangeState] = React.useState({
         spanCells: [],
         canvas: null,
@@ -66,14 +67,30 @@ const PlaybackRange = ({ track, currentTime }) => {
         });
     }, [playbackRangeState]);
 
+    const handleClick = (e) => {
+        const rect = playbackRangeCanvas.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        console.log(e.clientX, rect.left)
+        const totalFlightDuration = Cesium.JulianDate.secondsDifference(CesiumMap.viewer.clock.stopTime, CesiumMap.viewer.clock.startTime);
+        const currentTime = dayjs(Cesium.JulianDate.toDate(Cesium.JulianDate.addSeconds(
+            CesiumMap.viewer.clock.startTime,
+            totalFlightDuration * x / rect.width,
+            new Cesium.JulianDate())));
+        console.log(currentTime.format('YYYY-MM-DDTHH:mm:ssZ'));
+        CesiumMap.viewer.clock.currentTime = Cesium.JulianDate.fromIso8601(currentTime.format('YYYY-MM-DDTHH:mm:ssZ'));
+        setPlaybackState({ ...playbackState, currentTime: currentTime });
+    }
+
     return (
         <TableCell className='playback-range-cell' ref={playbackRangeCell}>
-            <canvas className='playback-range-canvas' ref={playbackRangeCanvas} />
+            <canvas className='playback-range-canvas'
+                ref={playbackRangeCanvas}
+                onClick={handleClick} />
         </TableCell>
     );
 };
 
-const mapTracksToTableRows = (tracks, currentTime) => {
+const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
     return tracks.map((track, i) => (
         <TableRow
             key={"tr" + i}
@@ -82,7 +99,7 @@ const mapTracksToTableRows = (tracks, currentTime) => {
             <TableCell id='pilotname'>
                 {track.pilotname}
             </TableCell>
-            <PlaybackRange track={track} currentTime={currentTime} />
+            <PlaybackRange track={track} playbackState={playbackState} setPlaybackState={setPlaybackState}/>
         </TableRow>
     ));
 };
@@ -96,7 +113,7 @@ export const PlayList = ({ state, playbackState, setPlaybackState }) => {
         <TableContainer id='playlist-container'>
             <Table id='playlist-table'>
                 <TableBody>{
-                    mapTracksToTableRows(sortedTracks, playbackState.currentTime)
+                    mapTracksToTableRows(sortedTracks, playbackState, setPlaybackState)
                 }</TableBody>
             </Table>
             <TimelineBarContainer
