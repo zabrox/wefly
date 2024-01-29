@@ -34,11 +34,11 @@ const TimelineBar = ({ playbackState }) => {
     );
 }
 
-export const TimelineBarContainer = ({ playbackState }) => {
+export const TimelineBarContainer = ({ playbackState, setPlaybackState, onMouseDown }) => {
     return (
         <div id='timelinebar-container'>
             <TimelineBar playbackState={playbackState} />
-            <TimelineBarHandle playbackState={playbackState} />
+            <TimelineBarHandle playbackState={playbackState} setPlaybackState={setPlaybackState} onMouseDown={onMouseDown} />
         </div>
     )
 }

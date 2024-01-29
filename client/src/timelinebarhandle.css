@@ -9,6 +9,7 @@
     border-width: 3px;
     box-shadow: 3px 3px rgba(128, 128, 128, 0.5);
     user-select: none;
+    pointer-events: all;
 }
 
 #timeline-handle-time {
@@ -25,4 +26,10 @@
 #timeline-handle-control-container svg {
     width: 30px;
     height: 30px;
+}
+
+#timeline-handle-speed-control {
+    display: flex;
+    margin: 5px auto;
+    justify-content: center;
 }

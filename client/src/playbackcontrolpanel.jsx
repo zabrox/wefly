@@ -19,7 +19,9 @@ export const PlaybackControlPanel = ({ state, setState }) => {
     }, [state]);
 
     const handleTickEvent = React.useCallback((date) => {
-        setPlaybackState({ ...playbackState, currentTime: date })
+        setPlaybackState(playbackState => {
+            return { ...playbackState, currentTime: date };
+        });
     }, [playbackState]);
 
     if (state.mode !== Mode.PLAYBACK_MODE) {
