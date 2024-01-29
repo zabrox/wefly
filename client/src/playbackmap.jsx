@@ -80,10 +80,8 @@ const registerEventHandlerOnTick = (onTickEventHandler) => {
         onTickRemoveCallback();
     }
     onTickRemoveCallback = CesiumMap.viewer.clock.onTick.addEventListener((clock) => {
-        const currentTime = dayjs(clock.currentTime);
-
         // クロックが進行していない場合、更新をスキップ
-        if (Cesium.JulianDate.equals(previousTime, currentTime)) {
+        if (Cesium.JulianDate.equals(previousTime, clock.currentTime)) {
             return;
         }
         onTickEventHandler(dayjs(Cesium.JulianDate.toDate(clock.currentTime)));
