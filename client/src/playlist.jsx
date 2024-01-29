@@ -49,7 +49,6 @@ const PlaybackRange = ({ track, playbackState, setPlaybackState }) => {
                 Cesium.JulianDate.fromIso8601(time.format('YYYY-MM-DDTHH:mm:ssZ')),
                 CesiumMap.viewer.clock.startTime) / totalFlightDuration;
             spanCells.push({ position: position, height: height });
-            // console.log(playbackRangeState.canvas.width, time.format('YYYY-MM-DDTHH:mm:ssZ'));
             time = time.add(span, 'seconds');
         }
         setPlaybackRangeState({ ...playbackRangeState, spanCells: spanCells });
@@ -70,13 +69,11 @@ const PlaybackRange = ({ track, playbackState, setPlaybackState }) => {
     const handleClick = (e) => {
         const rect = playbackRangeCanvas.current.getBoundingClientRect();
         const x = e.clientX - rect.left;
-        console.log(e.clientX, rect.left)
         const totalFlightDuration = Cesium.JulianDate.secondsDifference(CesiumMap.viewer.clock.stopTime, CesiumMap.viewer.clock.startTime);
         const currentTime = dayjs(Cesium.JulianDate.toDate(Cesium.JulianDate.addSeconds(
             CesiumMap.viewer.clock.startTime,
             totalFlightDuration * x / rect.width,
             new Cesium.JulianDate())));
-        console.log(currentTime.format('YYYY-MM-DDTHH:mm:ssZ'));
         CesiumMap.viewer.clock.currentTime = Cesium.JulianDate.fromIso8601(currentTime.format('YYYY-MM-DDTHH:mm:ssZ'));
         setPlaybackState({ ...playbackState, currentTime: currentTime });
     }
@@ -99,7 +96,7 @@ const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
             <TableCell id='pilotname'>
                 {track.pilotname}
             </TableCell>
-            <PlaybackRange track={track} playbackState={playbackState} setPlaybackState={setPlaybackState}/>
+            <PlaybackRange track={track} playbackState={playbackState} setPlaybackState={setPlaybackState} />
         </TableRow>
     ));
 };
@@ -109,8 +106,44 @@ export const PlayList = ({ state, playbackState, setPlaybackState }) => {
         return state.actionTargetTracks.slice().sort((a, b) => a.startTime().localeCompare(b.startTime()));
     }, [state.actionTargetTracks]);
 
+    const [isDragging, setIsDragging] = React.useState(false);
+
+    const handleMouseDown = ((e) => {
+        setIsDragging(true);
+    });
+    const handleMouseUp = ((e) => {
+        setIsDragging(false);
+    });
+    const handleMove = React.useCallback((x, rect) => {
+        if (isDragging) {
+            const totalFlightDuration = Cesium.JulianDate.secondsDifference(
+                CesiumMap.viewer.clock.stopTime,
+                CesiumMap.viewer.clock.startTime);
+            const currentTime = dayjs(Cesium.JulianDate.toDate(Cesium.JulianDate.addSeconds(
+                CesiumMap.viewer.clock.startTime,
+                totalFlightDuration * x / rect.width,
+                new Cesium.JulianDate())));
+            CesiumMap.viewer.clock.currentTime = Cesium.JulianDate.fromIso8601(currentTime.format('YYYY-MM-DDTHH:mm:ssZ'));
+            setPlaybackState({ ...playbackState, currentTime: currentTime });
+        }
+    }, [playbackState]);
+    const handleMouseMove = (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        handleMove(x, rect);
+    };
+    const handleTouchMove = (e) => {
+        const rect = document.getElementById('timelinebar-container').getBoundingClientRect();
+        const x = e.touches[0].clientX - rect.left;
+        handleMove(x, rect);
+    }
+
     return (
-        <TableContainer id='playlist-container'>
+        <TableContainer id='playlist-container'
+            onMouseUp={handleMouseUp}
+            onTouchEnd={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            onTouchMove={handleTouchMove}>
             <Table id='playlist-table'>
                 <TableBody>{
                     mapTracksToTableRows(sortedTracks, playbackState, setPlaybackState)
@@ -118,7 +151,8 @@ export const PlayList = ({ state, playbackState, setPlaybackState }) => {
             </Table>
             <TimelineBarContainer
                 playbackState={playbackState}
-                setPlaybackState={setPlaybackState} />
+                setPlaybackState={setPlaybackState}
+                onMouseDown={handleMouseDown}/>
         </TableContainer >
     );
 };
