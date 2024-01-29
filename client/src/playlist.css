@@ -9,7 +9,7 @@
     height: 100%;
 }
 
-.playback-range-canvas {
+#playlist-table .timeline-canvas {
     position: relative;
     height: 50px;
 }
@@ -18,7 +18,10 @@
     table-layout: fixed;
     width: 100%;
 }
-#playlist-table .playback-range-cell {
+#playlist-table .timeline-cell {
+    padding: 0px;
+}
+#playlist-table .timeline-container {
     padding: 0px;
 }
 #pilotname {

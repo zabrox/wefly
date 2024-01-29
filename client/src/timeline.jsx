@@ -5,21 +5,21 @@ import { TableCell } from '@mui/material';
 import * as CesiumMap from './cesiummap';
 
 export const Timeline = ({ track, playbackState, setPlaybackState }) => {
-    const [playbackRangeState, setPlaybackRangeState] = React.useState({
+    const [timelineState, setTimelineState] = React.useState({
         spanCells: [],
         canvas: null,
         cellNumber: 0,
     });
 
-    const playbackRangeCell = React.useRef(null);
-    const playbackRangeCanvas = React.useRef(null);
+    const timelineContainer = React.useRef(null);
+    const timelineCanvas = React.useRef(null);
 
     React.useEffect(() => {
-        if (!playbackRangeCanvas.current || !playbackRangeCell.current) {
+        if (!timelineCanvas.current || !timelineContainer.current) {
             return;
         }
-        const canvas = playbackRangeCanvas.current;
-        canvas.width = playbackRangeCell.current.getBoundingClientRect().width;
+        const canvas = timelineCanvas.current;
+        canvas.width = timelineContainer.current.getBoundingClientRect().width;
         canvas.height = canvas.getBoundingClientRect().height;
         const context = canvas.getContext('2d');
         context.strokeStyle = "#aaa";
@@ -28,43 +28,43 @@ export const Timeline = ({ track, playbackState, setPlaybackState }) => {
         lineargradient.addColorStop(0, track.color.brighten(0.3, new Cesium.Color()).withAlpha(0.5).toCssHexString());
         lineargradient.addColorStop(1, track.color.darken(0.2, new Cesium.Color()).withAlpha(0.5).toCssHexString());
         context.fillStyle = lineargradient;
-        setPlaybackRangeState({ ...playbackRangeState, cellNumber: canvas.width / 4, canvas: canvas });
+        setTimelineState({ ...timelineState, cellNumber: canvas.width / 4, canvas: canvas });
     }, []);
 
     React.useEffect(() => {
-        if (!playbackRangeState.canvas) {
+        if (!timelineState.canvas) {
             return;
         }
         let time = track.times[0];
 
         const totalFlightDuration = Cesium.JulianDate.secondsDifference(CesiumMap.viewer.clock.stopTime, CesiumMap.viewer.clock.startTime);
-        const span = totalFlightDuration / playbackRangeState.cellNumber;
+        const span = totalFlightDuration / timelineState.cellNumber;
         const spanCells = [];
         while (time.isBefore(track.times[track.times.length - 1])) {
-            const height = playbackRangeState.canvas.height * track.getAverageAltitude(time, time.add(span, 'seconds')) / track.maxAltitude();
-            const position = playbackRangeState.canvas.width * Cesium.JulianDate.secondsDifference(
+            const height = timelineState.canvas.height * track.getAverageAltitude(time, time.add(span, 'seconds')) / track.maxAltitude();
+            const position = timelineState.canvas.width * Cesium.JulianDate.secondsDifference(
                 Cesium.JulianDate.fromIso8601(time.format('YYYY-MM-DDTHH:mm:ssZ')),
                 CesiumMap.viewer.clock.startTime) / totalFlightDuration;
             spanCells.push({ position: position, height: height });
             time = time.add(span, 'seconds');
         }
-        setPlaybackRangeState({ ...playbackRangeState, spanCells: spanCells });
-    }, [playbackRangeState.canvas, playbackRangeState.cellNumber]);
+        setTimelineState({ ...timelineState, spanCells: spanCells });
+    }, [timelineState.canvas, timelineState.cellNumber]);
 
     React.useEffect(() => {
-        if (!playbackRangeState.canvas) {
+        if (!timelineState.canvas) {
             return;
         }
-        const context = playbackRangeState.canvas.getContext('2d');
-        playbackRangeState.spanCells.forEach(spanCell => {
-            context.rect(spanCell.position, playbackRangeState.canvas.height - spanCell.height, playbackRangeState.canvas.width / playbackRangeState.cellNumber * 0.7, spanCell.height);
+        const context = timelineState.canvas.getContext('2d');
+        timelineState.spanCells.forEach(spanCell => {
+            context.rect(spanCell.position, timelineState.canvas.height - spanCell.height, timelineState.canvas.width / timelineState.cellNumber * 0.7, spanCell.height);
             context.fill();
             context.stroke();
         });
-    }, [playbackRangeState]);
+    }, [timelineState]);
 
     const handleClick = (e) => {
-        const rect = playbackRangeCanvas.current.getBoundingClientRect();
+        const rect = timelineCanvas.current.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const totalFlightDuration = Cesium.JulianDate.secondsDifference(CesiumMap.viewer.clock.stopTime, CesiumMap.viewer.clock.startTime);
         const currentTime = dayjs(Cesium.JulianDate.toDate(Cesium.JulianDate.addSeconds(
@@ -76,10 +76,10 @@ export const Timeline = ({ track, playbackState, setPlaybackState }) => {
     }
 
     return (
-        <TableCell className='playback-range-cell' ref={playbackRangeCell}>
-            <canvas className='playback-range-canvas'
-                ref={playbackRangeCanvas}
+        <div className='timeline-container' ref={timelineContainer}>
+            <canvas className='timeline-canvas'
+                ref={timelineCanvas}
                 onClick={handleClick} />
-        </TableCell>
+        </div>
     );
 };
