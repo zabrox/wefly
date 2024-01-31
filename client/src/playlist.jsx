@@ -9,16 +9,28 @@ import { TimelineBarContainer } from './timelinebar';
 import './playlist.css';
 
 const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
+    const handleClick = (e, track) => {
+        if (track.times[0].isBefore(playbackState.currentTime) &&
+            track.times[track.times.length - 1].isAfter(playbackState.currentTime)) {
+            setPlaybackState({ ...playbackState, selectedTrack: track });
+        }
+    };
+
     return tracks.map((track, i) => (
         <TableRow
             key={"tr" + i}
             id={`trackrow-${track.id}`}
-            onClick={() => { focusOnTrack(track) }} >
+            onClick={(e) => handleClick(e, track)}>
             <TableCell id='pilotname'>
                 {track.pilotname}
             </TableCell>
             <TableCell className='timeline-cell'>
-                <Timeline track={track} playbackState={playbackState} setPlaybackState={setPlaybackState} />
+                <Timeline
+                    track={track}
+                    playbackState={playbackState}
+                    setPlaybackState={setPlaybackState}
+                    start={dayjs(Cesium.JulianDate.toDate(CesiumMap.viewer.clock.startTime))}
+                    end={dayjs(Cesium.JulianDate.toDate(CesiumMap.viewer.clock.stopTime))} />
             </TableCell>
         </TableRow>
     ));

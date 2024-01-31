@@ -1,10 +1,18 @@
+import React from 'react';
 import { Timeline } from './timeline';
 import './timelineoverlay.css';
 
-export const TimelineOverlay = ({ state, playbackState, setPlaybackState }) => {
+export const TimelineOverlay = ({ playbackState, setPlaybackState }) => {
+    if (!playbackState.selectedTrack) return null;
+
     return (
         <div id='timeline-overlay'>
-            <Timeline track={state.actionTargetTracks[0]} playbackState={playbackState} setPlaybackState={setPlaybackState} />
+            <Timeline
+                track={playbackState.selectedTrack}
+                playbackState={playbackState}
+                setPlaybackState={setPlaybackState}
+                start={playbackState.selectedTrack.times[0]}
+                end={playbackState.selectedTrack.times[playbackState.selectedTrack.times.length - 1]} />
         </div>
     )
 }
