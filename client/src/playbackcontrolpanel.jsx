@@ -25,7 +25,11 @@ export const PlaybackControlPanel = ({ state, setState, playbackState, setPlayba
 
     return (
         <div id='playback-control-panel' style={{ width: state.controlPanelSize, height: '100%' }}>
-            <PlaybackMap state={state} playbackState={playbackState} onTickEventHandler={handleTickEvent} />
+            <PlaybackMap
+                state={state}
+                playbackState={playbackState}
+                setPlaybackState={setPlaybackState}
+                onTickEventHandler={handleTickEvent} />
             {state.isControlPanelOpen &&
                 <div>
                     <Box id='back-button-container'>

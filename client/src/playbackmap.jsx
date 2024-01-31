@@ -49,7 +49,7 @@ const focusOnEntity = (entity) => {
     followTrack(entity);
 }
 
-const registerEventHandlerOnPointClick = (playbackState, setPlaybackState) => {
+const registerEventHandlerOnPointClick = (state, playbackState, setPlaybackState) => {
     // Event handler for clicking on track points
     if (clickHandler) {
         clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -62,12 +62,14 @@ const registerEventHandlerOnPointClick = (playbackState, setPlaybackState) => {
             if (entityId instanceof Cesium.Entity) {
                 if ('trackid' in entityId) {
                     focusOnEntity(entityId);
-                } else {
-                    CesiumMap.viewer.selectedEntity = undefined;
+                    const track = state.actionTargetTracks.find((track) => track.id === entityId.trackid);
+                    setPlaybackState({ ...playbackState, selectedTrack: track });
                 }
             }
         } else {
             if (onTickFollowTrackRemoveCallback) {
+                CesiumMap.viewer.selectedEntity = undefined;
+                setPlaybackState({ ...playbackState, selectedTrack: undefined });
                 CesiumMap.viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
                 onTickFollowTrackRemoveCallback();
             }
@@ -210,9 +212,9 @@ export const stopPlayback = () => {
     }
 }
 
-export const PlaybackMap = ({ state, playbackState, onTickEventHandler }) => {
+export const PlaybackMap = ({ state, playbackState, setPlaybackState, onTickEventHandler }) => {
     React.useEffect(() => {
-        registerEventHandlerOnPointClick();
+        registerEventHandlerOnPointClick(state, playbackState, setPlaybackState);
         registerEventHandlerOnTick(onTickEventHandler);
         playback(state.actionTargetTracks);
     }, [state.actionTargetTracks]);
