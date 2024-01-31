@@ -4,20 +4,32 @@ import dayjs from 'dayjs';
 import { Table, TableRow, TableCell, TableContainer, TableBody } from '@mui/material';
 import { focusOnTrack } from './playbackmap';
 import * as CesiumMap from './cesiummap';
-import {Timeline} from './timeline';
+import { Timeline } from './timeline';
 import { TimelineBarContainer } from './timelinebar';
 import './playlist.css';
 
 const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
+    const handleClick = (e, track) => {
+        console.log(`${track.pilotname} clicked`);
+        setPlaybackState({ ...playbackState, selectedTrack: track });
+    };
+
     return tracks.map((track, i) => (
         <TableRow
             key={"tr" + i}
             id={`trackrow-${track.id}`}
-            onClick={() => { focusOnTrack(track) }} >
+            onClick={(e) => handleClick(e, track)}>
             <TableCell id='pilotname'>
                 {track.pilotname}
             </TableCell>
-            <Timeline track={track} playbackState={playbackState} setPlaybackState={setPlaybackState} />
+            <TableCell className='timeline-cell'>
+                <Timeline
+                    track={track}
+                    playbackState={playbackState}
+                    setPlaybackState={setPlaybackState}
+                    start={dayjs(Cesium.JulianDate.toDate(CesiumMap.viewer.clock.startTime))}
+                    end={dayjs(Cesium.JulianDate.toDate(CesiumMap.viewer.clock.stopTime))} />
+            </TableCell>
         </TableRow>
     ));
 };
@@ -73,7 +85,7 @@ export const PlayList = ({ state, playbackState, setPlaybackState }) => {
             <TimelineBarContainer
                 playbackState={playbackState}
                 setPlaybackState={setPlaybackState}
-                onMouseDown={handleMouseDown}/>
+                onMouseDown={handleMouseDown} />
         </TableContainer >
     );
 };

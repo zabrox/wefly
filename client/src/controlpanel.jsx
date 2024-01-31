@@ -1,26 +1,9 @@
 import React from 'react';
 import { AppBar, Typography } from '@mui/material';
-import { ScatterControlPanel } from './scattercontrolpanel';
-import { PlaybackControlPanel } from './playbackcontrolpanel';
-import { Dragger } from "./dragger";
 import { ControlPanelToggle } from "./controlpaneltoggle";
-import { SCATTER_MODE } from './mode';
-import { judgeMedia } from './media';
 import './controlpanel.css';
 
-export const ControlPanel = () => {
-    const defaultControlPanelSize = judgeMedia().isPc ?
-        document.documentElement.clientWidth * 0.4 : document.documentElement.clientWidth;
-
-    const [state, setState] = React.useState({
-        tracks: [],
-        trackGroups: [],
-        controlPanelSize: defaultControlPanelSize,
-        isControlPanelOpen: true,
-        mode: SCATTER_MODE,
-        actionTargetTracks: [],
-    });
-
+export const ControlPanel = ({ state, setState, children }) => {
     return (
         <div id='control-panel-wrapper'>
             <div id='control-panel'
@@ -30,12 +13,8 @@ export const ControlPanel = () => {
                         WeFly
                     </Typography>
                 </AppBar>
-                <ScatterControlPanel state={state} setState={setState} />
-                <PlaybackControlPanel state={state} setState={setState} />
+                {children}
             </div>
-            {/* <Dragger
-                state={state}
-                setState={setState} /> */}
             <ControlPanelToggle
                 state={state}
                 setState={setState} />
