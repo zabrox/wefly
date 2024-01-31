@@ -1,5 +1,4 @@
 import React from 'react';
-import dayjs from 'dayjs';
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -8,11 +7,7 @@ import { PlaybackMap, stopPlayback } from './playbackmap';
 import { PlayList } from './playlist';
 import './playbackcontrolpanel.css';
 
-export const PlaybackControlPanel = ({ state, setState }) => {
-    const [playbackState, setPlaybackState] = React.useState({
-        currentTime: dayjs(),
-    });
-
+export const PlaybackControlPanel = ({ state, setState, playbackState, setPlaybackState }) => {
     const backToScatterMode = React.useCallback(() => {
         stopPlayback();
         setState({ ...state, mode: Mode.SCATTER_MODE });
@@ -30,7 +25,11 @@ export const PlaybackControlPanel = ({ state, setState }) => {
 
     return (
         <div id='playback-control-panel' style={{ width: state.controlPanelSize, height: '100%' }}>
-            <PlaybackMap state={state} playbackState={playbackState} onTickEventHandler={handleTickEvent} />
+            <PlaybackMap
+                state={state}
+                playbackState={playbackState}
+                setPlaybackState={setPlaybackState}
+                onTickEventHandler={handleTickEvent} />
             {state.isControlPanelOpen &&
                 <div>
                     <Box id='back-button-container'>
