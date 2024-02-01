@@ -4,6 +4,7 @@
     z-index: 1;
     display: grid;
     place-items: center;
+    pointer-events: none;
 }
 
 #control-panel-toggle-button {
@@ -14,4 +15,5 @@
     background-color: white;
     border-radius: 50%;
     box-shadow: 3px 3px rgba(128, 128, 128, 0.5);
+    pointer-events: all;
 }

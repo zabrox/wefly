@@ -2,6 +2,8 @@ import React from 'react';
 import * as Cesium from 'cesium';
 import * as CesiumMap from './cesiummap';
 
+const CELL_WIDTH = 4;
+
 const createContextForPast = (canvas, track) => {
     const context = canvas.getContext('2d');
     context.strokeStyle = "rgba(200,200,200,0.7)";
@@ -39,7 +41,7 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
         const canvas = timelineCanvas.current;
         canvas.width = timelineContainer.current.getBoundingClientRect().width;
         canvas.height = canvas.getBoundingClientRect().height;
-        setTimelineState({ ...timelineState, cellNumber: canvas.width / 5, canvas: canvas });
+        setTimelineState({ ...timelineState, cellNumber: canvas.width / CELL_WIDTH, canvas: canvas });
     }, []);
 
     React.useEffect(() => {
@@ -60,9 +62,12 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
 
     React.useEffect(() => {
         if (!timelineState.canvas) return;
-        if (playbackState.currentTime.second() % 10 !== 0) return;
+
+        const duration = end.diff(start, 'seconds');
+        const span = duration / timelineState.cellNumber;
+        if (playbackState.currentTime.second() % span !== 0) return;
+
         let context = createContextForPast(timelineState.canvas, track);
-        const cellwidth = timelineState.canvas.width / timelineState.cellNumber;
         context.clearRect(0, 0, timelineState.canvas.width, timelineState.canvas.height);
 
         timelineState.timelineCells.forEach((cell) => {
@@ -70,7 +75,7 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
                 context = createContextForFuture(timelineState.canvas, track);
             }
             context.beginPath();
-            context.rect(cell.position, timelineState.canvas.height - cell.height, cellwidth * 0.7, cell.height);
+            context.rect(cell.position, timelineState.canvas.height - cell.height, CELL_WIDTH * 0.7, cell.height);
             context.fill();
             context.stroke();
         });
@@ -83,7 +88,7 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
         const duration = end.diff(start, 'seconds');
         const currentTime = start.add(duration * x / rect.width, 'seconds');
         CesiumMap.viewer.clock.currentTime = Cesium.JulianDate.fromIso8601(currentTime.format('YYYY-MM-DDTHH:mm:ssZ'));
-        setPlaybackState({ ...playbackState, currentTime: currentTime });
+        setPlaybackState({ ...playbackState, currentTime: currentTime, selectedTrack: track });
     }
 
     return (
