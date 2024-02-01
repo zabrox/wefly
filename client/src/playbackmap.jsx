@@ -125,7 +125,7 @@ const createCurtain = (track, positionProperty) => {
                 }
                 return positions;
             }, false),
-            material: new Cesium.ColorMaterialProperty(track.color.withAlpha(0.1)),
+            material: new Cesium.ColorMaterialProperty(track.color.brighten(0.3, new Cesium.Color()).withAlpha(0.2)),
             outline: false,
         }
     });
