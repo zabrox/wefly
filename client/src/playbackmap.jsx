@@ -94,16 +94,53 @@ const playbackPointId = (track) => {
     return `playback-point-${track.id}`;
 }
 
+const createPathEntity = (track) => {
+    const pathEntity = CesiumMap.viewer.entities.add({
+        position: new Cesium.SampledPositionProperty(),
+        path: {
+            material: new Cesium.ColorMaterialProperty(track.color),
+            width: 2,
+            leadTime: 0,
+            trailTime: trailTime,
+        }
+    });
+    const positionProperty = pathEntity.position;
+    for (let i = 0; i < track.cartesians.length; i++) {
+        const time = Cesium.JulianDate.fromIso8601(track.times[i].format('YYYY-MM-DDTHH:mm:ssZ'));
+        positionProperty.addSample(time, track.cartesians[i]);
+    };
+    return positionProperty;
+}
+
+const createCurtain = (track, positionProperty) => {
+    const curtainSeconds = 30;
+    CesiumMap.viewer.entities.add({
+        wall: {
+            positions: new Cesium.CallbackProperty(() => {
+                const currentTime = CesiumMap.viewer.clock.currentTime;
+                const positions = [];
+                for (let i = 0; i < curtainSeconds; i++) {
+                    const c = positionProperty.getValue(Cesium.JulianDate.addSeconds(currentTime, -i, new Cesium.JulianDate()), new Cesium.Cartesian3());
+                    if (c) positions.push(c);
+                }
+                return positions;
+            }, false),
+            material: new Cesium.ColorMaterialProperty(track.color.withAlpha(0.1)),
+            outline: false,
+        }
+    });
+}
+
 const createPlaybackPoint = (track, positionProperty) => {
     CesiumMap.viewer.entities.add({
         id: playbackPointId(track),
         position: positionProperty,
         trackid: track.id,
         point: {
-            pixelSize: 8,
+            pixelSize: 2,
             color: track.color.brighten(0.5, new Cesium.Color()),
             outlineColor: track.color.darken(0.2, new Cesium.Color()),
-            outlineWidth: 3,
+            outlineWidth: 1,
             scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 1.0),
         }
     });
@@ -168,25 +205,8 @@ const playback = (targetTracks) => {
     CesiumMap.viewer.clock.multiplier = speed;
 
     sortedByStart.forEach((track) => {
-        const pathEntity = CesiumMap.viewer.entities.add({
-            position: new Cesium.SampledPositionProperty(),
-            path: {
-                material: new Cesium.PolylineOutlineMaterialProperty({
-                    color: track.color.brighten(0.5, new Cesium.Color()),
-                    outlineColor: track.color,
-                    outlineWidth: 2,
-                }),
-                width: 4,
-                leadTime: 0,
-                trailTime: trailTime,
-            }
-        });
-        const positionProperty = pathEntity.position;
-        for (let i = 0; i < track.cartesians.length; i++) {
-            const time = Cesium.JulianDate.fromIso8601(track.times[i].format('YYYY-MM-DDTHH:mm:ssZ'));
-            positionProperty.addSample(time, track.cartesians[i]);
-        };
-
+        const positionProperty = createPathEntity(track);
+        createCurtain(track, positionProperty);
         createPlaybackPoint(track, positionProperty);
         createPilotLabels(track, positionProperty);
     });
