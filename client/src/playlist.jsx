@@ -10,8 +10,10 @@ import './playlist.css';
 
 const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
     const handleClick = (e, track) => {
-        console.log(`${track.pilotname} clicked`);
-        setPlaybackState({ ...playbackState, selectedTrack: track });
+        if (track.times[0].isBefore(playbackState.currentTime) &&
+            track.times[track.times.length - 1].isAfter(playbackState.currentTime)) {
+            setPlaybackState({ ...playbackState, selectedTrack: track });
+        }
     };
 
     return tracks.map((track, i) => (
