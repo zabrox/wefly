@@ -1,0 +1,44 @@
+#timeline-control-container {
+    position: fixed;
+    top: calc(100% - 45px);
+    left: 0;
+    width: 100%;
+    height: 45px;
+    padding: 0px 10px;
+    color: white;
+    background-color: #e95800;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+}
+
+#timeline-control-time {
+    flex-grow: 0;
+    white-space: nowrap;
+}
+
+#timeline-control {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+#timeline-control svg {
+    width: 25px;
+    height: 25px;
+    margin: 5px;
+}
+
+#timeline-speed-control {
+    flex-grow: 0;
+    margin: 0px 10px;
+    display: flex;
+    justify-content: center;
+    white-space: nowrap;
+    align-items: center;
+}
+
+#timeline-speed-control svg {
+    margin: 0px;
+}

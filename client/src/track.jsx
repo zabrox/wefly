@@ -49,7 +49,7 @@ export class Track {
     id;
     distance = 0;
     activity = "";
-    #selected = false;
+    selected = false;
     #maxAltitude = undefined;
 
     constructor() {
@@ -116,11 +116,15 @@ export class Track {
         return sum / altitudes.length;
     }
 
+    getIconUrl() {
+        return `https://storage.cloud.google.com/wefly-lake/pilot_icons/${this.pilotname}.png`;
+    }
+
     isSelected() {
-        return this.#selected;
+        return this.selected;
     }
     select(b) {
-        this.#selected = b;
+        this.selected = b;
     }
 }
 
