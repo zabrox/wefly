@@ -1,8 +1,6 @@
 import React from 'react';
-import dayjs from 'dayjs';
 import * as Cesium from 'cesium';
 import * as CesiumMap from './cesiummap';
-import { TimelineBarHandle } from './timelinebarhandle';
 import './timelinebar.css';
 
 const calculateTimeLinePosition = (currentTime) => {
@@ -34,11 +32,10 @@ const TimelineBar = ({ playbackState }) => {
     );
 }
 
-export const TimelineBarContainer = ({ playbackState, setPlaybackState, onMouseDown }) => {
+export const TimelineBarContainer = ({ playbackState }) => {
     return (
         <div id='timelinebar-container'>
             <TimelineBar playbackState={playbackState} />
-            <TimelineBarHandle playbackState={playbackState} setPlaybackState={setPlaybackState} onMouseDown={onMouseDown} />
         </div>
     )
 }

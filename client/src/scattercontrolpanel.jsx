@@ -7,7 +7,6 @@ import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
 import { ProgressBar } from './progressbar';
 import { parseAllTracks, dbscanTracks } from './track';
-import { Filter } from './trackfilter';
 import { ScatterActionDial } from './scatteractiondial';
 import * as CesiumMap from './cesiummap';
 import { ScatterMap } from './scattermap';
@@ -25,7 +24,7 @@ const loadTracks = async (state, setState, scatterState, setScatterState) => {
         console.timeEnd('loadTracks');
     } catch (error) {
         console.error(error);
-        setState({ ...state, tracks: [], trackGroups: []  });
+        setState({ ...state, tracks: [], trackGroups: [] });
         setScatterState({ ...scatterState, loading: false });
         return;
     }
@@ -60,17 +59,11 @@ const listup = (key, tracks) => {
     return Array.from(namesSet).sort();
 }
 
-export const ScatterControlPanel = ({ state, setState }) => {
-    const [scatterState, setScatterState] = React.useState({
-        date: dayjs(),
-        order: 'asc',
-        orderBy: 'starttime',
-        filter: new Filter(),
-        loading: true,
-    });
-
+export const ScatterControlPanel = ({ state, setState, scatterState, setScatterState }) => {
     React.useEffect(() => {
-        loadTracks(state, setState, scatterState, setScatterState);
+        if (state.tracks.length === 0 ) {
+            loadTracks(state, setState, scatterState, setScatterState);
+        }
     }, []);
 
     React.useEffect(() => {
@@ -121,7 +114,6 @@ export const ScatterControlPanel = ({ state, setState }) => {
     if (state.mode !== Mode.SCATTER_MODE) {
         return null;
     }
-
 
     return (
         <div id='scatter-control-panel'>

@@ -6,7 +6,6 @@
 
 #playlist-container {
     position: relative;
-    height: 100%;
 }
 
 #playlist-table .timeline-canvas {
@@ -16,7 +15,6 @@
 
 #playlist-table {
     table-layout: fixed;
-    width: 100%;
 }
 #playlist-table .timeline-cell {
     padding: 0px;
