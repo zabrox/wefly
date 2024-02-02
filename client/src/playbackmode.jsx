@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { ControlPanel } from "./controlpanel";
 import { PlaybackControlPanel } from "./playbackcontrolpanel";
 import { TimelineOverlay } from './timelineoverlay';
+import { TimelineControl } from './timelinecontrol';
 
 export const PlaybackMode = ({ state, setState }) => {
     const [playbackState, setPlaybackState] = React.useState({
@@ -19,6 +20,7 @@ export const PlaybackMode = ({ state, setState }) => {
                     playbackState={playbackState}
                     setPlaybackState={setPlaybackState} />
             </ControlPanel>
+            <TimelineControl playbackState={playbackState} setPlaybackState={setPlaybackState} />
         </div>
     );
 }

@@ -98,7 +98,11 @@ const createPathEntity = (track) => {
     const pathEntity = CesiumMap.viewer.entities.add({
         position: new Cesium.SampledPositionProperty(),
         path: {
-            material: new Cesium.ColorMaterialProperty(track.color),
+            material: new Cesium.PolylineOutlineMaterialProperty({
+                color: track.color,
+                outlineColor: track.color.withAlpha(0.3),
+                outlineWidth: 1,
+            }),
             width: 2,
             leadTime: 0,
             trailTime: trailTime,

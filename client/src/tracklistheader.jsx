@@ -41,7 +41,7 @@ export const headers = [
         display: (track) => {
             return (
                 <div>
-                    <img className='piloticon' src={`https://storage.cloud.google.com/wefly-lake/pilot_icons/${track.pilotname}.png`} />
+                    <img className='piloticon' src={track.getIconUrl()} />
                     {track.pilotname}
                 </div>
             );
