@@ -5,6 +5,7 @@
 }
 
 #playlist-container {
+    flex-grow: 1;
     position: relative;
 }
 
@@ -14,6 +15,7 @@
 }
 
 #playlist-table {
+    flex-grow: 1;
     table-layout: fixed;
 }
 #playlist-table .timeline-cell {

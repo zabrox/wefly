@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { Button } from '@mui/material';
+import React from "react";
 import track_group_pin from '/images/track_group_pin.svg';
 import * as Cesium from "cesium";
 import * as CesiumMap from './cesiummap';
@@ -217,14 +216,31 @@ export const leaveScatterMode = () => {
     }
 }
 
+export const getTracksInPerspective = (tracks) => {
+    const camera = CesiumMap.viewer.scene.camera;
+    const frustum = CesiumMap.viewer.scene.camera.frustum;
+    const cullingVolume = frustum.computeCullingVolume(camera.position, camera.direction, camera.up);
+    const visibleTracks = [];
+    tracks.forEach(track => {
+        for (let i = 0; i < track.cartesians.length; i++) {
+            const cartesian = track.cartesians[i];
+            if (cullingVolume.computeVisibility(new Cesium.BoundingSphere(cartesian, 100)) === Cesium.Intersect.INSIDE) {
+                visibleTracks.push(track);
+                break;
+            }
+        };
+    });
+    return visibleTracks;
+}
+
 export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatterState }) => {
-    useEffect(() => {
+    React.useEffect(() => {
         registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick, state.tracks, state.trackGroups);
         // register callbacks on click for E2E test
         window.selectTrackGroup = (groupid) => onTrackGroupClick(groupid, state.trackGroups);
         window.selectTrackPoint = (trackid) => onTrackPointClick(trackid, state.tracks);
     }, [state]);
-    useEffect(() => {
+    React.useEffect(() => {
         registerEventListenerOnCameraMove(state.tracks, state.trackGroups, scatterState.filter);
         render(state.tracks, state.trackGroups, scatterState.filter);
     }, [state, scatterState]);
