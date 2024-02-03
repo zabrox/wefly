@@ -1,8 +1,9 @@
 import React from 'react';
 import { SpeedDial, SpeedDialAction } from '@mui/material';
 import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { leaveScatterMode } from './scattermap';
+import { getTracksInPerspective, leaveScatterMode } from './scattermap';
 import * as Mode from './mode';
 
 export const ScatterActionDial = ({ state, setState, filter }) => {
@@ -25,11 +26,23 @@ export const ScatterActionDial = ({ state, setState, filter }) => {
                 }, [state.tracks])}
             />,
             <SpeedDialAction
-                key='リスト再生'
-                icon={<PlaylistPlayIcon />}
-                tooltipTitle='リスト再生'
+                key='視野内のトラックを再生'
+                icon={<VisibilityIcon />}
+                tooltipTitle='視野内のトラックを再生'
                 tooltipOpen
                 onClick={React.useCallback(() => {
+                    const tracks = getTracksInPerspective(state.tracks);
+                    leaveScatterMode();
+                    setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: tracks });
+                }, [state.tracks, filter])}
+            />
+            <SpeedDialAction
+                key='リスト全再生'
+                icon={<PlaylistPlayIcon />}
+                tooltipTitle='リスト全再生'
+                tooltipOpen
+                onClick={React.useCallback(() => {
+                    const tracks = getTracksInPerspective(state.tracks);
                     leaveScatterMode();
                     setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: filter.filterTracks(state.tracks) });
                 }, [state.tracks, filter])}
