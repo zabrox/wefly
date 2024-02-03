@@ -30,20 +30,18 @@ export const PlaybackControlPanel = ({ state, setState, playbackState, setPlayba
                 playbackState={playbackState}
                 setPlaybackState={setPlaybackState}
                 onTickEventHandler={handleTickEvent} />
-            {state.isControlPanelOpen &&
-                <div>
-                    <Box id='back-button-container'>
-                        <ArrowBackIcon id='back-button-icon' onClick={backToScatterMode} />
-                        <Button id='back-button' onClick={backToScatterMode}>トラック一覧に戻る</Button>
-                    </Box>
-                    <Typography id='playback-title'>トラックの再生</Typography>
-                    <Box id='playback-info-container'>
-                        <Typography id='playbacknumber-label'>
-                            {state.actionTargetTracks.length} tracks
-                        </Typography>
-                    </Box>
-                </div>
-            }
+            <div>
+                <Box id='back-button-container'>
+                    <ArrowBackIcon id='back-button-icon' onClick={backToScatterMode} />
+                    <Button id='back-button' onClick={backToScatterMode}>トラック一覧に戻る</Button>
+                </Box>
+                <Typography id='playback-title'>トラックの再生</Typography>
+                <Box id='playback-info-container'>
+                    <Typography id='playbacknumber-label'>
+                        {state.actionTargetTracks.length} tracks
+                    </Typography>
+                </Box>
+            </div>
             <PlayList state={state} playbackState={playbackState} setPlaybackState={setPlaybackState} />
         </div >
     );
