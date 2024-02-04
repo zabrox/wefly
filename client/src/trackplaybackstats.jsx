@@ -1,5 +1,8 @@
 import * as Cesium from "cesium";
-import dayjs from "dayjs";
+import dayjs, { extend } from "dayjs";
+import duration from "dayjs/plugin/duration";
+
+extend(duration);
 
 export class TrackPlaybackStats {
     #track = undefined;
