@@ -1,4 +1,4 @@
-import { TableHead, TableRow, TableCell, TableSortLabel } from '@mui/material';
+import { TableHead, TableRow, TableCell, TableSortLabel, Avatar } from '@mui/material';
 import { TrackFilter } from './trackfilter';
 import { ActivityIcon } from './activityicon';
 import './tracklistheader.css';
@@ -30,7 +30,7 @@ export const headers = [
         numeric: false,
         defaultOrder: 'asc',
         comparator: compareByKey.bind(null, 'activity'),
-        display: (track) => <ActivityIcon track={track} />,
+        display: (track) => <ActivityIcon track={track} size={32} />,
     },
     {
         id: 'pilotname',
@@ -40,8 +40,8 @@ export const headers = [
         comparator: compareByKey.bind(null, 'pilotname'),
         display: (track) => {
             return (
-                <div>
-                    <img className='piloticon' src={track.getIconUrl()} />
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Avatar className='piloticon' src={track.getIconUrl()} sx={{ width: '32px', height: '32px' }} />
                     {track.pilotname}
                 </div>
             );

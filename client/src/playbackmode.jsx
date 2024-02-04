@@ -4,6 +4,7 @@ import { ControlPanel } from "./controlpanel";
 import { PlaybackControlPanel } from "./playbackcontrolpanel";
 import { TimelineOverlay } from './timelineoverlay';
 import { TimelineControl } from './timelinecontrol';
+import { TrackPlaybackStatsOverlay } from './trackplaybackstatsoverlay';
 
 export const PlaybackMode = ({ state, setState }) => {
     const [playbackState, setPlaybackState] = React.useState({
@@ -13,6 +14,7 @@ export const PlaybackMode = ({ state, setState }) => {
     return (
         <div>
             <TimelineOverlay playbackState={playbackState} setPlaybackState={setPlaybackState} />
+            <TrackPlaybackStatsOverlay playbackState={playbackState} />
             <ControlPanel state={state} setState={setState}>
                 <PlaybackControlPanel
                     state={state}
