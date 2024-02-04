@@ -2,6 +2,8 @@ import React from 'react';
 import * as Cesium from 'cesium';
 import dayjs from 'dayjs';
 import { Table, TableRow, TableCell, TableContainer, TableBody } from '@mui/material';
+import { Typography } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import * as CesiumMap from './cesiummap';
 import { Timeline } from './timeline';
 import { TimelineBarContainer } from './timelinebar';
@@ -20,8 +22,13 @@ const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
             key={"tr" + i}
             id={`trackrow-${track.id}`}
             onClick={(e) => handleClick(e, track)}>
-            <TableCell id='pilotname'>
-                {track.pilotname}
+            <TableCell className='pilotcell' sx={{padding: '5px'}}>
+                <div>
+                    <Avatar className='piloticon' src={track.getIconUrl()} />
+                    <div className='pilotname-container'>
+                        <Typography variant='body2'>{track.pilotname}</Typography>
+                    </div>
+                </div>
             </TableCell>
             <TableCell className='timeline-cell'>
                 <Timeline
