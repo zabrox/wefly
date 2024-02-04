@@ -2,19 +2,19 @@ import ParagliderIcon from '/images/paraglider.svg';
 import GliderIcon from '/images/glider.svg';
 import HanggliderIcon from '/images/hangglider.svg';
 
-export const ActivityIcon = ({ track }) => {
+export const ActivityIcon = ({ track, size }) => {
     const divstyle = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '32px',
-        height: '32px',
+        width: `${size}px`,
+        height: `${size}px`,
         backgroundColor: track.color.toCssHexString(),
         borderRadius: '50%',
     };
     const svgstyle = {
-        width: '20px',
-        height: '20px',
+        width: `${size * 0.6}px`,
+        height: `${size * 0.6}px`,
     };
 
     return (

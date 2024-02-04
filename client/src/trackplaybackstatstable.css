@@ -1,0 +1,4 @@
+#track-playback-stats-table {
+    display: flex;
+    flex-direction: row;
+}
