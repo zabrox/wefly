@@ -95,27 +95,6 @@ export class Track {
         return this.#maxAltitude;
     }
 
-    getAverageAltitude(starttime, endtime) {
-        if (starttime.isAfter(endtime)) {
-            return undefined;
-        }
-        const startIndex = this.times.findIndex((time) => {
-            return time.isAfter(starttime);
-        });
-        if (startIndex === -1) {
-            return undefined;
-        }
-        let endIndex = this.times.findIndex((time) => {
-            return time.isAfter(endtime);
-        });
-        if (endIndex === -1) {
-            endIndex = this.times.length - 1;
-        }
-        const altitudes = this.altitudes.slice(startIndex, endIndex);
-        const sum = altitudes.reduce((a, b) => a + b, 0);
-        return sum / altitudes.length;
-    }
-
     getIconUrl() {
         return `https://storage.cloud.google.com/wefly-lake/pilot_icons/${this.pilotname}.png`;
     }

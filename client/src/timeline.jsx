@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Cesium from 'cesium';
+import { TrackPlaybackStats } from './trackplaybackstats';
 import * as CesiumMap from './cesiummap';
 
 const CELL_WIDTH = 4;
@@ -52,7 +53,8 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
         const span = duration / timelineState.cellNumber;
         const cells = [];
         while (time.isBefore(track.times[track.times.length - 1])) {
-            const height = timelineState.canvas.height * track.getAverageAltitude(time, time.add(span, 'seconds')) / track.maxAltitude();
+            const stats = new TrackPlaybackStats(track);
+            const height = timelineState.canvas.height * stats.getAverageAltitude(time, time.add(span, 'seconds')) / track.maxAltitude();
             const position = timelineState.canvas.width * time.diff(start, 'seconds') / duration;
             cells.push({ time: time, position: position, height: height });
             time = time.add(span, 'seconds');
@@ -88,7 +90,11 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
         const duration = end.diff(start, 'seconds');
         const currentTime = start.add(duration * x / rect.width, 'seconds');
         CesiumMap.viewer.clock.currentTime = Cesium.JulianDate.fromIso8601(currentTime.format('YYYY-MM-DDTHH:mm:ssZ'));
-        setPlaybackState({ ...playbackState, currentTime: currentTime, selectedTrack: track });
+        const newState = { ...playbackState, currentTime: currentTime };
+        if (track.times[0].isBefore(currentTime) && track.times[track.times.length - 1].isAfter(currentTime)) {
+            newState.selectedTrack = track;
+        }
+        setPlaybackState(newState);
     }
 
     return (
