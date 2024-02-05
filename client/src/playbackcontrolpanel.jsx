@@ -3,6 +3,7 @@ import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import * as Mode from './mode';
+import * as CesiumMap from './cesiummap';
 import { PlaybackMap, stopPlayback } from './playbackmap';
 import { PlayList } from './playlist';
 import './playbackcontrolpanel.css';
@@ -14,6 +15,9 @@ export const PlaybackControlPanel = ({ state, setState, playbackState, setPlayba
     }, [state]);
 
     const handleTickEvent = React.useCallback((date) => {
+        if (date.unix() % (CesiumMap.viewer.clock.multiplier / 4) !== 0) {
+            return;
+        }
         setPlaybackState(playbackState => {
             return { ...playbackState, currentTime: date };
         });
