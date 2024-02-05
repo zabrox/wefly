@@ -49,11 +49,11 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
         if (!timelineState.canvas) return;
         let time = track.times[0];
 
+        const stats = new TrackPlaybackStats(track);
         const duration = end.diff(start, 'seconds');
         const span = duration / timelineState.cellNumber;
         const cells = [];
         while (time.isBefore(track.times[track.times.length - 1])) {
-            const stats = new TrackPlaybackStats(track);
             const height = timelineState.canvas.height * stats.getAverageAltitude(time, time.add(span, 'seconds')) / track.maxAltitude();
             const position = timelineState.canvas.width * time.diff(start, 'seconds') / duration;
             cells.push({ time: time, position: position, height: height });
@@ -65,9 +65,9 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
     React.useEffect(() => {
         if (!timelineState.canvas) return;
 
-        const duration = end.diff(start, 'seconds');
-        const span = duration / timelineState.cellNumber;
-        if (playbackState.currentTime.second() % span !== 0) return;
+        // const duration = end.diff(start, 'seconds');
+        // const span = parseInt(duration / timelineState.cellNumber);
+        // if (playbackState.currentTime.second() % span !== 0) return;
 
         let context = createContextForPast(timelineState.canvas, track);
         context.clearRect(0, 0, timelineState.canvas.width, timelineState.canvas.height);
