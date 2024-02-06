@@ -22,7 +22,8 @@ export const ScatterActionDial = ({ state, setState, filter }) => {
                 tooltipOpen
                 onClick={React.useCallback(() => {
                     leaveScatterMode();
-                    setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: state.tracks.filter(track => track.isSelected()) });
+                    const selected = filter.filterTracks(state.tracks.filter(track => track.isSelected()));
+                    setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: selected });
                 }, [state.tracks])}
             />,
             <SpeedDialAction
@@ -33,7 +34,7 @@ export const ScatterActionDial = ({ state, setState, filter }) => {
                 onClick={React.useCallback(() => {
                     const tracks = getTracksInPerspective(state.tracks);
                     leaveScatterMode();
-                    setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: tracks });
+                    setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: filter.filterTracks(tracks) });
                 }, [state.tracks, filter])}
             />
             <SpeedDialAction

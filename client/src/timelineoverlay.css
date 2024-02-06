@@ -1,22 +1,31 @@
 #timeline-overlay {
-    color: white;
     position: fixed;
-    top: calc(100% - 120px);
+    top: calc(100% - 45px - 20px - 75px);
     left: 0px;
     width: 100%;
-    height: 120px;
-    background-color: rgba(200, 200, 200, 0.3);
+    height: calc(75px + 20px);
     z-index: 0;
+    pointer-events: none;
 }
 
-#timeline-overlay .timeline-container {
+#timeline-container {
+    position: relative;
+    top: 0px;
     height: 75px;
     width: 100%;
+    background-color: rgba(200, 200, 200, 0.2);
+    pointer-events: all;
 }
-#timeline-overlay .timeline-canvas {
-    height: 75px;
+
+.overall-timeline-container {
+    position: fixed;
+    top: calc(100% - 45px - 20px);
+    left: 0px;
     width: 100%;
+    height: 20px;
+    pointer-events: all;
 }
-#timeline-overlay .timeline-cell {
-    padding: 0px;
+.overall-timeline-canvas {
+    height: 100%;
+    width: 100%;
 }

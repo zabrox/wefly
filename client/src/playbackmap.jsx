@@ -12,7 +12,9 @@ let previousTime;
 
 const followTrack = (entity) => {
     const pathEntity = CesiumMap.viewer.entities.getById(entity.id);
-    if (!pathEntity) return;
+    if (!pathEntity) {
+        return;
+    }
 
     const trackPositionProperty = pathEntity.position;
 
@@ -26,15 +28,22 @@ const followTrack = (entity) => {
         if (Cesium.JulianDate.equals(previousTime, currentTime)) {
             return;
         }
-        previousTime = currentTime;
+        if (previousTime === undefined) {
+            previousTime = currentTime;
+        }
 
         const currentPosition = trackPositionProperty.getValue(currentTime);
-        if (currentPosition) {
-            const distance = Cesium.Cartesian3.distance(CesiumMap.viewer.camera.positionWC, currentPosition);
+        let previsousPosition = trackPositionProperty.getValue(previousTime);
+        if (!previsousPosition) {
+            previsousPosition = currentPosition;
+        }
+        if (currentPosition && previsousPosition) {
+            const distance = Cesium.Cartesian3.distance(CesiumMap.viewer.camera.positionWC, previsousPosition);
             CesiumMap.viewer.camera.lookAt(
                 currentPosition,
                 new Cesium.HeadingPitchRange(CesiumMap.viewer.camera.heading, CesiumMap.viewer.camera.pitch, distance)
             );
+            previousTime = currentTime;
         }
     });
 }
@@ -201,7 +210,7 @@ const playback = (targetTracks, startTime, stopTime) => {
         return;
     }
     setClock(startTime, stopTime);
-    
+
     targetTracks.forEach((track) => {
         const positionProperty = createPathEntity(track);
         createCurtain(track, positionProperty);
