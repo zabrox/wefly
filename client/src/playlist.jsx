@@ -35,8 +35,8 @@ const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
                     track={track}
                     playbackState={playbackState}
                     setPlaybackState={setPlaybackState}
-                    start={dayjs(Cesium.JulianDate.toDate(CesiumMap.viewer.clock.startTime))}
-                    end={dayjs(Cesium.JulianDate.toDate(CesiumMap.viewer.clock.stopTime))} />
+                    start={playbackState.startTime}
+                    end={playbackState.stopTime} />
             </TableCell>
         </TableRow>
     ));
