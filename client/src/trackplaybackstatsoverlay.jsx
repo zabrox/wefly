@@ -23,7 +23,7 @@ const ExpandStatsButton = ({ expanded, onExpand }) => {
 export const TrackPlaybackStatsOverlay = ({ playbackState }) => {
     if (playbackState.selectedTrack === undefined) return null;
 
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = React.useState(true);
     const selectedTrack = playbackState.selectedTrack;
     const handleExpand = () => {
         setExpanded(!expanded);
