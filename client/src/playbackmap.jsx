@@ -185,30 +185,24 @@ const createPilotLabels = (track, positionProperty) => {
     });
 }
 
-const playback = (targetTracks) => {
-    if (targetTracks.length === 0) {
-        return;
-    }
-    const sortedByStart = targetTracks.toSorted((a, b) => {
-        const d1 = new Date(a.startTime());
-        const d2 = new Date(b.startTime());
-        return d1 - d2;
-    });
-    const reversedByEnd = targetTracks.toSorted((a, b) => {
-        const d1 = new Date(a.endTime());
-        const d2 = new Date(b.endTime());
-        return d2 - d1;
-    });
-    const start = Cesium.JulianDate.fromIso8601(sortedByStart[0].times[0].format('YYYY-MM-DDTHH:mm:ssZ'));
-    const stop = Cesium.JulianDate.fromIso8601(reversedByEnd[0].times[reversedByEnd[0].times.length - 1].format('YYYY-MM-DDTHH:mm:ssZ'));
+const setClock = (startTime, stopTime) => {
+    const start = Cesium.JulianDate.fromIso8601(startTime.format('YYYY-MM-DDTHH:mm:ssZ'));
+    const stop = Cesium.JulianDate.fromIso8601(stopTime.format('YYYY-MM-DDTHH:mm:ssZ'));
     Cesium.JulianDate.addSeconds(stop, trailTime + 60, stop);
     CesiumMap.viewer.clock.startTime = start;
     CesiumMap.viewer.clock.stopTime = stop;
     CesiumMap.viewer.clock.currentTime = start.clone();
-    CesiumMap.viewer.clock.clockRange = Cesium.ClockRange.CLAMPED; // Loop at the end
+    CesiumMap.viewer.clock.clockRange = Cesium.ClockRange.CLAMPED;
     CesiumMap.viewer.clock.multiplier = speed;
+}
 
-    sortedByStart.forEach((track) => {
+const playback = (targetTracks, startTime, stopTime) => {
+    if (startTime === undefined || stopTime === undefined) {
+        return;
+    }
+    setClock(startTime, stopTime);
+    
+    targetTracks.forEach((track) => {
         const positionProperty = createPathEntity(track);
         createCurtain(track, positionProperty);
         createPlaybackPoint(track, positionProperty);
@@ -240,8 +234,8 @@ export const PlaybackMap = ({ state, playbackState, setPlaybackState, onTickEven
     React.useEffect(() => {
         registerEventHandlerOnPointClick(state, playbackState, setPlaybackState);
         registerEventHandlerOnTick(onTickEventHandler);
-        playback(state.actionTargetTracks);
-    }, [state.actionTargetTracks]);
+        playback(state.actionTargetTracks, playbackState.startTime, playbackState.stopTime);
+    }, [state.actionTargetTracks, playbackState.startTime, playbackState.stopTime]);
     React.useEffect(() => {
         focusOnTrack(playbackState.selectedTrack);
     }, [playbackState.selectedTrack]);
