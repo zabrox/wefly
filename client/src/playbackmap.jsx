@@ -12,7 +12,9 @@ let previousTime;
 
 const followTrack = (entity) => {
     const pathEntity = CesiumMap.viewer.entities.getById(entity.id);
-    if (!pathEntity) return;
+    if (!pathEntity) {
+        return;
+    }
 
     const trackPositionProperty = pathEntity.position;
 
@@ -31,7 +33,10 @@ const followTrack = (entity) => {
         }
 
         const currentPosition = trackPositionProperty.getValue(currentTime);
-        const previsousPosition = trackPositionProperty.getValue(previousTime);
+        let previsousPosition = trackPositionProperty.getValue(previousTime);
+        if (!previsousPosition) {
+            previsousPosition = currentPosition;
+        }
         if (currentPosition && previsousPosition) {
             const distance = Cesium.Cartesian3.distance(CesiumMap.viewer.camera.positionWC, previsousPosition);
             CesiumMap.viewer.camera.lookAt(
