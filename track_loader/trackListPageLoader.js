@@ -4,7 +4,6 @@ const https = require('https');
 const fs = require('fs');
 const { Storage } = require('@google-cloud/storage');
 const cheerio = require('cheerio');
-const moment = require('moment');
 
 // force IPv4
 const httpAgent = new http.Agent({ family: 4 });
@@ -78,4 +77,4 @@ async function loadTrackListPages(date) {
     }
 }
 
-module.exports.loadTrackListPages = loadTrackListPages;
+module.exports = {loadTrackListPages};

@@ -1,7 +1,7 @@
 // trackListPageLoader.test.js
 const axios = require('axios');
 const { Storage } = require('@google-cloud/storage');
-const { loadTrackListPages } = require('./trackListPageLoader');
+const { loadTrackListPages } = require('./trackListPageLoader.js');
 
 jest.mock('axios');
 
