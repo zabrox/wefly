@@ -1,16 +1,13 @@
-import * as Cesium from 'cesium';
+const dayjs = require('dayjs');
 
-export class Path {
+class Path {
     points = [];
     times = [];
-    altitudes = [];
     #maxAltitude = undefined;
 
     addPoint(longitude, latitude, altitude, time) {
-        const c = Cesium.Cartesian3.fromDegrees(longitude, latitude, altitude);
-        this.points.push(c);
+        this.points.push([longitude, latitude, altitude]);
         this.times.push(time);
-        this.altitudes.push(altitude);
     }
 
     startTime() {
@@ -38,10 +35,27 @@ export class Path {
         return `${Math.floor(this.duration() / 60)} h ${this.duration() % 60} m`;
     }
 
+    altitudes() {
+        return this.points.map(p => p[2]);
+    }
     maxAltitude() {
         if (this.#maxAltitude === undefined) {
-            this.#maxAltitude = Math.max(...this.altitudes);
+            this.#maxAltitude = Math.max(...this.altitudes());
         }
         return this.#maxAltitude;
     }
+
+    serialize() {
+        return {
+            points: this.points,
+            times: this.times.map(t => t.toISOString()),
+        };
+    }
+    static deserialize(data) {
+        const path = new Path();
+        path.points = data.points;
+        path.times = data.times.map(t => dayjs(t));
+        return path;
+    }
 }
+module.exports = { Path };

@@ -1,5 +1,5 @@
-import { Path } from './path';
-import dayjs from 'dayjs';
+const { Path } = require('./path');
+const dayjs = require('dayjs');
 
 describe('Path', () => {
     let path;

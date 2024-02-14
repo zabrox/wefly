@@ -1,29 +1,33 @@
 const { Storage } = require('@google-cloud/storage');
 const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 const cheerio = require('cheerio');
+const { Track } = require('../common/track.js');
 
 const bucketName = 'wefly-lake';
 
+dayjs.extend(utc)
 dayjs.extend(customParseFormat)
 
 async function parseTrackRow($, trackRow) {
-    const { Track } = await import('../common/track.mjs');
     const track = new Track();
 
-    track.pilotname = $(trackRow).find('span.liveusername a').text().match(/[a-zA-Z0-9\-]+/)[0];
+    track.metadata.pilotname = $(trackRow).find('span.liveusername a').text().match(/[a-zA-Z0-9\-]+/)[0];
     const lastLocations = $(trackRow).find('div.list_last_location');
     const lastTime = $(trackRow).find('div.list_last_time');
 
-    track.distance = $(lastLocations[2]).text().match(/\[Max\] [\d\.]+ km/)[0].replace("[Max] ", "");
+    track.metadata.distance = parseFloat($(lastLocations[2]).text().match(/\[Max\] ([\d\.]+) km/)[1]);
+    const durationMatch = $(lastLocations[1]).text().match(/(\d{2}):(\d{2}):\d{2}/);
+    track.metadata.duration = parseInt(durationMatch[1]) * 60 + parseInt(durationMatch[2]);
 
     const trackId = $(trackRow).find('td[id^=track_text_]').attr('id').replace('track_text_', '');
-    track.id = trackId;
+    track.livetrackId = trackId;
 
-    track.activity = $(trackRow).find('img.activityImg').attr('alt');
+    track.metadata.activity = $(trackRow).find('img.activityImg').attr('alt');
 
     const timestr = lastTime.text().trim().substring(3, 22);
-    track.lastTime = dayjs(timestr, 'DD-MM-YYYY HH:mm:ss');
+    track.metadata.lastTime = dayjs.utc(timestr, 'DD-MM-YYYY HH:mm:ss');
 
     const status = $(trackRow).find('span.track_status').text();
     const isLive = status === 'Live!';

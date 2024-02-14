@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { Cartesian3, Cartographic, Math } = require('cesium');
+const { Area } = require('../common/area.js');
 
 const AREA_FILE = 'areas.jp.cup';
 const AREA_RADIUS = 10000
@@ -8,7 +9,6 @@ const AREA_RADIUS = 10000
 async function loadAreasFromCupFile() {
     const content = await fs.promises.readFile(AREA_FILE, 'utf-8');
     const lines = content.split('\n');
-    const { Area } = await import('../common/area.mjs');
     const areas = lines.filter(line => line.startsWith('"SP'))
         .map(line => {
             const parts = line.split(',');
@@ -29,8 +29,10 @@ function convertToDecimal(coordStr) {
     return coordStr.endsWith('S') || coordStr.endsWith('W') ? -decimal : decimal;
 }
 
-function distance(cartesian1, cartesian2) {
-    return Cartesian3.distance(cartesian1, cartesian2);
+function distance(point1, point2) {
+    const c1 = Cartesian3.fromDegrees(point1[0], point1[1], point1[2]);
+    const c2 = Cartesian3.fromDegrees(point2[0], point2[1], point2[2]);
+    return Cartesian3.distance(c1, c2);
 }
 
 async function findArea(tracks) {
@@ -47,11 +49,9 @@ async function findArea(tracks) {
                 minDistance = d;
             }
         });
-        const areaCart = Cartographic.fromCartesian(closestArea.position);
-        const trackCart = Cartographic.fromCartesian(track.path.points[0]);
 
         if (minDistance <= AREA_RADIUS) {
-            track.area = closestArea;
+            track.metadata.area = closestArea;
         }
     });
 }

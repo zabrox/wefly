@@ -1,8 +1,6 @@
-import { Cartesian3 } from 'cesium';
-
-export class TrackGroup {
+class TrackGroup {
     groupid = 0;
-    position = new Cartesian3();
+    position = undefined;
     tracks = [];
 
     constructor(id, tracks) {
@@ -11,3 +9,4 @@ export class TrackGroup {
         this.position = tracks[0].path.points[0];
     }
 }
+module.exports = { TrackGroup };
