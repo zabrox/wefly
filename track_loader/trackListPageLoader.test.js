@@ -54,7 +54,7 @@ describe('TrackListPageLoader', () => {
 
         expect(axios.get.mock.calls.length).toBe(1);
         expect(axios.get).toBeCalledWith('https://www.livetrack24.com/tracks/country/jp/from/2024-02-08/to/2024-02-08/page_num/1/', expect.anything());
-        const path = '2024-02-08/TrackListPage-1.html';
+        const path = '2024-02-08/livetrack24/TrackListPage-1.html';
         expect(mockUpload).toBeCalledWith(`./${path}`, { destination: path });
     });
 
