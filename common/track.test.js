@@ -12,7 +12,7 @@ test('getId returns the correct ID', () => {
 
     const id = track.getId();
 
-    expect(id).toBe('JohnDoe_20220101123456');
+    expect(id).toBe('JohnDoe_20220101033456');
 });
 
 test('serialize and desrialize track', () => {
@@ -26,6 +26,7 @@ test('serialize and desrialize track', () => {
     track.metadata.startPosition = [37.7749, -122.4194, 0];
     track.metadata.lastPosition = [37.7750, -122.4193, 100];
     track.metadata.activity = 'Paraglider';
+    track.metadata.model = 'Kangri';
     track.metadata.area = new Area("Asagiri", 35.3, 138.9, 1000);
 
     track.path.addPoint(37.7749, -122.4194, 0, dayjs('2024-02-14 12:34:56'));
@@ -43,6 +44,7 @@ test('serialize and desrialize track', () => {
             distance: 100,
             duration: 60,
             maxAltitude: 1000,
+            model: "Kangri",
             area: {areaName: "Asagiri", position: [35.3, 138.9, 1000]},
         },
         path: {

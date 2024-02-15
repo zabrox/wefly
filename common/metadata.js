@@ -11,6 +11,7 @@ class Metadata {
     startPosition = undefined;
     lastPosition = undefined;
     activity = "";
+    model = "";
     area = new Area("", 0, 0, 0);
 
     serialize() {
@@ -24,6 +25,7 @@ class Metadata {
             startPosition: this.startPosition,
             lastPosition: this.lastPosition,
             activity: this.activity,
+            model: this.model,
             area: this.area.serialize(),
         };
     }
@@ -39,6 +41,7 @@ class Metadata {
         metadata.startPosition = json.startPosition;
         metadata.lastPosition = json.lastPosition;
         metadata.activity = json.activity;
+        metadata.model = json.model;
         metadata.area = Area.deserialize(json.area);
         return metadata;
     }

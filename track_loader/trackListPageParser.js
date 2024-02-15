@@ -49,7 +49,7 @@ async function parseTracks(html) {
 }
 
 async function parseTrackListPage(date, pageNumber) {
-    const filePath = `${date}/TrackListPage-${pageNumber}.html`;
+    const filePath = `${date}/livetrack24/TrackListPage-${pageNumber}.html`;
     let content;
     try {
         const storage = new Storage();

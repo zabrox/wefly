@@ -2,6 +2,8 @@ const dayjs = require('dayjs');
 const { program } = require("commander");
 const { loadTrackListPages } = require('./trackListPageLoader.js');
 const { parseTrackListPage } = require('./trackListPageParser.js');
+const { loadTrackPages } = require('./trackPageLoader.js');
+const { parseTrackPages } = require('./trackPageParser.js');
 const { loadIgcs } = require('./igcLoader.js');
 const { parseIgcs } = require('./igcParser.js');
 const { findArea } = require('./areaFinder.js');
@@ -27,6 +29,10 @@ async function main() {
         console.log('No tracks found');
         return;
     }
+    if (!opts.nodownload) {
+        await loadTrackPages(date, tracks, opts);
+    }
+    await parseTrackPages(date, tracks);
 
     if (!opts.nodownload) {
         await loadIgcs(date, tracks, opts);

@@ -2,6 +2,7 @@ const axios = require('axios');
 const http = require('http');
 const https = require('https');
 const fs = require('fs');
+const path = require('path');
 const { Storage } = require('@google-cloud/storage');
 const cheerio = require('cheerio');
 
@@ -13,13 +14,13 @@ const bucketName = 'wefly-lake';
 const baseUrl = 'https://www.livetrack24.com';
 
 function localFilePath(page, date) {
-    return `./${date}/TrackListPage-${page}.html`;
+    return `./${date}/livetrack24/TrackListPage-${page}.html`;
 }
 
 async function uploadToGCS(page, date) {
     const storage = new Storage();
     try {
-        const destination = `${date}/TrackListPage-${page}.html`;
+        const destination = `${date}/livetrack24/TrackListPage-${page}.html`;
         const bucket = storage.bucket(bucketName);
         const options = {
             destination: destination,
@@ -33,14 +34,15 @@ async function uploadToGCS(page, date) {
 
 async function saveToLocal(html, page, date) {
     // create directory if not exists
-    if (!fs.existsSync(date)) {
-        fs.mkdirSync(date);
+    const filePath = localFilePath(page, date);
+    if (!fs.existsSync(path.dirname(filePath))) {
+        fs.mkdirSync(path.dirname(filePath), { recursive: true });
     }
     const options = {
         encoding: 'utf8',
         flag: 'w'
     }
-    fs.writeFileSync(localFilePath(page, date), html, options);
+    fs.writeFileSync(filePath, html, options);
 }
 
 async function downloadTrackListPage(page, date) {
