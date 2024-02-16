@@ -1,40 +1,39 @@
 import React from 'react';
-import axios from "axios";
 import dayjs from 'dayjs';
 import { Typography, Table, TableContainer, Box } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
+import { Track } from '../../entities/track';
+import { ProgressBar } from '../playbackmode/progressbar';
+import { ScatterActionDial } from './scatteractiondial';
+import * as CesiumMap from '../../cesiummap';
+import { ScatterMap } from './scattermap';
 import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
-import { ProgressBar } from './progressbar';
-import { parseAllTracks, dbscanTracks } from './track';
-import { ScatterActionDial } from './scatteractiondial';
-import * as CesiumMap from './cesiummap';
-import { ScatterMap } from './scattermap';
-import * as Mode from './mode';
+import { loadMetadatas, loadPaths, loadTrackGroups } from './trackloader';
+import * as Mode from '../mode';
 import './scattercontrolpanel.css';
 
 const loadTracks = async (state, setState, scatterState, setScatterState) => {
     setState({ ...state, tracks: [], trackGroups: [] });
     setScatterState({ ...scatterState, loading: true })
-    const tracksurl = `${import.meta.env.VITE_API_URL}/tracks?date=`;
-    let response = undefined;
+    let tracks = [];
+    let trackGroups = [];
     try {
-        console.time('loadTracks');
-        response = await axios({ method: "get", url: `${tracksurl}${scatterState.date.format('YYYY-MM-DD')}`, responseType: "json" });
-        console.timeEnd('loadTracks');
+        let metadatas = await loadMetadatas(scatterState.date);
+        metadatas = metadatas.filter(metadata => metadata !== undefined && metadata.duration > 5);
+        tracks = metadatas.map(metadata => {
+            const t = new Track();
+            t.metadata = metadata;
+            return t;
+        });
+        trackGroups = await loadTrackGroups(scatterState.date);
     } catch (error) {
         console.error(error);
         setState({ ...state, tracks: [], trackGroups: [] });
         setScatterState({ ...scatterState, loading: false });
         return;
     }
-    let tracks = parseAllTracks(response.data);
-    // filter tracks less than 5 minutes
-    tracks = tracks.filter(track => track !== undefined && track.duration() > 5);
-    console.time('dbscanTracks');
-    const trackGroups = dbscanTracks(tracks);
-    console.timeEnd('dbscanTracks');
-    CesiumMap.zoomToTracks(tracks);
+    CesiumMap.zoomToTrackGroups(trackGroups);
     setState({ ...state, tracks: tracks, trackGroups: trackGroups, });
     setScatterState({ ...scatterState, loading: false });
 };
@@ -46,13 +45,12 @@ const scrollToTrack = (trackid) => {
     }
 }
 
-
-const listup = (key, tracks) => {
+const listup = (tracks, accessor) => {
     const namesSet = new Set();
 
     tracks.forEach(track => {
-        if (track[key] && !namesSet.has(track[key])) {
-            namesSet.add(track[key]);
+        if (accessor(track) && !namesSet.has(accessor(track))) {
+            namesSet.add(accessor(track));
         }
     });
 
@@ -61,46 +59,58 @@ const listup = (key, tracks) => {
 
 export const ScatterControlPanel = ({ state, setState, scatterState, setScatterState }) => {
     React.useEffect(() => {
-        if (state.tracks.length === 0 ) {
+        if (state.tracks.length === 0) {
             loadTracks(state, setState, scatterState, setScatterState);
         }
     }, []);
 
     React.useEffect(() => {
         const newFilter = scatterState.filter;
-        const areas = listup('area', state.tracks);
-        const pilots = listup('pilotname', state.tracks);
-        const activities = listup('activity', state.tracks);
+        const areas = listup(state.tracks, (track) => track.metadata.area.areaName);
+        const pilots = listup(state.tracks, (track) => track.metadata.pilotname);
+        const activities = listup(state.tracks, (track) => track.metadata.activity);
         newFilter.setContents(pilots, activities, areas);
         setScatterState({ ...scatterState, filter: newFilter });
     }, [state.tracks]);
 
-    const handleTrackGroupClick = React.useCallback((groupid, trackGroups) => {
+    const handleTrackGroupClick = React.useCallback(async (groupid, trackGroups) => {
         const group = trackGroups.find(group => group.groupid === groupid);
         CesiumMap.zoomToTrackGroup(group);
+        const copyTracks = [...state.tracks];
+        const tracksInGroup = copyTracks.filter(track => group.trackIds.includes(track.getId()) )
+        if (scatterState.selectedTrackGroups.includes(group)) {
+            CesiumMap.zoomToTracks(tracksInGroup);
+            return;
+        }
+        await loadPaths(tracksInGroup);
+        setState({ ...state, tracks: copyTracks });
+        const copySelectedTrackGroups = [...scatterState.selectedTrackGroups];
+        copySelectedTrackGroups.push(group);
+        setScatterState({ ...scatterState, selectedTrackGroups: copySelectedTrackGroups });
+        CesiumMap.zoomToTracks(tracksInGroup);
     }, [state]);
 
-    const handleTrackPointClick = React.useCallback((trackid, tracks) => {
-        const track = tracks.find(track => track.id === trackid);
-        if (!track.isSelected()) {
-            handleTrackClick(trackid);
-        }
-        setTimeout(() => setState(s => { return { ...state, isControlPanelOpen: true } }));
-        setTimeout(() => scrollToTrack(trackid), 500);
-    }, [state]);
+    // const handleTrackPointClick = React.useCallback((trackid, tracks) => {
+    //     const track = tracks.find(track => track.id === trackid);
+    //     if (!track.isSelected()) {
+    //         handleTrackClick(trackid);
+    //     }
+    //     setTimeout(() => setState(s => { return { ...state, isControlPanelOpen: true } }));
+    //     setTimeout(() => scrollToTrack(trackid), 500);
+    // }, [state]);
 
-    const handleTrackClick = React.useCallback((trackid) => {
-        console.debug('handleTrackClick');
-        const copy_tracks = [...state.tracks];
-        const index = copy_tracks.findIndex(track => track.id === trackid)
-        const target_track = copy_tracks[index];
-        const select = !target_track.isSelected();
-        target_track.select(select);
-        setState({ ...state, tracks: copy_tracks });
-        if (select) {
-            CesiumMap.zoomToTracks([target_track]);
-        }
-    }, [state]);
+    // const handleTrackClick = React.useCallback((trackid) => {
+    //     console.debug('handleTrackClick');
+    //     const copy_tracks = [...state.tracks];
+    //     const index = copy_tracks.findIndex(track => track.id === trackid)
+    //     const target_track = copy_tracks[index];
+    //     const select = !target_track.isSelected();
+    //     target_track.select(select);
+    //     setState({ ...state, tracks: copy_tracks });
+    //     if (select) {
+    //         CesiumMap.zoomToTracks([target_track]);
+    //     }
+    // }, [state]);
 
     const handleDateChange = React.useCallback((newDate) => {
         console.debug('handleDateChange');
@@ -136,7 +146,8 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                             setScatterState={setScatterState} />
                         <TrackListBody
                             tracks={state.tracks}
-                            onTrackClicked={handleTrackClick}
+                            // onTrackClicked={handleTrackClick}
+                            onTrackClicked={() => { }}
                             orderBy={scatterState.orderBy}
                             order={scatterState.order}
                             filter={scatterState.filter} />
@@ -144,12 +155,13 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                 </TableContainer >
                 <ProgressBar show={scatterState.loading} controlPanelSize={state.controlPanelSize} />
             </Box>
-            <ScatterActionDial
+            {/* <ScatterActionDial
                 state={state}
                 setState={setState}
-                filter={scatterState.filter} />
+                filter={scatterState.filter} /> */}
             <ScatterMap
-                onTrackPointClick={handleTrackPointClick}
+                // onTrackPointClick={handleTrackPointClick}
+                onTrackPointClick={() => { }}
                 onTrackGroupClick={handleTrackGroupClick}
                 state={state}
                 scatterState={scatterState} />

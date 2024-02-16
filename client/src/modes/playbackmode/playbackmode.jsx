@@ -1,6 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { ControlPanel } from "./controlpanel";
+import { ControlPanel } from "../../controlpanel";
 import { PlaybackControlPanel } from "./playbackcontrolpanel";
 import { TimelineOverlay } from './timelineoverlay';
 import { TimelineControl } from './timelinecontrol';

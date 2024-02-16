@@ -1,12 +1,12 @@
 class TrackGroup {
     groupid = 0;
     position = undefined;
-    tracks = [];
+    trackIds = [];
 
-    constructor(id, tracks) {
+    constructor(id, metadatas) {
         this.groupid = id;
-        this.tracks = tracks;
-        this.position = tracks[0].path.points[0];
+        this.trackIds = metadatas.map(metadata => metadata.getId());
+        this.position = metadatas[0].startPosition;
     }
 }
 module.exports = { TrackGroup };

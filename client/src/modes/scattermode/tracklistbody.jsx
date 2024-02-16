@@ -1,6 +1,7 @@
 import React from 'react';
 import { TableBody, TableRow, TableCell } from '@mui/material';
 import { headers } from './tracklistheader';
+import { trackColor } from '../../util/trackcolor';
 
 const TrackCell = ({ track, header }) => {
     let style = {};
@@ -19,10 +20,10 @@ const mapTracksToTableRows = (tracks, onTrackClicked) => {
             id={`trackrow-${track.id}`}
             onClick={() => { onTrackClicked(track.id) }}
             style={{
-                backgroundColor: track.isSelected() ? track.color.withAlpha(0.6).toCssHexString() : '',
+                // backgroundColor: track.isSelected() ? trackColor(track).withAlpha(0.6).toCssHexString() : '',
             }}>{
                 headers.map((header) => (
-                    <TrackCell key={track.pilotname + header.id} track={track} header={header} />
+                    <TrackCell key={track.metadata.pilotname + header.id} track={track} header={header} />
                 ))
             }
         </TableRow>

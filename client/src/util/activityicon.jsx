@@ -1,3 +1,4 @@
+import { trackColor } from './trackcolor';
 import ParagliderIcon from '/images/paraglider.svg';
 import GliderIcon from '/images/glider.svg';
 import HanggliderIcon from '/images/hangglider.svg';
@@ -9,7 +10,7 @@ export const ActivityIcon = ({ track, size }) => {
         alignItems: 'center',
         width: `${size}px`,
         height: `${size}px`,
-        backgroundColor: track.color.toCssHexString(),
+        backgroundColor: trackColor(track).toCssHexString(),
         borderRadius: '50%',
     };
     const svgstyle = {
@@ -19,9 +20,9 @@ export const ActivityIcon = ({ track, size }) => {
 
     return (
         <div style={divstyle}>
-            {track.activity === 'Paraglider' && <img src={ParagliderIcon} style={svgstyle} alt={track.activity} />}
-            {track.activity === 'Glider' && <img src={GliderIcon} style={svgstyle} alt={track.activity} />}
-            {track.activity === 'Hangglider' && <img src={HanggliderIcon} style={svgstyle} alt={track.activity} />}
+            {track.metadata.activity === 'Paraglider' && <img src={ParagliderIcon} style={svgstyle} alt={track.metadata.activity} />}
+            {track.metadata.activity === 'Glider' && <img src={GliderIcon} style={svgstyle} alt={track.metadata.activity} />}
+            {track.metadata.activity === 'Hangglider' && <img src={HanggliderIcon} style={svgstyle} alt={track.metadata.activity} />}
         </div>
     )
 }

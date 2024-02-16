@@ -1,7 +1,7 @@
-const { Path } = require('./path.js');
-const { Metadata } = require('./metadata.js');
+import { Path } from './path.js';
+import { Metadata } from './metadata.js';
 
-class Track {
+export class Track {
     path = new Path();
     metadata = new Metadata();
 
@@ -23,5 +23,3 @@ class Track {
         return track;
     }
 }
-
-module.exports = { Track };

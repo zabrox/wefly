@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dayjs": "^1.11.10"
+    "cesium": "^1.114.0",
+    "dayjs": "^1.11.10",
+    "density-clustering": "^1.3.0"
   }
 }

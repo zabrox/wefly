@@ -4,7 +4,7 @@ import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { getTracksInPerspective, leaveScatterMode } from './scattermap';
-import * as Mode from './mode';
+import * as Mode from '../mode';
 
 export const ScatterActionDial = ({ state, setState, filter }) => {
     return (

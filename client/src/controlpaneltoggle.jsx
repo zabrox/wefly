@@ -1,7 +1,7 @@
 import React from "react";
 import ArrowCircleLeft from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRight from '@mui/icons-material/ArrowCircleRight';
-import { judgeMedia } from "./media";
+import { judgeMedia } from "./util/media";
 import './controlpaneltoggle.css';
 
 export const ControlPanelToggle = ({ state, setState }) => {

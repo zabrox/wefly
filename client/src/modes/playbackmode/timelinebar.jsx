@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Cesium from 'cesium';
-import * as CesiumMap from './cesiummap';
+import * as CesiumMap from '../../cesiummap';
 import './timelinebar.css';
 
 const calculateTimeLinePosition = (currentTime) => {

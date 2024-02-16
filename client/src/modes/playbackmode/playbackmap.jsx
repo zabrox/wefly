@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import * as Cesium from 'cesium';
-import * as CesiumMap from './cesiummap';
+import * as CesiumMap from '../../cesiummap';
 
 const speed = 32;
 const trailTime = 900;

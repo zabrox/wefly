@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { IconButton, Button, Dialog, DialogTitle, List, ListItem, Checkbox, ListItemText } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import './trackfilter.css';
-import { Track } from './track';
 
 export class Filter {
     PILOTNAME_KEY = 'pilotname';
@@ -40,20 +39,20 @@ export class Filter {
 
     filterTracks(tracks) {
         return tracks.filter((track) => {
-            return (this.filters[this.PILOTNAME_KEY].length == 0 || this.filters[this.PILOTNAME_KEY].includes(track.pilotname)) &&
-                (this.filters[this.ACTIVITY_KEY].length == 0 || this.filters[this.ACTIVITY_KEY].includes(track.activity)) &&
-                (this.filters[this.AREA_KEY].length == 0 || this.filters[this.AREA_KEY].includes(track.area));
+            return (this.filters[this.PILOTNAME_KEY].length == 0 || this.filters[this.PILOTNAME_KEY].includes(track.metadata.pilotname)) &&
+                (this.filters[this.ACTIVITY_KEY].length == 0 || this.filters[this.ACTIVITY_KEY].includes(track.metadata.activity)) &&
+                (this.filters[this.AREA_KEY].length == 0 || this.filters[this.AREA_KEY].includes(track.metadata.area.areaName));
         });
     }
 
     filtersTrack(track) {
-        return !((this.filters[this.PILOTNAME_KEY].length == 0 || this.filters[this.PILOTNAME_KEY].includes(track.pilotname)) &&
-            (this.filters[this.ACTIVITY_KEY].length == 0 || this.filters[this.ACTIVITY_KEY].includes(track.activity)) &&
-            (this.filters[this.AREA_KEY].length == 0 || this.filters[this.AREA_KEY].includes(track.area)));
+        return !((this.filters[this.PILOTNAME_KEY].length == 0 || this.filters[this.PILOTNAME_KEY].includes(track.metadata.pilotname)) &&
+            (this.filters[this.ACTIVITY_KEY].length == 0 || this.filters[this.ACTIVITY_KEY].includes(track.metadata.activity)) &&
+            (this.filters[this.AREA_KEY].length == 0 || this.filters[this.AREA_KEY].includes(track.metadata.area.areaName)));
     }
 }
 
-export const TrackFilter = ({ tracks, filterkey, filter, setFilter }) => {
+export const TrackFilter = ({ filterkey, filter, setFilter }) => {
     const [showTrackFilter, setShowTrackFilter] = useState(false);
 
     const handleToggle = (value) => () => {
