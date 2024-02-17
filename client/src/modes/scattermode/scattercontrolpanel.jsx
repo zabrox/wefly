@@ -71,13 +71,13 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         const activities = listup(state.tracks, (track) => track.metadata.activity);
         newFilter.setContents(pilots, activities, areas);
         setScatterState({ ...scatterState, filter: newFilter });
-    }, [state.tracks]);
+    }, [state, scatterState]);
 
     const handleTrackGroupClick = React.useCallback(async (groupid, trackGroups) => {
         const group = trackGroups.find(group => group.groupid === groupid);
         CesiumMap.zoomToTrackGroup(group);
         const copyTracks = [...state.tracks];
-        const tracksInGroup = copyTracks.filter(track => group.trackIds.includes(track.getId()) )
+        const tracksInGroup = copyTracks.filter(track => group.trackIds.includes(track.getId()))
         if (scatterState.selectedTrackGroups.includes(group)) {
             CesiumMap.zoomToTracks(tracksInGroup);
             return;
@@ -90,27 +90,33 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         CesiumMap.zoomToTracks(tracksInGroup);
     }, [state]);
 
-    // const handleTrackPointClick = React.useCallback((trackid, tracks) => {
-    //     const track = tracks.find(track => track.id === trackid);
-    //     if (!track.isSelected()) {
-    //         handleTrackClick(trackid);
-    //     }
-    //     setTimeout(() => setState(s => { return { ...state, isControlPanelOpen: true } }));
-    //     setTimeout(() => scrollToTrack(trackid), 500);
-    // }, [state]);
+    const toggleSelectionOfTrack = React.useCallback((trackid) => {
+        const copySelectedTracks = new Set(scatterState.selectedTracks);
+        console.log(scatterState.selectedTracks)
+        const select = !copySelectedTracks.has(trackid);
+        if (select) {
+            copySelectedTracks.add(trackid);
+        } else {
+            copySelectedTracks.delete(trackid);
+        }
+        setScatterState({ ...scatterState, selectedTracks: copySelectedTracks });
+        return select;
+    }, [scatterState]);
 
-    // const handleTrackClick = React.useCallback((trackid) => {
-    //     console.debug('handleTrackClick');
-    //     const copy_tracks = [...state.tracks];
-    //     const index = copy_tracks.findIndex(track => track.id === trackid)
-    //     const target_track = copy_tracks[index];
-    //     const select = !target_track.isSelected();
-    //     target_track.select(select);
-    //     setState({ ...state, tracks: copy_tracks });
-    //     if (select) {
-    //         CesiumMap.zoomToTracks([target_track]);
-    //     }
-    // }, [state]);
+    const handleTrackPointClick = React.useCallback((trackid) => {
+        if (!scatterState.selectedTracks.has(trackid)) {
+            toggleSelectionOfTrack(trackid);
+        }
+    }, [state, scatterState]);
+
+    const handleTrackClick = React.useCallback((trackid) => {
+        console.debug('handleTrackClick');
+        const select = toggleSelectionOfTrack(trackid);
+        if (select) {
+            const targetTrack = state.tracks.find(track => track.getId() === trackid)
+            CesiumMap.zoomToTracks([targetTrack]);
+        }
+    }, [state, scatterState]);
 
     const handleDateChange = React.useCallback((newDate) => {
         console.debug('handleDateChange');
@@ -145,12 +151,9 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                             scatterState={scatterState}
                             setScatterState={setScatterState} />
                         <TrackListBody
-                            tracks={state.tracks}
-                            // onTrackClicked={handleTrackClick}
-                            onTrackClicked={() => { }}
-                            orderBy={scatterState.orderBy}
-                            order={scatterState.order}
-                            filter={scatterState.filter} />
+                            state={state}
+                            scatterState={scatterState}
+                            onTrackClicked={handleTrackClick} />
                     </Table>
                 </TableContainer >
                 <ProgressBar show={scatterState.loading} controlPanelSize={state.controlPanelSize} />
@@ -160,8 +163,7 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                 setState={setState}
                 filter={scatterState.filter} /> */}
             <ScatterMap
-                // onTrackPointClick={handleTrackPointClick}
-                onTrackPointClick={() => { }}
+                onTrackPointClick={handleTrackPointClick}
                 onTrackGroupClick={handleTrackGroupClick}
                 state={state}
                 scatterState={scatterState} />

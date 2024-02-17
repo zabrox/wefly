@@ -12,6 +12,7 @@ export const ScatterMode = ({ state, setState }) => {
         filter: new Filter(),
         loading: true,
         selectedTrackGroups: [],
+        selectedTracks: new Set(),
     });
 
     return (

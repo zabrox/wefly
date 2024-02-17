@@ -39,11 +39,15 @@ async function parseTracks(html) {
     const $ = cheerio.load(html);
     const tracks = [];
     $('div[id^="trackRow_"]').each(async (index, element) => {
-        const [track, isLive] = await parseTrackRow($, element);
-        if (isLive) {
-            return;
+        try {
+            const [track, isLive] = await parseTrackRow($, element);
+            if (isLive) {
+                return;
+            }
+            tracks.push(track);
+        } catch (error) {
+            console.log(`Failed to parse track: ${error.message}`);
         }
-        tracks.push(track);
     });
     return tracks;
 }

@@ -13,14 +13,14 @@ const TrackCell = ({ track, header }) => {
     return (<TableCell style={style} className={header.id}>{header.display(track)}</TableCell>);
 }
 
-const mapTracksToTableRows = (tracks, onTrackClicked) => {
+const mapTracksToTableRows = (tracks, selectedTracks, onTrackClicked) => {
     return tracks.map((track, i) => (
         <TableRow
             key={"tr" + i}
-            id={`trackrow-${track.id}`}
-            onClick={() => { onTrackClicked(track.id) }}
+            id={`trackrow-${track.getId()}`}
+            onClick={() => { onTrackClicked(track.getId()) }}
             style={{
-                // backgroundColor: track.isSelected() ? trackColor(track).withAlpha(0.6).toCssHexString() : '',
+                backgroundColor: selectedTracks.has(track.getId()) ? trackColor(track).withAlpha(0.6).toCssHexString() : '',
             }}>{
                 headers.map((header) => (
                     <TrackCell key={track.metadata.pilotname + header.id} track={track} header={header} />
@@ -30,18 +30,29 @@ const mapTracksToTableRows = (tracks, onTrackClicked) => {
     ));
 };
 
-export const TrackListBody = ({ tracks, onTrackClicked, orderBy, order, filter }) => {
+export const TrackListBody = ({ state, scatterState, onTrackClicked }) => {
     const sortedrows = React.useMemo(() => {
-        const comparator = headers.find(header => header.id === orderBy).comparator;
-        const sortedTracks = tracks.slice().sort(comparator);
-        return order === 'asc' ? sortedTracks : sortedTracks.reverse();
-    });
+        const comparator = headers.find(header => header.id === scatterState.orderBy).comparator;
+        const sortedTracks = state.tracks.slice().sort(comparator);
+        return scatterState.order === 'asc' ? sortedTracks : sortedTracks.reverse();
+    }, [state, scatterState]);
 
-    const unfilteredTracks = filter.filterTracks(sortedrows);
+    let unfilteredTracks = scatterState.filter.filterTracks(sortedrows);
+    unfilteredTracks = unfilteredTracks.filter((track) => {
+        if (scatterState.selectedTrackGroups.length === 0) {
+            return true;
+        }
+        for (const trackgroup of scatterState.selectedTrackGroups) {
+            if (trackgroup.trackIds.includes(track.getId())) {
+                return true;
+            }
+        }
+        return false;
+    });
 
     return (
         <TableBody id='track-list-body'>{
-            mapTracksToTableRows(unfilteredTracks, onTrackClicked)
+            mapTracksToTableRows(unfilteredTracks, scatterState.selectedTracks, onTrackClicked)
         }</TableBody>
     );
 }
