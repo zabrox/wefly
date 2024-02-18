@@ -1,7 +1,6 @@
 const dayjs = require('dayjs');
 const { Storage } = require('@google-cloud/storage');
 const Firestore = require('@google-cloud/firestore');
-const { Client } = require('pg');
 const { groupTracks } = require('./trackgrouper.js');
 const { Track } = require('../common/track.js');
 const { Metadata } = require('../common/metadata.js');
@@ -11,12 +10,7 @@ const db = new Firestore({
 });
 const collection = "metadatas";
 
-const bucketName = 'wefly-lake';
-
-const PG_HOST = '34.146.14.77';
-const PG_USER = 'postgres';
-const PG_PASSWORD = 'Meltingp0t';
-const PG_DB = 'wefly';
+const lakeBucketName = 'wefly-lake';
 
 const convertToFirestoreObject = (metadata) => {
     const metadataCopy = JSON.parse(JSON.stringify(metadata));
@@ -38,48 +32,16 @@ const postMetadata = async (track) => {
     console.log(`Write metadata for ${track.getId()} successful`);
 };
 
-const getPgClient = () => {
-    return new Client({
-        host: PG_HOST,
-        user: PG_USER,
-        password: PG_PASSWORD,
-        database: PG_DB,
-        port: 5432,
-    });
-};
-
 const postPath = async (track) => {
-    const client = getPgClient();
-    client.connect();
+    const fileName = `paths/${track.getId()}.json`;
+    const storage = new Storage();
+    const bucket = storage.bucket(lakeBucketName);
+    const file = bucket.file(fileName);
 
-    // delete existing path data
-    const deleteQuery = `DELETE FROM path WHERE trackid='${track.getId()}';`;
-    try {
-        await client.query(deleteQuery);
-    } catch (error) {
-        throw error;
-    };
-
-    const basequery = 'INSERT INTO path (trackid, longitude, latitude, altitude, time) VALUES ';
-    const values = track.path.points.map((point, index) => {
-        return `(
-            '${track.getId()}',
-            ${point[0]},
-            ${point[1]},
-            ${point[2]},
-            '${track.path.times[index].toISOString()}'
-        )`;
-    }).join(',');
-
-    const query = basequery + values + ';';
-
-    try {
-        await client.query(query);
-    } catch (error) {
-        throw error;
-    };
-    console.log(`Insert path for ${track.getId()} successful`);
-    client.end();
+    const json = JSON.stringify(track.path.points.map((point, index) => {
+        return [...point, track.path.times[index].toDate()];
+    }));
+    file.save(json);
 };
 
 const postTracks = async (req, res) => {
@@ -131,17 +93,20 @@ const getPath = async (req, res) => {
     }
     const trackids = req.query.trackids.split(',');
     try {
-        const client = getPgClient();
-        client.connect();
-        const query = `SELECT * FROM path WHERE trackid IN (${trackids.map((id) => `'${id}'`).join(',')}) ORDER BY trackid, time;`;
-        const result = await client.query(query);
+        const storage = new Storage();
+        const bucket = storage.bucket(lakeBucketName);
         const ret = {};
-        result.rows.forEach(row => {
-            if (ret[row.trackid] === undefined) ret[row.trackid] = [];
-            return ret[row.trackid].push([row.longitude, row.latitude, row.altitude, dayjs(row.time)]);
-        });
+        for (const trackid of trackids) {
+            const fileName = `paths/${trackid}.json`;
+            const file = bucket.file(fileName);
+            if (!file.exists) {
+                ret.status(404).send(`Path for ${trackid} not found.`);
+                return;
+            }
+            const [content] = await file.download();
+            ret[trackid] = JSON.parse(content.toString());
+        };
         res.status(200).send(ret);
-        client.end();
     } catch (error) {
         res.status(500).send({ message: `Error fetching paths for ${trackids}`, error: error.message });
     }
@@ -168,7 +133,7 @@ const getPilotIcon = async (req, res) => {
 
     const fileName = `pilot_icons/${pilotname}.png`;
     const storage = new Storage();
-    const bucket = storage.bucket(bucketName);
+    const bucket = storage.bucket(lakeBucketName);
     const file = bucket.file(fileName);
 
     try {

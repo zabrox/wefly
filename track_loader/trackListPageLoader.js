@@ -46,8 +46,7 @@ async function saveToLocal(html, page, date) {
 }
 
 async function downloadTrackListPage(page, date) {
-    // const url = `${baseUrl}/tracks/country/jp/from/${date}/to/${date}/page_num/${page}/`;
-    const url = `${baseUrl}/tracks/from/${date}/to/${date}/page_num/${page}/`;
+    const url = `${baseUrl}/tracks/country/jp/from/${date}/to/${date}/page_num/${page}/`;
     console.log(`Downloading ${url}`)
     const response = await axios.get(url, {
         httpAgent,
