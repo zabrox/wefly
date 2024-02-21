@@ -37,18 +37,7 @@ export const TrackListBody = ({ state, scatterState, onTrackClicked }) => {
         return scatterState.order === 'asc' ? sortedTracks : sortedTracks.reverse();
     }, [state, scatterState]);
 
-    let unfilteredTracks = scatterState.filter.filterTracks(sortedrows);
-    unfilteredTracks = unfilteredTracks.filter((track) => {
-        if (scatterState.selectedTrackGroups.length === 0) {
-            return true;
-        }
-        for (const trackgroup of scatterState.selectedTrackGroups) {
-            if (trackgroup.trackIds.includes(track.getId())) {
-                return true;
-            }
-        }
-        return false;
-    });
+    const unfilteredTracks = scatterState.selectedTrackGroups.filterTracks(state.tracks); 
 
     return (
         <TableBody id='track-list-body'>{

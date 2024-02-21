@@ -120,19 +120,26 @@ const registerEventHandlerOnPointClick = (handleTrackPointClick, handleTrackGrou
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
 
-const hideTrack = (track) => {
+const showTrack = (track, selectedTrackGroups) => {
+    const wantedShow = selectedTrackGroups.containsTrack(track);
+    const point = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, 0));
+    if (point === undefined) {
+        return;
+    }
+    if (wantedShow === point.show) {
+        return;
+    }
+
     const entity = CesiumMap.viewer.entities.getById(tracklineEntitiyId(track));
-    if (entity !== undefined) entity.show = false;
+    if (entity !== undefined) entity.show = wantedShow;
 
     for (let i = 0; i < track.path.points.length; i++) {
         const entity = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, i));
-        if (entity !== undefined) {
-            entity.show = false;
-        }
+        if (entity !== undefined) entity.show = wantedShow;
     }
 }
 
-const showTracks = (tracks, selectedTracks) => {
+const showTracks = (tracks, selectedTracks, selectedTrackGroups) => {
     const tracksWithPath = tracks.filter(track => track.path.points.length > 0);
     if (tracksWithPath.length === 0) {
         return;
@@ -145,20 +152,10 @@ const showTracks = (tracks, selectedTracks) => {
         }
 
         entity.show = selectedTracks.has(track.getId());
+        showTrack(track, selectedTrackGroups);
     });
 }
 
-const hideFilteredTracks = (tracks, filter) => {
-    const tracksWithPath = tracks.filter(track => track.path.points.length > 0);
-    if (tracksWithPath.length === 0) {
-        return;
-    }
-    tracksWithPath.forEach(track => {
-        if (filter.filtersTrack(track)) {
-            hideTrack(track);
-        }
-    });
-}
 
 const showTrackGroups = (trackGroups) => {
     if (trackGroups.length === 0) {
@@ -176,8 +173,8 @@ const showTrackGroups = (trackGroups) => {
     });
 }
 
-const hideTrackGroupsCloseToCamera = (trackGroups, selectedTrackGroups) => {
-    selectedTrackGroups.forEach(group => {
+const hideTrackGroupsCloseToCamera = (selectedTrackGroups) => {
+    selectedTrackGroups.groups.forEach(group => {
         const distance = Cesium.Cartesian3.distance(CesiumMap.viewer.camera.position, Cesium.Cartesian3.fromDegrees(...group.position));
         if (distance < 50000) {
             const entity = CesiumMap.viewer.entities.getById(trackGroupEntitiyId(group));
@@ -188,21 +185,19 @@ const hideTrackGroupsCloseToCamera = (trackGroups, selectedTrackGroups) => {
     });
 }
 
-const registerEventListenerOnCameraMove = (tracks, trackGroups, filter, selectedTrackGroups, selectedTracks) => {
+const registerEventListenerOnCameraMove = (tracks, trackGroups, selectedTracks, selectedTrackGroups) => {
     if (removeCameraMoveEvent !== undefined) {
         removeCameraMoveEvent();
     }
     removeCameraMoveEvent = CesiumMap.viewer.camera.changed.addEventListener(() => {
-        render(tracks, trackGroups, filter, selectedTrackGroups, selectedTracks);
+        render(tracks, trackGroups, selectedTracks, selectedTrackGroups);
     });
 }
 
-const render = (tracks, trackGroups, filter, selectedTrackGroups, selectedTracks) => {
-    console.log('render')
+const render = (tracks, trackGroups, selectedTracks, selectedTrackGroups) => {
     showTrackGroups(trackGroups);
-    showTracks(tracks, selectedTracks);
-    hideFilteredTracks(tracks, filter);
-    hideTrackGroupsCloseToCamera(trackGroups, selectedTrackGroups);
+    showTracks(tracks, selectedTracks, selectedTrackGroups);
+    hideTrackGroupsCloseToCamera(selectedTrackGroups);
 }
 
 export const leaveScatterMode = () => {
@@ -220,8 +215,8 @@ export const getTracksInPerspective = (tracks) => {
     const cullingVolume = frustum.computeCullingVolume(camera.position, camera.direction, camera.up);
     const visibleTracks = [];
     tracks.forEach(track => {
-        for (let i = 0; i < track.cartesians.length; i++) {
-            const cartesian = track.cartesians[i];
+        for (let i = 0; i < track.path.points.length; i++) {
+            const cartesian = Cesium.Cartesian3.fromDegrees(...track.path.points[i]);
             if (cullingVolume.computeVisibility(new Cesium.BoundingSphere(cartesian, 100)) === Cesium.Intersect.INSIDE) {
                 visibleTracks.push(track);
                 break;
@@ -237,19 +232,17 @@ export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatte
         // register callbacks on click for E2E test
         // window.selectTrackGroup = (groupid) => onTrackGroupClick(groupid, state.trackGroups);
         // window.selectTrackPoint = (trackid) => onTrackPointClick(trackid, state.tracks);
-    }, [state, scatterState.selectedTracks]);
+    }, [state, scatterState.selectedTrackGroups, scatterState.selectedTracks]);
     React.useEffect(() => {
         registerEventListenerOnCameraMove(state.tracks,
             state.trackGroups,
-            scatterState.filter,
-            scatterState.selectedTrackGroups,
-            scatterState.selectedTracks);
+            scatterState.selectedTracks,
+            scatterState.selectedTrackGroups);
         render(state.tracks,
             state.trackGroups,
-            scatterState.filter,
-            scatterState.selectedTrackGroups,
-            scatterState.selectedTracks);
-    }, [state, scatterState.filter, scatterState.selectedTrackGroups, scatterState.selectedTracks]);
+            scatterState.selectedTracks,
+            scatterState.selectedTrackGroups);
+    }, [state, scatterState.selectedTrackGroups, scatterState.selectedTracks]);
 
     return null;
 }

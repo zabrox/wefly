@@ -3,16 +3,16 @@ import dayjs from 'dayjs';
 import { Filter } from './trackfilter';
 import { ControlPanel } from "../../controlpanel";
 import { ScatterControlPanel } from "./scattercontrolpanel";
+import { TrackGroupSelector } from './trackGroupSelector';
 
 export const ScatterMode = ({ state, setState }) => {
     const [scatterState, setScatterState] = React.useState({
         date: dayjs(),
         order: 'asc',
         orderBy: 'starttime',
-        filter: new Filter(),
         loading: true,
-        selectedTrackGroups: [],
         selectedTracks: new Set(),
+        selectedTrackGroups: new TrackGroupSelector(),
     });
 
     return (

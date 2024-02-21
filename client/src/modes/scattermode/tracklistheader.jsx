@@ -1,5 +1,4 @@
 import { TableHead, TableRow, TableCell, TableSortLabel } from '@mui/material';
-import { TrackFilter } from './trackfilter';
 import { ActivityIcon } from '../../util/activityicon';
 import { PilotIcon } from '../../util/piloticon';
 import './tracklistheader.css';
@@ -121,12 +120,6 @@ export const TrackListHeader = ({ tracks, scatterState, setScatterState }) => {
                             onClick={() => handleSort(header.id, headers)}
                         >
                             <div className='label-text'>{header.label}</div>
-                            {['area', 'pilotname', 'activity'].includes(header.id) && (
-                                <TrackFilter
-                                    tracks={tracks}
-                                    filterkey={header.id}
-                                    filter={scatterState.filter}
-                                    setFilter={(filter) => setScatterState({ ...scatterState, filter: filter })} />)}
                         </TableSortLabel>
                     </TableCell>
                 ))}
