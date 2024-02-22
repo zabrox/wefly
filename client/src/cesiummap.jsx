@@ -19,7 +19,7 @@ const initializeCesium = async (cesiumContainerRef) => {
         fullscreenButton: true,
         terrainShadows: Cesium.ShadowMode.DISABLED,
     });
-    // viewer.scene.globe.depthTestAgainstTerrain = true;
+    viewer.scene.globe.depthTestAgainstTerrain = true;
     // const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2275207, {
     //     dynamicScreenSpaceError: true,
     //     dynamicScreenSpaceErrorDensity: 100.0,

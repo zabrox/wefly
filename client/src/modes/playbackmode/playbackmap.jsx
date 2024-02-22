@@ -2,6 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import * as Cesium from 'cesium';
 import * as CesiumMap from '../../cesiummap';
+import { trackColor } from '../../util/trackcolor';
 
 const speed = 32;
 const trailTime = 900;
@@ -71,7 +72,7 @@ const registerEventHandlerOnPointClick = (state, playbackState, setPlaybackState
             if (entityId instanceof Cesium.Entity) {
                 if ('trackid' in entityId) {
                     focusOnEntity(entityId);
-                    const track = state.actionTargetTracks.find((track) => track.id === entityId.trackid);
+                    const track = state.actionTargetTracks.find((track) => track.getId() === entityId.trackid);
                     setPlaybackState({ ...playbackState, selectedTrack: track });
                 }
             }
@@ -100,7 +101,7 @@ const registerEventHandlerOnTick = (onTickEventHandler) => {
 }
 
 const playbackPointId = (track) => {
-    return `playback-point-${track.id}`;
+    return `playback-point-${track.getId()}`;
 }
 
 const createPathEntity = (track) => {
@@ -108,8 +109,8 @@ const createPathEntity = (track) => {
         position: new Cesium.SampledPositionProperty(),
         path: {
             material: new Cesium.PolylineOutlineMaterialProperty({
-                color: track.color,
-                outlineColor: track.color.withAlpha(0.3),
+                color: trackColor(track),
+                outlineColor: trackColor(track).withAlpha(0.3),
                 outlineWidth: 1,
             }),
             width: 2,
@@ -118,9 +119,10 @@ const createPathEntity = (track) => {
         }
     });
     const positionProperty = pathEntity.position;
-    for (let i = 0; i < track.cartesians.length; i++) {
-        const time = Cesium.JulianDate.fromIso8601(track.times[i].format('YYYY-MM-DDTHH:mm:ssZ'));
-        positionProperty.addSample(time, track.cartesians[i]);
+    for (let i = 0; i < track.path.points.length; i++) {
+        const time = Cesium.JulianDate.fromIso8601(track.path.times[i].format('YYYY-MM-DDTHH:mm:ssZ'));
+        const cartesian = Cesium.Cartesian3.fromDegrees(...track.path.points[i]);
+        positionProperty.addSample(time, cartesian);
     };
     return positionProperty;
 }
@@ -138,7 +140,7 @@ const createCurtain = (track, positionProperty) => {
                 }
                 return positions;
             }, false),
-            material: new Cesium.ColorMaterialProperty(track.color.brighten(0.3, new Cesium.Color()).withAlpha(0.2)),
+            material: new Cesium.ColorMaterialProperty(trackColor(track).brighten(0.3, new Cesium.Color()).withAlpha(0.2)),
             outline: false,
         }
     });
@@ -148,11 +150,11 @@ const createPlaybackPoint = (track, positionProperty) => {
     CesiumMap.viewer.entities.add({
         id: playbackPointId(track),
         position: positionProperty,
-        trackid: track.id,
+        trackid: track.getId(),
         point: {
             pixelSize: 2,
-            color: track.color.brighten(0.5, new Cesium.Color()),
-            outlineColor: track.color.darken(0.2, new Cesium.Color()),
+            color: trackColor(track).brighten(0.5, new Cesium.Color()),
+            outlineColor: trackColor(track).darken(0.2, new Cesium.Color()),
             outlineWidth: 1,
             scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 1.0),
         }
@@ -170,22 +172,22 @@ export const focusOnTrack = (track) => {
 }
 
 const labelId = (track) => {
-    return `label-${track.id}`;
+    return `label-${track.getId()}`;
 }
 const createPilotLabels = (track, positionProperty) => {
     CesiumMap.viewer.entities.add({
         id: labelId(track),
         position: positionProperty, // Cesium.Cartesian3 position
-        trackid: track.id,
+        trackid: track.getId(),
         label: {
-            text: track.pilotname,
+            text: track.metadata.pilotname,
             font: '30px Arial',
             verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
             pixelOffset: new Cesium.Cartesian2(0, -25), // Adjust as needed
             fillColor: Cesium.Color.BLACK,
             showBackground: true,
             style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-            backgroundColor: track.color.withAlpha(0.8),
+            backgroundColor: trackColor(track).withAlpha(0.8),
             backgroundPadding: new Cesium.Cartesian2(13, 13),
             distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 50000),
             scale: 0.3,

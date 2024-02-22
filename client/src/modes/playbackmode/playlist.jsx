@@ -7,12 +7,13 @@ import Avatar from '@mui/material/Avatar';
 import * as CesiumMap from '../../cesiummap';
 import { Timeline } from './timeline';
 import { TimelineBarContainer } from './timelinebar';
+import { PilotIcon } from '../../util/piloticon';
 import './playlist.css';
 
 const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
     const handleClick = (e, track) => {
-        if (track.times[0].isBefore(playbackState.currentTime) &&
-            track.times[track.times.length - 1].isAfter(playbackState.currentTime)) {
+        if (track.path.times[0].isBefore(playbackState.currentTime) &&
+            track.path.times[track.path.times.length - 1].isAfter(playbackState.currentTime)) {
             setPlaybackState({ ...playbackState, selectedTrack: track });
         }
     };
@@ -20,13 +21,13 @@ const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
     return tracks.map((track, i) => (
         <TableRow
             key={"tr" + i}
-            id={`trackrow-${track.id}`}
+            id={`trackrow-${track.getId()}`}
             onClick={(e) => handleClick(e, track)}>
             <TableCell className='pilotcell' sx={{padding: '5px'}}>
                 <div>
-                    <Avatar className='piloticon' src={track.getIconUrl()} />
+                    <PilotIcon track={track} />
                     <div className='pilotname-container'>
-                        <Typography variant='body2'>{track.pilotname}</Typography>
+                        <Typography variant='body2'>{track.metadata.pilotname}</Typography>
                     </div>
                 </div>
             </TableCell>
@@ -44,7 +45,7 @@ const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
 
 export const PlayList = ({ state, playbackState, setPlaybackState }) => {
     const sortedTracks = React.useMemo(() => {
-        return state.actionTargetTracks.slice().sort((a, b) => a.startTime().localeCompare(b.startTime()));
+        return state.actionTargetTracks.slice().sort((a, b) => a.metadata.startTime.isBefore(b.metadata.startTime));
     }, [state.actionTargetTracks]);
 
     return (

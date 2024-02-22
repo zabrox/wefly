@@ -24,7 +24,7 @@ export const ScatterActionDial = ({ state, setState, scatterState }) => {
                     leaveScatterMode();
                     const selected = state.tracks.filter(track => scatterState.selectedTracks.has(track.getId()));
                     setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: selected });
-                }, [state.tracks])}
+                }, [state.tracks, scatterState.selectedTracks])}
             />,
             <SpeedDialAction
                 key='視野内のトラックを再生'

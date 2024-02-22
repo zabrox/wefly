@@ -84,7 +84,6 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
 
     const toggleSelectionOfTrack = React.useCallback((trackid) => {
         const copySelectedTracks = new Set(scatterState.selectedTracks);
-        console.log(scatterState.selectedTracks)
         const select = !copySelectedTracks.has(trackid);
         if (select) {
             copySelectedTracks.add(trackid);
@@ -107,7 +106,6 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         if (select) {
             const targetTrack = state.tracks.find(track => track.getId() === trackid)
             if (targetTrack.path.points.length === 0) {
-                console.log('call handleTrackGroupClick');
                 const groupid = state.trackGroups.find(group => group.trackIds.includes(trackid)).groupid;
                 await handleTrackGroupClick(groupid, state.trackGroups);
             }

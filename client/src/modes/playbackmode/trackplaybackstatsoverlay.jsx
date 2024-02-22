@@ -5,6 +5,7 @@ import Avatar from '@mui/material/Avatar';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ActivityIcon } from '../../util/activityicon';
 import { TrackPlaybackStatsTable } from './trackplaybackstatstable';
+import { PilotIcon } from '../../util/piloticon';
 import './trackplaybackstatsoverlay.css';
 
 const ExpandStatsButton = ({ expanded, onExpand }) => {
@@ -34,13 +35,13 @@ export const TrackPlaybackStatsOverlay = ({ playbackState }) => {
             <CardHeader sx={{ padding: '10px 10px 0px 10px' }} onClick={handleExpand}
                 avatar={
                     <div style={{ margin: '0px 0px 0px 20px' }}>
-                        <Avatar className='piloticon' src={selectedTrack.getIconUrl()} />
+                        <PilotIcon track={selectedTrack} />
                     </div>
                 }
                 title={
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <ActivityIcon track={selectedTrack} size={23} />
-                        <Typography variant='h6' style={{ paddingLeft: '5px' }}>{selectedTrack.pilotname}</Typography>
+                        <Typography variant='h6' style={{ paddingLeft: '5px' }}>{selectedTrack.metadata.pilotname}</Typography>
                     </div>
                 }
                 subheader={

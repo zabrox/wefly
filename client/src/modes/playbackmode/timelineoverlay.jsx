@@ -15,8 +15,8 @@ export const TimelineOverlay = ({ playbackState, setPlaybackState }) => {
                         track={playbackState.selectedTrack}
                         playbackState={playbackState}
                         setPlaybackState={setPlaybackState}
-                        start={playbackState.selectedTrack.times[0]}
-                        end={playbackState.selectedTrack.times[playbackState.selectedTrack.times.length - 1]} />
+                        start={playbackState.selectedTrack.path.times[0]}
+                        end={playbackState.selectedTrack.path.times[playbackState.selectedTrack.path.times.length - 1]} />
                 </div>
             }
             <div>

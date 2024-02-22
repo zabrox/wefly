@@ -1,8 +1,12 @@
 import * as Cesium from "cesium";
 import dayjs, { extend } from "dayjs";
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import duration from "dayjs/plugin/duration";
 
 extend(duration);
+extend(isSameOrAfter);
+extend(isSameOrBefore);
 
 export class TrackPlaybackStats {
     #track = undefined;
@@ -12,20 +16,20 @@ export class TrackPlaybackStats {
     }
 
     duration(time) {
-        return dayjs.duration(time.diff(this.#track.times[0]));
+        return dayjs.duration(time.diff(this.#track.path.times[0]));
     }
 
     #getStartEndIndex(starttime, endtime) {
         if (starttime.isAfter(endtime)) {
             return [undefined, undefined];
         }
-        let startIndex = this.#track.times.findIndex((time) => {
-            return time.isAfter(starttime);
+        let startIndex = this.#track.path.times.findLastIndex((time) => {
+            return time.isSameOrBefore(starttime);
         });
-        startIndex = (startIndex - 1 == -1) ? undefined : startIndex - 1;
+        startIndex = (startIndex == -1) ? undefined : startIndex;
 
-        let endIndex = this.#track.times.findIndex((time) => {
-            return time.isAfter(endtime);
+        let endIndex = this.#track.path.times.findIndex((time) => {
+            return time.isSameOrAfter(endtime);
         });
         endIndex = (endIndex == -1) ? undefined : endIndex;
         return [startIndex, endIndex];
@@ -36,21 +40,21 @@ export class TrackPlaybackStats {
         if (startIndex === undefined || endIndex === undefined) {
             return undefined;
         }
-        const altitudes = this.#track.altitudes.slice(startIndex, endIndex);
+        const altitudes = this.#track.path.altitudes().slice(startIndex, endIndex + 1);
         const sum = altitudes.reduce((a, b) => a + b, 0);
         return sum / altitudes.length;
     }
 
     #distanceBetween(startIndex, endIndex) {
         const ellipsoid = Cesium.Ellipsoid.WGS84;
-        const cart1 = ellipsoid.cartesianToCartographic(this.#track.cartesians[startIndex]);
-        const cart2 = ellipsoid.cartesianToCartographic(this.#track.cartesians[endIndex]);
-        cart1.height = 0;
-        cart2.height = 0;
-        return Cesium.Cartesian3.distance(
-            ellipsoid.cartographicToCartesian(cart1),
-            ellipsoid.cartographicToCartesian(cart2)
-        );
+        const point1 = this.#track.path.points[startIndex];
+        const point2 = this.#track.path.points[endIndex];
+        const cart1 = Cesium.Cartesian3.fromDegrees(...point1);
+        const cart2 = Cesium.Cartesian3.fromDegrees(...point2);
+        const cartographic1 = Cesium.Cartographic.fromCartesian(cart1);
+        const cartographic2 = Cesium.Cartographic.fromCartesian(cart2);
+        const geodesic = new Cesium.EllipsoidGeodesic(cartographic1, cartographic2);
+        return geodesic.surfaceDistance;
     }
 
     getAverageSpeed(starttime, endtime) {
@@ -59,7 +63,7 @@ export class TrackPlaybackStats {
             return undefined;
         }
         const distance = this.#distanceBetween(startIndex, endIndex);
-        const duration = this.#track.times[endIndex].diff(this.#track.times[startIndex], 'seconds');
+        const duration = this.#track.path.times[endIndex].diff(this.#track.path.times[startIndex], 'seconds');
         return distance / duration * 3600 / 1000;
     }
 
@@ -68,8 +72,8 @@ export class TrackPlaybackStats {
         if (startIndex === undefined || endIndex === undefined) {
             return undefined;
         }
-        const duration = this.#track.times[endIndex].diff(this.#track.times[startIndex], 'seconds');
-        const gain = this.#track.altitudes[endIndex] - this.#track.altitudes[startIndex];
+        const duration = this.#track.path.times[endIndex].diff(this.#track.path.times[startIndex], 'seconds');
+        const gain = this.#track.path.altitudes()[endIndex] - this.#track.path.altitudes()[startIndex];
         return gain / duration;
     }
 
@@ -83,7 +87,7 @@ export class TrackPlaybackStats {
     }
 
     getDistance(time) {
-        const [startIndex, endIndex] = this.#getStartEndIndex(this.#track.times[0], time);
+        const [startIndex, endIndex] = this.#getStartEndIndex(this.#track.path.times[0], time);
         if (startIndex === undefined || endIndex === undefined) {
             return undefined;
         }
@@ -92,7 +96,7 @@ export class TrackPlaybackStats {
     }
 
     getTotalDistance(time) {
-        const [startIndex, endIndex] = this.#getStartEndIndex(this.#track.times[0], time);
+        const [startIndex, endIndex] = this.#getStartEndIndex(this.#track.path.times[0], time);
         if (startIndex === undefined || endIndex === undefined) {
             return undefined;
         }

@@ -7,18 +7,17 @@ import { TimelineControl } from './timelinecontrol';
 import { TrackPlaybackStatsOverlay } from './trackplaybackstatsoverlay';
 
 const calculateStartStopTime = (targetTracks) => {
+    if (targetTracks.findIndex((track) => track.path === undefined) !== -1) {
+        return [undefined, undefined];
+    }
     const sortedByStart = targetTracks.toSorted((a, b) => {
-        const d1 = new Date(a.startTime());
-        const d2 = new Date(b.startTime());
-        return d1 - d2;
+        return a.metadata.startTime - b.metadata.startTime;
     });
     const reversedByEnd = targetTracks.toSorted((a, b) => {
-        const d1 = new Date(a.endTime());
-        const d2 = new Date(b.endTime());
-        return d2 - d1;
+        return b.metadata.endTime - a.metadata.endTime;
     });
-    const start = sortedByStart[0].times[0];
-    const stop = reversedByEnd[0].times[reversedByEnd[0].times.length - 1];
+    const start = sortedByStart[0].path.times[0];
+    const stop = reversedByEnd[0].path.times[reversedByEnd[0].path.times.length - 1];
     return [start, stop];
 }
 
@@ -32,8 +31,11 @@ export const PlaybackMode = ({ state, setState }) => {
     });
     React.useEffect(() => {
         const [start, stop] = calculateStartStopTime(state.actionTargetTracks);
+        if (start === undefined || stop === undefined) {
+            return;
+        }
         setPlaybackState({ ...playbackState, startTime: start, stopTime: stop });
-    }, []);
+    }, [state.actionTargetTracks]);
     return (
         <div>
             <TimelineOverlay playbackState={playbackState} setPlaybackState={setPlaybackState} />
