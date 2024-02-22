@@ -2,11 +2,13 @@ import * as Cesium from "cesium";
 import dayjs, { extend } from "dayjs";
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isBetween from 'dayjs/plugin/isBetween';
 import duration from "dayjs/plugin/duration";
 
 extend(duration);
 extend(isSameOrAfter);
 extend(isSameOrBefore);
+extend(isBetween);
 
 export class TrackPlaybackStats {
     #track = undefined;
@@ -19,19 +21,32 @@ export class TrackPlaybackStats {
         return dayjs.duration(time.diff(this.#track.path.times[0]));
     }
 
+    #findNearestIndex(targetTime, isStart) {
+        let low = 0;
+        let high = this.#track.path.times.length - 1;
+
+        while (low < high) {
+            const mid = Math.floor((low + high) / 2);
+            const midTime = this.#track.path.times[mid];
+
+            if (midTime.isBefore(targetTime)) {
+                low = mid + 1;
+            } else if (midTime.isAfter(targetTime)) {
+                high = mid - 1;
+            } else {
+                return mid;
+            }
+        }
+
+        return isStart ? Math.min(low, high): Math.max(low, high);
+    }
+
     #getStartEndIndex(starttime, endtime) {
         if (starttime.isAfter(endtime)) {
             return [undefined, undefined];
         }
-        let startIndex = this.#track.path.times.findLastIndex((time) => {
-            return time.isSameOrBefore(starttime);
-        });
-        startIndex = (startIndex == -1) ? undefined : startIndex;
-
-        let endIndex = this.#track.path.times.findIndex((time) => {
-            return time.isSameOrAfter(endtime);
-        });
-        endIndex = (endIndex == -1) ? undefined : endIndex;
+        let startIndex = this.#findNearestIndex(starttime, true);
+        let endIndex = this.#findNearestIndex(endtime, false);
         return [startIndex, endIndex];
     }
 
@@ -45,8 +60,31 @@ export class TrackPlaybackStats {
         return sum / altitudes.length;
     }
 
+    getAverageAltitudeList(span) {
+        let averages = [];
+        const path = this.#track.path;
+        if (path.times.length === 0) return averages;
+
+        let startTime = path.times[0];
+        const endTime = path.times[path.times.length - 1];
+
+        while (startTime.isBefore(endTime)) {
+            const nextTime = startTime.add(span, 'seconds');
+            const altitudesInSpan = path.points
+                .filter((_, index) => path.times[index].isBetween(startTime, nextTime, null, '[)'))
+                .map(point => point[2]);
+
+            const sum = altitudesInSpan.reduce((acc, cur) => acc + cur, 0);
+            const avg = altitudesInSpan.length > 0 ? sum / altitudesInSpan.length : 0;
+            averages.push(avg);
+
+            startTime = nextTime;
+        }
+
+        return averages;
+    }
+
     #distanceBetween(startIndex, endIndex) {
-        const ellipsoid = Cesium.Ellipsoid.WGS84;
         const point1 = this.#track.path.points[startIndex];
         const point2 = this.#track.path.points[endIndex];
         const cart1 = Cesium.Cartesian3.fromDegrees(...point1);
@@ -58,9 +96,12 @@ export class TrackPlaybackStats {
     }
 
     getAverageSpeed(starttime, endtime) {
-        const [startIndex, endIndex] = this.#getStartEndIndex(starttime, endtime);
+        let [startIndex, endIndex] = this.#getStartEndIndex(starttime, endtime);
         if (startIndex === undefined || endIndex === undefined) {
             return undefined;
+        }
+        if (startIndex === endIndex && endIndex < this.#track.path.times.length - 1) {
+            endIndex++;
         }
         const distance = this.#distanceBetween(startIndex, endIndex);
         const duration = this.#track.path.times[endIndex].diff(this.#track.path.times[startIndex], 'seconds');
@@ -68,9 +109,12 @@ export class TrackPlaybackStats {
     }
 
     getAverageGain(starttime, endtime) {
-        const [startIndex, endIndex] = this.#getStartEndIndex(starttime, endtime);
+        let [startIndex, endIndex] = this.#getStartEndIndex(starttime, endtime);
         if (startIndex === undefined || endIndex === undefined) {
             return undefined;
+        }
+        if (startIndex === endIndex && endIndex < this.#track.path.times.length - 1) {
+            endIndex++;
         }
         const duration = this.#track.path.times[endIndex].diff(this.#track.path.times[startIndex], 'seconds');
         const gain = this.#track.path.altitudes()[endIndex] - this.#track.path.altitudes()[startIndex];

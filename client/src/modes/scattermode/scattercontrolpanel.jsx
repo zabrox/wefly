@@ -9,8 +9,8 @@ import * as CesiumMap from '../../cesiummap';
 import { ScatterMap } from './scattermap';
 import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
-import { loadMetadatas, loadPaths, loadTrackGroups } from './trackloader';
 import { TrackGroupSelector } from './trackGroupSelector';
+import { loadMetadatas, loadPaths, loadTrackGroups } from './trackloader';
 import * as Mode from '../mode';
 import './scattercontrolpanel.css';
 

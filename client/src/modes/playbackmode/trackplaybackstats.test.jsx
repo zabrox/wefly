@@ -39,6 +39,7 @@ describe('TrackPlaybackStats', () => {
         const mockTrack = {
             path: {
                 times: [dayjs('2020-01-01T00:00:00Z'), dayjs('2020-01-01T00:02:00Z'), dayjs('2020-01-01T00:03:00Z')],
+                altitudes: () => [3776, 3778, 3780]
             }
         };
 
@@ -48,7 +49,7 @@ describe('TrackPlaybackStats', () => {
 
         const averageAltitude = stats.getAverageAltitude(starttime, endtime);
 
-        expect(averageAltitude).toBe(undefined);
+        expect(averageAltitude).toBe(3778);
     });
 
     it('calculates average speed correctly', () => {

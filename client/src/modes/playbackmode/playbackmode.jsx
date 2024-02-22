@@ -5,6 +5,7 @@ import { PlaybackControlPanel } from "./playbackcontrolpanel";
 import { TimelineOverlay } from './timelineoverlay';
 import { TimelineControl } from './timelinecontrol';
 import { TrackPlaybackStatsOverlay } from './trackplaybackstatsoverlay';
+import { PLAYBACK_MODE } from '../mode';
 
 const calculateStartStopTime = (targetTracks) => {
     if (targetTracks.findIndex((track) => track.path === undefined) !== -1) {
@@ -23,6 +24,10 @@ const calculateStartStopTime = (targetTracks) => {
 
 
 export const PlaybackMode = ({ state, setState }) => {
+    if (state.mode !== PLAYBACK_MODE) {
+        return null;
+    }
+
     const [playbackState, setPlaybackState] = React.useState({
         currentTime: dayjs(),
         selectedTrack: undefined,
@@ -36,6 +41,7 @@ export const PlaybackMode = ({ state, setState }) => {
         }
         setPlaybackState({ ...playbackState, startTime: start, stopTime: stop });
     }, [state.actionTargetTracks]);
+
     return (
         <div>
             <TimelineOverlay playbackState={playbackState} setPlaybackState={setPlaybackState} />
