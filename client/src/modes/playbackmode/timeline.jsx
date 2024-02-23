@@ -29,53 +29,51 @@ const createContextForFuture = (canvas) => {
 }
 
 export const Timeline = ({ track, playbackState, setPlaybackState, start, end }) => {
-    const [canvas, setCanvas] = React.useState(null);
     const [timelineCells, setTimelineCells] = React.useState([]);
     const timelineContainer = React.useRef(null);
     const timelineCanvas = React.useRef(null);
 
     React.useEffect(() => {
         if (!timelineCanvas.current || !timelineContainer.current) return;
-        const newCanvas = timelineCanvas.current;
-        newCanvas.width = timelineContainer.current.getBoundingClientRect().width;
-        newCanvas.height = newCanvas.getBoundingClientRect().height;
-        setCanvas(newCanvas);
+        timelineCanvas.current.width = timelineContainer.current.getBoundingClientRect().width;
+        timelineCanvas.current.height = timelineCanvas.current.getBoundingClientRect().height;
     }, [timelineContainer]);
 
     React.useEffect(() => {
-        if (!canvas) return;
+        if (!timelineCanvas.current) return;
+        if (end === undefined || start === undefined) return;
         let time = track.path.times[0];
 
         const stats = new TrackPlaybackStats(track);
         const duration = end.diff(start, 'seconds');
-        const cellNumber = canvas.width / CELL_WIDTH;
+        const cellNumber = timelineCanvas.current.width / CELL_WIDTH;
         const span = duration / cellNumber;
         const cells = [];
         while (time.isBefore(track.path.times[track.path.times.length - 1])) {
-            const height = canvas.height * stats.getAverageAltitude(time, time.add(span, 'seconds')) / track.metadata.maxAltitude;
-            const position = canvas.width * time.diff(start, 'seconds') / duration;
+            const height = timelineCanvas.current.height * stats.getAverageAltitude(time, time.add(span, 'seconds')) / track.metadata.maxAltitude;
+            const position = timelineCanvas.current.width * time.diff(start, 'seconds') / duration;
             cells.push({ time: time, position: position, height: height });
             time = time.add(span, 'seconds');
         };
         setTimelineCells(cells);
-    }, [track, start, end, canvas]);
+    }, [track, start, end, timelineCanvas]);
 
     React.useEffect(() => {
-        if (!canvas) return;
+        if (!timelineCanvas.current || timelineContainer.current.offsetWidth === 0) return;
 
-        let context = createContextForPast(canvas, track);
-        context.clearRect(0, 0, canvas.width, canvas.height);
+        let context = createContextForPast(timelineCanvas.current, track);
+        context.clearRect(0, 0, timelineCanvas.current.width, timelineCanvas.current.height);
 
         timelineCells.forEach((cell) => {
             if (cell.time.isAfter(playbackState.currentTime)) {
-                context = createContextForFuture(canvas);
+                context = createContextForFuture(timelineCanvas.current);
             }
             context.beginPath();
-            context.rect(cell.position, canvas.height - cell.height, CELL_WIDTH * 0.7, cell.height);
+            context.rect(cell.position, timelineCanvas.current.height - cell.height, CELL_WIDTH * 0.7, cell.height);
             context.fill();
             context.stroke();
         });
-    }, [timelineCells, playbackState.currentTime]);
+    }, [track, timelineCells, playbackState.currentTime]);
 
     const handleClick = (e) => {
         const rect = timelineCanvas.current.getBoundingClientRect();

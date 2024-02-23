@@ -3,13 +3,12 @@ import * as Cesium from 'cesium';
 import * as CesiumMap from '../../cesiummap';
 import './timelinebar.css';
 
-const calculateTimeLinePosition = (currentTime) => {
-    const totalFlightDuration = Cesium.JulianDate.secondsDifference(
-        CesiumMap.viewer.clock.stopTime,
-        CesiumMap.viewer.clock.startTime);
-    const currentPosition = Cesium.JulianDate.secondsDifference(
-        Cesium.JulianDate.fromIso8601(currentTime.format('YYYY-MM-DDTHH:mm:ssZ')),
-        CesiumMap.viewer.clock.startTime) / totalFlightDuration * 100;
+const calculateTimeLinePosition = (start, stop, currentTime) => {
+    if (start === undefined || stop === undefined || currentTime === undefined) {
+        return 0;
+    }
+    const totalFlightDuration = stop.diff(start, 'second');
+    const currentPosition = currentTime.diff(start, 'second') / totalFlightDuration * 100;
     return currentPosition;
 }
 
@@ -22,7 +21,7 @@ const TimelineBar = ({ playbackState }) => {
         }
 
         return {
-            left: `${calculateTimeLinePosition(playbackState.currentTime)}%`,
+            left: `${calculateTimeLinePosition(playbackState.startTime, playbackState.stopTime, playbackState.currentTime)}%`,
             height: height,
         };
     }, [playbackState]);
