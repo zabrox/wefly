@@ -22,7 +22,8 @@ export const ActivityIcon = ({ track, size }) => {
         <div style={divstyle}>
             {track.metadata.activity === 'Paraglider' && <img src={ParagliderIcon} style={svgstyle} alt={track.metadata.activity} />}
             {track.metadata.activity === 'Glider' && <img src={GliderIcon} style={svgstyle} alt={track.metadata.activity} />}
-            {track.metadata.activity === 'Hangglider' && <img src={HanggliderIcon} style={svgstyle} alt={track.metadata.activity} />}
+            {track.metadata.activity === 'Flex wing FAI1' && <img src={HanggliderIcon} style={svgstyle} alt={track.metadata.activity} />}
+            {track.metadata.activity === 'Rigid wing FAI5' && <img src={HanggliderIcon} style={svgstyle} alt={track.metadata.activity} />}
         </div>
     )
 }

@@ -11,8 +11,9 @@ import './playbackcontrolpanel.css';
 export const PlaybackControlPanel = ({ state, setState, playbackState, setPlaybackState }) => {
     const backToScatterMode = React.useCallback(() => {
         stopPlayback();
+        setPlaybackState({ ...playbackState, selectedTrack: undefined });
         setState({ ...state, mode: Mode.SCATTER_MODE });
-    }, [state]);
+    }, [state, playbackState]);
 
     const handleTickEvent = React.useCallback((date) => {
         if (date.unix() % (CesiumMap.viewer.clock.multiplier / 4) !== 0) {
