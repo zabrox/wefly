@@ -80,7 +80,7 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         copySelectedTrackGroups.add(group);
         setScatterState(state => { return { ...state, selectedTrackGroups: copySelectedTrackGroups } });
         CesiumMap.zoomToTracks(tracksInGroup);
-    }, [state]);
+    }, [state, scatterState]);
 
     const toggleSelectionOfTrack = React.useCallback((trackid) => {
         const copySelectedTracks = new Set(scatterState.selectedTracks);

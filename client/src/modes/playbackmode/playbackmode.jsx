@@ -8,14 +8,14 @@ import { TrackPlaybackStatsOverlay } from './trackplaybackstatsoverlay';
 import { PLAYBACK_MODE } from '../mode';
 
 const calculateStartStopTime = (targetTracks) => {
-    if (targetTracks.findIndex((track) => track.path === undefined) !== -1) {
+    if (targetTracks.length == 0 || targetTracks.findIndex((track) => track.path === undefined) !== -1) {
         return [undefined, undefined];
     }
     const sortedByStart = targetTracks.toSorted((a, b) => {
-        return a.metadata.startTime - b.metadata.startTime;
+        return a.metadata.startTime.unix() - b.metadata.startTime.unix();
     });
     const reversedByEnd = targetTracks.toSorted((a, b) => {
-        return b.metadata.endTime - a.metadata.endTime;
+        return b.metadata.lastTime.unix() - a.metadata.lastTime.unix();
     });
     const start = sortedByStart[0].path.times[0];
     const stop = reversedByEnd[0].path.times[reversedByEnd[0].path.times.length - 1];
@@ -24,10 +24,6 @@ const calculateStartStopTime = (targetTracks) => {
 
 
 export const PlaybackMode = ({ state, setState }) => {
-    if (state.mode !== PLAYBACK_MODE) {
-        return null;
-    }
-
     const [playbackState, setPlaybackState] = React.useState({
         currentTime: dayjs(),
         selectedTrack: undefined,
@@ -40,7 +36,11 @@ export const PlaybackMode = ({ state, setState }) => {
             return;
         }
         setPlaybackState({ ...playbackState, startTime: start, stopTime: stop });
-    }, [state.actionTargetTracks]);
+    }, [state.actionTargetTracks, playbackState.actionTargetTracks]);
+
+    if (state.mode !== PLAYBACK_MODE) {
+        return null;
+    }
 
     return (
         <div>

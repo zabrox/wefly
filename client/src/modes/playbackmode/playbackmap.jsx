@@ -52,6 +52,9 @@ const followTrack = (entity) => {
 const focusOnEntity = (entity) => {
     const currentTime = CesiumMap.viewer.clock.currentTime;
     const position = entity.position.getValue(currentTime);
+    if (position === undefined) {
+        return;
+    }
     CesiumMap.viewer.camera.lookAt(
         position,
         new Cesium.HeadingPitchRange(CesiumMap.viewer.camera.heading, CesiumMap.viewer.camera.pitch, 3000));
@@ -147,6 +150,9 @@ const createCurtain = (track, positionProperty) => {
 }
 
 const createPlaybackPoint = (track, positionProperty) => {
+    if (CesiumMap.viewer.entities.getById(playbackPointId(track)) !== undefined) {
+        return;
+    }
     CesiumMap.viewer.entities.add({
         id: playbackPointId(track),
         position: positionProperty,
@@ -175,6 +181,9 @@ const labelId = (track) => {
     return `label-${track.getId()}`;
 }
 const createPilotLabels = (track, positionProperty) => {
+    if (CesiumMap.viewer.entities.getById(labelId(track)) !== undefined) {
+        return;
+    }
     CesiumMap.viewer.entities.add({
         id: labelId(track),
         position: positionProperty, // Cesium.Cartesian3 position

@@ -87,6 +87,9 @@ export class TrackPlaybackStats {
     #distanceBetween(startIndex, endIndex) {
         const point1 = this.#track.path.points[startIndex];
         const point2 = this.#track.path.points[endIndex];
+        if (point1 === undefined || point2 === undefined) {
+            return undefined;
+        }
         const cart1 = Cesium.Cartesian3.fromDegrees(...point1);
         const cart2 = Cesium.Cartesian3.fromDegrees(...point2);
         const cartographic1 = Cesium.Cartographic.fromCartesian(cart1);
@@ -104,6 +107,9 @@ export class TrackPlaybackStats {
             endIndex++;
         }
         const distance = this.#distanceBetween(startIndex, endIndex);
+        if (distance === undefined) {
+            return undefined;
+        }
         const duration = this.#track.path.times[endIndex].diff(this.#track.path.times[startIndex], 'seconds');
         return distance / duration * 3600 / 1000;
     }
@@ -136,6 +142,9 @@ export class TrackPlaybackStats {
             return undefined;
         }
         const distance = this.#distanceBetween(startIndex, endIndex);
+        if (distance === undefined) {
+            return undefined;
+        }
         return distance / 1000;
     }
 

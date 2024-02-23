@@ -11,12 +11,12 @@ import { PilotIcon } from '../../util/piloticon';
 import './playlist.css';
 
 const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
-    const handleClick = (e, track) => {
+    const handleClick = React.useCallback((e, track) => {
         if (track.path.times[0].isBefore(playbackState.currentTime) &&
             track.path.times[track.path.times.length - 1].isAfter(playbackState.currentTime)) {
             setPlaybackState({ ...playbackState, selectedTrack: track });
         }
-    };
+    }, [tracks, playbackState]);
 
     return tracks.map((track, i) => (
         <TableRow

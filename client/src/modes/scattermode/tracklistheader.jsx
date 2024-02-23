@@ -1,3 +1,4 @@
+import React from 'react';
 import { TableHead, TableRow, TableCell, TableSortLabel } from '@mui/material';
 import { ActivityIcon } from '../../util/activityicon';
 import { PilotIcon } from '../../util/piloticon';
@@ -95,7 +96,7 @@ export const headers = [
 
 export const TrackListHeader = ({ tracks, scatterState, setScatterState }) => {
 
-    const handleSort = (property) => {
+    const handleSort = React.useCallback((property) => {
         let order = false;
         if (scatterState.orderBy === property) {
             order = scatterState.order == 'asc' ? 'desc' : 'asc';
@@ -103,7 +104,7 @@ export const TrackListHeader = ({ tracks, scatterState, setScatterState }) => {
             order = headers.find(header => header.id === property).defaultOrder;
         }
         setScatterState({ ...scatterState, orderBy: property, order: order })
-    };
+    }, [scatterState]);
 
     return (
         <TableHead>

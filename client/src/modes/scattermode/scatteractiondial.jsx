@@ -24,7 +24,7 @@ export const ScatterActionDial = ({ state, setState, scatterState }) => {
                     leaveScatterMode();
                     const selected = state.tracks.filter(track => scatterState.selectedTracks.has(track.getId()));
                     setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: selected });
-                }, [state.tracks, scatterState.selectedTracks])}
+                }, [state, scatterState.selectedTracks])}
             />,
             <SpeedDialAction
                 key='視野内のトラックを再生'
@@ -35,7 +35,7 @@ export const ScatterActionDial = ({ state, setState, scatterState }) => {
                     const tracks = getTracksInPerspective(state.tracks);
                     leaveScatterMode();
                     setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: tracks });
-                }, [state.tracks])}
+                }, [state])}
             />
             {/* <SpeedDialAction
                 key='リスト全再生'
@@ -45,7 +45,7 @@ export const ScatterActionDial = ({ state, setState, scatterState }) => {
                 onClick={React.useCallback(() => {
                     leaveScatterMode();
                     setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: filter.filterTracks(state.tracks) });
-                }, [state.tracks, filter])}
+                }, [state, filter])}
             /> */}
         </SpeedDial>
     );

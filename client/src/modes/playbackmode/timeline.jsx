@@ -40,7 +40,7 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
         newCanvas.width = timelineContainer.current.getBoundingClientRect().width;
         newCanvas.height = newCanvas.getBoundingClientRect().height;
         setCanvas(newCanvas);
-    }, []);
+    }, [timelineContainer]);
 
     React.useEffect(() => {
         if (!canvas) return;
