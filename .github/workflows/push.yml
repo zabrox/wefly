@@ -12,6 +12,8 @@ on:
 jobs:
   run-test:
     runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Tokyo
     steps:
     - uses: actions/checkout@v3
       name: checkout repository

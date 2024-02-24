@@ -6,8 +6,6 @@ const { Metadata } = require('./metadata.js');
 
 dayjs.extend(Timezone);
 
-dayjs.tz.setDefault("Asia/Tokyo");
-
 test('getId returns the correct ID', () => {
     const metadata = new Metadata();
     metadata.pilotname = 'John Doe';
