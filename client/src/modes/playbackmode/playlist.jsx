@@ -1,10 +1,6 @@
 import React from 'react';
-import * as Cesium from 'cesium';
-import dayjs from 'dayjs';
 import { Table, TableRow, TableCell, TableContainer, TableBody } from '@mui/material';
 import { Typography } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import * as CesiumMap from '../../cesiummap';
 import { Timeline } from './timeline';
 import { TimelineBarContainer } from './timelinebar';
 import { PilotIcon } from '../../util/piloticon';

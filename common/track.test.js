@@ -1,12 +1,12 @@
 const dayjs = require('dayjs');
 const { Track } = require('./track.js');
 const { Area } = require('./area.js');
+const { Metadata } = require('./metadata.js');
 
 test('getId returns the correct ID', () => {
-    const metadata = {
-        pilotname: 'John Doe',
-        lastTime: dayjs('2022-01-01 12:34:56')
-    };
+    const metadata = new Metadata();
+    metadata.pilotname = 'John Doe';
+    metadata.lastTime = dayjs('2022-01-01 12:34:56');
     const track = new Track();
     track.metadata = metadata;
 
