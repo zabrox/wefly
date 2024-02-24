@@ -1,7 +1,12 @@
 const dayjs = require('dayjs');
+const Timezone = require('dayjs/plugin/timezone');
 const { Track } = require('./track.js');
 const { Area } = require('./area.js');
 const { Metadata } = require('./metadata.js');
+
+dayjs.extend(Timezone);
+
+dayjs.tz.setDefault("Asia/Tokyo");
 
 test('getId returns the correct ID', () => {
     const metadata = new Metadata();
