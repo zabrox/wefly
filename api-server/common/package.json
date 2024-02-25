@@ -1,0 +1,16 @@
+{
+  "name": "common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "path.js",
+  "scripts": {
+    "test": "npx jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cesium": "^1.114.0",
+    "dayjs": "^1.11.10",
+    "density-clustering": "^1.3.0"
+  }
+}
