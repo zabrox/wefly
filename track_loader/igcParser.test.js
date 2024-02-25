@@ -4,7 +4,7 @@ const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const { Storage } = require('@google-cloud/storage');
 const { parseIgcs } = require('./igcParser.js');
-const { Track } = require('../common/track.js');
+const { Track } = require('./common/track.js');
 
 dayjs.extend(utc);
 jest.mock('@google-cloud/storage');

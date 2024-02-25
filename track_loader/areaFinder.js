@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const { Cartesian3, Cartographic, Math } = require('cesium');
-const { Area } = require('../common/area.js');
+const { Cartesian3 } = require('cesium');
+const { Area } = require('./common/area.js');
 
 const AREA_FILE = 'areas.jp.cup';
 const AREA_RADIUS = 10000

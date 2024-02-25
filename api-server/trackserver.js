@@ -2,8 +2,8 @@ const dayjs = require('dayjs');
 const { Storage } = require('@google-cloud/storage');
 const Firestore = require('@google-cloud/firestore');
 const { groupTracks } = require('./trackgrouper.js');
-const { Track } = require('../common/track.js');
-const { Metadata } = require('../common/metadata.js');
+const { Track } = require('./common/track.js');
+const { Metadata } = require('./common/metadata.js');
 
 const db = new Firestore({
     porjectId: 'wefly-407313',

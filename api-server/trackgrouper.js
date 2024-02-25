@@ -2,7 +2,7 @@ const { DBSCAN } = require('density-clustering');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const { Cartesian3 } = require('cesium');
-const { TrackGroup } = require('../common/trackgroup.js');
+const { TrackGroup } = require('./common/trackgroup.js');
 
 dayjs.extend(utc);
 

@@ -1,5 +1,5 @@
 const dayjs = require('dayjs');
-const { Metadata } = require('../common/metadata.js');
+const { Metadata } = require('./common/metadata.js');
 
 const metadata = new Metadata();
 metadata.activity = "Paraglider";

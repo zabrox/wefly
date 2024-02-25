@@ -3,7 +3,7 @@ const path = require('path');
 const dayjs = require('dayjs');
 const { Storage } = require('@google-cloud/storage');
 const { parseTrackPages } = require('./trackPageParser.js');
-const { Track } = require('../common/track.js');
+const { Track } = require('./common/track.js');
 
 jest.mock('@google-cloud/storage');
 

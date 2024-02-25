@@ -3,7 +3,7 @@ const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 const cheerio = require('cheerio');
-const { Track } = require('../common/track.js');
+const { Track } = require('./common/track.js');
 
 const bucketName = 'wefly-lake';
 
