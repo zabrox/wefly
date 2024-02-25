@@ -1,8 +1,6 @@
-FROM python:3.10-alpine3.16
+FROM node:alpine AS builder
 WORKDIR /app
-COPY *.py ./
-COPY *.cup ./
-COPY requirements.txt ./
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-ENTRYPOINT ["python", "./main.py"]
+COPY ./track_loader/ ./
+COPY ./common/ ./common/
+RUN npm install
+ENTRYPOINT ["npm", "run", "start"]

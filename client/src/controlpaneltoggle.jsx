@@ -1,7 +1,7 @@
 import React from "react";
 import ArrowCircleLeft from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRight from '@mui/icons-material/ArrowCircleRight';
-import { judgeMedia } from "./media";
+import { judgeMedia } from "./util/media";
 import './controlpaneltoggle.css';
 
 export const ControlPanelToggle = ({ state, setState }) => {
@@ -11,12 +11,12 @@ export const ControlPanelToggle = ({ state, setState }) => {
                 <ArrowCircleLeft
                     id='control-panel-toggle-button'
                     sx={judgeMedia().isPc ? { margin: '0 10px' } : { margin: '0 0 0 -70px' }}
-                    onClick={() => setState({ ...state, isControlPanelOpen: false })}
+                    onClick={React.useCallback(() => setState({ ...state, isControlPanelOpen: false }), [state])}
                 /> :
                 <ArrowCircleRight
                     id='control-panel-toggle-button'
                     sx={{ margin: '0 10px' }}
-                    onClick={() => setState({ ...state, isControlPanelOpen: true })} />
+                    onClick={React.useCallback(() => setState({ ...state, isControlPanelOpen: true }), [state])} />
             }
         </div>
     )

@@ -1,0 +1,2670 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html >
+<head>
+<title>LiveTrack24 | Live Track: Mt791 [ 13-02-2024 ] - Utsunomiya&nbsp;-&nbsp;JP [&nbsp;~&nbsp;27.0&nbsp;km]</title>
+<meta name="title" content="LiveTrack24 | Live Track: Mt791 [ 13-02-2024 ] - Utsunomiya&nbsp;-&nbsp;JP [&nbsp;~&nbsp;27.0&nbsp;km]" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=cyrillic,latin,greek">
+<link rel='stylesheet' type='text/css' href='https://www.livetrack24.com/grouped.min.css' />
+<script language='javascript' src='https://www.livetrack24.com/js/grouped.min.js'></script>
+<script type="text/javascript">
+var site_url = '/wall/';
+
+var delete_com_alert = "Are you sure you want to delete this comment?";
+var delete_post_alert = "Are you sure you want to delete this post?";
+var language_like = "Like";
+var language_unlike = "Unlike";
+var lang_com_next = "Next";
+var lang_write_comment = "Write a comment";
+var lang_group_label = "";
+var lang_account_sett = "Account Settings";
+var lang_remove_buddy = "REMEMBER: Removing a friend will remove all the posts and sharings between you and your friend permanently. Do you still want to Continue?";
+
+var lightbox_path = '/wall/assets/lightbox/';
+
+var _lang_time_few_sec = " seconds ago";
+var _lang_time_mints_ago = "minutes ago";
+var _lang_time_hours_ago = "hours ago";
+var txt_var_49 = "Error: It seems this post is deleted or you are not allowed do this action.";
+
+var MainPage = "";
+var notMyProfile = "";
+
+var objType = "2";
+var objID = "2555342";
+
+</script>
+
+
+    <script type="text/javascript" src="/js/jquery-polyglot.language.switcher.js"></script>
+    <link rel='stylesheet' type='text/css' href='/css/polyglot-language-switcher-2.css' />
+
+    <script type="application/javascript">
+        function geoip(json){}
+    </script>
+    <script async src="https://geojs.srv.waymore.io/geo.js"></script>
+
+    <script type="text/javascript">
+	var translateActive=0;
+	var translateDontFollowLinks=1;
+	var language='english';
+	
+    var  server_task_ajax='https://c4.livetrack24.com';
+    var  server_track_ajax='';
+
+
+    $.fn.extend({
+        popoverClosable: function (options) {
+            var defaults = {
+                template:
+                    '<div class="popover popoverService">\
+    <div class="arrow"></div>\
+    <div class="popover-header">\
+    <button type="button" class="close" data-dismiss="popover" aria-hidden="true">&times;</button>\
+    <h3 class="popover-title"></h3>\
+    </div>\
+    <div class="popover-content"></div>\
+    </div>'
+            };
+            options = $.extend({}, defaults, options);
+            var $popover_togglers = this;
+            $popover_togglers.popover(options);
+            $popover_togglers.on('click', function (e) {
+                e.preventDefault();
+                $popover_togglers.not(this).popover('hide');
+                // $(this).parent().parent().hide().css('display:none;');
+            });
+            $('html').on('click', '[data-dismiss="popover"]', function (e) {
+                $popover_togglers.popover('hide');
+                $(this).parent().parent().hide().css('display:none;');
+            });
+        }
+    });
+
+
+    $(document).ready(function(){
+
+        $('#langSelect').polyglotLanguageSwitcher();
+
+        $(".serviceText").each(function(){
+            var this_id=$(this).attr('id');
+            var orgHtml=$(this).html();
+            var serviceName=this_id.substring(8);
+
+            $.getJSON(  '/ajax_actions.php?op=serviceInfo&name='+serviceName, function( data ) {
+                // alert(data['title']);
+                $("#service_"+data['name']).addClass('servicePopover');
+
+                var html=data['desc'];
+
+                if ( data['until']!=0 ){
+                    html+='<BR><BR><div class="alert alert-success">You have this feature activated until '+data['until']+'</div>';
+                } else {
+                    html+='<BR><BR><div class="alert alert-info">You can get this feature too, see below on how to buy extra services</div>';
+                }
+
+                if (data['packages']) {
+                    html+='It is included in the following services:<BR><BR>';
+
+                    for (key in data['packages']) {
+                        html+=
+                            '<a class="btn btn-primary" href="'+data['packages'][key]+'"><span class="glyphicon glyphicon-chevron-down"></span> '+key+'</a>&nbsp;';
+                    }
+                    html+='<BR>';
+                }
+
+
+
+                $("#service_"+data['name']).popoverClosable({
+                    'toggle':"popover",
+                    'html':true,
+                    'placement':"top",
+                    'title':data['title'],
+                    'content':html
+                });
+            });
+
+        });
+
+
+        
+		bindActionsToTrackDivs();
+
+        initClickovers();
+		/*
+		$("#breadcrumbs a").hover(
+		    function () {
+		        $(this).addClass("hover").children().addClass("hover");
+		        $(this).parent().prev().find("span.arrow:first").addClass("pre_hover");
+		    },
+		    function () {
+		        $(this).removeClass("hover").children().removeClass("hover");
+		        $(this).parent().prev().find("span.arrow:first").removeClass("pre_hover");
+		    }
+		);*/
+
+        
+
+    });
+
+
+	function bindActionsToTrackDivs() {
+		return;
+		//To switch directions up/down and left/right just place a "-" in front of the top/left attribute
+		//Caption Sliding (Partially Hidden to Visible)
+	
+		$('.boxgrid.caption').hover(function(){
+			$(".cover", this).stop().animate({top:'73px'},{queue:false,duration:160});
+			$(this).css( 'overflow', 'visible' );
+
+		}, function() {
+			 $(".cover", this).stop().animate({top:'103px'},{queue:false,duration:160});
+			 $(this).css( 'overflow', 'hidden' );
+		});
+
+				
+		// $(".zoomImg").thumbPopup();
+	}
+
+    function switchBeta(on) {
+        $.get('/ajax_actions.php?op=switch_beta&on='+on,
+            function(result){
+                location.reload();
+            }
+        );
+    }
+    function betaOptOut() {
+        $.get('/ajax_actions.php?op=beta_opt_out',
+            function(result){
+                location.reload();
+            }
+        );
+    }
+
+    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"light-bottom"};
+
+</script>
+
+<script type="text/javascript" src="/js/cookieconsent.min.js"></script>
+
+
+    <style type="text/css">
+<!--
+
+#translateDiv{
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    background: rgb(232, 232, 232);
+    padding: 4px;
+    border: 2px solid #B3B3B3;
+    z-index:999999;
+    display: none;
+
+
+}
+#translateDiv{
+    overflow-y: scroll;
+}
+
+.translateStringDiv {
+    margin:2px;
+
+}
+#translateControl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: auto;
+    background: #D5DCFF;
+    font-size: 12px;
+    padding: 2px;
+    border: 2px solid #B3B3B3;
+}
+#translateDontFollowLinks {
+    text-decoration: none;
+    /* cursor: pointer; */
+    font-size: 9px;
+}
+.colorgraph {
+    height: 5px;
+    border-top: 0;
+    background: #c4e17f;
+    border-radius: 5px;
+    background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+}
+
+
+.navbar-collapse.collapse {
+    display: block!important;
+}
+
+.navbar-nav>li, .navbar-nav {
+    float: left !important;
+}
+
+.navbar-nav.navbar-right:last-child {
+    margin-right: -15px !important;
+}
+.navbar-right {
+    float: right!important;
+}
+.pull-right {
+    float: right!important;
+}
+
+
+body , html, * {
+    /*font-family: "Open Sans", Arial, sans-serif;*/
+    font-family: "Roboto", sans-serif ;
+
+}
+
+.popoverService {
+    max-width: 400px ! important;
+}
+
+.beta-dialog .modal-dialog {
+    width: 800px;
+}
+
+.beta-dialog p , .beta-dialog li {
+    font-size:12px;
+}
+
+
+
+.mbc_container  {padding:0}
+
+ul.token-input-list-facebook {
+    width:80px;
+    float:left;
+}
+
+ .containerMC{
+    width: 500px;
+    height: auto;
+}
+
+#dock{
+    position: fixed;
+    top: 0;
+    left:0;
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+
+#user_menu_div  { width: 1000px; }
+.contentMain    {    width:1040px; }
+.leftCol        {    width:780px; }
+ 
+
+.style1 {font-size: 13px}
+.smallLink , .smallLink a:link, .smallLink a:visited, .smallLink a:active {font-size: 11px}
+.style2 {
+	color: #FF0000;
+	font-style: italic;
+}
+body, #wrapperMain , #wrapper , .main_div  {
+/*height:100%;*/
+}
+
+#wrapperMain , #wrapper , .main_div  {
+/*height:100%;*/
+}
+
+
+.flag {
+    margin-left:1px;
+    margin-right:1px;
+    width:24px;
+}
+
+.flagFilter {
+    margin-left:1px;
+    margin-right:1px;
+    width:20px;
+}
+
+.activityFilter {
+    margin-left:1px;
+    margin-right:1px;
+    width:16px;
+}
+
+.flagsDiv {
+    position:relative;
+    top:-17px;
+    left:7px;
+    padding:1px;
+    padding-left:0;
+    padding-right:0;
+    background-color:#FFFFFF;
+    width:80px;
+
+    overflow:hidden;
+}
+
+.activitiesDiv {
+    position:relative;
+    top:-19px;
+    left:7px;
+    padding:1px;
+    padding-left:0;
+    padding-right:0;
+    background-color:#FFFFFF;
+    width:80px;
+
+    overflow:hidden;
+}
+
+-->
+</style>
+
+
+    <script>
+    </script>
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-4139288-2']);
+    _gaq.push(['_setDomainName', '.livetrack24.com']);
+    _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+</head>
+<body >
+
+
+
+<div width=100% align=center id='wrapperMain' class='wrapperMain'>
+
+<div id='wrapper-e' align=center>
+  <div class="wrapper-l"> 
+    <div class="wrapper-r" style='width:1040px;'> 
+
+
+
+	
+<script type="text/javascript">
+
+var hidetimer;
+var site_url='/wall/';
+
+$(function() {
+
+	$('.vid_trigger').click( function(e){
+		var URL = $(this).attr('id');
+		var htm = '<iframe width="350" height="250" src="https://www.youtube.com/embed/' + URL + '?rel=0&autoplay=1" frameborder="0" allowfullscreen ></iframe>';
+		$(this).html(htm);
+		return false;
+	});
+
+});
+
+
+function changeLanguage(lang0) {
+    var lang=lang0;
+    if (!lang) lang=$("#selectLang").val();
+    $.get("/ajax_actions.php?op=change_language&new_language="+lang,
+        function(result){
+            location.reload();
+        }
+    );
+}
+
+function changeTZ() {
+    var changeOffset=$("#changeOffset").val();
+    var showLocalTimes=$("#showLocalTimes").is(':checked')?1:0;
+
+    $.get("/ajax_actions.php?op=change_tz&changeOffset="+changeOffset+"&showLocalTimes="+showLocalTimes,
+        function(result){
+            window.location.reload(true);
+           //window.location.href=window.location.href;
+        }
+    );
+
+}
+
+
+
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    //js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=83965197938";
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=83965197938";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+
+	$(function() {
+		var pageUrl = window.location;
+		var pageTitle=$("title").text();	
+	});
+
+
+
+
+
+$(document).ready(function () {
+	$("#userSearchBox").tokenInput("/EXT_pilot_functions.php?op=findPilot&format=json",
+		 {
+		hintText: "Search for username...",
+        minChars: 2,
+        theme: "light",
+        // tokenLimit: 1,
+        onAdd: function (item) {
+            var url='https://www.livetrack24.com/user/%USERID%';
+            url=url.replace('%USERID%',item.id);
+            window.location = url;
+        }
+	});
+
+	});
+</script>
+
+<div id="fb-root"></div>
+
+<div class="topdiv" id="topdiv" width="100%" align="center">
+	<div class="hsep5"></div>
+	<table class='topMenu'>
+    	<tr>
+        	<td rowspan="2" align="left">
+        	 <a href="/" > 
+						 
+        		<img src="/img/logo.png" />
+        	</a>
+        	</td>
+            <td align="center" rowspan="2">
+                
+                <a class="btn btn-danger" style="text-decoration:none" href="/docs/mobile" alt="Install on yuor phone & start Tracking">
+                    <i class="fa fa-android fa-1x" target="_blank"></i>&nbsp;
+                    <i class="fa fa-apple fa-1x" target="_blank"></i>&nbsp; Get Started</a>
+
+            </td>
+        	<td align="right" valign="top" style="padding-top:5px;">
+
+            	            <a href="/login" class="buttonsmall bluetop">Login</a>
+	            <a href="/register" class="buttonsmall bluetop">Sign Up</a>
+             
+
+            
+            <a contact-id='2' href="javascript:;" class="contactButton buttonsmall">Contact</a>
+            </td>
+        	<td align="left" valign="top" style="padding-top:7px; padding-left:8px;" width="160">
+        	
+                            <div id="langSelect" class="polyglot-language-switcher"  data-selected-lang="english" data-grid-columns="3" data-anim-effect="slide" data-open-mode="click">
+                    <ul style="display: none">
+                        <li><a href='javascript:changeLanguage("english");' title='English' data-lang-id='english'><img src='/img/flags/uk.gif' alt='English'> English</a></li>
+<li><a href='javascript:changeLanguage("german");' title='Deutsch' data-lang-id='german'><img src='/img/flags/de.gif' alt='Deutsch'> Deutsch</a></li>
+<li><a href='javascript:changeLanguage("french");' title='Français' data-lang-id='french'><img src='/img/flags/fr.gif' alt='Français'> Français</a></li>
+<li><a href='javascript:changeLanguage("italian");' title='Italiano' data-lang-id='italian'><img src='/img/flags/it.gif' alt='Italiano'> Italiano</a></li>
+<li><a href='javascript:changeLanguage("spanish");' title='Español' data-lang-id='spanish'><img src='/img/flags/es.gif' alt='Español'> Español</a></li>
+<li><a href='javascript:changeLanguage("portuguese");' title='Português' data-lang-id='portuguese'><img src='/img/flags/pt.gif' alt='Português'> Português</a></li>
+<li><a href='javascript:changeLanguage("greek");' title='Ελληνικά' data-lang-id='greek'><img src='/img/flags/gr.gif' alt='Ελληνικά'> Ελληνικά</a></li>
+<li><a href='javascript:changeLanguage("turkish");' title='Türkçe' data-lang-id='turkish'><img src='/img/flags/tr.gif' alt='Türkçe'> Türkçe</a></li>
+<li><a href='javascript:changeLanguage("danish");' title='Dansk' data-lang-id='danish'><img src='/img/flags/dk.gif' alt='Dansk'> Dansk</a></li>
+<li><a href='javascript:changeLanguage("swedish");' title='Svenska' data-lang-id='swedish'><img src='/img/flags/se.gif' alt='Svenska'> Svenska</a></li>
+<li><a href='javascript:changeLanguage("finnish");' title='Suomi' data-lang-id='finnish'><img src='/img/flags/fi.gif' alt='Suomi'> Suomi</a></li>
+<li><a href='javascript:changeLanguage("dutch");' title='Nederlands' data-lang-id='dutch'><img src='/img/flags/nl.gif' alt='Nederlands'> Nederlands</a></li>
+<li><a href='javascript:changeLanguage("polish");' title='Polski' data-lang-id='polish'><img src='/img/flags/pl.gif' alt='Polski'> Polski</a></li>
+<li><a href='javascript:changeLanguage("czech");' title='Čeština' data-lang-id='czech'><img src='/img/flags/cz.gif' alt='Čeština'> Čeština</a></li>
+<li><a href='javascript:changeLanguage("hungarian");' title='Magyar' data-lang-id='hungarian'><img src='/img/flags/hu.gif' alt='Magyar'> Magyar</a></li>
+<li><a href='javascript:changeLanguage("slovenian");' title='Slovenščina' data-lang-id='slovenian'><img src='/img/flags/si.gif' alt='Slovenščina'> Slovenščina</a></li>
+<li><a href='javascript:changeLanguage("afrikaans");' title='Afrikaans' data-lang-id='afrikaans'><img src='/img/flags/za.gif' alt='Afrikaans'> Afrikaans</a></li>
+<li><a href='javascript:changeLanguage("romanian");' title='Română' data-lang-id='romanian'><img src='/img/flags/ro.gif' alt='Română'> Română</a></li>
+<li><a href='javascript:changeLanguage("russian");' title='Ру́сский язы́к' data-lang-id='russian'><img src='/img/flags/ru.gif' alt='Ру́сский язы́к'> Ру́сский язы́к</a></li>
+<li><a href='javascript:changeLanguage("bulgarian");' title='български език' data-lang-id='bulgarian'><img src='/img/flags/bg.gif' alt='български език'> български език</a></li>
+<li><a href='javascript:changeLanguage("serbian");' title='Cрпски језик' data-lang-id='serbian'><img src='/img/flags/cs.gif' alt='Cрпски језик'> Cрпски језик</a></li>
+<li><a href='javascript:changeLanguage("croatian");' title='Hrvatski jezik' data-lang-id='croatian'><img src='/img/flags/hr.gif' alt='Hrvatski jezik'> Hrvatski jezik</a></li>
+<li><a href='javascript:changeLanguage("chinese");' title='中文' data-lang-id='chinese'><img src='/img/flags/cn.gif' alt='中文'> 中文</a></li>
+<li><a href='javascript:changeLanguage("hebrew");' title='עברית' data-lang-id='hebrew'><img src='/img/flags/il.gif' alt='עברית'> עברית</a></li>
+                    </ul>
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+        
+        <td colspan='3' align='right'>
+                 	<div align='right' style='float: right; margin-right: 22px; margin-bottom: 11px; margin-top: 10px;'>
+
+                 <a href="https://twitter.com/livetrack24" class="twitter-follow-button"
+                    data-show-screen-name="false"
+                    data-show-count="false" data-size="normal">Follow @livetrack24</a>
+                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+                 </script>
+
+
+
+                <div style='line-height: 10px' class="fb-like"
+                     data-href="https://www.facebook.com/LiveTrack24"
+                     data-width="120"
+                     data-height="40"
+                     data-colorscheme="light" data-layout="button_count"
+                     data-action="like" data-show-faces="false" data-send="false"></div>
+	        </ul>
+        	</div>	
+        	        	
+        	        </td>
+        </tr>
+    </table>
+
+
+
+
+<!----   second line menu  -->
+ <div class="navbar navbar-green">
+  <div class="container-fluidX">
+
+  <!---
+  <div class="navbar-collapse collapse">
+  -->
+    <div class="" >
+
+    <ul class="nav navbar-nav">
+        <li>
+            <a class="buttonTopMenu" href="/" class="">
+                <span class="glyphicon glyphicon-home"></span>
+                            </a>
+        </li>
+        <li class="dropdown mega-menu-6 transition">
+            <a href="/tracks" class="buttonTopMenu ">Explore LiveTracks                                    <span class="badge btn-main">56</span>
+                            </a>
+        </li><!-- Regular Menu Ends -->
+        <li class="dropdown mega-menu-6 transition">
+            <a href="/events/year/2024">Live Events                              </a>
+        </li><!-- 3 Columns -->
+        <li class="dropdown menu-large">
+            <a href="/services/index" class="dropdown-toggle" data-toggle="dropdown">Services                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu megamenu row">
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="thumbnail ">
+                            <a href="#services1">
+                                <span class="img-circle homeThumbnailCircle"><i class="icomoon-bubbles-3 left"></i></span>
+                                <img class="img-circle" src='/img/banners/photo_takeoff_assist_small.jpg' width='90%'>
+                            </a>
+                            <div class="caption">
+                                <h3>Livetracking services for individuals</h3>
+                                <p>LiveTrack24 is the answer to every pilot's need.
+                                    Combining a robust reliable device with an innovative
+                                    and easy to use service, adding security and fun to your
+                                    activity</p>
+                                <p><a class="btn btn-primary" href="/services/index#services1"><i class=" icomoon-arrow-right-2  "></i>Read more</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="thumbnail ">
+                            <a href="#services2">
+                                <span class="img-circle homeThumbnailCircle"><i class="icomoon-stats center"></i></span>
+                                <img class="img-circle" src='/img/banners/photo_event_small.jpg' width='90%'>
+                            </a>
+                            <div class="caption">
+                                <h3>Services for Events / Competitions</h3>
+                                <p>
+                                    The Livetrack24 service gives you more than you thought was possible
+                                    Real time tracking, Live scoreboard and Retrieve made simple, all in one simple and affordable package.
+
+                                </p>
+                                <p><a class="btn btn-primary" href="/services/index#services2"><i class=" icomoon-arrow-right-2  "></i>Read more</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="thumbnail ">
+                            <a href="#services3">
+                                <span class="img-circle homeThumbnailCircle"><i class="icomoon-cogs right"></i></span>
+                                <img class="img-circle" src='/img/banners/photo_code_small.jpg' width='90%'>
+                            </a>
+                            <div class="caption">
+                                <h3>Outsourcing Services / for 3rd party apps & services</h3>
+                                <p>We offer a complete set of APIs so that you can integrade Livetracking in your service very fast and easy.</p>
+                                <div style="height: 8px;"></div>
+                                <p><a class="btn btn-primary" href="/services/index#services3">Read more</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                            </ul>
+        </li>
+                 <li class="dropdown mega-menu-6 transition">
+                 <div class="sb-toggle-left">
+
+                     <div class="navicon-line"></div>
+                     <div class="navicon-line"></div>
+                     <div class="navicon-line"></div>
+                 </div>
+         </li>
+    </ul>
+
+
+    
+    </div><!--/.nav-collapse -->
+</div>
+
+    </div><!-- /.navbar .navbar-inverse -->
+
+
+</div>
+
+
+
+
+<script language="javascript">
+
+    function translateSeeAll() {
+        $("#translateDiv").toggle();
+
+    }
+
+var msgBoxes=[];
+
+function hideMessageAlert(mID) {
+	$.post( '/ajax_actions.php?op=alert_message&action=hide', {mID:mID} );	
+	$("#msg_close_"+mID).html("<strong>OK</strong>").parent().parent().fadeOut(300);
+}
+
+function showContact(page) {
+	//var topicID=page.substring(1);
+    var topicID=page;
+	var url="/contact.php?topicID="+topicID;
+	$.get(url, 
+		function(result){
+            $("#modalDialog .modal-title").html('Contact us');
+            $("#modalDialog .modal-body").html( result );
+            $("#modalDialog .modal-footer").html('');
+            $('#modalDialog').modal();
+
+		}
+	);
+}
+
+function closePopup() {
+	activeUserMenu='';
+	$("#actionDiv").hide();
+	$("#takeoffAddID").hide();
+	$("#smsPopupDiv").hide();
+	$("#smsPopupError").hide();
+    $("#userMenuDiv").hide();
+
+}
+
+$(document).ready(function(){
+	// initBtn();
+	
+	$(".userMenuLinkX").live('click', function(e) {
+		if ($("#userMenuDiv").is(':visible') ) {
+			$("#userMenuDiv").hide();
+			return;
+		}
+		$("#userMenuDiv").css({
+				left:$(this).offset().left-5,
+				top:$(this).offset().top+15
+			}).html("<img src='/img/ajax-loader.gif'>").show();	
+		var this_id=$(this).attr('id'); 
+		var parts=this_id.split("_");
+		var user_id=parts[1];
+		
+		$("#userMenuDiv").load('/GUI_EXT_user.php?op=usermenu&user_id='+user_id);
+	});
+
+    $(".userMenuLinkX").clickover({
+        content: function() {
+            return "###";
+        },
+        html: true,
+        global_close: true,
+        trigger: 'click',
+        placement: 'bottom'
+    });
+
+    $('.userMenuLink').clickover({
+        placement: 'bottom',
+        trigger: 'click',
+        html: true,
+        title:'',
+        content:'content',
+        container: 'body',
+        class_name: 'clickover',
+        global_close: true,
+
+        onShown: function(e){
+            var clickover=this;
+            var this_id=this.$element[0].id;
+            var parts=this_id.split("_");
+
+            var url="/GUI_EXT_user.php?op=usermenu&user_id="+parts[1];
+            $.get(url,function(response) {
+                $("div.clickover").find("div.popover-content").html(response);
+                $("div.clickover").find(".popover-title").prepend(popoverCloseButtonHtml);
+                clickover.resetPosition();
+            });
+
+        }
+
+    });
+
+
+
+    $(document.body).on('click', '.closePopupButton', function() {
+        closePopup();
+    })
+
+	$(".closePopupButton").live('click', function(e) {
+			closePopup();
+	});
+
+	$(".contactButton").click(function(f) {		
+		showContact( $(this).attr('contact-id') );
+	});	
+		
+		
+	msgBoxes[13]=$.jGrowl('Due to a change in the default view your older than 30 days tracks are not shown. <a href="https://www.livetrack24.com/news/2023_08_19">Check here on how to find them</a><HR><div id="msg_close_13"><a href="javascript:void(0);" onclick="hideMessageAlert(13);">Dont show this message again</a></div>', { 
+		header: 'Older Tracks not shown',
+		theme: 'manilla',
+		sticky: true
+	});
+	
+
+});
+
+</script>
+
+
+<div class="maindiv" id="maindiv">
+    <div class="contentMain">
+        <div id='userMenuDiv'></div>
+
+<h1 class='pageheader pageheaderSmallFont'><a href='/user/Mt791'>Mt791</a> \\  Live Track <img width='20' src='/img/cat/icon_cat_1.png' align='absmiddle' alt='Paraglider' title='Paraglider'> [ 13-02-2024 ] - <img align='top' src='/img/flags/jp.gif'> <img align='top' src='/img/icon_city.gif'>&nbsp;Utsunomiya&nbsp;-&nbsp;JP [&nbsp;~&nbsp;27.0&nbsp;km]<small><div style="margin-top:-10px;">
+        <a class="btn btn-xs btn-default" href="javascript:;"
+           data-ajax="true"
+           data-action="track_info"
+
+           title="Network"
+           data-trigger="manual"
+
+           data-placement="bottomRight"
+           data-trackid="2555342" >
+            <i class="fa fa-signal"></i>
+        </a>
+
+        <a class="btn btn-xs btn-default" href="javascript:;"
+           data-ajax="true"
+           data-action="track_menu"
+
+           title=Select action for this LiveTrack"
+           data-trigger="manual"
+           data-placement="bottomRight"
+           data-width="350"
+           data-trackid="2555342" >
+            <i class="fa fa-cog"></i>
+        </a>
+    </div></small></h1><div style='clear:both;'><link rel='stylesheet' type='text/css' href='https://www.livetrack24.com/css/colorPicker.css' />
+<link rel='stylesheet' type='text/css' href='https://www.livetrack24.com/css/track_show.css' />
+
+
+<!-- sprites-->
+<style type="text/css">
+<!--
+
+@import url(/js/cesium/Build/Cesium/Widgets/widgets.css);
+
+.cesium-infoBox-visible {
+    display:none;
+}
+
+.colorPicker div, .geColor {
+    width: 20px;
+    display: inline-block;
+}
+#viewTrackMenu {
+    position: absolute;
+    top: 0px;
+    width: 410px;
+    height: 135px;
+    background: rgba(33, 33, 33, 0.74);
+    right: 272px;
+    display: none;
+    padding-left: 10px;
+    z-index: 9999;
+}
+
+
+#viewTrackMenu * , #viewTrackMenu a:link , #viewTrackMenu a:active, #viewTrackMenu a:visited {
+    color:#ffffff;
+}
+
+.trackMenuBoxInner {
+    float: left;
+    margin-right:5px;
+    text-align: center;
+}
+
+.cesium-baseLayerPicker-dropDown-visible {
+    z-index: 999999 !important;
+    background-color: rgba(38,38,38,0.85);
+}
+
+.cesium-toolbar-button {
+    z-index: initial;
+}
+.cesium-sceneModePicker-visible {
+    z-index: 999999;
+}
+.cesium-navigation-help-visible {
+    z-index: 999999 !important;
+    background-color: rgba(38,38,38,0.85);
+}
+#mapDiv.mapDivFull {
+   bottom: 100px;
+}
+
+#toggleFullScreenButton {
+    position: relative;
+    bottom: 30px;
+    right: 0;
+    display: block;
+    font-size: 12px;
+    padding: 6px;
+    border-radius: 0;
+}
+#toggleFullScreenButton.fullscreen {
+    bottom:   100px;
+    position: absolute;
+}
+
+#ChartContainer.ChartContainerFull {
+    bottom: 0;
+    position: fixed;
+    margin-bottom: 0px;
+    height: 100px;
+}
+
+
+#chart.fullscreen {
+    width: calc(100% - 162px);
+    left: 155px;
+
+}
+#replayDiv * {
+    color:#FFFFFF;
+}
+
+#replayDiv {
+    position: relative;
+    width: 100%;
+    margin-bottom:5px;
+}
+
+#watchLiveButtonDiv {
+    border:none;
+    display:block;
+    float:right;
+    clear:both;
+
+    padding:0;
+    padding-left:8px;
+    padding-bottom:0px;
+
+    margin-bottom:0;
+    margin-right:0px;
+    margin-left:0px;
+    margin-top:5px;
+    text-align:left;
+
+    background:none;
+}
+#animControl * {
+    color:#000000;
+}
+
+#ChartContainer {
+    margin-top:0;
+    width: 100%;
+    height: 100px;
+    margin-top: -30px;
+}
+
+#viewoptionsDiv{
+    position: absolute;
+    top:3px;
+    right:3px;
+    z-index: 999;
+}
+
+#viewoptionsButton {
+
+}
+
+
+#ChartContainer {
+      height: 135px;
+    margin-top: 0px;
+}
+
+#ChartContainer.ChartContainerFull {
+    bottom: 0;
+    position: fixed;
+    margin-bottom: 0px;
+    height: 135px;
+}
+
+#placeDetails.fullSize {
+    top: 42px;
+}
+
+#mapDiv.mapDivFull {
+    bottom: 135px;
+}
+
+.leftCol {
+    width: 100%;
+}
+
+
+.leftCol {
+    display:none;
+}
+
+
+.rightCol {
+    width: 100%;
+    float:none;
+    padding-left: 21px;
+    padding-right: 15px;
+    padding-top: 5px;
+}
+
+#chartDiv {
+    right: 15px;
+
+}
+
+#chart {
+    width: calc(100% - 160px);
+    height: 100%;
+    /* background-color: rgba(214, 114, 114, 0.5); */
+    margin-left: 0;
+    left: 154px;
+    margin-top: -5px;
+    background: transparent;
+}
+
+#chartOptionsDiv {
+    right :inherit;
+    left:0;
+    top:5px;
+    width: 124px;
+}
+
+
+#chartOptionsDiv label {
+    margin:5px
+}
+
+.cesium-infoBox {
+    top:10px;
+    left:10px;
+    width:200px;
+}
+
+#nextUpdateTime {
+    color:#333333;
+}
+
+.liveTime {
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+
+.fullSize .liveTime {
+    background-color: #353535;
+}
+
+.timeIntervalTrack{
+    font-size:11px;
+    padding:2px;
+    width:80%;
+}
+
+.infoDisplayText {
+    width: 93px;
+}
+
+.networkBuffer {
+    padding-top:57px;
+    padding-left:5px;
+}
+
+.networkBuffer *{
+    margin-bottom:4px;
+}
+.infoDisplayTextWide {
+    /*width: 120px;
+    padding:3px;
+    line-height: 2em;*/
+    padding-top:2px;
+    font-size:11px;
+    width:auto;
+}
+
+img.brands { background: url(/img/sprite_brands.png) no-repeat left top; }
+img.fl {   background: url(/img/sprite_flags.png) no-repeat left top ; }
+img.icons1 {   background: url(/img/sprite_icons1.png) no-repeat left  top ; }
+
+
+#control2dX {
+	position:absolute;
+	top:5px;
+	right:10px;
+	dislay:block;
+}
+
+.control2dBig {
+	position:absolute;
+	top:5px;
+	right:10px;
+	dislay:block;
+	font-size:25px;
+	font-weight:bold;
+	padding:10px;
+}
+#distanceDiv {
+	position:absolute;
+	top:5px;
+	right:100px;
+	dislay:block;
+}
+
+.solidBackground , #placeDetails.solidBackground , #trackDetails.solidBackground {
+ background:#565656; 
+ border-radius: 0;  
+ -moz-border-radius: 0;  
+ -webkit-border-radius: 0;  
+}
+
+#placeDetails.solidBackground {
+	bottomx:95px;
+}
+#trackDetails.solidBackground {
+	bottomx:65px;
+}
+
+#overlay {
+	position:fixed; 
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background:#000;
+	opacity:0.5;
+	filter:alpha(opacity=50);
+}
+
+#modal {
+	position:absolute;
+	background:url(tint20.png) 0 0 repeat;
+	background:rgba(0,0,0,0.2);
+	border-radius:14px;
+	padding:8px;
+}
+
+.panel-body {
+    padding: 2px;
+}
+
+.panel-body *{
+    font-size:11px;
+}
+
+
+
+-->
+</style>
+
+
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+          integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+            integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+            crossorigin=""></script>
+ 
+
+<script language='javascript' src='https://www.livetrack24.com/js/jquery.timers.js'></script>
+<script language='javascript' src='https://www.livetrack24.com/js/maps/gmaps.common.js'></script>
+
+
+    <script language='javascript' src='https://www.livetrack24.com/js/maps/gmaps_v3.js'></script>
+    <script language='javascript' src='https://www.livetrack24.com/js/maps/polyline_v3.js'></script>
+
+    <script language='javascript' src='https://www.livetrack24.com/js/maps/gmaps.2d.js'></script>
+    <script language='javascript' src='https://www.livetrack24.com/js/maps/chart_v3.js'></script>
+
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="/js/flot/excanvas.min.js"></script><![endif]-->
+<script language='javascript' src='https://www.livetrack24.com/js/flot/jquery.flot.min.js'></script>
+<script language='javascript' src='https://www.livetrack24.com/js/flot/jquery.flot.resize.min.js'></script>
+<script language='javascript' src='https://www.livetrack24.com/js/flot/jquery.flot.crosshair.min.js'></script>
+<script language='javascript' src='https://www.livetrack24.com/js/flot/jquery.flot.threshold.min.js'></script>
+<script language='javascript' src='https://www.livetrack24.com/js/flot/jquery.flot.time.min.js'></script>
+
+
+<!--  non visible divs -->
+
+<div style='display:none;'>
+
+	</div>
+
+
+<div id='distanceDiv' class='controlButton' style='display:none;'>
+<strong>Distance: </strong><span id="distance">N/A</span>
+</div>
+
+
+
+
+<!-- start of page layout -->
+
+<div class="row trackToprow">
+    <div class="col-md-12 colTop">
+        
+        <div class="row-fluid trackTopLineA">
+            <a  href='/user/Mt791'>
+                <img class="img-thumbnail profile-photo-med" style='width:130px;'  src="https://www.livetrack24.com/files/users/20096/photo.jpg">
+            </a>
+
+        </div>
+
+
+        <div class="row-fluid trackTopLine">
+            <div class="span3 trackTopItem" id="totalDistance">
+                <h5>
+                                    Start Distance                                km</h5>
+                <h1><span class="value">1.44</span></h1>
+            </div>
+            <div class="span3 trackTopItem" id="totalDuration">
+                <h5>Duration</h5>
+                <h1><span class="value">0:36:03</span></h1>
+            </div>
+            <div class="span3 trackTopItem" id="averagePace">
+                <h5>Max km</h5>
+                <h1><span class="value">1.44</span>
+                </h1>
+            </div>
+
+
+            <div class="span3 trackTopItem" id="totalCalories">
+                <h5>Max Altitude m</h5>
+                <h1><span class="value">0</span></h1>
+            </div>
+        </div>
+
+        <div class="row-fluid trackTopLineC">
+
+        <div class="span3 trackTopItem trackTopItemC" id="row2_1">
+            <h3><img src='https://www.livetrack24.com/img/cat/icon_cat_1.png' align='absmiddle' alt='Paraglider' title='Paraglider'> Cure</h3>
+        </div>
+        <div class="span3 trackTopItem trackTopItemC" id="row2_2">
+            <h3>Start</h3>
+            <div align="right">
+                2024-02-13 12:56:09 UTC+9<BR>
+                <img align='top' src='https://www.livetrack24.com/img/flags/jp.gif'> <img align='top' src='https://www.livetrack24.com/img/icon_city.gif'>&nbsp;Utsunomiya&nbsp;-&nbsp;JP [&nbsp;~&nbsp;27.0&nbsp;km]
+            </div>
+        </div>
+        <div class="span3 trackTopItem trackTopItemC" id="row2_3">
+            <h3>Last Position</h3>
+
+            <div align="right">
+                2024-02-13 13:32:12 UTC+9<BR>
+                <a title='Location'
+                   data-placement="leftTop"
+                   data-loadajax='/live_track_ajax.php?op=getNearestWaypoints&lat=36.3501968&lon=139.6864471'
+                   href='javascript:;'><img align='top' src='https://www.livetrack24.com/img/flags/jp.gif'> <img align='top' src='https://www.livetrack24.com/img/icon_city.gif'>&nbsp;Utsunomiya&nbsp;-&nbsp;JP [&nbsp;~&nbsp;27.5&nbsp;km]</a>
+            </div>
+        </div>
+        <div class="span3 trackTopItem trackTopItemC boxgridStatusOk" id="row2_4">
+                    <h3><img src='https://www.livetrack24.com/img/icon_flight_end_ok.gif' align="absmiddle">
+                Track was ended normally             </h3>
+                    <div align="right">
+            Lat/Long:
+            <a title='Lat/Long'
+               data-placement="leftTop"
+               data-loadajax='/live_track_ajax.php?op=showCoords&lat=36.3501968&lon=139.6864471'
+               href='javascript:;'>
+                <span id='i_lat' class='infoField' align="left">36.35020</span> /
+                <span id='i_lon' class='infoField' align="left">139.68645</span></a>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+    <div class='clearfix'></div>
+
+
+    <div class="rightCol">
+        <div id='gmapsContainer' class='gmapsContainerNormal'>
+
+            <div id='mapDiv' class="mapDivNormal">
+                    <div id='map'></div>
+                    <div id='placeDetails' class='fullSize'>
+                        <div style="display:block">
+
+                                <div style="display:block;position:relative;clear:both;">
+                                    <div style="position:relative; float:right; clear: both; margin-bottom:10px; width:100%; ">
+
+
+
+                                    </div>
+
+                                                                        <div style="display:block;position:relative;clear:both; width:100%; text-align: center">
+                                        <input type="checkbox" value="1" id='followGlider' name='followGlider' onClick="toggleFollowPilot(this)"
+                                             >
+                                        <label for='followGlider'>Follow Track</label>
+                                        <BR>
+                                        <input type="checkbox" checked='checked' value="1" id='toggleShowFullTrack' name='toggleShowFullTrack' onClick="toggleShowFullTrack(this)" >
+                                        <label for='toggleShowFullTrack'>Show Track Line</label>
+
+                                    </div>
+                                                                    </div>
+
+                            <fieldset id="liveInfoBox" class="legendBox">
+                                
+
+                                <div align="left" class='trackIsLive' style="clear:both;">
+
+                                    <h3 class='underline'>Live Data</h3>
+                                    <div class="infoDisplayItem liveTime">
+                                        <div class='infoDisplayText'>UTC+9 Time</div>
+                                        <div class='infoString time'><b><div id="servertime" class='infoField'></div></b></div>
+                                    </div>
+
+                                    <fieldset id="trackInfoLive" class="legendBox">
+                                        <div id="trackInfoTplLive" class='infoDisplay'>
+                                            <div class="infoDisplayItem"><div class='infoDisplayText'>Track Time</div><div id='live_time' class='infoString time'>-</div></div>
+                                            <div class="infoDisplayItem"><div class='infoDisplayText'>Speed</div><div id='live_sog' class='infoString speed'>-</div></div>
+                                            <div class="infoDisplayItem"><div class='infoDisplayText'>Alt</div><div id='live_alt' class='infoString alt'>-</div></div>
+                                                                                        <div class="infoDisplayItem"><div class='infoDisplayText'>Vario</div><div id='live_vario' class='infoString vario'>-</div></div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
+                            </fieldset>
+
+                            <div id="watchLiveButtonDiv" style="display:none;">
+
+                                <div id="replayDiv" class="normalSize">
+                                    <fieldset class="legendBox">
+                                        <h3 class='underline'>Replay Track</h3>
+
+                                        <div id='animControl'>
+                                            <div onclick='ToggleTimer();' type="button" class="btn btn-default btn-xs" title="_Normal_Speed">
+                                                <span class="glyphicon glyphicon-play"></span>
+                                                <span class="glyphicon glyphicon-pause"></span>
+                                            </div>
+                                            <div onclick='resetTimer();' type="button" class="btn btn-default btn-xs" title="_Stop">
+                                                <span class="glyphicon glyphicon-stop"></span>
+                                            </div>
+                                            <div onclick="decrTimeStep();" type="button" class="btn btn-default btn-xs" title="_Slower">
+                                                <span class="glyphicon glyphicon-minus"></span>
+                                            </div>
+                                            <div onclick="incTimeStep();" type="button" class="btn btn-default btn-xs" title="_Faster">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+
+                                    <fieldset id="trackInfoList" class="legendBox">
+                                        <div id="trackInfoTpl" class='infoDisplay'>
+                                            <div class="infoDisplayItem"><div class='infoDisplayText'>Time</div><div class='infoString time'>-</div></div>
+                                            <div class="infoDisplayItem"><div class='infoDisplayText'>Speed</div><div class='infoString speed'>-</div></div>
+                                            <div class="infoDisplayItem"><div class='infoDisplayText'>Alt</div><div class='infoString alt'>-</div></div>
+                                                                                        <div class="infoDisplayItem"><div class='infoDisplayText'>Vario</div><div class='infoString vario'>-</div></div>
+                                        </div>
+                                    </fieldset>
+
+                                </div>
+                                                            </div>
+
+
+
+                            
+
+
+                        </div>
+                    </div>
+                </div>
+
+                            <div id="viewoptionsDiv">
+
+                    <a class='btn btn-default' href='javascript:zoomToFlight()'>Zoom to track</a>
+                    <a href="javascript:toggleViewOptions(); " id='viewoptionsButton' class='btn btn-warning'>View Options / 3D </a>
+                    <a class='btn  btn-primary' href='javascript:toogleFullScreen();'>
+                        <i class="fa fa-expand fa-lg"></i>
+                    </a>
+                </div>
+                        <div id='viewTrackMenu'></div>
+
+            <div id='ChartContainer'>
+                    <div id='chartDiv'>
+                        <div id="chart" class="chart"></div>
+                    </div>
+
+                    <div id="chartOptionsDiv">
+
+                        <label for="idground" style="margin-bottom:2px;">
+                            <input type="checkbox" id="idground"  name="ground" style="clear:none;">
+                            <span class='btn btn-xs btn-primary' style="clear:none;background: #AB7224;">
+                                <i class="fa fa-area-chart"></i>
+                               </span>
+                        </label>
+
+
+                        <label for="idalt" style="margin-bottom:2px;">
+                            <input type="checkbox" id="idalt" checked="checked" name="alt" style="clear:none;">
+                            <span class='btn btn-xs btn-primary' style="clear:none;background: rgb(51,136,190);"><i class="fa fa-line-chart"></i></span>
+                        </label>
+
+                        <label for="idspeed" style="margin-bottom:2px;">
+                            <input type="checkbox" id="idspeed" name="speed" style="clear:none;">
+                            <span class='btn btn-xs btn-primary' style="clear:none;background: #9b82ca;"><i class="fa fa-tachometer"></i></span>
+                        </label>
+
+                        <label for="idvario" style="margin-bottom:2px;">
+                            <input type="checkbox" id="idvario"  name="vario" style="clear:none;">
+                            <span class='btn btn-xs btn-primary' style="clear:none;background: rgb(0,197,0);">
+                                 <i class="fa fa-sort"></i>
+                        </label>
+
+                    </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-3" >
+
+        <div class="leftCol">
+
+            <div style="height:172px">
+                <div align="right" class='trackIsLive networkBuffer'>
+                    <div class="infoDisplayItem infoDisplayItemWide">
+                        <div class='infoDisplayText infoDisplayTextWide'>Next update</div>
+                        <div class='infoString'><b><div id="nextUpdateTime" class='infoField'></div></b></div>
+                    </div>
+
+                    <div class="infoDisplayItem infoDisplayItemWide">
+                        <div class='infoDisplayText infoDisplayTextWide'>Refresh </div>
+                        <div class='infoString time'>
+                            <input type="hidden" id="timeNetworkInterval" value="20">
+                            <select id="timeInterval" class='timeIntervalTrack'onChange="setUpdateInterval();">
+
+                                <option  value=1>1 sec</option>
+                                <option value=5>5 secs</option>
+                                <option value=10>10 secs</option>
+                                <option value=20>20 secs</option>
+                                <option value=30>30 secs</option>
+                                <option value=40>40 secs</option>
+                                <option value=60>1 min</option>
+                                <option value=300>5 min</option>
+                                <option selected="selected" value=0>Stop</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="infoDisplayItem infoDisplayItemWide">
+                        <div class='infoDisplayText infoDisplayTextWide'>Network Buffer </div>
+                        <div class='infoString time'>
+                            <div style='width:50px;' class="progress active" id="progressouter">
+                                <div  id="networkBufferProgress"
+                                      class="progress-bar" role="progressbar"
+                                      aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id='loaderDiv'></div><br>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="col-md-9">
+
+        <script type="text/javascript">
+  objType = "2";
+  objID = "2555342";
+</script>
+
+<div id="wallBlock" style="float:left;"  >
+
+
+<div class="centerdiv">
+
+    <div id="header_error_messages"></div>
+    <div id="header_notice_messages"></div>
+
+    <div class="wrapperfb" id="wrapperfb" align="center"><img src="https://www.livetrack24.com/wall/img/loader.gif" alt="Loading" /></div>
+
+    <div align="left">
+                <input type="hidden" name="paging_in_process" id="paging_in_process" value="0" />
+        <input type="hidden" name="LoggedinID" id="LoggedinID" value="" />
+        <input type="hidden" name="posted_on" id="posted_on" value="" />
+        <input type="hidden" name="tagged_people" id="tagged_people" />
+        <input type="hidden" name="pageUsing" id="pageUsing" value="profile" />
+        <input type="hidden" name="exemptedPostsID" id="exemptedPostsID" value="0" />
+        <!--// the posts whose comments and liks will not be updated because users are reading old comments and using pagin on them.-->
+        <BR><BR><a class='btn btn-primary' href='/login'>Please login to comment</a>
+
+    </div>
+
+
+    <script>
+        jQuery(window).scroll(function(){
+
+            if  (jQuery(window).scrollTop() == jQuery(document).height() - jQuery(window).height()){
+                lastPostFunc('member');
+            }
+        });
+    </script>
+
+    <div id="screenCover" style="display:none">
+        &nbsp;
+    </div>
+    <div id="blanket" style="display:none">
+        &nbsp;
+    </div>
+    <div id="popUpDiv" style="display:none;">
+
+        <div align="right" class="topheadpopup_div">
+            <label class="popupheadlabel"></label>
+            <a href="javascript:;" onclick="popup('popUpDiv')" class="topheadpopup_a"></a>
+            <br clear="all" />
+        </div>
+
+        <div class="data">
+
+        </div>
+    </div>
+            <script>
+            var y = setInterval("liveTime();",15000);
+            var z = setInterval("refreshPosts();",30000);
+        </script>
+            <br clear="all" /><br clear="all" />
+
+
+
+
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+var JS_DEBUG=0;
+var autoCenterMap=0;
+var isAir=1;
+var markerBg="https://www.livetrack24.com/img/icon_cat_1.png";
+var trackIsLive=0;
+var is3D=0;
+var isLeaflet=1;
+var isGmaps=0;
+var is2d=1;
+var useGE=1; 
+var trackColors= [  '#AB7224', '#3388BE', '#FF0000', '#00c500', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#EF8435', '#34A7F0', '#33F1A3', '#9EF133', '#808080'] ;
+var relpath="modules/leonardo";
+var SERVER_NAME = 'www.livetrack24.com';
+var SERVER_URL='https://www.livetrack24.com';
+var posMarker=[];
+var posMarker2=[];
+var altMarker=[];
+var varioMarker=[];
+var speedMarker=[];
+
+var tracksNum=0;
+
+var trackID=2555342;
+
+var followGlider=0;
+var showFullTrack=1;
+var airspaceShow=1;
+var showTask=1;
+var taskLayer=[];
+var infowindow ;
+
+var mapType;
+
+var metricSystem=1;
+var multMetric=1;
+if (metricSystem==2) {
+	multMetric=3.28;
+}
+
+var takeoffString="Takeoff";
+var landingString="Landing";
+
+var AltitudeStr="Alt";
+var AltitudeStrBaro="Alt (Baro)";
+
+var altUnits=" m";
+var speedUnits=" km/h";
+var varioUnits=" m/sec";
+
+var flightList=[ 2555342 ];
+var flightsTotNum=1;
+var takeoffID=0;
+var flightID=2555342;
+var flightIDstr='2555342';
+var compareUrlBase='/track/';
+var TimeStep = 10000; //  in millisecs
+var CurrTime=null;
+
+var airspaceCheck=0;
+	var baroGraph=false;
+	var userAccessPriv=false;
+
+
+// live update code
+	var GMToffset=32400; // in secs
+    var GMToffsetHours=9; // in hours
+    var GMToffsetHoursFormated='+9'; // in hours formated
+
+    var durationSecs=2163;
+
+	var serverTmUTC= 1707967913;
+	
+	var clientDate=new Date();
+	var clientTm=clientDate.getTime()/1000;
+	// the diff of user's UTC time to real UTC in secs
+	var tmDiff=clientTm-serverTmUTC;
+	
+	// trackGMToffset , GMToffset both in secs
+	var currenttime = 'February 15, 2024 03:31:53'; //PHP method of getting server date
+	var serverdate;
+
+	var secsUntilNextUpdate=timeInterval/1000;
+	if (timeInterval==0) secsUntilNextUpdate=-999;
+	
+	var lastTm=0;
+	
+	var delayUpdates=false;
+	var lastTimeInterval=timeInterval;
+
+
+
+	var timeNetworkIntervalInit = 30000;
+	var timeNetworkInterval = 30000;
+	var previousTimeNetworkInterval =timeNetworkInterval ;
+	var cacheAheadSecs=300;
+
+	var updateCurrentTm=0;
+	var lastRealTm=0;
+	var dtToRealTime=0;
+	var liveDelay=3*60;
+	
+	var blockNetworkUpdates=0;
+
+	var trackPolyLines=[];
+	var trackPolyLinesNum=0;
+	var lastPoint=[];
+
+	
+
+var skywaysVisible=0;
+var map;
+var googleEarth;   
+var ge;
+var compareUrl=null;
+var radiusKm=10
+var queryString='';
+var gex;
+
+var	glider_type_desc=[];
+
+ glider_type_desc[0]='General'; 
+ glider_type_desc[1]='Paraglider'; 
+ glider_type_desc[2]='Flex wing FAI1'; 
+ glider_type_desc[4]='Rigid wing FAI5'; 
+ glider_type_desc[6]='Ultralight Glider FAI2'; 
+ glider_type_desc[8]='Glider'; 
+ glider_type_desc[16]='Paramotor'; 
+ glider_type_desc[32]='Trike'; 
+ glider_type_desc[64]='Powered flight'; 
+ glider_type_desc[128]='Hot Air Balloon'; 
+ glider_type_desc[256]='HG Mosquito'; 
+ glider_type_desc[512]='SkyDive'; 
+ glider_type_desc[1023]='AirSports'; 
+ glider_type_desc[1024]='Bird'; 
+ glider_type_desc[16385]='Walk'; 
+ glider_type_desc[16386]='Run'; 
+ glider_type_desc[16388]='Bike'; 
+ glider_type_desc[16400]='Hike'; 
+ glider_type_desc[16401]='Cycle'; 
+ glider_type_desc[16402]='Mountain Bike'; 
+ glider_type_desc[16403]='Motorcycle'; 
+ glider_type_desc[16500]='Windsurf'; 
+ glider_type_desc[16501]='Kitesurf'; 
+ glider_type_desc[16502]='Sailing'; 
+ glider_type_desc[16503]='Kayak'; 
+ glider_type_desc[16504]='Sea Kayak'; 
+ glider_type_desc[16600]='Snowboard'; 
+ glider_type_desc[16601]='Ski'; 
+ glider_type_desc[16602]='Snowkite'; 
+ glider_type_desc[17100]='Car'; 
+ glider_type_desc[17101]='4x4 Car'; 
+ glider_type_desc[18000]='Horse'; 
+ glider_type_desc[18001]='Dog'; 
+var	gliderModels=[];
+var	gliderModelsOrientation=[];
+var	gliderModelsScale=[];
+
+ gliderModels[0]='https://www.livetrack24.com/img/models/0/model.glb'; 
+ gliderModels[1]='https://www.livetrack24.com/img/models/1/model.glb'; 
+ gliderModels[2]='https://www.livetrack24.com/img/models/2/model.glb'; 
+ gliderModels[4]='https://www.livetrack24.com/img/models/4/model.glb'; 
+ gliderModels[6]='https://www.livetrack24.com/img/models/8/model.glb'; 
+ gliderModels[8]='https://www.livetrack24.com/img/models/8/model.glb'; 
+ gliderModels[16]='https://www.livetrack24.com/img/models/1/model.glb'; 
+ gliderModels[32]='https://www.livetrack24.com/img/models/32/model.glb'; 
+ gliderModels[64]='https://www.livetrack24.com/img/models/64/model.glb'; 
+ gliderModels[128]='https://www.livetrack24.com/img/models/128/model.glb'; 
+ gliderModels[256]='https://www.livetrack24.com/img/models/2/model.glb'; 
+ gliderModels[16385]='https://www.livetrack24.com/img/models/16385/model.glb'; 
+ gliderModels[16386]='https://www.livetrack24.com/img/models/16386/model.glb'; 
+ gliderModels[16388]='https://www.livetrack24.com/img/models/16401/model.glb'; 
+ gliderModels[16400]='https://www.livetrack24.com/img/models/16385/model.glb'; 
+ gliderModels[16401]='https://www.livetrack24.com/img/models/16401/model.glb'; 
+ gliderModels[16402]='https://www.livetrack24.com/img/models/16401/model.glb'; 
+ gliderModels[16403]='https://www.livetrack24.com/img/models/16403/model.glb'; 
+ gliderModels[16500]='https://www.livetrack24.com/img/models/16500/model.glb'; 
+ gliderModels[16501]='https://www.livetrack24.com/img/models/16501/model.glb'; 
+ gliderModels[16502]='https://www.livetrack24.com/img/models/16502/model.glb'; 
+ gliderModels[17100]='https://www.livetrack24.com/img/models/17100/model.glb'; 
+ gliderModels[17101]='https://www.livetrack24.com/img/models/17101/model.glb'; 
+ gliderModelsScale[0]=2; 
+ gliderModelsScale[1]=8; 
+ gliderModelsScale[2]=10; 
+ gliderModelsScale[8]=10; 
+ gliderModelsScale[16385]=4; 
+ gliderModelsScale[16386]=1.5; 
+ gliderModelsScale[16403]=5; 
+
+    $(document).ready(function(){
+        initializeLeaflet();
+    });
+
+function toggleViewOptions(){
+    $('#viewTrackMenu').toggle();
+}
+
+function initializeCesium() {
+
+    currentZoomLevel=99;
+
+    viewer = new Cesium.Viewer('map',{
+        homeButton: false
+    });
+
+    if (1) {
+        viewer.animation.viewModel.timeFormatter = function (date0, viewModel) {
+
+            var date=Cesium.JulianDate.addSeconds(date0, GMToffset, new Cesium.JulianDate());
+            //date = addTimeZone(date, GMToffset);
+
+            var gregorianDate = Cesium.JulianDate.toGregorianDate(date);
+            var millisecond = Math.round(gregorianDate.millisecond);
+            if (Math.abs(viewModel._clockViewModel.multiplier) < 1) {
+                return Cesium.sprintf("%02d:%02d:%02d.%03d", gregorianDate.hour, gregorianDate.minute, gregorianDate.second, millisecond);
+            }
+            return Cesium.sprintf("%02d:%02d:%02d UTC%+02d", gregorianDate.hour, gregorianDate.minute, gregorianDate.second, GMToffsetHours);
+
+        }
+        viewer.animation.viewModel.dateFormatter = function (date0, viewModel) {
+
+            var date=Cesium.JulianDate.addSeconds(date0, GMToffset, new Cesium.JulianDate());
+            //date = addTimeZone(date, GMToffset);
+            var gregorianDate = Cesium.JulianDate.toGregorianDate(date);
+            var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return monthNames[gregorianDate.month - 1] + ' ' + gregorianDate.day + ' ' + gregorianDate.year;
+
+            //return "ABC";
+        };
+    }
+
+    
+    var cesiumTerrainProviderMeshes = new Cesium.CesiumTerrainProvider({
+        url : 'https://www.livetrack24.com/files/tiles'
+        //requestWaterMask : true,
+        //requestVertexNormals : true
+    });
+    viewer.terrainProvider = cesiumTerrainProviderMeshes;
+    
+    $("#control2d").prependTo( ".cesium-viewer-toolbar" );
+    $("#zoomToTrackButton").prependTo( ".cesium-viewer-toolbar" );
+
+
+        // viewer.animation.viewModel.playRealtimeViewModel.command
+    // loads tracks
+    addOverlays();
+
+}
+
+function initializeLeaflet() {
+
+    map = L.map('map').setView([36.3608513,139.6773682], 9);
+
+
+   /*
+    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibGl2ZXRyYWNrMjQiLCJhIjoiY2pneHN2emxwMWd1dDMxcXNjaGRoa255biJ9.NCMJYA7ksTrJhSbNbZyqew', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken: ''
+    }).addTo(map);
+*/
+
+    var esri_sat=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        minZoom: 0,
+        maxZoom: 17,
+        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    }).addTo(map);
+
+    /*
+    var Hydda_RoadsAndLabels =  L.tileLayer('https://{s}.tile.openstreetmap.se/hydda/roads_and_labels/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+*/
+  /*  var OSM_RoadsAndLabels =  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+*/
+    var openTopoMap=L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        maxZoom: 17,
+        attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+    });
+
+    var Stamen_Terrain = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.{ext}', {
+            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            subdomains: 'abcd',
+            minZoom: 0,
+            maxZoom: 18,
+            ext: 'png'
+        });
+
+    var blankMap=   L.tileLayer('');
+
+    var Stamen_TonerLabels = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}{r}.{ext}', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        subdomains: 'abcd',
+        minZoom: 0,
+        maxZoom: 20,
+        ext: 'png'
+    });
+
+    var baseLayers = {
+        "ERSI Satelite": esri_sat,
+        "OpenTopoMap":openTopoMap,
+        "Stamen OSM terain": Stamen_Terrain,
+       // "OpenStreetMap":OSM_RoadsAndLabels,
+        "Blank Map":blankMap
+    };
+
+
+    var overlays = {
+     //  "Roads & Labels":Hydda_RoadsAndLabels
+        "Roads & Labels":Stamen_TonerLabels
+    };
+
+    L.control.layers(baseLayers, overlays,{position: 'topleft'}).addTo(map);
+
+    addOverlays();
+
+
+}
+
+function initialize() {
+
+	mapType=google.maps.MapTypeId.HYBRID;
+	var reliefTypeOptions = {
+	  getTileUrl: function(a,b) {
+	    	return "http://maps-for-free.com/layer/relief/z" + b + "/row" + a.y + "/" + b + "_" + a.x + "-" + a.y + ".jpg";
+
+	    },
+	  maxZoom: 20,
+	  minZoom: 0,
+	  tileSize: new google.maps.Size(256, 256),
+	  name: "Relief"
+	};
+	var reliefMapType = new google.maps.ImageMapType(reliefTypeOptions);
+		
+    var mapOptions= {
+            zoom: 8,
+            mapTypeControl: true,
+            scaleControl: true,            
+            mapTypeControlOptions: {
+                mapTypeIds: [
+					"Relief",
+					google.maps.MapTypeId.ROADMAP,
+					google.maps.MapTypeId.SATELLITE,
+					google.maps.MapTypeId.HYBRID,
+					google.maps.MapTypeId.TERRAIN,
+                    ],
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR
+            },
+            mapTypeIds: [
+                google.maps.MapTypeId.ROADMAP,
+                google.maps.MapTypeId.SATELLITE,
+                google.maps.MapTypeId.HYBRID,
+                google.maps.MapTypeId.TERRAIN,
+             
+               // 'Earth'
+            ],
+            mapTypeId: mapType
+          };
+
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    map.mapTypes.set('Relief', reliefMapType);
+    // map.setMapTypeId('Relief');
+
+           
+    if (flightsTotNum==1 && 0) {
+		var controlButton=$("#control3d").get(0);
+	    google.maps.event.addDomListener(controlButton , 'click', function() {
+        	window.location.href="/track/"+flightIDstr+"/view3d";
+        });
+	    controlButton.index = 1;
+	    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlButton);
+    }
+
+    
+    addOverlays();
+
+    infowindow = new google.maps.InfoWindow();
+    google.maps.event.addListener(map, 'click', function() {
+        infowindow.close();
+    });
+
+	// map.setCenter (new google.maps.LatLng(0,0) );
+	
+
+}
+
+function initCommon() {
+    if (trackIsLive) {
+        $("#servertime").everyTime(1000,
+            function (i) {
+                displaytime();
+            }
+        );
+
+        dtToRealTime = updateCurrentTm - getTm();
+        lastRealTm = getTm();
+
+        updateClock();
+        if (is3D) {
+            viewer.clock.currentTime = trackEndTime.clone();
+        }
+        //activateTracking(activeTrackID);
+        //makeMainTrack(activeTrackID);
+    }
+
+    drawChart();
+    if (trackIsLive) {
+        initUpdates();
+        initNetworkUpdates();
+    }
+
+}
+
+
+function addOverlays(){
+		
+	flightList.sort();
+	for( var i in flightList ) {
+		loadFlight(flightList[i]);
+	}	
+}
+
+var flights=[];
+var loadedTracksList=flights;
+var MIN_START=86000;
+var MAX_END=0;
+var serverUTC=1707967913;
+var trackColorCounter=0;
+var trackStartTime = null;
+var trackEndTime = null;
+
+
+var extraQueryStr='';
+
+function loadFlight(flightID) {
+
+	$.getJSON('/EXT_flight_v3.php?op=flight_info&flightID='+flightID+extraQueryStr, function(data) {
+		flights[flightID]=[];
+
+		data.points.cog=[];
+
+        flights[flightID]['trackIsLive']=data.trackIsLive;
+        setTackLiveStatus(flights[flightID]['trackIsLive']);
+
+		flights[flightID]['data']=data;
+		flights[flightID]['points']=flights[flightID]['data']['points'];
+		flights[flightID]['control']=[];
+		flights[flightID]['info']=[];
+		flights[flightID]['pos']=[];
+
+		var pointsNum=data.points.lat.length;
+		flights[flightID]['control']['pointsNum']=pointsNum;
+		flights[flightID]['control']['tracked']=1;
+		flights[flightID]['control']['trackLine']=1;
+		flights[flightID]['info']['typeOfTrack']=data.typeOfTrack;
+        flights[flightID]['info']['gliderType']=data.gliderType;
+
+
+
+        flights[flightID]['info']['color']=
+            trackColors[trackColorCounter%trackColors.length];
+        trackColorCounter++;
+
+
+        flights[flightID]['info']['username']=data.username;
+        flights[flightID]['info']['usernametolower']=data.username;
+
+        var html=data.pilotName;
+		// display the kml track
+		//flights[flightID]['kmlLayer'] =new google.maps.KmlLayer(data.flightKMZUrl);
+		//flights[flightID]['kmlLayer'].setMap(map);
+
+		var trackColor=trackColors[tracksNum];
+		if (flightsTotNum==1) {
+			trackColor=trackColors[2];
+		}
+		if (data.START_TIME < MIN_START)	MIN_START=data.START_TIME ;
+		if (data.END_TIME  > MAX_END) 	MAX_END=data.END_TIME ;
+
+		//$("#msg").append("#");
+		// $("#msg").append(data.START_TIME);
+
+
+
+		if (is3D){
+            var altitudeMode=Cesium.HeightReference.NONE;
+            if ( flights[flightID]['info']['typeOfTrack']=='air') {
+                altitudeMode=Cesium.HeightReference.NONE;
+            } else {
+                altitudeMode=Cesium.HeightReference.CLAMP_TO_GROUND;
+            }
+
+			var lat=0;
+			var lon=0;
+			var alt=0;
+            var pointsNum=0;
+            var tm=0;
+
+            flights[flightID]['control']['lastTrackPointsIndex']=0;
+			for(i=0;i<data.points.lat.length;i++) {
+				if (  data.points.time[i] >  serverUTC - liveDelay) {
+					flights[flightID]['control']['lastTrackTm']= data.points.time[i-1];
+					flights[flightID]['control']['lastTrackPointsIndex']=i-1;					
+					break;
+				}
+
+                tm=+data.points.time[i];
+                lon=+data.points.lon[i];
+                lat=+data.points.lat[i];
+                alt=+data.points.elev[i];
+
+                var time = Cesium.JulianDate.fromDate(new Date(tm*1000), new Cesium.JulianDate());
+                var position = Cesium.Cartesian3.fromDegrees(lon,lat,alt);
+
+                if (pointsNum==0) {
+                    posMarker[0]=createMarker(lat,lon,alt,altitudeMode,name,html,flightID,flights[flightID]['info']['usernametolower']);
+
+                    var property = new Cesium.SampledPositionProperty();
+                    //console.log("Before adding pos for track "+trackID+" with len "  );
+                    property.addSample(time, position);
+                    property.setInterpolationOptions({
+                        interpolationDegree: 2,
+                        interpolationAlgorithm: Cesium.HermitePolynomialApproximation
+                    });
+                    //console.log("adding pos for track "+trackID+" with len " + property._property._values.length );
+                    posMarker[0].position = property;
+                    posMarker2[0].position = property;
+                    //Automatically compute orientation based on position movement.
+                } else { // just add the point to it
+                    posMarker[0].position.addSample(time, position);
+                    posMarker2[0].position.addSample(time, position);
+                }
+
+                pointsNum++;
+			}
+
+            if (flights[flightID]['control']['lastTrackPointsIndex']==0){
+                flights[flightID]['control']['lastTrackTm']= data.points.time[i-1];
+                flights[flightID]['control']['lastTrackPointsIndex']=i-1;
+            }
+
+			flights[flightID]['trackLayer']=posMarker[0];
+            flights[flightID]['control']['marker']=posMarker[0];
+
+            posMarker[0].orientation = new Cesium.VelocityOrientationProperty(posMarker[0].position);
+
+
+            trackStartTime = Cesium.JulianDate.fromDate(new Date(data.firstPointTM*1000));
+            trackEndTime = Cesium.JulianDate.fromDate(new Date(data.lastPointTM*1000-2000));
+            //Make sure viewer is at the desired time.
+            viewer.clock.startTime = trackStartTime.clone();
+            viewer.clock.stopTime = trackEndTime.clone();
+            if (data.trackIsLive) {
+                viewer.clock.multiplier = 1; // realtime
+                TimeStep = 1;
+                viewer.clock.currentTime = trackEndTime.clone();
+            } else {
+                viewer.clock.multiplier = 4; // realtime
+                TimeStep = 4;
+                viewer.clock.currentTime = trackStartTime.clone();
+            }
+
+            //Set timeline to simulation bounds
+            viewer.timeline.zoomTo(trackStartTime, trackEndTime);
+            viewer.clock.clockRange=Cesium.ClockRange.CLAMPED;
+
+        } else if (isGmaps)  {
+                var trackPoints=[];
+                flights[flightID]['control']['lastTrackPointsIndex']=0;
+                for(i=0;i<data.points.lat.length;i++) {
+                    if (  data.points.time[i] >  serverUTC - liveDelay) {
+                        flights[flightID]['control']['lastTrackTm']= data.points.time[i-1];
+                        flights[flightID]['control']['lastTrackPointsIndex']=i-1;
+                        break;
+                    }
+                    data.points.cog[i]=0;
+                    trackPoints.push( new  google.maps.LatLng(data.points.lat[i],data.points.lon[i]) ) ;
+                }
+                if (flights[flightID]['control']['lastTrackPointsIndex']==0){
+                    flights[flightID]['control']['lastTrackTm']= data.points.time[i-1];
+                    flights[flightID]['control']['lastTrackPointsIndex']=i-1;
+                }
+                flights[flightID]['trackLayer'] = new google.maps.Polyline({
+                      path: trackPoints,
+                      strokeColor: trackColor,
+                      strokeOpacity: 1.0,
+                      strokeWeight: 2,
+                      map:map
+                });
+        } else if (isLeaflet) {
+            var trackPoints=[];
+            flights[flightID]['control']['lastTrackPointsIndex']=0;
+            for(i=0;i<data.points.lat.length;i++) {
+                if (  data.points.time[i] >  serverUTC - liveDelay) {
+                    flights[flightID]['control']['lastTrackTm']= data.points.time[i-1];
+                    flights[flightID]['control']['lastTrackPointsIndex']=i-1;
+                    break;
+                }
+                data.points.cog[i]=0;
+                trackPoints.push( new L.LatLng( data.points.lat[i],data.points.lon[i]) ) ;
+            }
+            if (flights[flightID]['control']['lastTrackPointsIndex']==0){
+                flights[flightID]['control']['lastTrackTm']= data.points.time[i-1];
+                flights[flightID]['control']['lastTrackPointsIndex']=i-1;
+            }
+
+            flights[flightID]['trackLayer'] = new L.Polyline(trackPoints, {
+                color: trackColor,
+                weight: 2,
+                opacity: 1.0,
+                smoothFactor: 1
+            });
+
+            flights[flightID]['trackLayer'].addTo(map);
+
+
+        }
+
+		
+		if (flightsTotNum>1) {
+			if (tracksNum==0) {
+				$("#trackInfoList").append("<div id='timeDiv'>00:00</div>");
+			}			
+			
+			$('#trackInfoTplMulti').clone().attr('id', 'trackInfo'+(tracksNum)  ).appendTo("#trackDetails");
+			// name of track
+			$("#trackInfo"+tracksNum+" .name").html(data.pilotName);
+			// color
+			$("#trackInfo"+tracksNum+" .color").css('background-color',trackColor);
+		} else {	
+			// $("#trackDetails").hide();		
+			$('#trackInfoTpl').clone().attr('id', 'trackInfo'+(tracksNum)  ).appendTo("#trackInfoList");			
+		}
+
+
+		if (is3D) {
+
+
+			
+		} else if (isGmaps) {
+
+			posMarker[tracksNum] = new google.maps.Marker({
+				position: new google.maps.LatLng(data.firstLat,data.firstLon),       
+				map: map,
+				icon: data.markerIconUrl
+			});
+
+			altMarker[tracksNum]= new google.maps.Polyline({
+				map: map,	          
+	            strokeColor: trackColor,
+	            strokeOpacity: 0.7,
+	            strokeWeight: 3
+			});
+			
+			varioMarker[tracksNum]= new google.maps.Polyline({
+				map: map,	          
+	            strokeColor: "#00ff00",
+	            strokeOpacity: 0.7,
+	            strokeWeight: 8
+			});
+
+
+			posMarker2[tracksNum] = new google.maps.Marker({
+				position: new google.maps.LatLng(data.firstLat,data.firstLon),       
+				map: map,				
+				icon: {
+					path: google.maps.SymbolPath.CIRCLE,
+			        scale: 18,		        
+			        fillOpacity: 0.1,
+			        fillColor: trackColor,		        
+			        strokeWeight: 1,
+			        strokeOpacity: 0.7,
+			        strokeColor: trackColor
+		          }				
+			});
+
+			flights[flightID]['control']['marker']=posMarker2[tracksNum];
+
+        } else if (isLeaflet) {
+
+/*
+            posMarker[tracksNum] = new google.maps.Marker({
+                position: new google.maps.LatLng(data.firstLat,data.firstLon),
+                map: map,
+                icon: data.markerIconUrl
+            });
+
+            altMarker[tracksNum]= new google.maps.Polyline({
+                map: map,
+                strokeColor: trackColor,
+                strokeOpacity: 0.7,
+                strokeWeight: 3
+            });
+
+            varioMarker[tracksNum]= new google.maps.Polyline({
+                map: map,
+                strokeColor: "#00ff00",
+                strokeOpacity: 0.7,
+                strokeWeight: 8
+            });
+
+            speedMarker[tracksNum]= new google.maps.Polyline({
+                map: map,
+                strokeColor: trackColor,
+                strokeOpacity: 0.7,
+                strokeWeight: 5
+            });
+
+*/
+            posMarker2[tracksNum] = L.circleMarker([data.firstLat, data.firstLon], {
+                color: "#00ff00",
+                fillColor: "#00ff00",
+                fillOpacity: 0.1,
+                radius: 1
+            });
+            posMarker2[tracksNum].addTo(map);
+
+           // posMarker[tracksNum]  = L.marker([data.firstLat,data.firstLon]);
+            posMarker[tracksNum] = L.circleMarker([data.firstLat, data.firstLon], {
+                color: "#FFFFFF",
+                fillColor: "#0000FF",
+                fillOpacity: 0.5,
+                radius: 8
+            });
+            posMarker[tracksNum].addTo(map);
+
+
+
+            flights[flightID]['control']['marker']=posMarker2[tracksNum];
+
+        }
+		
+		// now the graph , redraw if it not the first time called
+		// only draw it one at the end
+		if (tracksNum==(flightsTotNum-1) ) {
+            $("#chartOptionsDiv").find("input").click(drawChart);
+			drawChart();
+            viewMenu(flightID,flights[flightID]['trackIsLive'],flights[flightID]['info']['typeOfTrack']=='air'?0:1);
+		}
+		
+
+		if (is3D) {
+            if (0) {
+                // the task tps
+                                var bounds0 = gex.dom.computeBounds(flights[flightID]['trackLayer']);
+                computeMinMaxLatLonGE(bounds0);
+
+                if (bounds == null) {
+                    bounds = bounds0;
+                } else {
+                    bounds.extend(new geo.Point([min_lat, max_lon]));
+                    bounds.extend(new geo.Point([max_lat, min_lon]));
+                }
+
+                if (tracksNum == (flightsTotNum - 1)) {
+
+                    computeMinMaxLatLonGE(bounds);
+                    gex.view.setToBoundsView(bounds, {aspectRatio: 1.0});
+
+                                        if (airspaceCheck) {
+                        toggleAirspace(false);
+                    }
+
+                }
+            }
+
+            if (tracksNum == (flightsTotNum - 1)) {
+                var trackEntity;
+                trackEntity = flights[flightID]['trackLayer'];
+
+                trackEntity.position.forwardExtrapolationType=Cesium.ExtrapolationType.HOLD
+                trackEntity.viewFrom = new Cesium.Cartesian3(0, -3000, 3000);
+
+                // ATTENTION!!!!!
+                // Removed Scene\HeadingPitchRange. Use Core\HeadingPitchRange instead.
+
+                //viewer.zoomTo(trackEntity,new Cesium.HeadingPitchRange(Cesium.Math.toRadians(-90), Cesium.Math.toRadians(-15), 4500));
+                // viewer.selectedEntity = viewer.trackedEntity;
+                // viewer.flyTo(trackEntity);
+                viewer.trackedEntity = trackEntity;
+                viewer.selectedEntity = viewer.trackedEntity;
+
+                viewer.clock.onTick.addEventListener(function(clock) {
+                    var currentTime = Cesium.JulianDate.toDate(clock.currentTime);
+
+                    // add gmtooffset of flight
+                    setTimer(currentTime.getTime()+GMToffset*1000);
+
+                    // check if we are watching live or not ?
+
+                    //var dt=Math.abs(loadedTracksList[trackID]['control']['lastTrackTm']*1000-currentTime.getTime() );
+                    var dt=Math.abs(updateCurrentTm*1000-currentTime.getTime() );
+
+                    logToWindow("infoBox","dt="+dt+" secs, currentTime= "+currentTime.getTime()+
+                    " updateCurrentTm="+updateCurrentTm,{'overwrite':1});
+
+
+                    if (dt<10*1000) { // we watch live
+                        $("#watchLiveButtonDiv").hide();
+                        $("#liveInfoBox").show();
+
+                    } else {
+                        $("#watchLiveButtonDiv").show();
+                        $("#liveInfoBox").hide();
+                    }
+                    // console.log(currentTime);
+                });
+            }
+
+		} else if (isGmaps) {
+            // the photos
+            drawPhotos(data.photos);
+
+            // the task tps
+                        // general map stuff
+            //center_lat=(data.max_lat+data.min_lat)/2;
+            //center_lon=(data.max_lon+data.min_lon)/2;
+
+            var newbounds = new google.maps.LatLngBounds(new google.maps.LatLng(data.max_lat,data.min_lon ),new google.maps.LatLng(data.min_lat,data.max_lon) );
+            if (bounds ==null ) {
+                bounds=newbounds;
+            } else {
+                bounds.union(newbounds);
+            }
+            map.fitBounds(bounds);
+
+            // add takeoff and landing markers ( previously done on proccess_waypoints
+            var marker1 = createMarker(new google.maps.LatLng(data.takeoff_lat,data.takeoff_lon),takeoffString,takeoffString,"start");
+            if (flightsTotNum==0 ) {
+                $("#side_bar").append(side_bar_html);
+            }
+            var marker2 = createMarker(new google.maps.LatLng(data.landing_lat,data.landing_lon),landingString,landingString,"stop");
+            if (flightsTotNum==0) {
+                $("#side_bar").append(side_bar_html);
+            }
+
+            // this is the last track!
+            // do some house keeping
+            if (tracksNum==(flightsTotNum-1) ) {
+                // get min max values from bounds obj
+                computeMinMaxLatLon();
+                if (airspaceCheck) {
+                    toggleAirspace(false);
+                }
+
+                //$.get('EXT_takeoff.php?op=get_nearest&lat='+data.firstLat+'&lon='+data.firstLon, function(data) {
+                //	drawTakeoffs(data);
+                //});
+
+            }
+        } else if (isLeaflet) {
+            // the photos
+            drawPhotos(data.photos);
+
+            // the task tps
+                        // general map stuff
+            //center_lat=(data.max_lat+data.min_lat)/2;
+            //center_lon=(data.max_lon+data.min_lon)/2;
+
+            var newbounds = new L.latLngBounds(
+                new L.latLng(data.max_lat,data.min_lon ),
+                new L.latLng(data.min_lat,data.max_lon) );
+            if (bounds ==null ) {
+                bounds=newbounds;
+            } else {
+                bounds.extend(newbounds);
+            }
+            map.fitBounds(bounds);
+
+            // add takeoff and landing markers ( previously done on proccess_waypoints
+            var marker1 = createMarker(new L.latLng(data.takeoff_lat,data.takeoff_lon),takeoffString,takeoffString,"start");
+            if (flightsTotNum==0 ) {
+                $("#side_bar").append(side_bar_html);
+            }
+            var marker2 = createMarker(new L.latLng(data.landing_lat,data.landing_lon),landingString,landingString,"stop");
+            if (flightsTotNum==0) {
+                $("#side_bar").append(side_bar_html);
+            }
+
+            // this is the last track!
+            // do some house keeping
+            if (tracksNum==(flightsTotNum-1) ) {
+                // get min max values from bounds obj
+                computeMinMaxLatLon();
+                if (airspaceCheck) {
+                    toggleAirspace(false);
+                }
+
+                //$.get('EXT_takeoff.php?op=get_nearest&lat='+data.firstLat+'&lon='+data.firstLon, function(data) {
+                //	drawTakeoffs(data);
+                //});
+
+            }
+		}
+
+        if (1) {
+           $("#watchLiveButtonDiv").hide();
+        }
+
+
+		flights[flightID]['control']['lastAvailableTrackTm']= data.points.time[pointsNum -1];
+		if (tracksNum==(flightsTotNum-1) ) {
+			// updateCurrentTm= Math.floor(+data.points.time[0])-liveDelay;
+			updateCurrentTm= serverUTC - liveDelay;
+            logToWindow("infoDiv",'updateCurrentTm='+updateCurrentTm);
+			initCommon();
+		}
+		
+		tracksNum++;
+
+	});
+	
+}
+
+var geTrackUrlTemplate='';
+
+function viewMenu(trackID,isLive,trackIs2D) {
+
+    var trackURL="/leo_live.php?";
+    var str='';
+
+    is2D=trackIs2D;
+    if (is2D==1) is3Dchecked="";
+    else is3Dchecked="checked='true'";
+
+    color='ff0000';
+
+    var username=flights[flightID]['data']['username'];
+
+
+    if (isLive){
+        geTrackUrlTemplate=trackURL+"op=ge&user="+username+"&color=%color%&is2d=%2d%";
+    } else {
+        geTrackUrlTemplate=trackURL+"op=track&trackID="+trackID+"&points=1&color=%color%&is2d=%2d%";
+    }
+    var geTrackUrl=geTrackUrlTemplate.replace("%2d%",is2D).replace("%color%",color);
+
+
+    str+="<div class='trackMenuBoxInner'>";
+    str+=" <a id='geLink' href='"+geTrackUrl+"'><img width='120' class='img-thumbnail'  src='https://www.livetrack24.com/img/icon_120_ge.png'><br> View in Google Earth</a> ";
+    str+="<BR><span class='colorPicker'><label for='geColor'>Select Color </label> <input id='geColor' class='geColor' name='geColor' type='text' size=2 value='#ff0000' /></span> <label for='ge3D'>3D </label> <input id='ge3D' type='checkbox' "+is3Dchecked+" value='1' style='vertical-align:middle'>";
+    str+="</div>";
+
+    str+="<div class='trackMenuBoxInner'>";
+/*
+            str+="<a href='/track/"+trackID+"/3d'>";
+        str+=" Google maps 3D<BR>Classic Older View<BR>Doesnt work in Chrome</a><hr style='margin: 7px;'>";
+*/
+        str+="<a href='/track/"+trackID+"/2d'>";
+        str+="Google maps 2D<BR>Classic Older View</a>";
+
+    str+="</div>";
+
+    if (is3D) {
+        str += "<div class='trackMenuBoxInner'>";
+        str += "<a href='/track/" + trackID + "/view2d' >";
+        str += "<img class='img-thumbnail' width='120' src='https://www.livetrack24.com/img/icon_120_gmaps_2d.png'><br>View in Google maps 2D</a>";
+        str += "</div>";
+    } else {
+        str += "<div class='trackMenuBoxInner'>";
+        str += "<a href='/track/" + trackID + "/view3d' >";
+        str += "<img class='img-thumbnail' width='120' src='https://www.livetrack24.com/img/icon_120_cesium_3d.png'><br>View in 3D</a>";
+        str += "</div>";
+    }
+
+
+    $("#viewTrackMenu").html(str);
+
+    $('#geColor').colorPicker();
+    $('#ge3D').change(function(){
+        updateGeLink();
+    });
+    $('#geColor').change(function(){
+        updateGeLink();
+    });
+
+}
+
+var trackID='2555342';
+
+function decrTimeStep() {
+
+    if (is3D) {
+        TimeStep--;
+        viewer.clock.multiplier=TimeStep;
+    } else {
+        TimeStep/=1.5;
+    }
+}
+
+function  incTimeStep() {
+
+    if (is3D) {
+        TimeStep++;
+        viewer.clock.multiplier=TimeStep;
+    } else {
+        TimeStep*=1.5;
+    }
+}
+
+function toggleFollowPilot(radioObj) {
+    if(!radioObj) return "";
+    if(radioObj.checked) {
+        followGlider=1;
+        if (is3D) {
+            viewer.trackedEntity = posMarker[0];
+            viewer.selectedEntity = viewer.trackedEntity;
+        }
+    } else {
+        followGlider=0;
+        if (is3D) {
+            viewer.trackedEntity = undefined;
+            viewer.selectedEntity = viewer.trackedEntity;
+        }
+    }
+}
+function toggleShowFullTrack(radioObj) {
+    if(!radioObj) return "";
+    if(radioObj.checked) {
+        showFullTrack=1;
+        if (is3D) {
+            posMarker2[0].path.trailTime=86400;
+        }
+    } else {
+        showFullTrack=0;
+        if (is3D) {
+            posMarker2[0].path.trailTime=0;
+        }
+    }
+}
+
+function GoLive() {
+    if (is3D) {
+        viewer.clock.multiplier = 1;
+
+        trackEndTime = Cesium.JulianDate.fromDate(new Date(loadedTracksList[trackID]['control']['lastTrackTm'] * 1000 - 1000));
+        viewer.clock.stopTime = trackEndTime.clone();
+        viewer.clock.currentTime = trackEndTime.clone();
+        viewer.clock.shouldAnimate = true;
+    } else {
+        $("#watchLiveButtonDiv").hide();
+        $("#liveInfoBox").show();
+        goLive=1;
+    }
+}
+
+</script>
+</div> 	</div>
+
+    <div class="hsep1 clearfix" ></div>
+</div>
+
+    <div class="modal fade" id="modalDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">INFO</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="bottom1div" width="100%" style="clear:both;"></div>
+<div class="bottom2div" width="100%" style="clear:both;">
+
+    <div id="ft">
+        <div id="footer_nav">
+          <div class="yui-u first">
+            <ul class="left" style='width:180px'>
+              <li><strong>About</strong></li>
+              <li><a href="/docs/aboutus">About us</a></li>
+              <li><a href="/docs/index">How it works</a></li>
+              <li><a href="/apps/gprs_calculator">How much does it cost</a></li>
+              <li><a href="/services/index">Features and services</a></li>
+              <li><a contact-id='2' href="javascript:;" onclick="showContact( $(this).attr('contact-id') )">Contact Us</a></li>
+            </ul>
+            <ul class="left" style='width:180px'>
+              <li><strong>I want to be tracked...</strong></li>
+              <li><a href="/apps/index" >Install on the Phone </a></li>
+              <li><a href="/docs/mobile">Our App for Android/iPhone</a></li>
+              <li><a href="/store/index">Get a Tracking device</a></li>
+              <li><a href="/register">Create an account</a></li>
+              <li><a href="/docs/embed">Let your friends know</a></li>
+
+            </ul>
+            <ul class="left" style='width:200px'>
+              <li><strong>I want to track a friend</strong></li>
+              <li><a href="/docs/viewing">General FAQ for viewers</a></li>
+              <li><a href="/docs/rss">Rss feeds</a></li>
+              <li><a href="/docs/mobilepages">Pages for use on Mobile phones</a></li>
+            </ul>
+            <ul class="left" style='width:180px'>
+              <li><strong><a href="/tasks" rel="nofollow" >Events / Races / Comps</a></strong></li>
+              <li><a href="/services/events">Services for organizers</a></li>
+              <li><a href="/doc/Livetracking%20for%20Competitions.pdf">Guide for organizers</a></li>
+              <li><a contact-id='2' href="javascript:;" onclick="showContact( $(this).attr('contact-id') )">Contact Us</a></li>
+
+            </ul>
+            <div class="clearl"></div>
+          </div>
+
+
+
+            <div id="footer_copyright">
+            ©2006-2024 LiveTrack24 ::
+                <a href='/wiki'>Wiki</a> ::
+                <a href='/docs/api'>API</a>
+
+          </div>
+        </div>
+    </div>
+  
+</div>
+
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+</body>
+</html>
+

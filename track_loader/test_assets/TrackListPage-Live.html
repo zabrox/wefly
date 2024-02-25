@@ -1,0 +1,3028 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0034)https://www.livetrack24.com/tracks -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>LiveTrack24 | List Tracks</title>
+<meta name="title" content="LiveTrack24 | List Tracks">
+
+    <link rel="stylesheet" type="text/css" href="./TrackListPage-Live_files/css">
+<link rel="stylesheet" type="text/css" href="./TrackListPage-Live_files/grouped.min.css">
+<script src="./TrackListPage-Live_files/sdk.js.ダウンロード" async="" crossorigin="anonymous"></script><script id="twitter-wjs" src="./TrackListPage-Live_files/widgets.js.ダウンロード"></script><script id="facebook-jssdk" src="./TrackListPage-Live_files/sdk(1).js.ダウンロード"></script><script type="text/javascript" async="" src="./TrackListPage-Live_files/ga.js.ダウンロード"></script><script language="javascript" src="./TrackListPage-Live_files/grouped.min.js.ダウンロード"></script>
+<script type="text/javascript">
+var site_url = '/wall/';
+
+var delete_com_alert = "Are you sure you want to delete this comment?";
+var delete_post_alert = "Are you sure you want to delete this post?";
+var language_like = "Like";
+var language_unlike = "Unlike";
+var lang_com_next = "Next";
+var lang_write_comment = "Write a comment";
+var lang_group_label = "";
+var lang_account_sett = "Account Settings";
+var lang_remove_buddy = "REMEMBER: Removing a friend will remove all the posts and sharings between you and your friend permanently. Do you still want to Continue?";
+
+var lightbox_path = '/wall/assets/lightbox/';
+
+var _lang_time_few_sec = " seconds ago";
+var _lang_time_mints_ago = "minutes ago";
+var _lang_time_hours_ago = "hours ago";
+var txt_var_49 = "Error: It seems this post is deleted or you are not allowed do this action.";
+
+var MainPage = "";
+var notMyProfile = "";
+
+var objType = "0";
+var objID = "0";
+
+</script>
+
+
+    <script type="text/javascript" src="./TrackListPage-Live_files/jquery-polyglot.language.switcher.js.ダウンロード"></script>
+    <link rel="stylesheet" type="text/css" href="./TrackListPage-Live_files/polyglot-language-switcher-2.css">
+
+    <script type="application/javascript">
+        function geoip(json){}
+    </script>
+    <script async="" src="./TrackListPage-Live_files/geo.js.ダウンロード"></script>
+
+    <script type="text/javascript">
+	var translateActive=0;
+	var translateDontFollowLinks=1;
+	var language='english';
+	
+    var  server_task_ajax='https://c2.livetrack24.com';
+    var  server_track_ajax='';
+
+
+    $.fn.extend({
+        popoverClosable: function (options) {
+            var defaults = {
+                template:
+                    '<div class="popover popoverService">\
+    <div class="arrow"></div>\
+    <div class="popover-header">\
+    <button type="button" class="close" data-dismiss="popover" aria-hidden="true">&times;</button>\
+    <h3 class="popover-title"></h3>\
+    </div>\
+    <div class="popover-content"></div>\
+    </div>'
+            };
+            options = $.extend({}, defaults, options);
+            var $popover_togglers = this;
+            $popover_togglers.popover(options);
+            $popover_togglers.on('click', function (e) {
+                e.preventDefault();
+                $popover_togglers.not(this).popover('hide');
+                // $(this).parent().parent().hide().css('display:none;');
+            });
+            $('html').on('click', '[data-dismiss="popover"]', function (e) {
+                $popover_togglers.popover('hide');
+                $(this).parent().parent().hide().css('display:none;');
+            });
+        }
+    });
+
+
+    $(document).ready(function(){
+
+        $('#langSelect').polyglotLanguageSwitcher();
+
+        $(".serviceText").each(function(){
+            var this_id=$(this).attr('id');
+            var orgHtml=$(this).html();
+            var serviceName=this_id.substring(8);
+
+            $.getJSON(  '/ajax_actions.php?op=serviceInfo&name='+serviceName, function( data ) {
+                // alert(data['title']);
+                $("#service_"+data['name']).addClass('servicePopover');
+
+                var html=data['desc'];
+
+                if ( data['until']!=0 ){
+                    html+='<BR><BR><div class="alert alert-success">You have this feature activated until '+data['until']+'</div>';
+                } else {
+                    html+='<BR><BR><div class="alert alert-info">You can get this feature too, see below on how to buy extra services</div>';
+                }
+
+                if (data['packages']) {
+                    html+='It is included in the following services:<BR><BR>';
+
+                    for (key in data['packages']) {
+                        html+=
+                            '<a class="btn btn-primary" href="'+data['packages'][key]+'"><span class="glyphicon glyphicon-chevron-down"></span> '+key+'</a>&nbsp;';
+                    }
+                    html+='<BR>';
+                }
+
+
+
+                $("#service_"+data['name']).popoverClosable({
+                    'toggle':"popover",
+                    'html':true,
+                    'placement':"top",
+                    'title':data['title'],
+                    'content':html
+                });
+            });
+
+        });
+
+
+        
+		bindActionsToTrackDivs();
+
+        initClickovers();
+		/*
+		$("#breadcrumbs a").hover(
+		    function () {
+		        $(this).addClass("hover").children().addClass("hover");
+		        $(this).parent().prev().find("span.arrow:first").addClass("pre_hover");
+		    },
+		    function () {
+		        $(this).removeClass("hover").children().removeClass("hover");
+		        $(this).parent().prev().find("span.arrow:first").removeClass("pre_hover");
+		    }
+		);*/
+
+        
+
+    });
+
+
+	function bindActionsToTrackDivs() {
+		return;
+		//To switch directions up/down and left/right just place a "-" in front of the top/left attribute
+		//Caption Sliding (Partially Hidden to Visible)
+	
+		$('.boxgrid.caption').hover(function(){
+			$(".cover", this).stop().animate({top:'73px'},{queue:false,duration:160});
+			$(this).css( 'overflow', 'visible' );
+
+		}, function() {
+			 $(".cover", this).stop().animate({top:'103px'},{queue:false,duration:160});
+			 $(this).css( 'overflow', 'hidden' );
+		});
+
+				
+		// $(".zoomImg").thumbPopup();
+	}
+
+    function switchBeta(on) {
+        $.get('/ajax_actions.php?op=switch_beta&on='+on,
+            function(result){
+                location.reload();
+            }
+        );
+    }
+    function betaOptOut() {
+        $.get('/ajax_actions.php?op=beta_opt_out',
+            function(result){
+                location.reload();
+            }
+        );
+    }
+
+    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"light-bottom"};
+
+</script>
+
+<script type="text/javascript" src="./TrackListPage-Live_files/cookieconsent.min.js.ダウンロード"></script>
+
+
+    <style type="text/css">
+<!--
+
+#translateDiv{
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    background: rgb(232, 232, 232);
+    padding: 4px;
+    border: 2px solid #B3B3B3;
+    z-index:999999;
+    display: none;
+
+
+}
+#translateDiv{
+    overflow-y: scroll;
+}
+
+.translateStringDiv {
+    margin:2px;
+
+}
+#translateControl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: auto;
+    background: #D5DCFF;
+    font-size: 12px;
+    padding: 2px;
+    border: 2px solid #B3B3B3;
+}
+#translateDontFollowLinks {
+    text-decoration: none;
+    /* cursor: pointer; */
+    font-size: 9px;
+}
+.colorgraph {
+    height: 5px;
+    border-top: 0;
+    background: #c4e17f;
+    border-radius: 5px;
+    background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+}
+
+
+.navbar-collapse.collapse {
+    display: block!important;
+}
+
+.navbar-nav>li, .navbar-nav {
+    float: left !important;
+}
+
+.navbar-nav.navbar-right:last-child {
+    margin-right: -15px !important;
+}
+.navbar-right {
+    float: right!important;
+}
+.pull-right {
+    float: right!important;
+}
+
+
+body , html, * {
+    /*font-family: "Open Sans", Arial, sans-serif;*/
+    font-family: "Roboto", sans-serif ;
+
+}
+
+.popoverService {
+    max-width: 400px ! important;
+}
+
+.beta-dialog .modal-dialog {
+    width: 800px;
+}
+
+.beta-dialog p , .beta-dialog li {
+    font-size:12px;
+}
+
+
+
+.mbc_container  {padding:0}
+
+ul.token-input-list-facebook {
+    width:80px;
+    float:left;
+}
+
+ .containerMC{
+    width: 500px;
+    height: auto;
+}
+
+#dock{
+    position: fixed;
+    top: 0;
+    left:0;
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+
+#user_menu_div  { width: 1000px; }
+.contentMain    {    width:1040px; }
+.leftCol        {    width:780px; }
+ 
+
+.style1 {font-size: 13px}
+.smallLink , .smallLink a:link, .smallLink a:visited, .smallLink a:active {font-size: 11px}
+.style2 {
+	color: #FF0000;
+	font-style: italic;
+}
+body, #wrapperMain , #wrapper , .main_div  {
+/*height:100%;*/
+}
+
+#wrapperMain , #wrapper , .main_div  {
+/*height:100%;*/
+}
+
+
+.flag {
+    margin-left:1px;
+    margin-right:1px;
+    width:24px;
+}
+
+.flagFilter {
+    margin-left:1px;
+    margin-right:1px;
+    width:20px;
+}
+
+.activityFilter {
+    margin-left:1px;
+    margin-right:1px;
+    width:16px;
+}
+
+.flagsDiv {
+    position:relative;
+    top:-17px;
+    left:7px;
+    padding:1px;
+    padding-left:0;
+    padding-right:0;
+    background-color:#FFFFFF;
+    width:80px;
+
+    overflow:hidden;
+}
+
+.activitiesDiv {
+    position:relative;
+    top:-19px;
+    left:7px;
+    padding:1px;
+    padding-left:0;
+    padding-right:0;
+    background-color:#FFFFFF;
+    width:80px;
+
+    overflow:hidden;
+}
+
+-->
+</style>
+
+
+    <script>
+    </script>
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-4139288-2']);
+    _gaq.push(['_setDomainName', '.livetrack24.com']);
+    _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+<script charset="utf-8" src="./TrackListPage-Live_files/button.856debeac157d9669cf51e73a08fbc93.js.ダウンロード"></script><style type="text/css" data-fbcssmodules="css:fb.css.base css:fb.css.dialog css:fb.css.iframewidget css:fb.css.customer_chat_plugin_iframe">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:'lucida grande', tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:'lucida grande', tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_dialog_advanced{border-radius:8px;padding:10px}.fb_dialog_content{background:#fff;color:#373737}.fb_dialog_close_icon{background:url(https://connect.facebook.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{left:5px;right:auto;top:5px}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://connect.facebook.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent}.fb_dialog_close_icon:active{background:url(https://connect.facebook.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://connect.facebook.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{height:100%;left:0;margin:0;overflow:visible;position:absolute;top:-10000px;transform:none;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://connect.facebook.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{background:none;height:auto;min-height:initial;min-width:initial;width:auto}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{clear:both;color:#fff;display:block;font-size:18px;padding-top:20px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .4);bottom:0;left:0;min-height:100%;position:absolute;right:0;top:0;width:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_mobile .fb_dialog_iframe{position:sticky;top:0}.fb_dialog_content .dialog_header{background:linear-gradient(from(#738aba), to(#2c4987));border-bottom:1px solid;border-color:#043b87;box-shadow:white 0 1px 1px -1px inset;color:#fff;font:bold 14px Helvetica, sans-serif;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:linear-gradient(from(#4267B2), to(#2a4887));background-clip:padding-box;border:1px solid #29487d;border-radius:3px;display:inline-block;line-height:18px;margin-top:3px;max-width:85px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{background:none;border:none;color:#fff;font:bold 12px Helvetica, sans-serif;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://connect.facebook.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #4a4a4a;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f5f6f7;border:1px solid #4a4a4a;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://connect.facebook.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);background-position:50% 50%;background-repeat:no-repeat;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}
+.fb_mpn_mobile_landing_page_slide_out{animation-duration:200ms;animation-name:fb_mpn_landing_page_slide_out;transition-timing-function:ease-in}.fb_mpn_mobile_landing_page_slide_out_from_left{animation-duration:200ms;animation-name:fb_mpn_landing_page_slide_out_from_left;transition-timing-function:ease-in}.fb_mpn_mobile_landing_page_slide_up{animation-duration:500ms;animation-name:fb_mpn_landing_page_slide_up;transition-timing-function:ease-in}.fb_mpn_mobile_bounce_in{animation-duration:300ms;animation-name:fb_mpn_bounce_in;transition-timing-function:ease-in}.fb_mpn_mobile_bounce_out{animation-duration:300ms;animation-name:fb_mpn_bounce_out;transition-timing-function:ease-in}.fb_mpn_mobile_bounce_out_v2{animation-duration:300ms;animation-name:fb_mpn_fade_out;transition-timing-function:ease-in}.fb_customer_chat_bounce_in_v2{animation-duration:300ms;animation-name:fb_bounce_in_v2;transition-timing-function:ease-in}.fb_customer_chat_bounce_in_from_left{animation-duration:300ms;animation-name:fb_bounce_in_from_left;transition-timing-function:ease-in}.fb_customer_chat_bounce_out_v2{animation-duration:300ms;animation-name:fb_bounce_out_v2;transition-timing-function:ease-in}.fb_customer_chat_bounce_out_from_left{animation-duration:300ms;animation-name:fb_bounce_out_from_left;transition-timing-function:ease-in}.fb_invisible_flow{display:inherit;height:0;overflow-x:hidden;width:0}@keyframes fb_mpn_landing_page_slide_out{0%{margin:0 12px;width:100% - 24px}60%{border-radius:18px}100%{border-radius:50%;margin:0 24px;width:60px}}@keyframes fb_mpn_landing_page_slide_out_from_left{0%{left:12px;width:100% - 24px}60%{border-radius:18px}100%{border-radius:50%;left:12px;width:60px}}@keyframes fb_mpn_landing_page_slide_up{0%{bottom:0;opacity:0}100%{bottom:24px;opacity:1}}@keyframes fb_mpn_bounce_in{0%{opacity:.5;top:100%}100%{opacity:1;top:0}}@keyframes fb_mpn_fade_out{0%{bottom:30px;opacity:1}100%{bottom:0;opacity:0}}@keyframes fb_mpn_bounce_out{0%{opacity:1;top:0}100%{opacity:.5;top:100%}}@keyframes fb_bounce_in_v2{0%{opacity:0;transform:scale(0, 0);transform-origin:bottom right}50%{transform:scale(1.03, 1.03);transform-origin:bottom right}100%{opacity:1;transform:scale(1, 1);transform-origin:bottom right}}@keyframes fb_bounce_in_from_left{0%{opacity:0;transform:scale(0, 0);transform-origin:bottom left}50%{transform:scale(1.03, 1.03);transform-origin:bottom left}100%{opacity:1;transform:scale(1, 1);transform-origin:bottom left}}@keyframes fb_bounce_out_v2{0%{opacity:1;transform:scale(1, 1);transform-origin:bottom right}100%{opacity:0;transform:scale(0, 0);transform-origin:bottom right}}@keyframes fb_bounce_out_from_left{0%{opacity:1;transform:scale(1, 1);transform-origin:bottom left}100%{opacity:0;transform:scale(0, 0);transform-origin:bottom left}}@keyframes slideInFromBottom{0%{opacity:.1;transform:translateY(100%)}100%{opacity:1;transform:translateY(0)}}@keyframes slideInFromBottomDelay{0%{opacity:0;transform:translateY(100%)}97%{opacity:0;transform:translateY(100%)}100%{opacity:1;transform:translateY(0)}}</style></head>
+<body>
+
+
+
+<div width="100%" align="center" id="wrapperMain" class="wrapperMain">
+
+<div id="wrapper-e" align="center">
+  <div class="wrapper-l"> 
+    <div class="wrapper-r" style="width:1040px;"> 
+
+
+
+	
+<script type="text/javascript">
+
+var hidetimer;
+var site_url='/wall/';
+
+$(function() {
+
+	$('.vid_trigger').click( function(e){
+		var URL = $(this).attr('id');
+		var htm = '<iframe width="350" height="250" src="https://www.youtube.com/embed/' + URL + '?rel=0&autoplay=1" frameborder="0" allowfullscreen ></iframe>';
+		$(this).html(htm);
+		return false;
+	});
+
+});
+
+
+function changeLanguage(lang0) {
+    var lang=lang0;
+    if (!lang) lang=$("#selectLang").val();
+    $.get("/ajax_actions.php?op=change_language&new_language="+lang,
+        function(result){
+            location.reload();
+        }
+    );
+}
+
+function changeTZ() {
+    var changeOffset=$("#changeOffset").val();
+    var showLocalTimes=$("#showLocalTimes").is(':checked')?1:0;
+
+    $.get("/ajax_actions.php?op=change_tz&changeOffset="+changeOffset+"&showLocalTimes="+showLocalTimes,
+        function(result){
+            window.location.reload(true);
+           //window.location.href=window.location.href;
+        }
+    );
+
+}
+
+
+
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    //js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=83965197938";
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=83965197938";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+
+	$(function() {
+		var pageUrl = window.location;
+		var pageTitle=$("title").text();	
+	});
+
+
+
+
+
+$(document).ready(function () {
+	$("#userSearchBox").tokenInput("/EXT_pilot_functions.php?op=findPilot&format=json",
+		 {
+		hintText: "Search for username...",
+        minChars: 2,
+        theme: "light",
+        // tokenLimit: 1,
+        onAdd: function (item) {
+            var url='https://www.livetrack24.com/user/%USERID%';
+            url=url.replace('%USERID%',item.id);
+            window.location = url;
+        }
+	});
+
+	});
+</script>
+
+<div id="fb-root" class=" fb_reset"><div style="position: absolute; top: -10000px; width: 0px; height: 0px;"><div></div></div></div>
+
+<div class="topdiv" id="topdiv" width="100%" align="center">
+	<div class="hsep5"></div>
+	<table class="topMenu">
+    	<tbody><tr>
+        	<td rowspan="2" align="left">
+        	 <a href="https://www.livetrack24.com/"> 
+						 
+        		<img src="./TrackListPage-Live_files/logo.png">
+        	</a>
+        	</td>
+            <td align="center" rowspan="2">
+                
+                <a class="btn btn-danger" style="text-decoration:none" href="https://www.livetrack24.com/docs/mobile" alt="Install on yuor phone &amp; start Tracking">
+                    <i class="fa fa-android fa-1x" target="_blank"></i>&nbsp;
+                    <i class="fa fa-apple fa-1x" target="_blank"></i>&nbsp; Get Started</a>
+
+            </td>
+        	<td align="right" valign="top" style="padding-top:5px;">
+
+            	            <a href="https://www.livetrack24.com/login" class="buttonsmall bluetop">Login</a>
+	            <a href="https://www.livetrack24.com/register" class="buttonsmall bluetop">Sign Up</a>
+             
+
+            
+            <a contact-id="2" href="javascript:;" class="contactButton buttonsmall">Contact</a>
+            </td>
+        	<td align="left" valign="top" style="padding-top:7px; padding-left:8px;" width="160">
+        	
+                            <div id="langSelect" class="polyglot-language-switcher" data-selected-lang="english" data-grid-columns="3" data-anim-effect="slide" data-open-mode="click"><a href="https://www.livetrack24.com/tracks#" title="English" data-lang-id="english" class="pls-selected-locale"><img src="./TrackListPage-Live_files/uk.gif" alt="English"> English</a><div class="pls-language-container-scrollable" style="display: none;"><table class="pls-language-container"><tbody><tr><td><ul><li><a href="javascript:changeLanguage(&quot;english&quot;);" title="English" data-lang-id="english" class="pls-selected-locale"><img src="./TrackListPage-Live_files/uk.gif" alt="English"> English</a></li><li><a href="javascript:changeLanguage(&quot;german&quot;);" title="Deutsch" data-lang-id="german"><img src="./TrackListPage-Live_files/de.gif" alt="Deutsch"> Deutsch</a></li><li><a href="javascript:changeLanguage(&quot;french&quot;);" title="Français" data-lang-id="french"><img src="./TrackListPage-Live_files/fr.gif" alt="Français"> Français</a></li><li><a href="javascript:changeLanguage(&quot;italian&quot;);" title="Italiano" data-lang-id="italian"><img src="./TrackListPage-Live_files/it.gif" alt="Italiano"> Italiano</a></li><li><a href="javascript:changeLanguage(&quot;spanish&quot;);" title="Español" data-lang-id="spanish"><img src="./TrackListPage-Live_files/es.gif" alt="Español"> Español</a></li><li><a href="javascript:changeLanguage(&quot;portuguese&quot;);" title="Português" data-lang-id="portuguese"><img src="./TrackListPage-Live_files/pt.gif" alt="Português"> Português</a></li><li><a href="javascript:changeLanguage(&quot;greek&quot;);" title="Ελληνικά" data-lang-id="greek"><img src="./TrackListPage-Live_files/gr.gif" alt="Ελληνικά"> Ελληνικά</a></li><li><a href="javascript:changeLanguage(&quot;turkish&quot;);" title="Türkçe" data-lang-id="turkish"><img src="./TrackListPage-Live_files/tr.gif" alt="Türkçe"> Türkçe</a></li></ul></td><td><ul><li><a href="javascript:changeLanguage(&quot;danish&quot;);" title="Dansk" data-lang-id="danish"><img src="./TrackListPage-Live_files/dk.gif" alt="Dansk"> Dansk</a></li><li><a href="javascript:changeLanguage(&quot;swedish&quot;);" title="Svenska" data-lang-id="swedish"><img src="./TrackListPage-Live_files/se.gif" alt="Svenska"> Svenska</a></li><li><a href="javascript:changeLanguage(&quot;finnish&quot;);" title="Suomi" data-lang-id="finnish"><img src="./TrackListPage-Live_files/fi.gif" alt="Suomi"> Suomi</a></li><li><a href="javascript:changeLanguage(&quot;dutch&quot;);" title="Nederlands" data-lang-id="dutch"><img src="./TrackListPage-Live_files/nl.gif" alt="Nederlands"> Nederlands</a></li><li><a href="javascript:changeLanguage(&quot;polish&quot;);" title="Polski" data-lang-id="polish"><img src="./TrackListPage-Live_files/pl.gif" alt="Polski"> Polski</a></li><li><a href="javascript:changeLanguage(&quot;czech&quot;);" title="Čeština" data-lang-id="czech"><img src="./TrackListPage-Live_files/cz.gif" alt="Čeština"> Čeština</a></li><li><a href="javascript:changeLanguage(&quot;hungarian&quot;);" title="Magyar" data-lang-id="hungarian"><img src="./TrackListPage-Live_files/hu.gif" alt="Magyar"> Magyar</a></li><li><a href="javascript:changeLanguage(&quot;slovenian&quot;);" title="Slovenščina" data-lang-id="slovenian"><img src="./TrackListPage-Live_files/si.gif" alt="Slovenščina"> Slovenščina</a></li></ul></td><td><ul><li><a href="javascript:changeLanguage(&quot;afrikaans&quot;);" title="Afrikaans" data-lang-id="afrikaans"><img src="./TrackListPage-Live_files/za.gif" alt="Afrikaans"> Afrikaans</a></li><li><a href="javascript:changeLanguage(&quot;romanian&quot;);" title="Română" data-lang-id="romanian"><img src="./TrackListPage-Live_files/ro.gif" alt="Română"> Română</a></li><li><a href="javascript:changeLanguage(&quot;russian&quot;);" title="Ру́сский язы́к" data-lang-id="russian"><img src="./TrackListPage-Live_files/ru.gif" alt="Ру́сский язы́к"> Ру́сский язы́к</a></li><li><a href="javascript:changeLanguage(&quot;bulgarian&quot;);" title="български език" data-lang-id="bulgarian"><img src="./TrackListPage-Live_files/bg.gif" alt="български език"> български език</a></li><li><a href="javascript:changeLanguage(&quot;serbian&quot;);" title="Cрпски језик" data-lang-id="serbian"><img src="./TrackListPage-Live_files/cs.gif" alt="Cрпски језик"> Cрпски језик</a></li><li><a href="javascript:changeLanguage(&quot;croatian&quot;);" title="Hrvatski jezik" data-lang-id="croatian"><img src="./TrackListPage-Live_files/hr.gif" alt="Hrvatski jezik"> Hrvatski jezik</a></li><li><a href="javascript:changeLanguage(&quot;chinese&quot;);" title="中文" data-lang-id="chinese"><img src="./TrackListPage-Live_files/cn.gif" alt="中文"> 中文</a></li><li><a href="javascript:changeLanguage(&quot;hebrew&quot;);" title="עברית" data-lang-id="hebrew"><img src="./TrackListPage-Live_files/il.gif" alt="עברית"> עברית</a></li></ul></td></tr></tbody></table></div></div>
+
+            </td>
+        </tr>
+        <tr>
+        
+        <td colspan="3" align="right">
+                 	<div align="right" style="float: right; margin-right: 22px; margin-bottom: 11px; margin-top: 10px;">
+
+                 <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" class="twitter-follow-button twitter-follow-button-rendered" style="position: static; visibility: visible; width: 76px; height: 20px;" title="Twitter Follow Button" src="./TrackListPage-Live_files/follow_button.2f70fb173b9000da126c79afe2098f02.en.html" data-screen-name="livetrack24"></iframe>
+                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+                 </script>
+
+
+
+                <div style="line-height: 10px" class="fb-like fb_iframe_widget" data-href="https://www.facebook.com/LiveTrack24" data-width="120" data-height="40" data-colorscheme="light" data-layout="button_count" data-action="like" data-show-faces="false" data-send="false" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=83965197938&amp;color_scheme=light&amp;container_width=76&amp;height=40&amp;href=https%3A%2F%2Fwww.facebook.com%2FLiveTrack24&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;send=false&amp;show_faces=false&amp;width=120"><span style="vertical-align: bottom; width: 90px; height: 28px;"><iframe name="f1211be1c3e707ab6" width="120px" height="40px" data-testid="fb:like Facebook Social Plugin" title="fb:like Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="./TrackListPage-Live_files/like.html" style="border: none; visibility: visible; width: 90px; height: 28px;" class=""></iframe></span></div>
+	        
+        	</div>	
+        	        	
+        	        </td>
+        </tr>
+    </tbody></table>
+
+
+
+
+<!----   second line menu  -->
+ <div class="navbar navbar-green">
+  <div class="container-fluidX">
+
+  <!---
+  <div class="navbar-collapse collapse">
+  -->
+    <div class="">
+
+    <ul class="nav navbar-nav">
+        <li>
+            <a class="buttonTopMenu" href="https://www.livetrack24.com/">
+                <span class="glyphicon glyphicon-home"></span>
+                            </a>
+        </li>
+        <li class="dropdown mega-menu-6 transition">
+            <a href="https://www.livetrack24.com/tracks" class="buttonTopMenu ">Explore LiveTracks                                    <span class="badge btn-main">86</span>
+                            </a>
+        </li><!-- Regular Menu Ends -->
+        <li class="dropdown mega-menu-6 transition">
+            <a href="https://www.livetrack24.com/events/year/2024">Live Events                              </a>
+        </li><!-- 3 Columns -->
+        <li class="dropdown menu-large">
+            <a href="https://www.livetrack24.com/services/index" class="dropdown-toggle" data-toggle="dropdown">Services                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu megamenu row">
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="thumbnail ">
+                            <a href="https://www.livetrack24.com/tracks#services1">
+                                <span class="img-circle homeThumbnailCircle"><i class="icomoon-bubbles-3 left"></i></span>
+                                <img class="img-circle" src="./TrackListPage-Live_files/photo_takeoff_assist_small.jpg" width="90%">
+                            </a>
+                            <div class="caption">
+                                <h3>Livetracking services for individuals</h3>
+                                <p>LiveTrack24 is the answer to every pilot's need.
+                                    Combining a robust reliable device with an innovative
+                                    and easy to use service, adding security and fun to your
+                                    activity</p>
+                                <p><a class="btn btn-primary" href="https://www.livetrack24.com/services/index#services1"><i class=" icomoon-arrow-right-2  "></i>Read more</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="thumbnail ">
+                            <a href="https://www.livetrack24.com/tracks#services2">
+                                <span class="img-circle homeThumbnailCircle"><i class="icomoon-stats center"></i></span>
+                                <img class="img-circle" src="./TrackListPage-Live_files/photo_event_small.jpg" width="90%">
+                            </a>
+                            <div class="caption">
+                                <h3>Services for Events / Competitions</h3>
+                                <p>
+                                    The Livetrack24 service gives you more than you thought was possible
+                                    Real time tracking, Live scoreboard and Retrieve made simple, all in one simple and affordable package.
+
+                                </p>
+                                <p><a class="btn btn-primary" href="https://www.livetrack24.com/services/index#services2"><i class=" icomoon-arrow-right-2  "></i>Read more</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="thumbnail ">
+                            <a href="https://www.livetrack24.com/tracks#services3">
+                                <span class="img-circle homeThumbnailCircle"><i class="icomoon-cogs right"></i></span>
+                                <img class="img-circle" src="./TrackListPage-Live_files/photo_code_small.jpg" width="90%">
+                            </a>
+                            <div class="caption">
+                                <h3>Outsourcing Services / for 3rd party apps &amp; services</h3>
+                                <p>We offer a complete set of APIs so that you can integrade Livetracking in your service very fast and easy.</p>
+                                <div style="height: 8px;"></div>
+                                <p><a class="btn btn-primary" href="https://www.livetrack24.com/services/index#services3">Read more</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                            </ul>
+        </li>
+                 <li class="dropdown mega-menu-6 transition">
+                 <div class="sb-toggle-left">
+
+                     <div class="navicon-line"></div>
+                     <div class="navicon-line"></div>
+                     <div class="navicon-line"></div>
+                 </div>
+         </li>
+    </ul>
+
+
+    
+    </div><!--/.nav-collapse -->
+</div>
+
+    </div><!-- /.navbar .navbar-inverse -->
+
+
+</div>
+
+
+
+
+<script language="javascript">
+
+    function translateSeeAll() {
+        $("#translateDiv").toggle();
+
+    }
+
+var msgBoxes=[];
+
+function hideMessageAlert(mID) {
+	$.post( '/ajax_actions.php?op=alert_message&action=hide', {mID:mID} );	
+	$("#msg_close_"+mID).html("<strong>OK</strong>").parent().parent().fadeOut(300);
+}
+
+function showContact(page) {
+	//var topicID=page.substring(1);
+    var topicID=page;
+	var url="/contact.php?topicID="+topicID;
+	$.get(url, 
+		function(result){
+            $("#modalDialog .modal-title").html('Contact us');
+            $("#modalDialog .modal-body").html( result );
+            $("#modalDialog .modal-footer").html('');
+            $('#modalDialog').modal();
+
+		}
+	);
+}
+
+function closePopup() {
+	activeUserMenu='';
+	$("#actionDiv").hide();
+	$("#takeoffAddID").hide();
+	$("#smsPopupDiv").hide();
+	$("#smsPopupError").hide();
+    $("#userMenuDiv").hide();
+
+}
+
+$(document).ready(function(){
+	// initBtn();
+	
+	$(".userMenuLinkX").live('click', function(e) {
+		if ($("#userMenuDiv").is(':visible') ) {
+			$("#userMenuDiv").hide();
+			return;
+		}
+		$("#userMenuDiv").css({
+				left:$(this).offset().left-5,
+				top:$(this).offset().top+15
+			}).html("<img src='/img/ajax-loader.gif'>").show();	
+		var this_id=$(this).attr('id'); 
+		var parts=this_id.split("_");
+		var user_id=parts[1];
+		
+		$("#userMenuDiv").load('/GUI_EXT_user.php?op=usermenu&user_id='+user_id);
+	});
+
+    $(".userMenuLinkX").clickover({
+        content: function() {
+            return "###";
+        },
+        html: true,
+        global_close: true,
+        trigger: 'click',
+        placement: 'bottom'
+    });
+
+    $('.userMenuLink').clickover({
+        placement: 'bottom',
+        trigger: 'click',
+        html: true,
+        title:'',
+        content:'content',
+        container: 'body',
+        class_name: 'clickover',
+        global_close: true,
+
+        onShown: function(e){
+            var clickover=this;
+            var this_id=this.$element[0].id;
+            var parts=this_id.split("_");
+
+            var url="/GUI_EXT_user.php?op=usermenu&user_id="+parts[1];
+            $.get(url,function(response) {
+                $("div.clickover").find("div.popover-content").html(response);
+                $("div.clickover").find(".popover-title").prepend(popoverCloseButtonHtml);
+                clickover.resetPosition();
+            });
+
+        }
+
+    });
+
+
+
+    $(document.body).on('click', '.closePopupButton', function() {
+        closePopup();
+    })
+
+	$(".closePopupButton").live('click', function(e) {
+			closePopup();
+	});
+
+	$(".contactButton").click(function(f) {		
+		showContact( $(this).attr('contact-id') );
+	});	
+	
+
+});
+
+</script>
+
+
+<div class="maindiv" id="maindiv">
+    <div class="contentMain">
+        <div id="userMenuDiv"></div>
+
+<div style="clear:both;">
+<style type="text/css">
+<!--
+.sendSmsIcon {
+    font-size: 0.8em;
+    text-decoration: underline;
+
+}
+
+span#resultDiv {
+	position:relative;
+	float :none;
+	display:block;
+}
+
+.chars {
+	font-family:"Courier New", Courier, monospace;
+	font-size:11px;
+	font-weight:bold;
+	color:#6666FF;
+}
+
+#smsCredits {
+	font-weight:bold;
+	color:#DA6F0E;
+	font-size:130%;
+}
+
+div#smsPopupDiv
+{
+  width:300px;
+  height:120px;
+  border: 0px solid #8cacbb;
+  margin: 0.5em;
+  background-color: #ffffff;
+  padding-bottom: 5px;
+  
+  	height:auto;
+	display:none;
+	position:absolute;
+	z-index:100;
+	border:0px solid #6699FF;
+	padding:10px;
+}
+
+div#smsPopupError {
+	width:auto;
+    background-color: #ffffff;
+    padding-bottom: 100px;
+
+    display:none;
+    padding:0px;
+    margin-top:-7px;
+    position: relative;
+    border:none;
+}
+
+div#waitDiv 
+{
+  width:60px;
+  height:45px;
+  display:none;
+  border: 1px solid #8cacbb;
+  margin: 0.5em;
+  background-color: #dee7ec;
+  padding-bottom: 5px;
+  position:absolute;
+  z-index:100;
+  border:2px solid #6699FF;
+  padding:3px;
+}
+
+#message {
+   /* line-height:20px;*/
+}
+
+-->
+</style>
+
+
+
+<div id="smsPopupErrorOLD" style="display:none;">
+	<table width="100%" border="0" cellpadding="2">
+      <tbody><tr>
+        <td valign="top">
+        	<div id="errorMessageOLD"></div>
+		</td>
+        <td width="45" align="right"><a class="btn btn-primary" id="closeSmsPopupError" href="javascript:nop()">Close</a></td>
+      </tr>
+    </tbody></table>
+</div>
+
+<div id="smsPopupError" style="display:none;">
+    <div id="errorMessageTop"></div>
+    <div id="errorMessage"></div>
+</div>
+
+
+<div id="smsPopupDiv" style="display:mone;">
+	<table width="100%" border="0" cellpadding="2">
+      <tbody><tr>
+        <td valign="top">
+            <div id="resDiv">
+              <label>Enter your message to <b><span id="testDivName"></span></b> <br>
+              <textarea name="message" cols="35" id="message" style="overflow: hidden; height: 60px;"></textarea>
+              <div style="position: absolute; display: none; overflow-wrap: break-word; white-space: pre-wrap; border-color: rgb(204, 204, 204); border-style: solid; border-width: 0.8px; font-weight: 400; width: 0px; font-family: Roboto, sans-serif; line-height: 20px; font-size: 14px; padding: 7px;">&nbsp;</div></label>
+          </div>
+        </td>
+     </tr>
+     <tr>
+        <td>
+            <div align="center">
+                <a class="btn btn-primary" id="closeSmsPopupDiv" href="javascript:nop()">Close</a>
+                &nbsp;&nbsp;&nbsp;
+                <a class="btn btn-success" id="sendSMS" href="javascript:nop()">Send SMS</a>
+                <input type="hidden" id="phoneNum" value="">
+            </div>
+        </td>
+     </tr>
+      <tr>
+        <td height="30">
+		<span id="resultDiv" class="info">
+	        <div id="infoDiv"></div>
+		</span>
+		 </td>
+      </tr>
+    </tbody></table>
+</div>
+
+
+
+<script type="text/javascript">
+
+
+function computeCharsLeft() {
+		var message=$("#message").val();	
+		var maxSmsNum=3;		
+				
+		$.post( '/ajax_actions.php?op=info&action=charsLeft', 
+			{text:message,unicode:useUnicode}, 
+				function(result){ 
+					var parts=result.split(";");
+					var isLatin1=parts[0];
+					var smsNum=parts[1];
+					var charsLeft=parts[2];
+					var charsTot=parts[3];
+					var hasGreek=parts[4];
+					
+					if (isLatin1==1 || useUnicode==0) { 			
+						if ( hasGreek==1 ){
+							$("#unicodeWarning").html('<span class="smallRed">The greek characters will be send as CAPITALS</span>');										
+						} else {											
+							$("#unicodeWarning").html('<span class="smallRed"><BR /><BR /></span>');						
+						}	
+					} else {
+						$("#unicodeWarning").html('<span class="smallRed">The number of characters in this sms '+
+						'has been reduced to '+(maxSmsNum*68)+' because  you have include some non-latin1 chars, '+
+						'probably from your native language</span>');
+					}
+
+					$("#messageChars").html(charsTot);					
+					$("#charsLeft").html(charsLeft);
+					$("#smsNum").html(smsNum);
+				}
+			);		
+}
+
+var pilotStatusList= [];
+$(document).ready(
+	function(){
+
+        //$('#message').trigger('autosize.destroy');
+
+		$("#closeSmsPopupDiv").click(function(f) {
+			$("#smsPopupDiv").hide();
+		});	
+
+		$("#closeSmsPopupError").click(function(f) {
+            $("div.clickover").hide();
+            // $("#smsPopupError").hide();
+        });
+
+        $(".closeClickOver").bind( "click", function() {
+            $(".clickoverX").hide();
+        });
+
+        $("input[name='changeStatus']:radio").bind("click",function () {
+            updateStatus2();
+        });
+
+        $("#sendSMSpopup").live('click', function(e) {
+		
+			if ( $("#smsPopupDiv").is(":visible")  ) {
+				$("#smsPopupDiv").hide();
+				return;
+			}
+			
+			var currentUserID= $("#currentUserID").val();
+			var isLiveTracking= $("#isLiveTracking").val();
+			
+			var thisdDiv=this;
+			$("#resultDiv").hide();
+			$("#infoDiv").hide();
+			
+			$("#waitDiv").css({
+								left:$(thisdDiv).offset().left+50,
+								top:$(thisdDiv).offset().top+25
+							}).html("<img src='https://www.livetrack24.com/img/ajax-loader.gif'>").show();
+							
+			// var currentUserID=7;
+			$.post( '/ajax_actions.php?op=profile&action=receivesSMS', 
+			{ targetUserID:currentUserID }, 
+				function(result){ 
+					var parts=result.split(";");
+					
+					// has validated number; receives SMS ; Also in flight;  target user username;  target user phone prefix
+					var validatedNumber=parts[0];
+					var receivesSMS=parts[1];
+					var alsoInFlight=parts[2];
+					var targetUsername=parts[3];
+					var targetUserPhonePrefix=parts[4];
+
+					$("#waitDiv").hide();
+
+					var canSendSMS=true;
+					var message="";
+					
+					if (activeUserID==0) {
+						canSendSMS=false;
+						message="<strong>You are not logged in</strong><BR><BR> Please <strong>log in</strong> by entering your username and password on the right side of this page or <BR><BR> <strong><a href='/userRegister.php'>Register</a></strong><br><br> in order to be able to send out SMS ";
+					} else 	if (receivesSMS==0) {
+						canSendSMS=false;
+						message="<strong>This user has opted to NOT accept SMS</strong><BR>";
+					} else if (alsoInFlight==0 && isLiveTracking==1) {
+						canSendSMS=false;
+						message="<strong>This user has opted to accept SMS</strong><BR><BR>However he wishes <br><BR><strong>NO SMS while he/she is LiveTracing.</strong><BR><BR>Please respect this and contact him when he has ended the LiveTracking";
+					} else if (validatedNumber==0) {					
+						canSendSMS=false;
+						message="<strong>This user has not validated his mobile phone number</strong><BR><BR>Users MUST do that in order to accept SMS messages from other users via this web page";
+					}
+
+					//canSendSMS=false;
+					//message=result;
+					
+					if (!canSendSMS) {
+						$("#errorMessage").html(message);
+						$("#smsPopupError").css({
+								left:$(thisdDiv).offset().left-290,
+								top:$(thisdDiv).offset().top+25
+						}).show();
+						
+						return;
+					}
+					
+					if (canSendSMS) {						
+						$("#smsPopupDiv").css({
+								left:$(thisdDiv).offset().left-370,
+								top:$(thisdDiv).offset().top+25
+							}).show();
+							
+						$("#testDivName").html(targetUsername);
+						
+						e.stopPropagation(); // Stops the following click function from being executed
+					}				
+						
+				}
+			);					
+			
+
+		});
+		
+	
+	
+	$("#sendSMS").live('click',
+		function() {	
+				
+			setInfo("resultDiv");
+			
+			$("#resultDiv").show();
+			$("#infoDiv").show();
+			
+			$("#infoDiv").html("Sending SMS, Please wait<BR><img src='https://www.livetrack24.com/img/ajax-loader.gif'>");
+			
+			var message=$("#message").val();		
+			var currentUserID= $("#currentUserID").val();
+			var targetUsername= $("#testDivName").html();
+			
+			var phoneNum=$("#phoneNum").val();
+			var taskID=$("#taskID").val();
+			
+			//$("#infoDiv").html(currentUserID);
+			//return;
+			
+			$.post( '/ajax_actions.php?op=sms&action=send', 
+					{userID:0,message:message,phoneNumber:phoneNum,targetUserID:currentUserID,targetUsername:targetUsername,useUnicode:useUnicode}, 
+						function(result){ 
+							var parts=result.split(";");
+							var resCode=parts[0];
+							var resText=parts[1];
+							if (resCode==1) { 								
+								setOK("resultDiv");
+								$("#infoDiv").html('OK: '+resText);						
+							} else {
+								setError("resultDiv");
+								$("#infoDiv").html('PROBLEM: '+resText);
+							}
+						}
+					);					
+			// $("#smsPopupDiv").hide();		
+		}		
+		
+	);
+	
+});
+
+
+var useUnicode=0;
+	
+function changeUnicode() {
+	if ( $("#useUnicode").is(':checked')  ) {
+		useUnicode=1;
+	} else {
+		useUnicode=0;
+	}
+
+	computeCharsLeft();
+}
+
+</script>
+
+
+<div id="waitDiv"></div>
+
+
+<link rel="stylesheet" type="text/css" href="./TrackListPage-Live_files/selectlist.css">
+<link rel="stylesheet" type="text/css" href="./TrackListPage-Live_files/token-input.css">
+<link rel="stylesheet" type="text/css" href="./TrackListPage-Live_files/token-input-mac.css">
+<link rel="stylesheet" type="text/css" href="./TrackListPage-Live_files/ui.daterangepicker.css">
+<link rel="stylesheet" type="text/css" href="./TrackListPage-Live_files/colorPicker.css">
+
+
+<script language="javascript" src="./TrackListPage-Live_files/jquery.selectlist.pack.js.ダウンロード"></script>
+<script language="javascript" src="./TrackListPage-Live_files/jquery.tokeninput.js.ダウンロード"></script>
+
+
+<script language="javascript" src="./TrackListPage-Live_files/date.js.ダウンロード"></script>
+<script language="javascript" src="./TrackListPage-Live_files/daterangepicker.jQuery.js.ダウンロード"></script>
+<script language="javascript" src="./TrackListPage-Live_files/live.js.ダウンロード"></script>
+<script language="javascript" src="./TrackListPage-Live_files/jquery.zoomi.js.ダウンロード"></script>
+
+
+<style type="text/css">
+    <!--
+
+    span#resultDiv {
+        position:relative;
+        float :none;
+        display:block;
+    }
+
+
+    .windowTitle {
+        width:100%;
+        text-align:center;
+        background:#2F588C;
+        padding-top:4px;
+        padding-bottom:4px;
+        font-weight:bold;
+        color:#FFFFFF;
+    }
+
+    div#actionDiv
+    {
+        width: 500px;
+        height:auto;
+
+        border: 1px solid #8cacbb;
+        margin: 0.5em;
+        border-bottom:2px solid #777777;
+        border-right:2px solid #777777;
+        background-color: #D5E5D5;
+
+        background-color:#E2CB70;
+        background-color:#F9F9F1;
+        padding-bottom: 5px;
+        display:none;
+        position:absolute;
+    }
+
+    #wikiWindow , #wikiWindowHide {
+        display:none;
+        height:auto;
+
+    }
+
+    #wikiWindow  {
+        background:#FBF9CA;
+        width:500px;
+        position:relative;
+        border:1px solid #CCCCCC;
+    }
+
+    -->
+</style>
+
+<script type="text/javascript">
+
+var baseURL='http://www.livetrack24.com';
+var isOldView=0;
+
+
+function resetDates() {
+    $("#fromDate").val('');
+    $("#toDate").val('');
+}
+
+function selectItem(li) {
+    if (li.extra) {
+        var username=li.extra[1];
+        var url='/tracks/username/#USERNAME#'.replace('#USERNAME#',username);
+        window.location=url;
+        // window.location="/index.php?username="+username;
+    }
+}
+
+function formatItem(row) {
+    return row[1];
+}
+
+var activeUserID=0;
+
+function wikiWindowHide() {
+    $("#wikiWindow").hide();
+}
+
+
+function toggleSearch() {
+
+    if ($("#filterMenu").is(":visible") ) {
+        $("#filterMenu").slideUp(200);
+    } else {
+        $("#filterMenu").slideDown(200);
+    }
+}
+
+
+function showWiki(wikiPage) {
+    var wikiUrl="/wiki/index.php?title="+wikiPage+"&mode=print&lang=en";
+    var wikiUrl2="/wiki/index.php?title="+wikiPage;
+
+    $.get(wikiUrl,
+            function(result){
+                jQuery.facebox('<a href="'+wikiUrl2+'" target="_blank">Direct Link to page</a><hr>'+result);
+
+            }
+    );
+
+
+}
+
+var currenttime = 'February 14, 2024 22:09:25'; //PHP method of getting server date
+var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+var serverdate=new Date(currenttime);
+
+var countryStr="";
+var activityStr="";
+
+var loadedUsers=[];
+
+var activeUserMenu='';
+
+var geTrackUrlTemplate;
+var is2D=0;
+var is3Dchecked=" checked='true' ";
+var color='ff0000';
+
+
+function displayMenu(userID,username,trackID,hasPoints,isLive,hasSubmissions,trackIs2D) {
+
+    var idStr=userID+"_"+trackID+"_"+username;
+
+    var trackURL="/leo_live.php?";
+    var str='';
+
+    is2D=trackIs2D;
+    if (is2D==1) is3Dchecked="";
+    else is3Dchecked="checked='true'";
+
+    color='ff0000';
+    if (isLive){
+        geTrackUrlTemplate=trackURL+"op=ge&user="+username+"&color=%color%&is2d=%2d%";
+    } else {
+        geTrackUrlTemplate=trackURL+"op=track&user="+username+"&trackID="+trackID+"&points=1&color=%color%&is2d=%2d%";
+    }
+
+    var geTrackUrl=geTrackUrlTemplate.replace("%2d%",is2D).replace("%color%",color);
+
+    str+="<table id='trackMenuBoxInner' class='noAction' cellppading='4' cellspacing='0' ><tr>";
+
+//    str+= "<td width='290' id='trackMenuBoxExtraInfo' style='text-align:left;'>";
+//    str+="</td>";
+
+//    str+= "<td width='100' style='text-align:left;'>";
+//    str+="</td>";
+
+
+    if (hasPoints) {
+    
+        str+="<td width='130'><a href='/track/"+trackID+"/2d' target='_blank'>";
+        str+="<img class='trackActionsImg' src='https://www.livetrack24.com/img/icon_120_gmaps_2d.png'><br>Follow in 2D</a></td>";
+
+        str+="<td width='130'><a href='/track/"+trackID+"/view3d' target='_blank'>";
+        str+="<img class='trackActionsImg' src='https://www.livetrack24.com/img/icon_120_gmaps_3d.png'><br>Follow in 3D</a><img src='https://www.livetrack24.com/img/icon_star.gif' border=0 align='absmiddle'></td>";
+
+        str+=" <td width='130'><a id='geLink' href='"+geTrackUrl+"'><img class='trackActionsImg' src='https://www.livetrack24.com/img/icon_120_ge.png'><br> Track this user in Google Earth</a> ";
+        str+=" <br> [<span class='colorPicker'><label for='geColor'>Select Color </label> <input id='geColor' class='geColor' name='geColor' type='text' size=2 value='#ff0000' /></span> <label for='ge3D'>3D&nbsp;</label>&nbsp;<input id='ge3D' type='checkbox' "+is3Dchecked+" value='1' style='vertical-align:middle'> ] </td>";
+
+    } else {
+        str+="<td width='400'>[ No GPS tracklog available ]</td>";
+    }
+
+    // str=$("#track_button_"+trackID).html()+'<br><BR>'+str;
+
+    $("#trackMenuBox").html(str);
+
+
+    $('#geColor').colorPicker();
+    $('#ge3D').change(function(){
+        updateGeLink();
+    });
+    $('#geColor').change(function(){
+        updateGeLink();
+    });
+
+
+}
+
+function updateGeLink() {
+    color=$('#geColor').val().substr(1);
+    if ( $('#ge3D:checked').val() ) {
+        is2D=0;
+    } else {
+        is2D=1;
+    }
+    var geTrackUrl=geTrackUrlTemplate.replace("%2d%",is2D).replace("%color%",color);
+    $('#geLink').attr('href',geTrackUrl);
+}
+
+function hideWiki() {
+    $("#wikiWindow").hide();
+}
+
+var currentOpenBox=null;
+var currentOpenBoxTrack=null;
+
+
+$(document).ready(function () {
+
+    setInterval("displaytime()", 1000);
+
+
+
+    $("#timeBoxActivate").clickover({
+        content: function() {
+            return $("#selectTzBox").html();
+        },
+        html: true,
+        global_close: true,
+        trigger: 'click',
+        placement: 'left'
+    });
+
+    $(".closeButton").click(function(f) {
+        closeActionDiv();
+    });
+    //use this method to add new colors to pallete
+    //$.fn.colorPicker.addColors(['000', '000', 'fff', 'fff']);
+
+    $('select#countryCodeFilter').selectList({ sort: true });
+    $('select#activityFilter').selectList({ sort: true });
+
+
+    $('#fromDate, #toDate').daterangepicker({
+        dateFormat: 'yy-mm-dd'
+
+    });
+
+    initClickovers();
+
+    $(".trackMenuTrigger").click(function(e) {
+        // e.stopPropagation();
+
+        var userID=$(this).attr('data-userID');
+        var trackID=$(this).attr('data-trackID');
+        var username=$(this).attr('data-username');
+
+        var idStr=userID+"_"+trackID+"_"+username;
+
+        var trackRow=$("#trackRow_"+idStr);
+        var ref=$("#action_"+idStr).attr('ref');
+        var refParts=ref.split('_');
+
+        var hasPoints=parseInt(refParts[0]);
+        var isLive=parseInt(refParts[1]);
+        var hasSubmissions=parseInt(refParts[2]);
+        var typeOfTrack=parseInt(refParts[3]);
+
+        //$(".trackDetailsBox").hide();
+        currentOpenBoxTrack="trackRow_"+idStr;
+
+        var button=$(this).find(".fa"); // <i class="fa fa-chevron-down"></i>
+
+        //close div
+        if ( trackRow.hasClass('expandedMap0') ) {
+            button.removeClass('fa-chevron-up');
+            button.addClass('fa-chevron-down');
+
+            trackRow.removeClass('expandedMap0');
+            $("#"+currentOpenBoxTrack).removeClass('expandedTrackDiv');
+            currentOpenBoxTrack=null;
+            $("#trackMenu_"+idStr).html('');
+            $("#trackMenuBox").slideUp(100);
+
+        } else { // open div
+            $(".trackMenuTrigger .fa").removeClass('fa-chevron-up');
+            $(".trackMenuTrigger .fa").addClass('fa-chevron-down');
+
+            button.removeClass('fa-chevron-down');
+            button.addClass('fa-chevron-up');
+            $("div.boxgridSocial").removeClass('expandedMap0');
+            $(".boxgridSocial").removeClass('expandedTrackDiv');
+            trackRow.addClass('expandedMap0');
+
+            displayMenu(userID,username,trackID,hasPoints,isLive,hasSubmissions,typeOfTrack);
+
+            $("#trackMenuBox").appendTo("#trackRow_"+idStr).slideDown(250);
+
+        }
+
+    });
+
+
+
+
+    var baseUrl='/tracks';
+    var baseUrlSearchGroup='/group/[groupname]';
+    var baseUrlSearchUser='/user/[username]/tracks';
+    var baseUrlSearchTracks='/tracks';
+
+    var currentPage='tracks';
+
+    $("#searchButtonGroup").click(function() {
+        var groupnames=$("#groupSearch").tokenInput("get");
+
+        var url =baseUrl;
+
+        if (groupnames.length == 1 ) {
+            url = baseUrlSearchGroup.replace('[groupname]', groupnames[0]['id']);
+        } else {
+            return;
+        }
+        window.location=url;
+    });
+
+    $("#searchButton").click(function() {
+
+        // get all the values
+        var countryList=$("select#countryCodeFilter").val();
+        var activityList=$("select#activityFilter").val();
+        var usernames=$("#userSearch").tokenInput("get");
+
+
+        //var url='/tracks';
+        var url =baseUrl;
+
+        if (usernames.length == 1  ) {
+            url = baseUrlSearchUser.replace('[username]', usernames[0]['id']);
+        } else {
+
+            url =baseUrlSearchTracks;
+
+            if (usernames.length >0  ) {
+                url=url+'/username/';
+                for(var i=0;i<usernames.length;i++){
+                    if (i>0) url=url+',';
+                    url=url+usernames[i]['id'];
+                }
+            }
+
+        }
+        if (countryList!=null) {
+            if (countryList.length >0) {
+                url=url+'/country/';
+                for(var i=0;i<countryList.length;i++){
+                    if (i>0) url=url+',';
+                    url=url+countryList[i];
+                }
+            }
+        }
+
+        if (activityList!=null) {
+            if (activityList.length >0) {
+                url=url+'/activity/';
+                for(var i=0;i<activityList.length;i++){
+                    if (i>0) url=url+',';
+                    url=url+activityList[i];
+                }
+            }
+        }
+
+        var fromDate=$("#fromDate").val();
+        var toDate=$("#toDate").val();
+
+        if (fromDate) {
+            url=url+'/from/'+fromDate;
+        }
+
+        if (toDate) {
+            url=url+'/to/'+toDate;
+        }
+
+        //$("#res").html(url);
+        window.location=url;
+
+    });
+
+    $("#userSearch").tokenInput("/EXT_pilot_functions.php?op=findPilot&format=json",
+            {
+                hintText: "Enter username to search for...",
+                minChars: 2,
+                tokenLimit: 5
+                        }
+    );
+
+        $("#groupSearch").tokenInput("/EXT_pilot_functions.php?op=findGroup&format=json",
+        {
+            hintText: "Enter group name to search for...",
+            minChars: 2,
+            tokenLimit: 1
+                    }
+    );
+});
+
+
+</script>
+
+
+<h1 class="pageheader">Live Tracks \\  List<small><a href="javascript:toggleSearch();">Search <span class="caret"></span></a></small></h1>
+<div id="filterMenu">
+    <table width="100%" cellpadding="8" cellspacing="0">
+        <tbody><tr>
+            <th class="borderRight" width="220" valign="top">
+                Groups
+            </th>
+
+            <th width="220" valign="top">When
+            </th>
+            <th valign="top">Where
+            </th>
+            <th valign="top">What
+            </th>
+            <th valign="top">Who
+            </th>
+
+        </tr><tr>
+                        <td class="borderRight" valign="top">
+                <ul class="token-input-list"><li class="token-input-input-token"><input type="text" autocomplete="off" id="token-input-groupSearch" style="outline: none;"><tester style="position: absolute; top: -9999px; left: -9999px; width: auto; font-size: 14px; font-family: Roboto, sans-serif; font-weight: 400; letter-spacing: normal; white-space: nowrap;"></tester></li></ul><input type="text" id="groupSearch" name="groupSearch" style="display: none;">
+            </td>
+            <td valign="top">
+                <div style="width:60px; float:left;">From: </div><input type="text" size="13" id="fromDate" value=""><br>
+                <div style="width:60px; float:left;">To: </div><input type="text" size="13" id="toDate" value="">
+
+                <a style="float:left; margin-top:10px; border-bottom:1px dotted #858585;" href="javascript:resetDates();">Reset Dates</a>
+
+            </td>
+
+            <td valign="top">
+                <select name="countryCodeFilter[]" multiple="multiple" id="countryCodeFilter" style="display: none;"></select><select class="selectlist-select"><option value="">--- Show All ---</option>
+<option value="fr">France</option>
+<option value="it">Italy</option>
+<option value="jp">Japan</option>
+<option value="es">Spain</option>
+<option value="gb">UK</option>
+<option value="us">USA</option>
+<option value="ch">Switzerland</option>
+<option value="de">Germany</option>
+<option value="gr">Greece</option>
+<option value="at">Austria</option>
+<option value="br">Brazil</option>
+<option value="si">Slovenia</option>
+<option value="au">Australia</option>
+<option value="za">South Africa</option>
+<option value="co">Colombia</option>
+<option value="pt">Portugal</option>
+<option value="tr">Turkey</option>
+<option value="pl">Poland</option>
+<option value="bg">Bulgaria</option>
+<option value="mk">Former Yugoslav Macedonia</option>
+<option value="no">Norway</option>
+<option value="hu">Hungary</option>
+<option value="se">Sweden</option>
+<option value="ru">Russia</option>
+<option value="mx">Mexico</option>
+<option value="ro">Romania</option>
+<option value="dk">Denmark</option>
+<option value="nl">Netherlands</option>
+<option value="fi">Finland</option>
+<option value="cz">Czech</option>
+<option value="in">India</option>
+<option value="hr">Croatia</option>
+<option value="id">Indonesia</option>
+<option value="cn">China</option>
+<option value="vn">Vietnam</option>
+<option value="ar">Argentine</option>
+<option value="nz">New Zealand</option>
+<option value="ca">Canada</option>
+<option value="be">Belgium</option>
+<option value="ma">Morocco</option>
+<option value="re">Reunion</option>
+<option value="cs">Serbia and Montenegro</option>
+<option value="th">Thailand</option>
+<option value="ir">Iran</option>
+<option value="cl">Chile</option>
+<option value="sk">Slovakia</option>
+<option value="il">Israel</option>
+<option value="tw">Taiwan</option>
+<option value="kz">Kazakhstan</option>
+<option value="np">Nepal</option>
+<option value="mt">Malta</option>
+<option value="kr">South Korea</option>
+<option value="lt">Lithuania</option>
+<option value="ua">Ukraine</option>
+<option value="ve">Venezuela</option>
+<option value="lv">Latvia</option>
+<option value="cr">Costa Rica</option>
+<option value="ke">Kenya</option>
+<option value="ie">Ireland</option>
+<option value="gt">Guatemala</option>
+<option value="ec">Ecuador</option>
+<option value="is">Iceland</option>
+<option value="am">Armenia</option>
+<option value="ee">Estonia</option>
+<option value="hk">Hong Kong</option>
+<option value="cy">Cyprus</option>
+<option value="lu">Luxembourg</option>
+<option value="na">Namibia</option>
+<option value="om">Oman</option>
+<option value="ao">Angola</option>
+<option value="by">Belarus</option>
+<option value="li">Liechtenstein</option>
+<option value="md">Moldova</option>
+<option value="ba">Bosnia and Herzegovina</option>
+<option value="pk">Pakistan</option>
+<option value="my">Malaysia</option>
+<option value="tz">Tanzania</option>
+<option value="do">Dominican</option>
+<option value="al">Albania</option>
+<option value="ly">Libya</option>
+<option value="cv">Cape Verde</option>
+<option value="uy">Uruguay</option>
+<option value="ae">United Arab Emirates</option>
+<option value="gi">Gibraltar</option>
+<option value="ge">Georgia</option>
+<option value="ad">Andorra</option>
+<option value="qa">Qatar</option>
+<option value="ci">Cote d'Ivoire</option>
+<option value="gl">Greenland</option>
+<option value="pe">Peru</option>
+<option value="kg">Kyrgyz</option>
+<option value="tm">Turkmenistan</option>
+<option value="et">Ethiopia</option>
+<option value="bm">Bermuda</option>
+<option value="sg">Singapore</option>
+<option value="ls">Lesotho</option>
+<option value="uz">Uzbekistan</option>
+<option value="gh">Ghana</option>
+<option value="sd">Sudan</option>
+<option value="sm">San Marino</option>
+<option value="mn">Mongolia</option>
+<option value="pm">St. Pierre and Miquelon</option>
+<option value="nc">New Caledonia</option>
+<option value="eg">Egypt</option>
+<option value="ph">Philippines</option>
+<option value="mz">Mozambique</option>
+<option value="mc">Monaco</option>
+<option value="sj">Svalbard &amp; Jan Mayen Islands</option>
+<option value="bw">Botswana</option>
+<option value="ng">Nigeria</option>
+<option value="bz">Belize</option>
+<option value="cu">Cuba</option>
+<option value="bo">Bolivia</option>
+<option value="az">Azerbaijan</option>
+<option value="bh">Bahrain</option>
+<option value="mv">Maldives</option>
+<option value="la">Lao</option>
+<option value="tj">Tajikistan</option>
+<option value="sv">El Salvador</option>
+<option value="sa">Saudi Arabia</option>
+<option value="vi">US Virgin Islands</option>
+<option value="pf">French Polynesia</option>
+<option value="gm">Gambia</option>
+<option value="mo">Macau - China</option>
+<option value="sh">St. Helena</option>
+<option value="iq">Iraq</option>
+<option value="lb">Lebanese</option>
+<option value="tn">Tunisia</option>
+<option value="lk">Sri Lanka</option>
+<option value="ug">Uganda</option>
+<option value="dz">Algeria</option>
+<option value="mg">Madagascar</option>
+<option value="zm">Zambia</option>
+<option value="ag">Antigua and Barbuda</option>
+<option value="sz">Swaziland</option>
+<option value="cf">Central Africa</option>
+<option value="mw">Malawi</option>
+<option value="sc">Seychelles</option>
+<option value="af">Afghanistan</option>
+<option value="pg">Papua New Guinea</option>
+<option value="bn">Brunei Darussalam</option>
+<option value="kp">North Korea</option>
+<option value="mu">Mauritius</option>
+<option value="aw">Aruba</option>
+<option value="kh">Cambodia</option>
+<option value="mr">Mauritania</option>
+<option value="gf">French Guiana</option>
+<option value="tg">Togolese</option>
+<option value="gp">Guadaloupe</option>
+<option value="st">Sao Tome and Principe</option>
+<option value="ne">Niger</option>
+<option value="pa">Panama</option>
+<option value="py">Paraguay</option>
+<option value="mq">Martinique</option>
+<option value="bd">Bangladesh</option>
+<option value="jo">Jordan</option>
+<option value="td">Chad</option>
+<option value="gq">Equatorial Guinea</option>
+<option value="jm">Jamaica</option>
+<option value="lr">Liberia</option>
+<option value="ws">Samoa</option>
+<option value="vu">Vanuatu</option>
+<option value="bb">Barbados</option>
+<option value="kw">Kuwait</option>
+<option value="bs">Bahamas</option>
+<option value="pn">Pitcairn Island</option>
+<option value="ml">Mali</option>
+<option value="mm">Burma</option>
+<option value="ht">Haiti</option>
+<option value="so">Somalia</option>
+<option value="dj">Djibouti</option>
+<option value="cg">Congo</option>
+<option value="ky">Cayman Islands</option>
+<option value="ye">Yemen</option>
+<option value="fj">Fiji Islands</option>
+<option value="fm">Micronesia</option>
+<option value="lc">Saint Lucia</option>
+<option value="sn">Senegal</option>
+<option value="cd">Congo</option>
+<option value="tk">Tokelau</option>
+<option value="wf">Wallis and Futuna Islands</option>
+<option value="bf">Burkina Faso</option>
+<option value="hn">Honduras</option>
+<option value="tt">Trinidad and Tobago</option>
+<option value="ck">Cook Islands</option>
+<option value="fo">Faeroe Islands</option>
+<option value="ni">Nicaragua</option>
+<option value="pw">Palau</option>
+<option value="ki">Kiribati</option>
+<option value="er">Eritrea</option>
+<option value="gd">Grenada</option>
+<option value="sr">Suriname</option>
+<option value="bt">Bhutan</option>
+<option value="yt">Mayotte</option>
+<option value="sl">Sierra Leone</option>
+</select><ul class="selectlist-list"></ul>            </td>
+            <td valign="top">
+                <select multiple="multiple" name="activityFilter[]" id="activityFilter" style="display: none;"></select><select class="selectlist-select"><option value="">--- Show All ---</option>
+<option value="0">General</option>
+<option value="1">Paraglider</option>
+<option value="2">Flex wing FAI1</option>
+<option value="4">Rigid wing FAI5</option>
+<option value="6">Ultralight Glider FAI2</option>
+<option value="8">Glider</option>
+<option value="16">Paramotor</option>
+<option value="32">Trike</option>
+<option value="64">Powered flight</option>
+<option value="128">Hot Air Balloon</option>
+<option value="256">HG Mosquito</option>
+<option value="512">SkyDive</option>
+<option value="1023">AirSports</option>
+<option value="1024">Bird</option>
+<option value="16385">Walk</option>
+<option value="16386">Run</option>
+<option value="16388">Bike</option>
+<option value="16400">Hike</option>
+<option value="16401">Cycle</option>
+<option value="16402">Mountain Bike</option>
+<option value="16403">Motorcycle</option>
+<option value="16500">Windsurf</option>
+<option value="16501">Kitesurf</option>
+<option value="16502">Sailing</option>
+<option value="16503">Kayak</option>
+<option value="16504">Sea Kayak</option>
+<option value="16600">Snowboard</option>
+<option value="16601">Ski</option>
+<option value="16602">Snowkite</option>
+<option value="17100">Car</option>
+<option value="17101">4x4 Car</option>
+<option value="18000">Horse</option>
+<option value="18001">Dog</option>
+</select><ul class="selectlist-list"></ul>            </td>
+
+            <td width="200" valign="top">
+                <ul class="token-input-list"><li class="token-input-input-token"><input type="text" autocomplete="off" id="token-input-userSearch" style="outline: none;"><tester style="position: absolute; top: -9999px; left: -9999px; width: auto; font-size: 14px; font-family: Roboto, sans-serif; font-weight: 400; letter-spacing: normal; white-space: nowrap;"></tester></li></ul><input type="text" id="userSearch" name="userSearch" style="display: none;">
+            </td>
+
+
+
+        </tr>
+        <tr>
+            <td class="borderRight" valign="top" align="right">
+                <input class="btn btn-primary" type="button" id="searchButtonGroup" value="Visit Group">
+            </td>
+            <td colspan="4" valign="top" align="right">
+                <div align="right">
+                    <input class="btn btn-primary" type="button" id="searchButton" value="Update Your Search">
+                </div>
+            </td>
+        </tr>
+    </tbody></table>
+</div>
+
+
+<div id="secondLine">
+    <ol id="barSimple" class="tracksBarSimple"><li style="background:none;"><a href="javascript:toggleSearch();"><img border="0" width="16" src="./TrackListPage-Live_files/icon_hint.png" align="absmiddle"> Hint: Use the 'Search' to filter Livetracks...</a></li></ol>    <div id="timeBox">
+        <a id="timeBoxActivate" href="javascript:;" data-original-title="" title="">
+            <span id="servertime">22:10:05</span> UTC+9        </a>
+    </div>
+</div>
+
+
+
+<div style="clear:both; height:10px;"></div>
+<div width="100%" class="clearfix" id="tracksPagination"><ul class="pagination">
+<li class="active"><a href="javascript:;">1<span class="sr-only">(current)</span></a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/2">2</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/3">3</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/4">4</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/5">5</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/6">6</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/7">7</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/8">8</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/9">9</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/1238">»</a></li>
+
+</ul></div><table class="clearfix listTable0" cellpadding="0" cellspacing="0" \=""><tbody><tr><td valign="top"><table class="listTable" cellpadding="0" cellspacing="0" \=""><tbody><tr><td>
+	<div class="boxgridSocial" data-userid="61730" data-trackid="2555941" data-username="6L20" id="trackRow_61730_2555941_6L20">
+          	<table width="100%" class="tracktable" cellpadding="0" cellspacing="0">
+                	<tbody><tr>
+                    	<td class="userCellParent" id="userCellParent_61730_2555941_6L20">
+                            <a class="" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="6L20" data-original-title="6L20">
+
+                                <img class="zoomImg img-rounded" src="./TrackListPage-Live_files/photo.thumb.jpg" width="70" height="70">
+                                <img class="activityImg" src="./TrackListPage-Live_files/icon_cat_1.png" align="absmiddle" alt="Paraglider" title="Paraglider"><img class="userFlag img-rounded" src="./TrackListPage-Live_files/fr.gif">                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_info" title="" data-trigger="hover" data-placement="right" data-trackid="2555941" data-original-title="Network">
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_menu" title="" data-trigger="manual" data-placement="right" data-width="350" data-trackid="2555941" data-original-title="Select action for this LiveTrack">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2555941">
+	                        
+                    		<img src="./TrackListPage-Live_files/icon_flight_live.gif" title="Track is live" alt="Track is live" border="0" align="absmiddle">
+                    		<span class="track_status">Live!</span>                    		<span class="liveusername">
+                                 <a class="noAction" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="6L20" data-original-title="6L20">
+                                    6L20                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="https://www.livetrack24.com/track/2555941">
+                                <div class="list_last_location">was at <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Le Salève (les Crêts) - FR [~0.1 km]</div>
+
+                                <div class="list_last_time">
+                                     on 14-02-2024 14:09:25 UTC+1<span class="timeAgo"> 0 mins 00 secs ago</span>                                </div>
+
+                                <div class="list_last_location">
+                                    Alt:<strong>1305 m</strong>,
+                                    Speed:<strong>33 km/h</strong>,
+                                    Duration:<strong>00:30:19</strong>
+                                </div>
+
+                                                                <div class="list_last_location">
+                                Distance from takeoff                                <strong>0.5 km</strong>,
+                                 [Max] <strong>0.7 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign="middle" align="center" width="70">
+                    <div class="mapContainer">
+                        <img title="waypoint Object
+(
+    [type] =&gt; 1000
+    [countryCode] =&gt; FR
+    [name] =&gt; Le Salève (les Crêts)
+    [intName] =&gt; Le Salève (les Crêts)
+    [location] =&gt; Haute Savoie
+    [intLocation] =&gt; Haute Savoie
+    [link] =&gt; http://www.saleve-vol-libre.com/sites/index.html
+    [description] =&gt; 
+    [modifyDate] =&gt; 2007-03-30
+    [waypointID] =&gt; 9462
+    [gpsTime] =&gt; 
+    [lat] =&gt; 46.1313
+    [lon] =&gt; -6.17072
+    [varioAlt] =&gt; 
+    [gpsAlt] =&gt; 
+    [timezone] =&gt; 0
+)
+" class="ccFlag" src="./TrackListPage-Live_files/fr.png">                            <a class="noAction" data-mapimage="2555941" title="" data-trigger="manual" href="https://www.livetrack24.com/track/2555941" data-original-title=".">
+                                <img ref="trackMap_61730_2555941_6L20" class="staticPosMap img-thumbnail" src="./TrackListPage-Live_files/map_small.jpg">
+                            </a>
+                            <div style="margin-top:9px; text-align: center">
+
+                          <div class="row btn btn-xs btn-default trackMenuTrigger" data-userid="61730" data-trackid="2555941" data-username="6L20" style="width:65px;" title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class="mapPopup" id="mapPopup_2555941">
+
+                            <img src="./TrackListPage-Live_files/map_small.jpg">
+                            <br>
+                        <span class="startDescText">
+                        Takeoff:
+                            <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Le Salève (les ... - FR                            <br>
+                         at 14-02-2024 13:39:06 UTC+1
+
+                                                        <br>
+                            Distance from takeoff                            <strong>0.7 km</strong><br>
+                             [Max] <strong>0.7 km</strong> [Max] <b>0.7 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan="3" class="trackDetailsBox noAction" ref="1707916165_1_0_0" id="action_61730_2555941_6L20">
+				  </td>
+				  </tr>
+                  
+                </tbody></table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial" data-userid="42024" data-trackid="2555892" data-username="beppino54" id="trackRow_42024_2555892_beppino54">
+          	<table width="100%" class="tracktable" cellpadding="0" cellspacing="0">
+                	<tbody><tr>
+                    	<td class="userCellParent" id="userCellParent_42024_2555892_beppino54">
+                            <a class="" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="beppino54" data-original-title="beppino54">
+
+                                <img class="zoomImg img-rounded" src="./TrackListPage-Live_files/photo(1).thumb.jpg" width="70" height="70">
+                                <img class="activityImg" src="./TrackListPage-Live_files/icon_cat_1.png" align="absmiddle" alt="Paraglider" title="Paraglider"><img class="userFlag img-rounded" src="./TrackListPage-Live_files/it.gif">                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_info" title="" data-trigger="hover" data-placement="right" data-trackid="2555892" data-original-title="Network">
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_menu" title="" data-trigger="manual" data-placement="right" data-width="350" data-trackid="2555892" data-original-title="Select action for this LiveTrack">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2555892">
+	                        
+                    		<img src="./TrackListPage-Live_files/icon_flight_live.gif" title="Track is live" alt="Track is live" border="0" align="absmiddle">
+                    		<span class="track_status">Live!</span>                    		<span class="liveusername">
+                                 <a class="noAction" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="beppino54" data-original-title="beppino54">
+                                    beppino54                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="https://www.livetrack24.com/track/2555892">
+                                <div class="list_last_location">was at <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Bassano - IT [~0.6 km]</div>
+
+                                <div class="list_last_time">
+                                     on 14-02-2024 14:09:25 UTC+1<span class="timeAgo"> 0 mins 00 secs ago</span>                                </div>
+
+                                <div class="list_last_location">
+                                    Alt:<strong>801 m</strong>,
+                                    Speed:<strong>38 km/h</strong>,
+                                    Duration:<strong>03:35:22</strong>
+                                </div>
+
+                                                                <div class="list_last_location">
+                                Distance from takeoff                                <strong>3.0 km</strong>,
+                                 [Max] <strong>11.1 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign="middle" align="center" width="70">
+                    <div class="mapContainer">
+                        <img title="waypoint Object
+(
+    [type] =&gt; 1000
+    [countryCode] =&gt; IT
+    [name] =&gt; Bassano
+    [intName] =&gt; Bassano
+    [location] =&gt; 
+    [intLocation] =&gt; 
+    [link] =&gt; 
+    [description] =&gt; 
+    [modifyDate] =&gt; 2005-09-01
+    [waypointID] =&gt; 8841
+    [gpsTime] =&gt; 
+    [lat] =&gt; 45.8234
+    [lon] =&gt; -11.7687
+    [varioAlt] =&gt; 
+    [gpsAlt] =&gt; 
+    [timezone] =&gt; 0
+)
+" class="ccFlag" src="./TrackListPage-Live_files/it.png">                            <a class="noAction" data-mapimage="2555892" title="" data-trigger="manual" href="https://www.livetrack24.com/track/2555892" data-original-title=".">
+                                <img ref="trackMap_42024_2555892_beppino54" class="staticPosMap img-thumbnail" src="./TrackListPage-Live_files/map_small(1).jpg">
+                            </a>
+                            <div style="margin-top:9px; text-align: center">
+
+                          <div class="row btn btn-xs btn-default trackMenuTrigger" data-userid="42024" data-trackid="2555892" data-username="beppino54" style="width:65px;" title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class="mapPopup" id="mapPopup_2555892">
+
+                            <img src="./TrackListPage-Live_files/map_small(1).jpg">
+                            <br>
+                        <span class="startDescText">
+                        Takeoff:
+                            <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Bassano - IT <span class="distanceSpan">~0.6km</span>                            <br>
+                         at 14-02-2024 10:34:03 UTC+1
+
+                                                        <br>
+                            Distance from takeoff                            <strong>11.1 km</strong><br>
+                             [Max] <strong>11.1 km</strong> [Max] <b>11.1 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan="3" class="trackDetailsBox noAction" ref="1707916165_1_0_0" id="action_42024_2555892_beppino54">
+				  </td>
+				  </tr>
+                  
+                </tbody></table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial" data-userid="65896" data-trackid="2555949" data-username="HeiriHafner" id="trackRow_65896_2555949_HeiriHafner">
+          	<table width="100%" class="tracktable" cellpadding="0" cellspacing="0">
+                	<tbody><tr>
+                    	<td class="userCellParent" id="userCellParent_65896_2555949_HeiriHafner">
+                            <a class="" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="HeiriHafner" data-original-title="HeiriHafner">
+
+                                <img class="zoomImg img-rounded" src="./TrackListPage-Live_files/photo(2).thumb.jpg" width="70" height="70">
+                                <img class="activityImg" src="./TrackListPage-Live_files/icon_cat_1.png" align="absmiddle" alt="Paraglider" title="Paraglider"><img class="userFlag img-rounded" src="./TrackListPage-Live_files/ch.gif">                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_info" title="" data-trigger="hover" data-placement="right" data-trackid="2555949" data-original-title="Network">
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_menu" title="" data-trigger="manual" data-placement="right" data-width="350" data-trackid="2555949" data-original-title="Select action for this LiveTrack">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2555949">
+	                        
+                    		<img src="./TrackListPage-Live_files/icon_flight_live.gif" title="Track is live" alt="Track is live" border="0" align="absmiddle">
+                    		<span class="track_status">Live!</span>                    		<span class="liveusername">
+                                 <a class="noAction" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="HeiriHafner" data-original-title="HeiriHafner">
+                                    HeiriHafner                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="https://www.livetrack24.com/track/2555949">
+                                <div class="list_last_location">was at <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Maggisseren - CH [~2.2 km]</div>
+
+                                <div class="list_last_time">
+                                     on 14-02-2024 14:09:23 UTC+1<span class="timeAgo"> 0 mins 02 secs ago</span>                                </div>
+
+                                <div class="list_last_location">
+                                    Alt:<strong>1543 m</strong>,
+                                    Speed:<strong>36 km/h</strong>,
+                                    Duration:<strong>00:10:08</strong>
+                                </div>
+
+                                                                <div class="list_last_location">
+                                Distance from takeoff                                <strong>1.4 km</strong>,
+                                 [Max] <strong>1.4 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign="middle" align="center" width="70">
+                    <div class="mapContainer">
+                        <img title="waypoint Object
+(
+    [type] =&gt; 1000
+    [countryCode] =&gt; CH
+    [name] =&gt; Maggisseren
+    [intName] =&gt; Maggisseren
+    [location] =&gt; 
+    [intLocation] =&gt; 
+    [link] =&gt; 
+    [description] =&gt; 
+    [modifyDate] =&gt; 2007-04-09
+    [waypointID] =&gt; 9494
+    [gpsTime] =&gt; 
+    [lat] =&gt; 46.5892
+    [lon] =&gt; -7.60967
+    [varioAlt] =&gt; 
+    [gpsAlt] =&gt; 
+    [timezone] =&gt; 0
+)
+" class="ccFlag" src="./TrackListPage-Live_files/ch.png">                            <a class="noAction" data-mapimage="2555949" title="" data-trigger="manual" href="https://www.livetrack24.com/track/2555949" data-original-title=".">
+                                <img ref="trackMap_65896_2555949_HeiriHafner" class="staticPosMap img-thumbnail" src="./TrackListPage-Live_files/map_small(2).jpg">
+                            </a>
+                            <div style="margin-top:9px; text-align: center">
+
+                          <div class="row btn btn-xs btn-default trackMenuTrigger" data-userid="65896" data-trackid="2555949" data-username="HeiriHafner" style="width:65px;" title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class="mapPopup" id="mapPopup_2555949">
+
+                            <img src="./TrackListPage-Live_files/map_small(2).jpg">
+                            <br>
+                        <span class="startDescText">
+                        Takeoff:
+                            <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Maggisseren - CH <span class="distanceSpan">~2.2km</span>                            <br>
+                         at 14-02-2024 13:59:15 UTC+1
+
+                                                        <br>
+                            Distance from takeoff                            <strong>1.4 km</strong><br>
+                             [Max] <strong>1.4 km</strong> [Max] <b>1.4 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan="3" class="trackDetailsBox noAction" ref="1707916163_1_0_0" id="action_65896_2555949_HeiriHafner">
+				  </td>
+				  </tr>
+                  
+                </tbody></table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial" data-userid="65071" data-trackid="2555948" data-username="ivanjuretic" id="trackRow_65071_2555948_ivanjuretic">
+          	<table width="100%" class="tracktable" cellpadding="0" cellspacing="0">
+                	<tbody><tr>
+                    	<td class="userCellParent" id="userCellParent_65071_2555948_ivanjuretic">
+                            <a class="" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="ivanjuretic" data-original-title="ivanjuretic">
+
+                                <img class="zoomImg img-rounded" src="./TrackListPage-Live_files/photo(3).thumb.jpg" width="70" height="70">
+                                <img class="activityImg" src="./TrackListPage-Live_files/icon_cat_1.png" align="absmiddle" alt="Paraglider" title="Paraglider"><img class="userFlag img-rounded" src="./TrackListPage-Live_files/hr.gif">                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_info" title="" data-trigger="hover" data-placement="right" data-trackid="2555948" data-original-title="Network">
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_menu" title="" data-trigger="manual" data-placement="right" data-width="350" data-trackid="2555948" data-original-title="Select action for this LiveTrack">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2555948">
+	                        
+                    		<img src="./TrackListPage-Live_files/icon_flight_live.gif" title="Track is live" alt="Track is live" border="0" align="absmiddle">
+                    		<span class="track_status">Live!</span>                    		<span class="liveusername">
+                                 <a class="noAction" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="ivanjuretic" data-original-title="ivanjuretic">
+                                    ivanjuretic                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="https://www.livetrack24.com/track/2555948">
+                                <div class="list_last_location">was at <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Grobnik - HR [~2.7 km]</div>
+
+                                <div class="list_last_time">
+                                     on 14-02-2024 14:09:23 UTC+1<span class="timeAgo"> 0 mins 02 secs ago</span>                                </div>
+
+                                <div class="list_last_location">
+                                    Alt:<strong>1414 m</strong>,
+                                    Speed:<strong>58 km/h</strong>,
+                                    Duration:<strong>00:14:53</strong>
+                                </div>
+
+                                                                <div class="list_last_location">
+                                Distance from takeoff                                <strong>1.3 km</strong>,
+                                 [Max] <strong>1.4 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign="middle" align="center" width="70">
+                    <div class="mapContainer">
+                        <img title="waypoint Object
+(
+    [type] =&gt; 1000
+    [countryCode] =&gt; HR
+    [name] =&gt; Grobnik
+    [intName] =&gt; Grobnik
+    [location] =&gt; Rijeka
+    [intLocation] =&gt; Rijeka
+    [link] =&gt; 
+    [description] =&gt; 
+    [modifyDate] =&gt; 2010-03-15
+    [waypointID] =&gt; 65324
+    [gpsTime] =&gt; 
+    [lat] =&gt; 45.3956
+    [lon] =&gt; -14.5436
+    [varioAlt] =&gt; 
+    [gpsAlt] =&gt; 
+    [timezone] =&gt; 0
+)
+" class="ccFlag" src="./TrackListPage-Live_files/hr.png">                            <a class="noAction" data-mapimage="2555948" title="" data-trigger="manual" href="https://www.livetrack24.com/track/2555948" data-original-title=".">
+                                <img ref="trackMap_65071_2555948_ivanjuretic" class="staticPosMap img-thumbnail" src="./TrackListPage-Live_files/map_small(3).jpg">
+                            </a>
+                            <div style="margin-top:9px; text-align: center">
+
+                          <div class="row btn btn-xs btn-default trackMenuTrigger" data-userid="65071" data-trackid="2555948" data-username="ivanjuretic" style="width:65px;" title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class="mapPopup" id="mapPopup_2555948">
+
+                            <img src="./TrackListPage-Live_files/map_small(3).jpg">
+                            <br>
+                        <span class="startDescText">
+                        Takeoff:
+                            <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Grobnik - HR <span class="distanceSpan">~2.0km</span>                            <br>
+                         at 14-02-2024 13:54:30 UTC+1
+
+                                                        <br>
+                            Distance from takeoff                            <strong>1.4 km</strong><br>
+                             [Max] <strong>1.4 km</strong> [Max] <b>1.4 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan="3" class="trackDetailsBox noAction" ref="1707916163_1_0_0" id="action_65071_2555948_ivanjuretic">
+				  </td>
+				  </tr>
+                  
+                </tbody></table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial" data-userid="24971" data-trackid="2555933" data-username="Tommy76" id="trackRow_24971_2555933_Tommy76">
+          	<table width="100%" class="tracktable" cellpadding="0" cellspacing="0">
+                	<tbody><tr>
+                    	<td class="userCellParent" id="userCellParent_24971_2555933_Tommy76">
+                            <a class="" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="Tommy76" data-original-title="Tommy76">
+
+                                <img class="zoomImg img-rounded" src="./TrackListPage-Live_files/photo(4).thumb.jpg" width="70" height="70">
+                                <img class="activityImg" src="./TrackListPage-Live_files/icon_cat_1.png" align="absmiddle" alt="Paraglider" title="Paraglider"><img class="userFlag img-rounded" src="./TrackListPage-Live_files/it.gif">                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_info" title="" data-trigger="hover" data-placement="right" data-trackid="2555933" data-original-title="Network">
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_menu" title="" data-trigger="manual" data-placement="right" data-width="350" data-trackid="2555933" data-original-title="Select action for this LiveTrack">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2555933">
+	                        
+                    		<img src="./TrackListPage-Live_files/icon_flight_live.gif" title="Track is live" alt="Track is live" border="0" align="absmiddle">
+                    		<span class="track_status">Live!</span>                    		<span class="liveusername">
+                                 <a class="noAction" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="Tommy76" data-original-title="Tommy76">
+                                    Tommy76                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="https://www.livetrack24.com/track/2555933">
+                                <div class="list_last_location">was at <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Monte Belpo - IT [~0.0 km]</div>
+
+                                <div class="list_last_time">
+                                     on 14-02-2024 14:09:23 UTC+1<span class="timeAgo"> 0 mins 02 secs ago</span>                                </div>
+
+                                <div class="list_last_location">
+                                    Alt:<strong>1101 m</strong>,
+                                    Speed:<strong>29 km/h</strong>,
+                                    Duration:<strong>00:57:54</strong>
+                                </div>
+
+                                                                <div class="list_last_location">
+                                Distance from takeoff                                <strong>0.3 km</strong>,
+                                 [Max] <strong>1.1 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign="middle" align="center" width="70">
+                    <div class="mapContainer">
+                        <img title="waypoint Object
+(
+    [type] =&gt; 1000
+    [countryCode] =&gt; IT
+    [name] =&gt; Monte Belpo
+    [intName] =&gt; Monte Belpo
+    [location] =&gt; San Zeno di Montagna - Verona
+    [intLocation] =&gt; San Zeno di Montagna - Verona
+    [link] =&gt; 
+    [description] =&gt; 
+    [modifyDate] =&gt; 2007-01-23
+    [waypointID] =&gt; 9242
+    [gpsTime] =&gt; 
+    [lat] =&gt; 45.6125
+    [lon] =&gt; -10.7476
+    [varioAlt] =&gt; 
+    [gpsAlt] =&gt; 
+    [timezone] =&gt; 0
+)
+" class="ccFlag" src="./TrackListPage-Live_files/it.png">                            <a class="noAction" data-mapimage="2555933" title="" data-trigger="manual" href="https://www.livetrack24.com/track/2555933" data-original-title=".">
+                                <img ref="trackMap_24971_2555933_Tommy76" class="staticPosMap img-thumbnail" src="./TrackListPage-Live_files/map_small(4).jpg">
+                            </a>
+                            <div style="margin-top:9px; text-align: center">
+
+                          <div class="row btn btn-xs btn-default trackMenuTrigger" data-userid="24971" data-trackid="2555933" data-username="Tommy76" style="width:65px;" title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class="mapPopup" id="mapPopup_2555933">
+
+                            <img src="./TrackListPage-Live_files/map_small(4).jpg">
+                            <br>
+                        <span class="startDescText">
+                        Takeoff:
+                            <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Monte Belpo - IT                            <br>
+                         at 14-02-2024 13:11:29 UTC+1
+
+                                                        <br>
+                            Distance from takeoff                            <strong>1.1 km</strong><br>
+                             [Max] <strong>1.1 km</strong> [Max] <b>1.1 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan="3" class="trackDetailsBox noAction" ref="1707916163_1_0_0" id="action_24971_2555933_Tommy76">
+				  </td>
+				  </tr>
+                  
+                </tbody></table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial" data-userid="20152" data-trackid="2555939" data-username="pops" id="trackRow_20152_2555939_pops">
+          	<table width="100%" class="tracktable" cellpadding="0" cellspacing="0">
+                	<tbody><tr>
+                    	<td class="userCellParent" id="userCellParent_20152_2555939_pops">
+                            <a class="" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="pops" data-original-title="pops">
+
+                                <img class="zoomImg img-rounded" src="./TrackListPage-Live_files/photo(5).thumb.jpg" width="70" height="70">
+                                <img class="activityImg" src="./TrackListPage-Live_files/icon_cat_8.png" align="absmiddle" alt="Glider" title="Glider"><img class="userFlag img-rounded" src="./TrackListPage-Live_files/it.gif">                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_info" title="" data-trigger="hover" data-placement="right" data-trackid="2555939" data-original-title="Network">
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_menu" title="" data-trigger="manual" data-placement="right" data-width="350" data-trackid="2555939" data-original-title="Select action for this LiveTrack">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2555939">
+	                        
+                    		<img src="./TrackListPage-Live_files/icon_flight_live.gif" title="Track is live" alt="Track is live" border="0" align="absmiddle">
+                    		<span class="track_status">Live!</span>                    		<span class="liveusername">
+                                 <a class="noAction" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="pops" data-original-title="pops">
+                                    pops                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="https://www.livetrack24.com/track/2555939">
+                                <div class="list_last_location">was at <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Alpe Pala - IT [~0.2 km]</div>
+
+                                <div class="list_last_time">
+                                     on 14-02-2024 14:09:22 UTC+1<span class="timeAgo"> 0 mins 03 secs ago</span>                                </div>
+
+                                <div class="list_last_location">
+                                    Alt:<strong>1418 m</strong>,
+                                    Speed:<strong>22 km/h</strong>,
+                                    Duration:<strong>00:40:17</strong>
+                                </div>
+
+                                                                <div class="list_last_location">
+                                Distance from takeoff                                <strong>0.1 km</strong>,
+                                 [Max] <strong>0.7 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign="middle" align="center" width="70">
+                    <div class="mapContainer">
+                        <img title="waypoint Object
+(
+    [type] =&gt; 1000
+    [countryCode] =&gt; IT
+    [name] =&gt; Alpe Pala
+    [intName] =&gt; Alpe Pala
+    [location] =&gt; 
+    [intLocation] =&gt; 
+    [link] =&gt; 
+    [description] =&gt; 
+    [modifyDate] =&gt; 2005-10-15
+    [waypointID] =&gt; 9030
+    [gpsTime] =&gt; 
+    [lat] =&gt; 45.9863
+    [lon] =&gt; -8.52012
+    [varioAlt] =&gt; 
+    [gpsAlt] =&gt; 
+    [timezone] =&gt; 0
+)
+" class="ccFlag" src="./TrackListPage-Live_files/it.png">                            <a class="noAction" data-mapimage="2555939" title="" data-trigger="manual" href="https://www.livetrack24.com/track/2555939" data-original-title=".">
+                                <img ref="trackMap_20152_2555939_pops" class="staticPosMap img-thumbnail" src="./TrackListPage-Live_files/map_small(5).jpg">
+                            </a>
+                            <div style="margin-top:9px; text-align: center">
+
+                          <div class="row btn btn-xs btn-default trackMenuTrigger" data-userid="20152" data-trackid="2555939" data-username="pops" style="width:65px;" title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class="mapPopup" id="mapPopup_2555939">
+
+                            <img src="./TrackListPage-Live_files/map_small(5).jpg">
+                            <br>
+                        <span class="startDescText">
+                        Takeoff:
+                            <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Alpe Pala - IT                            <br>
+                         at 14-02-2024 13:29:05 UTC+1
+
+                                                        <br>
+                            Distance from takeoff                            <strong>0.7 km</strong><br>
+                             [Max] <strong>0.7 km</strong> [Max] <b>0.7 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan="3" class="trackDetailsBox noAction" ref="1707916162_1_0_0" id="action_20152_2555939_pops">
+				  </td>
+				  </tr>
+                  
+                </tbody></table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial" data-userid="64265" data-trackid="2555953" data-username="FrancoisMontuori" id="trackRow_64265_2555953_FrancoisMontuori">
+          	<table width="100%" class="tracktable" cellpadding="0" cellspacing="0">
+                	<tbody><tr>
+                    	<td class="userCellParent" id="userCellParent_64265_2555953_FrancoisMontuori">
+                            <a class="" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="FrancoisMontuori" data-original-title="FrancoisMontuori">
+
+                                <img class="zoomImg img-rounded" src="./TrackListPage-Live_files/photo(6).thumb.jpg" width="70" height="70">
+                                <img class="activityImg" src="./TrackListPage-Live_files/icon_cat_1.png" align="absmiddle" alt="Paraglider" title="Paraglider"><img class="userFlag img-rounded" src="./TrackListPage-Live_files/fr.gif">                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_info" title="" data-trigger="hover" data-placement="right" data-trackid="2555953" data-original-title="Network">
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_menu" title="" data-trigger="manual" data-placement="right" data-width="350" data-trackid="2555953" data-original-title="Select action for this LiveTrack">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2555953">
+	                        
+                    		<img src="./TrackListPage-Live_files/icon_flight_live.gif" title="Track is live" alt="Track is live" border="0" align="absmiddle">
+                    		<span class="track_status">Live!</span>                    		<span class="liveusername">
+                                 <a class="noAction" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="FrancoisMontuori" data-original-title="FrancoisMontuori">
+                                    FrancoisMontuori                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="https://www.livetrack24.com/track/2555953">
+                                <div class="list_last_location">was at <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Grand Bornand - FR [~1.9 km]</div>
+
+                                <div class="list_last_time">
+                                     on 14-02-2024 14:09:21 UTC+1<span class="timeAgo"> 0 mins 05 secs ago</span>                                </div>
+
+                                <div class="list_last_location">
+                                    Alt:<strong>1126 m</strong>,
+                                    Speed:<strong>18 km/h</strong>,
+                                    Duration:<strong>00:00:30</strong>
+                                </div>
+
+                                                                <div class="list_last_location">
+                                Distance from takeoff                                <strong>0.1 km</strong>,
+                                 [Max] <strong>0.1 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign="middle" align="center" width="70">
+                    <div class="mapContainer">
+                        <img title="waypoint Object
+(
+    [type] =&gt; 1001
+    [countryCode] =&gt; FR
+    [name] =&gt; Grand Bornand
+    [intName] =&gt; Grand Bornand
+    [location] =&gt; Annecy
+    [intLocation] =&gt; Annecy
+    [link] =&gt; 
+    [description] =&gt; 
+    [modifyDate] =&gt; 2013-09-01
+    [waypointID] =&gt; 69748
+    [gpsTime] =&gt; 
+    [lat] =&gt; 45.9362
+    [lon] =&gt; -6.45798
+    [varioAlt] =&gt; 
+    [gpsAlt] =&gt; 
+    [timezone] =&gt; 0
+)
+" class="ccFlag" src="./TrackListPage-Live_files/fr.png">                            <a class="noAction" data-mapimage="2555953" title="" data-trigger="manual" href="https://www.livetrack24.com/track/2555953" data-original-title=".">
+                                <img ref="trackMap_64265_2555953_FrancoisMontuori" class="staticPosMap img-thumbnail" src="./TrackListPage-Live_files/map_small(6).jpg">
+                            </a>
+                            <div style="margin-top:9px; text-align: center">
+
+                          <div class="row btn btn-xs btn-default trackMenuTrigger" data-userid="64265" data-trackid="2555953" data-username="FrancoisMontuori" style="width:65px;" title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class="mapPopup" id="mapPopup_2555953">
+
+                            <img src="./TrackListPage-Live_files/map_small(6).jpg">
+                            <br>
+                        <span class="startDescText">
+                        Takeoff:
+                            <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Grand Bornand - FR <span class="distanceSpan">~1.9km</span>                            <br>
+                         at 14-02-2024 14:08:51 UTC+1
+
+                                                        <br>
+                            Distance from takeoff                            <strong>0.1 km</strong><br>
+                             [Max] <strong>0.1 km</strong> [Max] <b>0.1 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan="3" class="trackDetailsBox noAction" ref="1707916161_1_0_0" id="action_64265_2555953_FrancoisMontuori">
+				  </td>
+				  </tr>
+                  
+                </tbody></table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial" data-userid="45013" data-trackid="2555942" data-username="tonyreinwalds" id="trackRow_45013_2555942_tonyreinwalds">
+          	<table width="100%" class="tracktable" cellpadding="0" cellspacing="0">
+                	<tbody><tr>
+                    	<td class="userCellParent" id="userCellParent_45013_2555942_tonyreinwalds">
+                            <a class="" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="tonyreinwalds" data-original-title="tonyreinwalds">
+
+                                <img class="zoomImg img-rounded" src="./TrackListPage-Live_files/photo(7).thumb.jpg" width="70" height="70">
+                                <img class="activityImg" src="./TrackListPage-Live_files/icon_cat_1.png" align="absmiddle" alt="Paraglider" title="Paraglider"><img class="userFlag img-rounded" src="./TrackListPage-Live_files/se.gif">                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_info" title="" data-trigger="hover" data-placement="right" data-trackid="2555942" data-original-title="Network">
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_menu" title="" data-trigger="manual" data-placement="right" data-width="350" data-trackid="2555942" data-original-title="Select action for this LiveTrack">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2555942">
+	                        
+                    		<img src="./TrackListPage-Live_files/icon_flight_live.gif" title="Track is live" alt="Track is live" border="0" align="absmiddle">
+                    		<span class="track_status">Live!</span>                    		<span class="liveusername">
+                                 <a class="noAction" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="tonyreinwalds" data-original-title="tonyreinwalds">
+                                    tonyreinwalds                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="https://www.livetrack24.com/track/2555942">
+                                <div class="list_last_location">was at <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> El Palomaret - ES [~0.1 km]</div>
+
+                                <div class="list_last_time">
+                                     on 14-02-2024 14:09:20 UTC+1<span class="timeAgo"> 0 mins 06 secs ago</span>                                </div>
+
+                                <div class="list_last_location">
+                                    Alt:<strong>934 m</strong>,
+                                    Speed:<strong>27 km/h</strong>,
+                                    Duration:<strong>00:24:08</strong>
+                                </div>
+
+                                                                <div class="list_last_location">
+                                Distance from takeoff                                <strong>0.1 km</strong>,
+                                 [Max] <strong>0.4 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign="middle" align="center" width="70">
+                    <div class="mapContainer">
+                        <img title="waypoint Object
+(
+    [type] =&gt; 1000
+    [countryCode] =&gt; ES
+    [name] =&gt; El Palomaret
+    [intName] =&gt; El Palomaret
+    [location] =&gt; Comunidad Valenciana
+    [intLocation] =&gt; Comunidad Valenciana
+    [link] =&gt; 
+    [description] =&gt; 
+    [modifyDate] =&gt; 2008-03-12
+    [waypointID] =&gt; 11289
+    [gpsTime] =&gt; 
+    [lat] =&gt; 38.4858
+    [lon] =&gt; 0.672983
+    [varioAlt] =&gt; 
+    [gpsAlt] =&gt; 
+    [timezone] =&gt; 0
+)
+" class="ccFlag" src="./TrackListPage-Live_files/es.png">                            <a class="noAction" data-mapimage="2555942" title="" data-trigger="manual" href="https://www.livetrack24.com/track/2555942" data-original-title=".">
+                                <img ref="trackMap_45013_2555942_tonyreinwalds" class="staticPosMap img-thumbnail" src="./TrackListPage-Live_files/map_small(7).jpg">
+                            </a>
+                            <div style="margin-top:9px; text-align: center">
+
+                          <div class="row btn btn-xs btn-default trackMenuTrigger" data-userid="45013" data-trackid="2555942" data-username="tonyreinwalds" style="width:65px;" title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class="mapPopup" id="mapPopup_2555942">
+
+                            <img src="./TrackListPage-Live_files/map_small(7).jpg">
+                            <br>
+                        <span class="startDescText">
+                        Takeoff:
+                            <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> El Palomaret - ES                            <br>
+                         at 14-02-2024 13:45:12 UTC+1
+
+                                                        <br>
+                            Distance from takeoff                            <strong>0.4 km</strong><br>
+                             [Max] <strong>0.4 km</strong> [Max] <b>0.4 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan="3" class="trackDetailsBox noAction" ref="1707916160_1_0_0" id="action_45013_2555942_tonyreinwalds">
+				  </td>
+				  </tr>
+                  
+                </tbody></table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial" data-userid="66544" data-trackid="2555904" data-username="shahin" id="trackRow_66544_2555904_shahin">
+          	<table width="100%" class="tracktable" cellpadding="0" cellspacing="0">
+                	<tbody><tr>
+                    	<td class="userCellParent" id="userCellParent_66544_2555904_shahin">
+                            <a class="" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="shahin" data-original-title="shahin">
+
+                                <img class="zoomImg img-rounded" src="./TrackListPage-Live_files/photo(8).thumb.jpg" width="70" height="70">
+                                <img class="activityImg" src="./TrackListPage-Live_files/icon_cat_1.png" align="absmiddle" alt="Paraglider" title="Paraglider"><img class="userFlag img-rounded" src="./TrackListPage-Live_files/ir.gif">                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_info" title="" data-trigger="hover" data-placement="right" data-trackid="2555904" data-original-title="Network">
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_menu" title="" data-trigger="manual" data-placement="right" data-width="350" data-trackid="2555904" data-original-title="Select action for this LiveTrack">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2555904">
+	                        
+                    		<img src="./TrackListPage-Live_files/icon_flight_live.gif" title="Track is live" alt="Track is live" border="0" align="absmiddle">
+                    		<span class="track_status">Live!</span>                    		<span class="liveusername">
+                                 <a class="noAction" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="shahin" data-original-title="shahin">
+                                    shahin                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="https://www.livetrack24.com/track/2555904">
+                                <div class="list_last_location">was at <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Absard Damavand - IR [~121.1 km]</div>
+
+                                <div class="list_last_time">
+                                     on 14-02-2024 16:09:19 UTC+3<span class="timeAgo"> 0 mins 07 secs ago</span>                                </div>
+
+                                <div class="list_last_location">
+                                    Alt:<strong>460 m</strong>,
+                                    Speed:<strong>20 km/h</strong>,
+                                    Duration:<strong>02:31:49</strong>
+                                </div>
+
+                                                                <div class="list_last_location">
+                                Distance from takeoff                                <strong>0.5 km</strong>,
+                                 [Max] <strong>2.0 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign="middle" align="center" width="70">
+                    <div class="mapContainer">
+                        <img title="waypoint Object
+(
+    [type] =&gt; 1000
+    [countryCode] =&gt; IR
+    [name] =&gt; absard damavand
+    [intName] =&gt; Absard Damavand
+    [location] =&gt; dashte tchenar
+    [intLocation] =&gt; dashte tchenar
+    [link] =&gt; 
+    [description] =&gt; 
+    [modifyDate] =&gt; 2010-09-11
+    [waypointID] =&gt; 65930
+    [gpsTime] =&gt; 
+    [lat] =&gt; 35.7114
+    [lon] =&gt; -52.1343
+    [varioAlt] =&gt; 
+    [gpsAlt] =&gt; 
+    [timezone] =&gt; 0
+)
+" class="ccFlag" src="./TrackListPage-Live_files/ir.png">                            <a class="noAction" data-mapimage="2555904" title="" data-trigger="manual" href="https://www.livetrack24.com/track/2555904" data-original-title=".">
+                                <img ref="trackMap_66544_2555904_shahin" class="staticPosMap img-thumbnail" src="./TrackListPage-Live_files/map_small(8).jpg">
+                            </a>
+                            <div style="margin-top:9px; text-align: center">
+
+                          <div class="row btn btn-xs btn-default trackMenuTrigger" data-userid="66544" data-trackid="2555904" data-username="shahin" style="width:65px;" title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class="mapPopup" id="mapPopup_2555904">
+
+                            <img src="./TrackListPage-Live_files/map_small(8).jpg">
+                            <br>
+                        <span class="startDescText">
+                        Takeoff:
+                            <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Absard Damavand... - IR <span class="distanceSpan">~121.0km</span>                            <br>
+                         at 14-02-2024 13:37:30 UTC+3
+
+                                                        <br>
+                            Distance from takeoff                            <strong>2.0 km</strong><br>
+                             [Max] <strong>2.0 km</strong> [Max] <b>2.0 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan="3" class="trackDetailsBox noAction" ref="1707916159_1_0_0" id="action_66544_2555904_shahin">
+				  </td>
+				  </tr>
+                  
+                </tbody></table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial" data-userid="66860" data-trackid="2555951" data-username="Stratos73" id="trackRow_66860_2555951_Stratos73">
+          	<table width="100%" class="tracktable" cellpadding="0" cellspacing="0">
+                	<tbody><tr>
+                    	<td class="userCellParent" id="userCellParent_66860_2555951_Stratos73">
+                            <a class="" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="Stratos73" data-original-title="Stratos73">
+
+                                <img class="zoomImg img-rounded" src="./TrackListPage-Live_files/photo(9).thumb.jpg" width="70" height="70">
+                                <img class="activityImg" src="./TrackListPage-Live_files/icon_cat_1.png" align="absmiddle" alt="Paraglider" title="Paraglider"><img class="userFlag img-rounded" src="./TrackListPage-Live_files/ch.gif">                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_info" title="" data-trigger="hover" data-placement="right" data-trackid="2555951" data-original-title="Network">
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class="noAction btn btn-xs btn-default" href="javascript:;" data-ajax="true" data-action="track_menu" title="" data-trigger="manual" data-placement="right" data-width="350" data-trackid="2555951" data-original-title="Select action for this LiveTrack">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2555951">
+	                        
+                    		<img src="./TrackListPage-Live_files/icon_flight_live.gif" title="Track is live" alt="Track is live" border="0" align="absmiddle">
+                    		<span class="track_status">Live!</span>                    		<span class="liveusername">
+                                 <a class="noAction" href="javascript:;" title="" data-trigger="manual" data-placement="top" data-username0="Stratos73" data-original-title="Stratos73">
+                                    Stratos73                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="https://www.livetrack24.com/track/2555951">
+                                <div class="list_last_location">was at <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Gubbio - IT [~0.2 km]</div>
+
+                                <div class="list_last_time">
+                                     on 14-02-2024 14:09:18 UTC+1<span class="timeAgo"> 0 mins 08 secs ago</span>                                </div>
+
+                                <div class="list_last_location">
+                                    Alt:<strong>978 m</strong>,
+                                    Speed:<strong>7 km/h</strong>,
+                                    Duration:<strong>00:08:21</strong>
+                                </div>
+
+                                                                <div class="list_last_location">
+                                Distance from takeoff                                <strong>0.0 km</strong>,
+                                 [Max] <strong>0.0 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign="middle" align="center" width="70">
+                    <div class="mapContainer">
+                        <img title="waypoint Object
+(
+    [type] =&gt; 1000
+    [countryCode] =&gt; IT
+    [name] =&gt; Gubbio
+    [intName] =&gt; Gubbio
+    [location] =&gt; Umbria
+    [intLocation] =&gt; null
+    [link] =&gt; 
+    [description] =&gt; 
+    [modifyDate] =&gt; 2010-06-11
+    [waypointID] =&gt; 65620
+    [gpsTime] =&gt; 
+    [lat] =&gt; 43.3655
+    [lon] =&gt; -12.5725
+    [varioAlt] =&gt; 
+    [gpsAlt] =&gt; 
+    [timezone] =&gt; 0
+)
+" class="ccFlag" src="./TrackListPage-Live_files/it.png">                            <a class="noAction" data-mapimage="2555951" title="" data-trigger="manual" href="https://www.livetrack24.com/track/2555951" data-original-title=".">
+                                <img ref="trackMap_66860_2555951_Stratos73" class="staticPosMap img-thumbnail" src="./TrackListPage-Live_files/map_small(9).jpg">
+                            </a>
+                            <div style="margin-top:9px; text-align: center">
+
+                          <div class="row btn btn-xs btn-default trackMenuTrigger" data-userid="66860" data-trackid="2555951" data-username="Stratos73" style="width:65px;" title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class="mapPopup" id="mapPopup_2555951">
+
+                            <img src="./TrackListPage-Live_files/map_small(9).jpg">
+                            <br>
+                        <span class="startDescText">
+                        Takeoff:
+                            <img style="vertical-align:text-bottom" src="./TrackListPage-Live_files/icon_takeoff.gif"> Gubbio - IT                            <br>
+                         at 14-02-2024 14:00:57 UTC+1
+
+                                                        <br>
+                            Distance from takeoff                            <strong>0.0 km</strong><br>
+                             [Max] <strong>0.0 km</strong> [Max] <b>0.0 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan="3" class="trackDetailsBox noAction" ref="1707916158_1_0_0" id="action_66860_2555951_Stratos73">
+				  </td>
+				  </tr>
+                  
+                </tbody></table>
+		</div>
+    
+    </td>
+    </tr>
+</tbody></table><div width="100%" class="clearfix" id="tracksPagination2"><ul class="pagination">
+<li class="active"><a href="javascript:;">1<span class="sr-only">(current)</span></a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/2">2</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/3">3</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/4">4</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/5">5</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/6">6</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/7">7</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/8">8</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/9">9</a></li>
+<li><a href="https://www.livetrack24.com/tracks/page_num/1238">»</a></li>
+
+</ul></div></td><td valign="top"></td><td valign="top" width="130" style="padding-left:20px; background: none;">
+    <script async="" src="./TrackListPage-Live_files/f.txt"></script>
+    <!-- LiveTrack24 block 1 -->
+    <ins class="adsbygoogle" style="display:inline-block;width:120px;height:240px" data-ad-client="ca-pub-1129886839181308" data-ad-slot="3154798270"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+
+    <!-- LiveTrack24 block 2 -->
+    <ins class="adsbygoogle" style="display:inline-block;width:120px;height:240px" data-ad-client="ca-pub-1129886839181308" data-ad-slot="3015197473"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <!-- LiveTrack24 block 3 -->
+    <ins class="adsbygoogle" style="display:inline-block;width:120px;height:240px" data-ad-client="ca-pub-1129886839181308" data-ad-slot="4491930678"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+
+
+
+
+
+</td>
+
+
+</tr></tbody></table>
+
+<!-- Definition of popup boxes  -->
+<div id="userBox"></div>
+
+<!-- Modal -->
+<div id="userModalBox" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Info</h3>
+    </div>
+    <div class="modal-body">
+        <p></p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary">Save changes</button>
+    </div>
+</div>
+
+<div id="trackMenuBox" class="trackMenuBoxMinimal" align="center"></div>
+
+
+<div id="takeoffAddID" class="dropBox takeoffOptionsDropDown" style="display:none; z-index:9999; left:0" width="10"><iframe name="addTakeoffFrame" id="addTakeoffFrame" width="100%" height="100%" frameborder="0" style="border-width:0px" src="./TrackListPage-Live_files/saved_resource.html"></iframe></div>
+
+
+<div id="wikiWindow">
+    <div align="right"><a href="javascript:wikiWindowHide()">close</a></div>
+    <div id="wikiWindowContent"></div>
+</div>
+
+<div id="actionDiv">
+    <div class="actionDivHeader">
+        <div id="actionDivTitle" class="title">Select action for this LiveTrack</div>
+        <div class="closeButton"></div>
+    </div>
+    <div id="actionDivMain"></div>
+</div>
+
+
+<div id="sendTrackTemplate" class="sendTrackMenu">
+</div>
+
+<div id="selectTzBox">
+    <h2 class="modal-title" id="myModalLabel">Timezone offset in Hours</h2>
+    <form method="POST">
+        Timezone offset in Hours        <input type="text" size="3" id="changeOffset" name="changeOffset" value="9">
+        <br>
+        <input name="showLocalTimes" id="showLocalTimes" type="checkbox" value="1" checked="">
+        <label for="showLocalTimes">
+            Display tracks in their local time        </label>
+        <br><br>
+
+        <button type="button" class="btn btn-default" data-dismiss="clickover">Cancel</button>
+        <input class="btn btn-primary" type="button" onclick="changeTZ()" name="Submit" value="Change">
+    </form>
+
+</div>
+
+</div> 	</div>
+
+    <div class="hsep1 clearfix"></div>
+</div>
+
+    <div class="modal fade" id="modalDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">INFO</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="bottom1div" width="100%" style="clear:both;"></div>
+<div class="bottom2div" width="100%" style="clear:both;">
+
+    <div id="ft">
+        <div id="footer_nav">
+          <div class="yui-u first">
+            <ul class="left" style="width:180px">
+              <li><strong>About</strong></li>
+              <li><a href="https://www.livetrack24.com/docs/aboutus">About us</a></li>
+              <li><a href="https://www.livetrack24.com/docs/index">How it works</a></li>
+              <li><a href="https://www.livetrack24.com/apps/gprs_calculator">How much does it cost</a></li>
+              <li><a href="https://www.livetrack24.com/services/index">Features and services</a></li>
+              <li><a contact-id="2" href="javascript:;" onclick="showContact( $(this).attr(&#39;contact-id&#39;) )">Contact Us</a></li>
+            </ul>
+            <ul class="left" style="width:180px">
+              <li><strong>I want to be tracked...</strong></li>
+              <li><a href="https://www.livetrack24.com/apps/index">Install on the Phone </a></li>
+              <li><a href="https://www.livetrack24.com/docs/mobile">Our App for Android/iPhone</a></li>
+              <li><a href="https://www.livetrack24.com/store/index">Get a Tracking device</a></li>
+              <li><a href="https://www.livetrack24.com/register">Create an account</a></li>
+              <li><a href="https://www.livetrack24.com/docs/embed">Let your friends know</a></li>
+
+            </ul>
+            <ul class="left" style="width:200px">
+              <li><strong>I want to track a friend</strong></li>
+              <li><a href="https://www.livetrack24.com/docs/viewing">General FAQ for viewers</a></li>
+              <li><a href="https://www.livetrack24.com/docs/rss">Rss feeds</a></li>
+              <li><a href="https://www.livetrack24.com/docs/mobilepages">Pages for use on Mobile phones</a></li>
+            </ul>
+            <ul class="left" style="width:180px">
+              <li><strong><a href="https://www.livetrack24.com/tasks" rel="nofollow">Events / Races / Comps</a></strong></li>
+              <li><a href="https://www.livetrack24.com/services/events">Services for organizers</a></li>
+              <li><a href="https://www.livetrack24.com/doc/Livetracking%20for%20Competitions.pdf">Guide for organizers</a></li>
+              <li><a contact-id="2" href="javascript:;" onclick="showContact( $(this).attr(&#39;contact-id&#39;) )">Contact Us</a></li>
+
+            </ul>
+            <div class="clearl"></div>
+          </div>
+
+
+
+            <div id="footer_copyright">
+            ©2006-2024 LiveTrack24 ::
+                <a href="https://www.livetrack24.com/wiki">Wiki</a> ::
+                <a href="https://www.livetrack24.com/docs/api">API</a>
+
+          </div>
+        </div>
+    </div>
+  
+</div>
+
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+<div id="fancybox-tmp"></div><div id="fancybox-loading"><div></div></div><div id="fancybox-overlay"></div><div id="fancybox-wrap"><div id="fancybox-outer"><div class="fancybox-bg" id="fancybox-bg-n"></div><div class="fancybox-bg" id="fancybox-bg-ne"></div><div class="fancybox-bg" id="fancybox-bg-e"></div><div class="fancybox-bg" id="fancybox-bg-se"></div><div class="fancybox-bg" id="fancybox-bg-s"></div><div class="fancybox-bg" id="fancybox-bg-sw"></div><div class="fancybox-bg" id="fancybox-bg-w"></div><div class="fancybox-bg" id="fancybox-bg-nw"></div><div id="fancybox-content"></div><a id="fancybox-close"></a><div id="fancybox-title"></div><a href="javascript:;" id="fancybox-left"><span class="fancy-ico" id="fancybox-left-ico"></span></a><a href="javascript:;" id="fancybox-right"><span class="fancy-ico" id="fancybox-right-ico"></span></a></div></div><span id="jqoembeddata"></span><div id="lightboxOverlay" style="display: none;"></div><div id="lightbox" style="display: none;"><div class="lb-outerContainer"><div class="lb-container"><img class="lb-image"><div class="lb-nav"><a class="lb-prev"></a><a class="lb-next"></a></div><div class="lb-loader"><a class="lb-cancel"><img src="./TrackListPage-Live_files/loading.gif"></a></div></div></div><div class="lb-dataContainer"><div class="lb-data"><div class="lb-details"><span class="lb-caption"></span><span class="lb-number"></span></div><div class="lb-closeContainer"><a class="lb-close"><img src="./TrackListPage-Live_files/close.png"></a></div></div></div></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div><div class="ui-daterangepickercontain"><div class="ui-daterangepicker ui-widget ui-helper-clearfix ui-widget-content ui-corner-all" style="display: none;"><ul class="ui-widget-content"><li class="ui-daterangepicker-Today ui-corner-all"><a href="https://www.livetrack24.com/tracks#">Today</a></li><li class="ui-daterangepicker-Last7days ui-corner-all"><a href="https://www.livetrack24.com/tracks#">Last 7 days</a></li><li class="ui-daterangepicker-Monthtodate ui-corner-all"><a href="https://www.livetrack24.com/tracks#">Month to date</a></li><li class="ui-daterangepicker-Yeartodate ui-corner-all"><a href="https://www.livetrack24.com/tracks#">Year to date</a></li><li class="ui-daterangepicker-ThepreviousMonth ui-corner-all"><a href="https://www.livetrack24.com/tracks#">The previous Month</a></li><li class="ui-daterangepicker-specificDate preset_0 ui-helper-clearfix ui-corner-all"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="https://www.livetrack24.com/tracks#">Specific Date</a></li><li class="ui-daterangepicker-allDatesBefore preset_1 ui-helper-clearfix ui-corner-all"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="https://www.livetrack24.com/tracks#">All Dates Before</a></li><li class="ui-daterangepicker-allDatesAfter preset_2 ui-helper-clearfix ui-corner-all"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="https://www.livetrack24.com/tracks#">All Dates After</a></li><li class="ui-daterangepicker-dateRange preset_3 ui-helper-clearfix ui-corner-all"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="https://www.livetrack24.com/tracks#">Date Range</a></li></ul><div class="ranges ui-widget-header ui-corner-all ui-helper-clearfix" style="display: none;"><div class="range-start hasDatepicker" id="dp1707916164958" style="display: none;"><span class="title-start">Start Date</span><div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="display: block;"><div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a class="ui-datepicker-prev ui-corner-all" data-handler="prev" data-event="click" title="Prev"><span class="ui-icon ui-icon-circle-triangle-w">Prev</span></a><a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="Next"><span class="ui-icon ui-icon-circle-triangle-e">Next</span></a><div class="ui-datepicker-title"><span class="ui-datepicker-month">February</span>&nbsp;<span class="ui-datepicker-year">2024</span></div></div><table class="ui-datepicker-calendar"><thead><tr><th class="ui-datepicker-week-end"><span title="Sunday">Su</span></th><th><span title="Monday">Mo</span></th><th><span title="Tuesday">Tu</span></th><th><span title="Wednesday">We</span></th><th><span title="Thursday">Th</span></th><th><span title="Friday">Fr</span></th><th class="ui-datepicker-week-end"><span title="Saturday">Sa</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">1</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">2</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">3</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">4</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">5</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">6</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">7</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">8</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">9</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">10</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">11</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">12</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">13</a></td><td class=" ui-datepicker-days-cell-over  ui-datepicker-current-day ui-datepicker-today" data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="https://www.livetrack24.com/tracks#">14</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">15</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">16</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">17</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">18</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">19</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">20</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">21</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">22</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">23</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">24</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">25</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">26</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">27</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">28</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">29</a></td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table></div></div><div class="range-end hasDatepicker" id="dp1707916164959" style="display: none;"><span class="title-end">End Date</span><div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="display: block;"><div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a class="ui-datepicker-prev ui-corner-all" data-handler="prev" data-event="click" title="Prev"><span class="ui-icon ui-icon-circle-triangle-w">Prev</span></a><a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="Next"><span class="ui-icon ui-icon-circle-triangle-e">Next</span></a><div class="ui-datepicker-title"><span class="ui-datepicker-month">February</span>&nbsp;<span class="ui-datepicker-year">2024</span></div></div><table class="ui-datepicker-calendar"><thead><tr><th class="ui-datepicker-week-end"><span title="Sunday">Su</span></th><th><span title="Monday">Mo</span></th><th><span title="Tuesday">Tu</span></th><th><span title="Wednesday">We</span></th><th><span title="Thursday">Th</span></th><th><span title="Friday">Fr</span></th><th class="ui-datepicker-week-end"><span title="Saturday">Sa</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">1</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">2</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">3</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">4</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">5</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">6</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">7</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">8</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">9</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">10</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">11</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">12</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">13</a></td><td class=" ui-datepicker-days-cell-over  ui-datepicker-current-day ui-datepicker-today" data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="https://www.livetrack24.com/tracks#">14</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">15</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">16</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">17</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">18</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">19</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">20</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">21</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">22</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">23</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">24</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">25</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">26</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">27</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">28</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="1" data-year="2024"><a class="ui-state-default" href="https://www.livetrack24.com/tracks#">29</a></td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table></div></div><button class="btnDone ui-state-default ui-corner-all" style="display: none;">Done</button></div></div></div><div class="token-input-dropdown alwaysOnTop" style="display: none;"></div><div class="token-input-dropdown alwaysOnTop" style="display: none;"></div><iframe scrolling="no" frameborder="0" allowtransparency="true" src="./TrackListPage-Live_files/widget_iframe.2f70fb173b9000da126c79afe2098f02.html" title="Twitter settings iframe" style="display: none;"></iframe><deepl-input-controller><template shadowrootmode="open"><link rel="stylesheet" href="chrome-extension://cofdbpoegempjloogbagkncekinflcnj/build/content.css"><div><div class="dl-input-translation-container svelte-ju4595"><div></div></div></div></template></deepl-input-controller><iframe id="rufous-sandbox" scrolling="no" frameborder="0" allowtransparency="true" allowfullscreen="true" style="position: absolute; visibility: hidden; display: none; width: 0px; height: 0px; padding: 0px; border: none;" title="Twitter analytics iframe" src="./TrackListPage-Live_files/saved_resource(1).html"></iframe></body></html>

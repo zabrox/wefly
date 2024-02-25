@@ -31,11 +31,11 @@ jobs:
       run: docker build -f Dockerfile.staging -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:staging .
       working-directory: ./client
     - name: Docker build api-server
-      run: docker build -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:staging .
-      working-directory: ./api-server
+      run: docker build -f api-server/Dockerfile -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:staging .
+      working-directory: ./
     - name: Docker build track_loader
-      run: docker build -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:staging .
-      working-directory: ./track_loader
+      run: docker build -f track_loader/Dockerfile -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:staging .
+      working-directory: ./
   
     - name: Docker push client
       run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:staging
