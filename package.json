@@ -6,7 +6,12 @@
     "all": "concurrently \"npm run api-server\" \"npm run client\"",
     "api-server": "cd api-server && npm start",
     "client": "cd client && npm run dev",
-    "deploy": "docker compose build && docker push asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/track_loader:1.0 && docker push asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-client:1.0 && docker push asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-api-server:1.0"
+    "deploy": "docker compose build && docker push asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/track_loader:1.0 && docker push asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-client:1.0 && docker push asia-northeast1-docker.pkg.dev/wefly-407313/container-registry/wefly-api-server:1.0",
+    "test-all": "npm run test-client && npm run test-api-server && npm run test-track-loader && npm run test-common",
+    "test-client": "cd client && npm run test",
+    "test-api-server": "cd api-server && npm run test",
+    "test-track-loader": "cd track_loader && npm run test",
+    "test-common": "cd common && npm run test"
   },
   "author": "",
   "license": "ISC",

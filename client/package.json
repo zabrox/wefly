@@ -9,7 +9,7 @@
     "build-staging": "vite build --mode staging",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest run"
   },
   "peerDependencies": {
     "react": "^17.0.0 || ^18.0.0",

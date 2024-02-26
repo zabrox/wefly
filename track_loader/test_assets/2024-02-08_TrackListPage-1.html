@@ -1,0 +1,3463 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html  lang='en' >
+<head>
+<title>LiveTrack24 | List Tracks</title>
+<meta name="title" content="LiveTrack24 | List Tracks" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=cyrillic,latin,greek">
+<link rel='stylesheet' type='text/css' href='https://www.livetrack24.com/grouped.min.css' />
+<script language='javascript' src='https://www.livetrack24.com/js/grouped.min.js'></script>
+<script type="text/javascript">
+var site_url = '/wall/';
+
+var delete_com_alert = "Are you sure you want to delete this comment?";
+var delete_post_alert = "Are you sure you want to delete this post?";
+var language_like = "Like";
+var language_unlike = "Unlike";
+var lang_com_next = "Next";
+var lang_write_comment = "Write a comment";
+var lang_group_label = "";
+var lang_account_sett = "Account Settings";
+var lang_remove_buddy = "REMEMBER: Removing a friend will remove all the posts and sharings between you and your friend permanently. Do you still want to Continue?";
+
+var lightbox_path = '/wall/assets/lightbox/';
+
+var _lang_time_few_sec = " seconds ago";
+var _lang_time_mints_ago = "minutes ago";
+var _lang_time_hours_ago = "hours ago";
+var txt_var_49 = "Error: It seems this post is deleted or you are not allowed do this action.";
+
+var MainPage = "";
+var notMyProfile = "";
+
+var objType = "0";
+var objID = "0";
+
+</script>
+
+
+    <script type="text/javascript" src="/js/jquery-polyglot.language.switcher.js"></script>
+    <link rel='stylesheet' type='text/css' href='/css/polyglot-language-switcher-2.css' />
+
+    <script type="application/javascript">
+        function geoip(json){}
+    </script>
+    <script async src="https://geojs.srv.waymore.io/geo.js"></script>
+
+    <script type="text/javascript">
+	var translateActive=0;
+	var translateDontFollowLinks=1;
+	var language='english';
+	
+    var  server_task_ajax='https://c4.livetrack24.com';
+    var  server_track_ajax='';
+
+
+    $.fn.extend({
+        popoverClosable: function (options) {
+            var defaults = {
+                template:
+                    '<div class="popover popoverService">\
+    <div class="arrow"></div>\
+    <div class="popover-header">\
+    <button type="button" class="close" data-dismiss="popover" aria-hidden="true">&times;</button>\
+    <h3 class="popover-title"></h3>\
+    </div>\
+    <div class="popover-content"></div>\
+    </div>'
+            };
+            options = $.extend({}, defaults, options);
+            var $popover_togglers = this;
+            $popover_togglers.popover(options);
+            $popover_togglers.on('click', function (e) {
+                e.preventDefault();
+                $popover_togglers.not(this).popover('hide');
+                // $(this).parent().parent().hide().css('display:none;');
+            });
+            $('html').on('click', '[data-dismiss="popover"]', function (e) {
+                $popover_togglers.popover('hide');
+                $(this).parent().parent().hide().css('display:none;');
+            });
+        }
+    });
+
+
+    $(document).ready(function(){
+
+        $('#langSelect').polyglotLanguageSwitcher();
+
+        $(".serviceText").each(function(){
+            var this_id=$(this).attr('id');
+            var orgHtml=$(this).html();
+            var serviceName=this_id.substring(8);
+
+            $.getJSON(  '/ajax_actions.php?op=serviceInfo&name='+serviceName, function( data ) {
+                // alert(data['title']);
+                $("#service_"+data['name']).addClass('servicePopover');
+
+                var html=data['desc'];
+
+                if ( data['until']!=0 ){
+                    html+='<BR><BR><div class="alert alert-success">You have this feature activated until '+data['until']+'</div>';
+                } else {
+                    html+='<BR><BR><div class="alert alert-info">You can get this feature too, see below on how to buy extra services</div>';
+                }
+
+                if (data['packages']) {
+                    html+='It is included in the following services:<BR><BR>';
+
+                    for (key in data['packages']) {
+                        html+=
+                            '<a class="btn btn-primary" href="'+data['packages'][key]+'"><span class="glyphicon glyphicon-chevron-down"></span> '+key+'</a>&nbsp;';
+                    }
+                    html+='<BR>';
+                }
+
+
+
+                $("#service_"+data['name']).popoverClosable({
+                    'toggle':"popover",
+                    'html':true,
+                    'placement':"top",
+                    'title':data['title'],
+                    'content':html
+                });
+            });
+
+        });
+
+
+        
+		bindActionsToTrackDivs();
+
+        initClickovers();
+		/*
+		$("#breadcrumbs a").hover(
+		    function () {
+		        $(this).addClass("hover").children().addClass("hover");
+		        $(this).parent().prev().find("span.arrow:first").addClass("pre_hover");
+		    },
+		    function () {
+		        $(this).removeClass("hover").children().removeClass("hover");
+		        $(this).parent().prev().find("span.arrow:first").removeClass("pre_hover");
+		    }
+		);*/
+
+        
+
+    });
+
+
+	function bindActionsToTrackDivs() {
+		return;
+		//To switch directions up/down and left/right just place a "-" in front of the top/left attribute
+		//Caption Sliding (Partially Hidden to Visible)
+	
+		$('.boxgrid.caption').hover(function(){
+			$(".cover", this).stop().animate({top:'73px'},{queue:false,duration:160});
+			$(this).css( 'overflow', 'visible' );
+
+		}, function() {
+			 $(".cover", this).stop().animate({top:'103px'},{queue:false,duration:160});
+			 $(this).css( 'overflow', 'hidden' );
+		});
+
+				
+		// $(".zoomImg").thumbPopup();
+	}
+
+    function switchBeta(on) {
+        $.get('/ajax_actions.php?op=switch_beta&on='+on,
+            function(result){
+                location.reload();
+            }
+        );
+    }
+    function betaOptOut() {
+        $.get('/ajax_actions.php?op=beta_opt_out',
+            function(result){
+                location.reload();
+            }
+        );
+    }
+
+    window.cookieconsent_options = {"message":"This website uses cookies to ensure you get the best experience on our website","dismiss":"Got it!","learnMore":"More info","link":null,"theme":"light-bottom"};
+
+</script>
+
+<script type="text/javascript" src="/js/cookieconsent.min.js"></script>
+
+
+    <style type="text/css">
+<!--
+
+#translateDiv{
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    background: rgb(232, 232, 232);
+    padding: 4px;
+    border: 2px solid #B3B3B3;
+    z-index:999999;
+    display: none;
+
+
+}
+#translateDiv{
+    overflow-y: scroll;
+}
+
+.translateStringDiv {
+    margin:2px;
+
+}
+#translateControl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: auto;
+    background: #D5DCFF;
+    font-size: 12px;
+    padding: 2px;
+    border: 2px solid #B3B3B3;
+}
+#translateDontFollowLinks {
+    text-decoration: none;
+    /* cursor: pointer; */
+    font-size: 9px;
+}
+.colorgraph {
+    height: 5px;
+    border-top: 0;
+    background: #c4e17f;
+    border-radius: 5px;
+    background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+    background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+}
+
+
+.navbar-collapse.collapse {
+    display: block!important;
+}
+
+.navbar-nav>li, .navbar-nav {
+    float: left !important;
+}
+
+.navbar-nav.navbar-right:last-child {
+    margin-right: -15px !important;
+}
+.navbar-right {
+    float: right!important;
+}
+.pull-right {
+    float: right!important;
+}
+
+
+body , html, * {
+    /*font-family: "Open Sans", Arial, sans-serif;*/
+    font-family: "Roboto", sans-serif ;
+
+}
+
+.popoverService {
+    max-width: 400px ! important;
+}
+
+.beta-dialog .modal-dialog {
+    width: 800px;
+}
+
+.beta-dialog p , .beta-dialog li {
+    font-size:12px;
+}
+
+
+
+.mbc_container  {padding:0}
+
+ul.token-input-list-facebook {
+    width:80px;
+    float:left;
+}
+
+ .containerMC{
+    width: 500px;
+    height: auto;
+}
+
+#dock{
+    position: fixed;
+    top: 0;
+    left:0;
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+}
+
+
+#user_menu_div  { width: 1000px; }
+.contentMain    {    width:1040px; }
+.leftCol        {    width:780px; }
+ 
+
+.style1 {font-size: 13px}
+.smallLink , .smallLink a:link, .smallLink a:visited, .smallLink a:active {font-size: 11px}
+.style2 {
+	color: #FF0000;
+	font-style: italic;
+}
+body, #wrapperMain , #wrapper , .main_div  {
+/*height:100%;*/
+}
+
+#wrapperMain , #wrapper , .main_div  {
+/*height:100%;*/
+}
+
+
+.flag {
+    margin-left:1px;
+    margin-right:1px;
+    width:24px;
+}
+
+.flagFilter {
+    margin-left:1px;
+    margin-right:1px;
+    width:20px;
+}
+
+.activityFilter {
+    margin-left:1px;
+    margin-right:1px;
+    width:16px;
+}
+
+.flagsDiv {
+    position:relative;
+    top:-17px;
+    left:7px;
+    padding:1px;
+    padding-left:0;
+    padding-right:0;
+    background-color:#FFFFFF;
+    width:80px;
+
+    overflow:hidden;
+}
+
+.activitiesDiv {
+    position:relative;
+    top:-19px;
+    left:7px;
+    padding:1px;
+    padding-left:0;
+    padding-right:0;
+    background-color:#FFFFFF;
+    width:80px;
+
+    overflow:hidden;
+}
+
+-->
+</style>
+
+
+    <script>
+    </script>
+<script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-4139288-2']);
+    _gaq.push(['_setDomainName', '.livetrack24.com']);
+    _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+</head>
+<body >
+
+
+
+<div width=100% align=center id='wrapperMain' class='wrapperMain'>
+
+<div id='wrapper-e' align=center>
+  <div class="wrapper-l"> 
+    <div class="wrapper-r" style='width:1040px;'> 
+
+
+
+	
+<script type="text/javascript">
+
+var hidetimer;
+var site_url='/wall/';
+
+$(function() {
+
+	$('.vid_trigger').click( function(e){
+		var URL = $(this).attr('id');
+		var htm = '<iframe width="350" height="250" src="https://www.youtube.com/embed/' + URL + '?rel=0&autoplay=1" frameborder="0" allowfullscreen ></iframe>';
+		$(this).html(htm);
+		return false;
+	});
+
+});
+
+
+function changeLanguage(lang0) {
+    var lang=lang0;
+    if (!lang) lang=$("#selectLang").val();
+    $.get("/ajax_actions.php?op=change_language&new_language="+lang,
+        function(result){
+            location.reload();
+        }
+    );
+}
+
+function changeTZ() {
+    var changeOffset=$("#changeOffset").val();
+    var showLocalTimes=$("#showLocalTimes").is(':checked')?1:0;
+
+    $.get("/ajax_actions.php?op=change_tz&changeOffset="+changeOffset+"&showLocalTimes="+showLocalTimes,
+        function(result){
+            window.location.reload(true);
+           //window.location.href=window.location.href;
+        }
+    );
+
+}
+
+
+
+(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    //js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=83965197938";
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.6&appId=83965197938";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+
+	$(function() {
+		var pageUrl = window.location;
+		var pageTitle=$("title").text();	
+	});
+
+
+
+
+
+$(document).ready(function () {
+	$("#userSearchBox").tokenInput("/EXT_pilot_functions.php?op=findPilot&format=json",
+		 {
+		hintText: "Search for username...",
+        minChars: 2,
+        theme: "light",
+        // tokenLimit: 1,
+        onAdd: function (item) {
+            var url='https://www.livetrack24.com/user/%USERID%';
+            url=url.replace('%USERID%',item.id);
+            window.location = url;
+        }
+	});
+
+	});
+</script>
+
+<div id="fb-root"></div>
+
+<div class="topdiv" id="topdiv" width="100%" align="center">
+	<div class="hsep5"></div>
+	<table class='topMenu'>
+    	<tr>
+        	<td rowspan="2" align="left">
+        	 <a href="/" > 
+						 
+        		<img src="/img/logo.png" />
+        	</a>
+        	</td>
+            <td align="center" rowspan="2">
+                
+                <a class="btn btn-danger" style="text-decoration:none" href="/docs/mobile" alt="Install on yuor phone & start Tracking">
+                    <i class="fa fa-android fa-1x" target="_blank"></i>&nbsp;
+                    <i class="fa fa-apple fa-1x" target="_blank"></i>&nbsp; Get Started</a>
+
+            </td>
+        	<td align="right" valign="top" style="padding-top:5px;">
+
+            	            <a href="/login" class="buttonsmall bluetop">Login</a>
+	            <a href="/register" class="buttonsmall bluetop">Sign Up</a>
+             
+
+            
+            <a contact-id='2' href="javascript:;" class="contactButton buttonsmall">Contact</a>
+            </td>
+        	<td align="left" valign="top" style="padding-top:7px; padding-left:8px;" width="160">
+        	
+                            <div id="langSelect" class="polyglot-language-switcher"  data-selected-lang="english" data-grid-columns="3" data-anim-effect="slide" data-open-mode="click">
+                    <ul style="display: none">
+                        <li><a href='javascript:changeLanguage("english");' title='English' data-lang-id='english'><img src='/img/flags/uk.gif' alt='English'> English</a></li>
+<li><a href='javascript:changeLanguage("german");' title='Deutsch' data-lang-id='german'><img src='/img/flags/de.gif' alt='Deutsch'> Deutsch</a></li>
+<li><a href='javascript:changeLanguage("french");' title='Français' data-lang-id='french'><img src='/img/flags/fr.gif' alt='Français'> Français</a></li>
+<li><a href='javascript:changeLanguage("italian");' title='Italiano' data-lang-id='italian'><img src='/img/flags/it.gif' alt='Italiano'> Italiano</a></li>
+<li><a href='javascript:changeLanguage("spanish");' title='Español' data-lang-id='spanish'><img src='/img/flags/es.gif' alt='Español'> Español</a></li>
+<li><a href='javascript:changeLanguage("portuguese");' title='Português' data-lang-id='portuguese'><img src='/img/flags/pt.gif' alt='Português'> Português</a></li>
+<li><a href='javascript:changeLanguage("greek");' title='Ελληνικά' data-lang-id='greek'><img src='/img/flags/gr.gif' alt='Ελληνικά'> Ελληνικά</a></li>
+<li><a href='javascript:changeLanguage("turkish");' title='Türkçe' data-lang-id='turkish'><img src='/img/flags/tr.gif' alt='Türkçe'> Türkçe</a></li>
+<li><a href='javascript:changeLanguage("danish");' title='Dansk' data-lang-id='danish'><img src='/img/flags/dk.gif' alt='Dansk'> Dansk</a></li>
+<li><a href='javascript:changeLanguage("swedish");' title='Svenska' data-lang-id='swedish'><img src='/img/flags/se.gif' alt='Svenska'> Svenska</a></li>
+<li><a href='javascript:changeLanguage("finnish");' title='Suomi' data-lang-id='finnish'><img src='/img/flags/fi.gif' alt='Suomi'> Suomi</a></li>
+<li><a href='javascript:changeLanguage("dutch");' title='Nederlands' data-lang-id='dutch'><img src='/img/flags/nl.gif' alt='Nederlands'> Nederlands</a></li>
+<li><a href='javascript:changeLanguage("polish");' title='Polski' data-lang-id='polish'><img src='/img/flags/pl.gif' alt='Polski'> Polski</a></li>
+<li><a href='javascript:changeLanguage("czech");' title='Čeština' data-lang-id='czech'><img src='/img/flags/cz.gif' alt='Čeština'> Čeština</a></li>
+<li><a href='javascript:changeLanguage("hungarian");' title='Magyar' data-lang-id='hungarian'><img src='/img/flags/hu.gif' alt='Magyar'> Magyar</a></li>
+<li><a href='javascript:changeLanguage("slovenian");' title='Slovenščina' data-lang-id='slovenian'><img src='/img/flags/si.gif' alt='Slovenščina'> Slovenščina</a></li>
+<li><a href='javascript:changeLanguage("afrikaans");' title='Afrikaans' data-lang-id='afrikaans'><img src='/img/flags/za.gif' alt='Afrikaans'> Afrikaans</a></li>
+<li><a href='javascript:changeLanguage("romanian");' title='Română' data-lang-id='romanian'><img src='/img/flags/ro.gif' alt='Română'> Română</a></li>
+<li><a href='javascript:changeLanguage("russian");' title='Ру́сский язы́к' data-lang-id='russian'><img src='/img/flags/ru.gif' alt='Ру́сский язы́к'> Ру́сский язы́к</a></li>
+<li><a href='javascript:changeLanguage("bulgarian");' title='български език' data-lang-id='bulgarian'><img src='/img/flags/bg.gif' alt='български език'> български език</a></li>
+<li><a href='javascript:changeLanguage("serbian");' title='Cрпски језик' data-lang-id='serbian'><img src='/img/flags/cs.gif' alt='Cрпски језик'> Cрпски језик</a></li>
+<li><a href='javascript:changeLanguage("croatian");' title='Hrvatski jezik' data-lang-id='croatian'><img src='/img/flags/hr.gif' alt='Hrvatski jezik'> Hrvatski jezik</a></li>
+<li><a href='javascript:changeLanguage("chinese");' title='中文' data-lang-id='chinese'><img src='/img/flags/cn.gif' alt='中文'> 中文</a></li>
+<li><a href='javascript:changeLanguage("hebrew");' title='עברית' data-lang-id='hebrew'><img src='/img/flags/il.gif' alt='עברית'> עברית</a></li>
+                    </ul>
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+        
+        <td colspan='3' align='right'>
+                 	<div align='right' style='float: right; margin-right: 22px; margin-bottom: 11px; margin-top: 10px;'>
+
+                 <a href="https://twitter.com/livetrack24" class="twitter-follow-button"
+                    data-show-screen-name="false"
+                    data-show-count="false" data-size="normal">Follow @livetrack24</a>
+                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+                 </script>
+
+
+
+                <div style='line-height: 10px' class="fb-like"
+                     data-href="https://www.facebook.com/LiveTrack24"
+                     data-width="120"
+                     data-height="40"
+                     data-colorscheme="light" data-layout="button_count"
+                     data-action="like" data-show-faces="false" data-send="false"></div>
+	        </ul>
+        	</div>	
+        	        	
+        	        </td>
+        </tr>
+    </table>
+
+
+
+
+<!----   second line menu  -->
+ <div class="navbar navbar-green">
+  <div class="container-fluidX">
+
+  <!---
+  <div class="navbar-collapse collapse">
+  -->
+    <div class="" >
+
+    <ul class="nav navbar-nav">
+        <li>
+            <a class="buttonTopMenu" href="/" class="">
+                <span class="glyphicon glyphicon-home"></span>
+                            </a>
+        </li>
+        <li class="dropdown mega-menu-6 transition">
+            <a href="/tracks" class="buttonTopMenu ">Explore LiveTracks                                    <span class="badge btn-main">115</span>
+                            </a>
+        </li><!-- Regular Menu Ends -->
+        <li class="dropdown mega-menu-6 transition">
+            <a href="/events/year/2024">Live Events                              </a>
+        </li><!-- 3 Columns -->
+        <li class="dropdown menu-large">
+            <a href="/services/index" class="dropdown-toggle" data-toggle="dropdown">Services                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu megamenu row">
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="thumbnail ">
+                            <a href="#services1">
+                                <span class="img-circle homeThumbnailCircle"><i class="icomoon-bubbles-3 left"></i></span>
+                                <img class="img-circle" src='/img/banners/photo_takeoff_assist_small.jpg' width='90%'>
+                            </a>
+                            <div class="caption">
+                                <h3>Livetracking services for individuals</h3>
+                                <p>LiveTrack24 is the answer to every pilot's need.
+                                    Combining a robust reliable device with an innovative
+                                    and easy to use service, adding security and fun to your
+                                    activity</p>
+                                <p><a class="btn btn-primary" href="/services/index#services1"><i class=" icomoon-arrow-right-2  "></i>Read more</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="thumbnail ">
+                            <a href="#services2">
+                                <span class="img-circle homeThumbnailCircle"><i class="icomoon-stats center"></i></span>
+                                <img class="img-circle" src='/img/banners/photo_event_small.jpg' width='90%'>
+                            </a>
+                            <div class="caption">
+                                <h3>Services for Events / Competitions</h3>
+                                <p>
+                                    The Livetrack24 service gives you more than you thought was possible
+                                    Real time tracking, Live scoreboard and Retrieve made simple, all in one simple and affordable package.
+
+                                </p>
+                                <p><a class="btn btn-primary" href="/services/index#services2"><i class=" icomoon-arrow-right-2  "></i>Read more</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <div class="thumbnail ">
+                            <a href="#services3">
+                                <span class="img-circle homeThumbnailCircle"><i class="icomoon-cogs right"></i></span>
+                                <img class="img-circle" src='/img/banners/photo_code_small.jpg' width='90%'>
+                            </a>
+                            <div class="caption">
+                                <h3>Outsourcing Services / for 3rd party apps & services</h3>
+                                <p>We offer a complete set of APIs so that you can integrade Livetracking in your service very fast and easy.</p>
+                                <div style="height: 8px;"></div>
+                                <p><a class="btn btn-primary" href="/services/index#services3">Read more</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                            </ul>
+        </li>
+                 <li class="dropdown mega-menu-6 transition">
+                 <div class="sb-toggle-left">
+
+                     <div class="navicon-line"></div>
+                     <div class="navicon-line"></div>
+                     <div class="navicon-line"></div>
+                 </div>
+         </li>
+    </ul>
+
+
+    
+    </div><!--/.nav-collapse -->
+</div>
+
+    </div><!-- /.navbar .navbar-inverse -->
+
+
+</div>
+
+
+
+
+<script language="javascript">
+
+    function translateSeeAll() {
+        $("#translateDiv").toggle();
+
+    }
+
+var msgBoxes=[];
+
+function hideMessageAlert(mID) {
+	$.post( '/ajax_actions.php?op=alert_message&action=hide', {mID:mID} );	
+	$("#msg_close_"+mID).html("<strong>OK</strong>").parent().parent().fadeOut(300);
+}
+
+function showContact(page) {
+	//var topicID=page.substring(1);
+    var topicID=page;
+	var url="/contact.php?topicID="+topicID;
+	$.get(url, 
+		function(result){
+            $("#modalDialog .modal-title").html('Contact us');
+            $("#modalDialog .modal-body").html( result );
+            $("#modalDialog .modal-footer").html('');
+            $('#modalDialog').modal();
+
+		}
+	);
+}
+
+function closePopup() {
+	activeUserMenu='';
+	$("#actionDiv").hide();
+	$("#takeoffAddID").hide();
+	$("#smsPopupDiv").hide();
+	$("#smsPopupError").hide();
+    $("#userMenuDiv").hide();
+
+}
+
+$(document).ready(function(){
+	// initBtn();
+	
+	$(".userMenuLinkX").live('click', function(e) {
+		if ($("#userMenuDiv").is(':visible') ) {
+			$("#userMenuDiv").hide();
+			return;
+		}
+		$("#userMenuDiv").css({
+				left:$(this).offset().left-5,
+				top:$(this).offset().top+15
+			}).html("<img src='/img/ajax-loader.gif'>").show();	
+		var this_id=$(this).attr('id'); 
+		var parts=this_id.split("_");
+		var user_id=parts[1];
+		
+		$("#userMenuDiv").load('/GUI_EXT_user.php?op=usermenu&user_id='+user_id);
+	});
+
+    $(".userMenuLinkX").clickover({
+        content: function() {
+            return "###";
+        },
+        html: true,
+        global_close: true,
+        trigger: 'click',
+        placement: 'bottom'
+    });
+
+    $('.userMenuLink').clickover({
+        placement: 'bottom',
+        trigger: 'click',
+        html: true,
+        title:'',
+        content:'content',
+        container: 'body',
+        class_name: 'clickover',
+        global_close: true,
+
+        onShown: function(e){
+            var clickover=this;
+            var this_id=this.$element[0].id;
+            var parts=this_id.split("_");
+
+            var url="/GUI_EXT_user.php?op=usermenu&user_id="+parts[1];
+            $.get(url,function(response) {
+                $("div.clickover").find("div.popover-content").html(response);
+                $("div.clickover").find(".popover-title").prepend(popoverCloseButtonHtml);
+                clickover.resetPosition();
+            });
+
+        }
+
+    });
+
+
+
+    $(document.body).on('click', '.closePopupButton', function() {
+        closePopup();
+    })
+
+	$(".closePopupButton").live('click', function(e) {
+			closePopup();
+	});
+
+	$(".contactButton").click(function(f) {		
+		showContact( $(this).attr('contact-id') );
+	});	
+		
+		
+	msgBoxes[13]=$.jGrowl('Due to a change in the default view your older than 30 days tracks are not shown. <a href="https://www.livetrack24.com/news/2023_08_19">Check here on how to find them</a><HR><div id="msg_close_13"><a href="javascript:void(0);" onclick="hideMessageAlert(13);">Dont show this message again</a></div>', { 
+		header: 'Older Tracks not shown',
+		theme: 'manilla',
+		sticky: true
+	});
+	
+
+});
+
+</script>
+
+
+<div class="maindiv" id="maindiv">
+    <div class="contentMain">
+        <div id='userMenuDiv'></div>
+
+<div style='clear:both;'>
+<style type="text/css">
+<!--
+.sendSmsIcon {
+    font-size: 0.8em;
+    text-decoration: underline;
+
+}
+
+span#resultDiv {
+	position:relative;
+	float :none;
+	display:block;
+}
+
+.chars {
+	font-family:"Courier New", Courier, monospace;
+	font-size:11px;
+	font-weight:bold;
+	color:#6666FF;
+}
+
+#smsCredits {
+	font-weight:bold;
+	color:#DA6F0E;
+	font-size:130%;
+}
+
+div#smsPopupDiv
+{
+  width:300px;
+  height:120px;
+  border: 0px solid #8cacbb;
+  margin: 0.5em;
+  background-color: #ffffff;
+  padding-bottom: 5px;
+  
+  	height:auto;
+	display:none;
+	position:absolute;
+	z-index:100;
+	border:0px solid #6699FF;
+	padding:10px;
+}
+
+div#smsPopupError {
+	width:auto;
+    background-color: #ffffff;
+    padding-bottom: 100px;
+
+    display:none;
+    padding:0px;
+    margin-top:-7px;
+    position: relative;
+    border:none;
+}
+
+div#waitDiv 
+{
+  width:60px;
+  height:45px;
+  display:none;
+  border: 1px solid #8cacbb;
+  margin: 0.5em;
+  background-color: #dee7ec;
+  padding-bottom: 5px;
+  position:absolute;
+  z-index:100;
+  border:2px solid #6699FF;
+  padding:3px;
+}
+
+#message {
+   /* line-height:20px;*/
+}
+
+-->
+</style>
+
+
+
+<div id ='smsPopupErrorOLD' style='display:none;'>
+	<table width="100%" border="0" cellpadding="2">
+      <tr>
+        <td valign="top">
+        	<div id ='errorMessageOLD'></div>
+		</td>
+        <td width="45" align="right"><a  class='btn btn-primary'   id='closeSmsPopupError' href='javascript:nop()'>Close</a></td>
+      </tr>
+    </table>
+</div>
+
+<div id ='smsPopupError' style='display:none;'>
+    <div id ='errorMessageTop'></div>
+    <div id ='errorMessage'></div>
+</div>
+
+
+<div id ='smsPopupDiv' style='display:mone;'>
+	<table width="100%" border="0" cellpadding="2">
+      <tr>
+        <td valign="top">
+            <div id ='resDiv'>
+              <label>Enter your message to <b><span id='testDivName'></span></b> <Br />
+              <textarea name="message" cols="35"  id="message"  ></textarea>
+              </label>
+          </div>
+        </td>
+     </tr>
+     <tr>
+        <td >
+            <div align="center">
+                <a  class='btn btn-primary'   id='closeSmsPopupDiv' href='javascript:nop()'>Close</a>
+                &nbsp;&nbsp;&nbsp;
+                <a  class='btn btn-success'  id='sendSMS' href='javascript:nop()'>Send SMS</a>
+                <input type='hidden' id='phoneNum' value=''>
+            </div>
+        </td>
+     </tr>
+      <tr>
+        <td height="30">
+		<span id ='resultDiv' class='info'>
+	        <div id ='infoDiv'></div>
+		</span>
+		 </td>
+      </tr>
+    </table>
+</div>
+
+
+
+<script type="text/javascript">
+
+
+function computeCharsLeft() {
+		var message=$("#message").val();	
+		var maxSmsNum=3;		
+				
+		$.post( '/ajax_actions.php?op=info&action=charsLeft', 
+			{text:message,unicode:useUnicode}, 
+				function(result){ 
+					var parts=result.split(";");
+					var isLatin1=parts[0];
+					var smsNum=parts[1];
+					var charsLeft=parts[2];
+					var charsTot=parts[3];
+					var hasGreek=parts[4];
+					
+					if (isLatin1==1 || useUnicode==0) { 			
+						if ( hasGreek==1 ){
+							$("#unicodeWarning").html('<span class="smallRed">The greek characters will be send as CAPITALS</span>');										
+						} else {											
+							$("#unicodeWarning").html('<span class="smallRed"><BR /><BR /></span>');						
+						}	
+					} else {
+						$("#unicodeWarning").html('<span class="smallRed">The number of characters in this sms '+
+						'has been reduced to '+(maxSmsNum*68)+' because  you have include some non-latin1 chars, '+
+						'probably from your native language</span>');
+					}
+
+					$("#messageChars").html(charsTot);					
+					$("#charsLeft").html(charsLeft);
+					$("#smsNum").html(smsNum);
+				}
+			);		
+}
+
+var pilotStatusList= [];
+$(document).ready(
+	function(){
+
+        //$('#message').trigger('autosize.destroy');
+
+		$("#closeSmsPopupDiv").click(function(f) {
+			$("#smsPopupDiv").hide();
+		});	
+
+		$("#closeSmsPopupError").click(function(f) {
+            $("div.clickover").hide();
+            // $("#smsPopupError").hide();
+        });
+
+        $(".closeClickOver").bind( "click", function() {
+            $(".clickoverX").hide();
+        });
+
+        $("input[name='changeStatus']:radio").bind("click",function () {
+            updateStatus2();
+        });
+
+        $("#sendSMSpopup").live('click', function(e) {
+		
+			if ( $("#smsPopupDiv").is(":visible")  ) {
+				$("#smsPopupDiv").hide();
+				return;
+			}
+			
+			var currentUserID= $("#currentUserID").val();
+			var isLiveTracking= $("#isLiveTracking").val();
+			
+			var thisdDiv=this;
+			$("#resultDiv").hide();
+			$("#infoDiv").hide();
+			
+			$("#waitDiv").css({
+								left:$(thisdDiv).offset().left+50,
+								top:$(thisdDiv).offset().top+25
+							}).html("<img src='https://www.livetrack24.com/img/ajax-loader.gif'>").show();
+							
+			// var currentUserID=7;
+			$.post( '/ajax_actions.php?op=profile&action=receivesSMS', 
+			{ targetUserID:currentUserID }, 
+				function(result){ 
+					var parts=result.split(";");
+					
+					// has validated number; receives SMS ; Also in flight;  target user username;  target user phone prefix
+					var validatedNumber=parts[0];
+					var receivesSMS=parts[1];
+					var alsoInFlight=parts[2];
+					var targetUsername=parts[3];
+					var targetUserPhonePrefix=parts[4];
+
+					$("#waitDiv").hide();
+
+					var canSendSMS=true;
+					var message="";
+					
+					if (activeUserID==0) {
+						canSendSMS=false;
+						message="<strong>You are not logged in</strong><BR><BR> Please <strong>log in</strong> by entering your username and password on the right side of this page or <BR><BR> <strong><a href='/userRegister.php'>Register</a></strong><br><br> in order to be able to send out SMS ";
+					} else 	if (receivesSMS==0) {
+						canSendSMS=false;
+						message="<strong>This user has opted to NOT accept SMS</strong><BR>";
+					} else if (alsoInFlight==0 && isLiveTracking==1) {
+						canSendSMS=false;
+						message="<strong>This user has opted to accept SMS</strong><BR><BR>However he wishes <br><BR><strong>NO SMS while he/she is LiveTracing.</strong><BR><BR>Please respect this and contact him when he has ended the LiveTracking";
+					} else if (validatedNumber==0) {					
+						canSendSMS=false;
+						message="<strong>This user has not validated his mobile phone number</strong><BR><BR>Users MUST do that in order to accept SMS messages from other users via this web page";
+					}
+
+					//canSendSMS=false;
+					//message=result;
+					
+					if (!canSendSMS) {
+						$("#errorMessage").html(message);
+						$("#smsPopupError").css({
+								left:$(thisdDiv).offset().left-290,
+								top:$(thisdDiv).offset().top+25
+						}).show();
+						
+						return;
+					}
+					
+					if (canSendSMS) {						
+						$("#smsPopupDiv").css({
+								left:$(thisdDiv).offset().left-370,
+								top:$(thisdDiv).offset().top+25
+							}).show();
+							
+						$("#testDivName").html(targetUsername);
+						
+						e.stopPropagation(); // Stops the following click function from being executed
+					}				
+						
+				}
+			);					
+			
+
+		});
+		
+	
+	
+	$("#sendSMS").live('click',
+		function() {	
+				
+			setInfo("resultDiv");
+			
+			$("#resultDiv").show();
+			$("#infoDiv").show();
+			
+			$("#infoDiv").html("Sending SMS, Please wait<BR><img src='https://www.livetrack24.com/img/ajax-loader.gif'>");
+			
+			var message=$("#message").val();		
+			var currentUserID= $("#currentUserID").val();
+			var targetUsername= $("#testDivName").html();
+			
+			var phoneNum=$("#phoneNum").val();
+			var taskID=$("#taskID").val();
+			
+			//$("#infoDiv").html(currentUserID);
+			//return;
+			
+			$.post( '/ajax_actions.php?op=sms&action=send', 
+					{userID:0,message:message,phoneNumber:phoneNum,targetUserID:currentUserID,targetUsername:targetUsername,useUnicode:useUnicode}, 
+						function(result){ 
+							var parts=result.split(";");
+							var resCode=parts[0];
+							var resText=parts[1];
+							if (resCode==1) { 								
+								setOK("resultDiv");
+								$("#infoDiv").html('OK: '+resText);						
+							} else {
+								setError("resultDiv");
+								$("#infoDiv").html('PROBLEM: '+resText);
+							}
+						}
+					);					
+			// $("#smsPopupDiv").hide();		
+		}		
+		
+	);
+	
+});
+
+
+var useUnicode=0;
+	
+function changeUnicode() {
+	if ( $("#useUnicode").is(':checked')  ) {
+		useUnicode=1;
+	} else {
+		useUnicode=0;
+	}
+
+	computeCharsLeft();
+}
+
+</script>
+
+
+<div id="waitDiv"></div>
+
+
+<link rel='stylesheet' type='text/css' href='https://www.livetrack24.com/js/jquery.selectlist/selectlist.css' />
+<link rel='stylesheet' type='text/css' href='https://www.livetrack24.com/js/jquery.tokeninput/token-input.css' />
+<link rel='stylesheet' type='text/css' href='https://www.livetrack24.com/js/jquery.tokeninput/token-input-mac.css' />
+<link rel='stylesheet' type='text/css' href='https://www.livetrack24.com/js/jquery.ui.date.range.picker/ui.daterangepicker.css' />
+<link rel='stylesheet' type='text/css' href='https://www.livetrack24.com/css/colorPicker.css' />
+
+
+<script language='javascript' src='https://www.livetrack24.com/js/jquery.selectlist/jquery.selectlist.pack.js'></script>
+<script language='javascript' src='https://www.livetrack24.com/js/jquery.tokeninput/jquery.tokeninput.js'></script>
+
+
+<script language='javascript' src='https://www.livetrack24.com/js/jquery.ui.date.range.picker/date.js'></script>
+<script language='javascript' src='https://www.livetrack24.com/js/jquery.ui.date.range.picker/daterangepicker.jQuery.js'></script>
+<script language='javascript' src='https://www.livetrack24.com/js/live.js'></script>
+<script language='javascript' src='https://www.livetrack24.com/js/jquery.zoomi.js'></script>
+
+
+<style type="text/css">
+    <!--
+
+    span#resultDiv {
+        position:relative;
+        float :none;
+        display:block;
+    }
+
+
+    .windowTitle {
+        width:100%;
+        text-align:center;
+        background:#2F588C;
+        padding-top:4px;
+        padding-bottom:4px;
+        font-weight:bold;
+        color:#FFFFFF;
+    }
+
+    div#actionDiv
+    {
+        width: 500px;
+        height:auto;
+
+        border: 1px solid #8cacbb;
+        margin: 0.5em;
+        border-bottom:2px solid #777777;
+        border-right:2px solid #777777;
+        background-color: #D5E5D5;
+
+        background-color:#E2CB70;
+        background-color:#F9F9F1;
+        padding-bottom: 5px;
+        display:none;
+        position:absolute;
+    }
+
+    #wikiWindow , #wikiWindowHide {
+        display:none;
+        height:auto;
+
+    }
+
+    #wikiWindow  {
+        background:#FBF9CA;
+        width:500px;
+        position:relative;
+        border:1px solid #CCCCCC;
+    }
+
+    -->
+</style>
+
+<script type="text/javascript">
+
+var baseURL='http://www.livetrack24.com';
+var isOldView=0;
+
+
+function resetDates() {
+    $("#fromDate").val('');
+    $("#toDate").val('');
+}
+
+function selectItem(li) {
+    if (li.extra) {
+        var username=li.extra[1];
+        var url='/tracks/country/jp/from/2024-02-08/to/2024-02-08/page_num/1/username/#USERNAME#'.replace('#USERNAME#',username);
+        window.location=url;
+        // window.location="/index.php?username="+username;
+    }
+}
+
+function formatItem(row) {
+    return row[1];
+}
+
+var activeUserID=0;
+
+function wikiWindowHide() {
+    $("#wikiWindow").hide();
+}
+
+
+function toggleSearch() {
+
+    if ($("#filterMenu").is(":visible") ) {
+        $("#filterMenu").slideUp(200);
+    } else {
+        $("#filterMenu").slideDown(200);
+    }
+}
+
+
+function showWiki(wikiPage) {
+    var wikiUrl="/wiki/index.php?title="+wikiPage+"&mode=print&lang=en";
+    var wikiUrl2="/wiki/index.php?title="+wikiPage;
+
+    $.get(wikiUrl,
+            function(result){
+                jQuery.facebox('<a href="'+wikiUrl2+'" target="_blank">Direct Link to page</a><hr>'+result);
+
+            }
+    );
+
+
+}
+
+var currenttime = 'February 08, 2024 16:16:16'; //PHP method of getting server date
+var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+var serverdate=new Date(currenttime);
+
+var countryStr="jp";
+var activityStr="";
+
+var loadedUsers=[];
+
+var activeUserMenu='';
+
+var geTrackUrlTemplate;
+var is2D=0;
+var is3Dchecked=" checked='true' ";
+var color='ff0000';
+
+
+function displayMenu(userID,username,trackID,hasPoints,isLive,hasSubmissions,trackIs2D) {
+
+    var idStr=userID+"_"+trackID+"_"+username;
+
+    var trackURL="/leo_live.php?";
+    var str='';
+
+    is2D=trackIs2D;
+    if (is2D==1) is3Dchecked="";
+    else is3Dchecked="checked='true'";
+
+    color='ff0000';
+    if (isLive){
+        geTrackUrlTemplate=trackURL+"op=ge&user="+username+"&color=%color%&is2d=%2d%";
+    } else {
+        geTrackUrlTemplate=trackURL+"op=track&user="+username+"&trackID="+trackID+"&points=1&color=%color%&is2d=%2d%";
+    }
+
+    var geTrackUrl=geTrackUrlTemplate.replace("%2d%",is2D).replace("%color%",color);
+
+    str+="<table id='trackMenuBoxInner' class='noAction' cellppading='4' cellspacing='0' ><tr>";
+
+//    str+= "<td width='290' id='trackMenuBoxExtraInfo' style='text-align:left;'>";
+//    str+="</td>";
+
+//    str+= "<td width='100' style='text-align:left;'>";
+//    str+="</td>";
+
+
+    if (hasPoints) {
+    
+        str+="<td width='130'><a href='/track/"+trackID+"/2d' target='_blank'>";
+        str+="<img class='trackActionsImg' src='https://www.livetrack24.com/img/icon_120_gmaps_2d.png'><br>Follow in 2D</a></td>";
+
+        str+="<td width='130'><a href='/track/"+trackID+"/view3d' target='_blank'>";
+        str+="<img class='trackActionsImg' src='https://www.livetrack24.com/img/icon_120_gmaps_3d.png'><br>Follow in 3D</a><img src='https://www.livetrack24.com/img/icon_star.gif' border=0 align='absmiddle'></td>";
+
+        str+=" <td width='130'><a id='geLink' href='"+geTrackUrl+"'><img class='trackActionsImg' src='https://www.livetrack24.com/img/icon_120_ge.png'><br> Track this user in Google Earth</a> ";
+        str+=" <br> [<span class='colorPicker'><label for='geColor'>Select Color </label> <input id='geColor' class='geColor' name='geColor' type='text' size=2 value='#ff0000' /></span> <label for='ge3D'>3D&nbsp;</label>&nbsp;<input id='ge3D' type='checkbox' "+is3Dchecked+" value='1' style='vertical-align:middle'> ] </td>";
+
+    } else {
+        str+="<td width='400'>[ No GPS tracklog available ]</td>";
+    }
+
+    // str=$("#track_button_"+trackID).html()+'<br><BR>'+str;
+
+    $("#trackMenuBox").html(str);
+
+
+    $('#geColor').colorPicker();
+    $('#ge3D').change(function(){
+        updateGeLink();
+    });
+    $('#geColor').change(function(){
+        updateGeLink();
+    });
+
+
+}
+
+function updateGeLink() {
+    color=$('#geColor').val().substr(1);
+    if ( $('#ge3D:checked').val() ) {
+        is2D=0;
+    } else {
+        is2D=1;
+    }
+    var geTrackUrl=geTrackUrlTemplate.replace("%2d%",is2D).replace("%color%",color);
+    $('#geLink').attr('href',geTrackUrl);
+}
+
+function hideWiki() {
+    $("#wikiWindow").hide();
+}
+
+var currentOpenBox=null;
+var currentOpenBoxTrack=null;
+
+
+$(document).ready(function () {
+
+    setInterval("displaytime()", 1000);
+
+
+
+    $("#timeBoxActivate").clickover({
+        content: function() {
+            return $("#selectTzBox").html();
+        },
+        html: true,
+        global_close: true,
+        trigger: 'click',
+        placement: 'left'
+    });
+
+    $(".closeButton").click(function(f) {
+        closeActionDiv();
+    });
+    //use this method to add new colors to pallete
+    //$.fn.colorPicker.addColors(['000', '000', 'fff', 'fff']);
+
+    $('select#countryCodeFilter').selectList({ sort: true });
+    $('select#activityFilter').selectList({ sort: true });
+
+
+    $('#fromDate, #toDate').daterangepicker({
+        dateFormat: 'yy-mm-dd'
+
+    });
+
+    initClickovers();
+
+    $(".trackMenuTrigger").click(function(e) {
+        // e.stopPropagation();
+
+        var userID=$(this).attr('data-userID');
+        var trackID=$(this).attr('data-trackID');
+        var username=$(this).attr('data-username');
+
+        var idStr=userID+"_"+trackID+"_"+username;
+
+        var trackRow=$("#trackRow_"+idStr);
+        var ref=$("#action_"+idStr).attr('ref');
+        var refParts=ref.split('_');
+
+        var hasPoints=parseInt(refParts[0]);
+        var isLive=parseInt(refParts[1]);
+        var hasSubmissions=parseInt(refParts[2]);
+        var typeOfTrack=parseInt(refParts[3]);
+
+        //$(".trackDetailsBox").hide();
+        currentOpenBoxTrack="trackRow_"+idStr;
+
+        var button=$(this).find(".fa"); // <i class="fa fa-chevron-down"></i>
+
+        //close div
+        if ( trackRow.hasClass('expandedMap0') ) {
+            button.removeClass('fa-chevron-up');
+            button.addClass('fa-chevron-down');
+
+            trackRow.removeClass('expandedMap0');
+            $("#"+currentOpenBoxTrack).removeClass('expandedTrackDiv');
+            currentOpenBoxTrack=null;
+            $("#trackMenu_"+idStr).html('');
+            $("#trackMenuBox").slideUp(100);
+
+        } else { // open div
+            $(".trackMenuTrigger .fa").removeClass('fa-chevron-up');
+            $(".trackMenuTrigger .fa").addClass('fa-chevron-down');
+
+            button.removeClass('fa-chevron-down');
+            button.addClass('fa-chevron-up');
+            $("div.boxgridSocial").removeClass('expandedMap0');
+            $(".boxgridSocial").removeClass('expandedTrackDiv');
+            trackRow.addClass('expandedMap0');
+
+            displayMenu(userID,username,trackID,hasPoints,isLive,hasSubmissions,typeOfTrack);
+
+            $("#trackMenuBox").appendTo("#trackRow_"+idStr).slideDown(250);
+
+        }
+
+    });
+
+
+
+
+    var baseUrl='/tracks';
+    var baseUrlSearchGroup='/group/[groupname]';
+    var baseUrlSearchUser='/user/[username]/tracks';
+    var baseUrlSearchTracks='/tracks';
+
+    var currentPage='tracks';
+
+    $("#searchButtonGroup").click(function() {
+        var groupnames=$("#groupSearch").tokenInput("get");
+
+        var url =baseUrl;
+
+        if (groupnames.length == 1 ) {
+            url = baseUrlSearchGroup.replace('[groupname]', groupnames[0]['id']);
+        } else {
+            return;
+        }
+        window.location=url;
+    });
+
+    $("#searchButton").click(function() {
+
+        // get all the values
+        var countryList=$("select#countryCodeFilter").val();
+        var activityList=$("select#activityFilter").val();
+        var usernames=$("#userSearch").tokenInput("get");
+
+
+        //var url='/tracks';
+        var url =baseUrl;
+
+        if (usernames.length == 1  ) {
+            url = baseUrlSearchUser.replace('[username]', usernames[0]['id']);
+        } else {
+
+            url =baseUrlSearchTracks;
+
+            if (usernames.length >0  ) {
+                url=url+'/username/';
+                for(var i=0;i<usernames.length;i++){
+                    if (i>0) url=url+',';
+                    url=url+usernames[i]['id'];
+                }
+            }
+
+        }
+        if (countryList!=null) {
+            if (countryList.length >0) {
+                url=url+'/country/';
+                for(var i=0;i<countryList.length;i++){
+                    if (i>0) url=url+',';
+                    url=url+countryList[i];
+                }
+            }
+        }
+
+        if (activityList!=null) {
+            if (activityList.length >0) {
+                url=url+'/activity/';
+                for(var i=0;i<activityList.length;i++){
+                    if (i>0) url=url+',';
+                    url=url+activityList[i];
+                }
+            }
+        }
+
+        var fromDate=$("#fromDate").val();
+        var toDate=$("#toDate").val();
+
+        if (fromDate) {
+            url=url+'/from/'+fromDate;
+        }
+
+        if (toDate) {
+            url=url+'/to/'+toDate;
+        }
+
+        //$("#res").html(url);
+        window.location=url;
+
+    });
+
+    $("#userSearch").tokenInput("/EXT_pilot_functions.php?op=findPilot&format=json",
+            {
+                hintText: "Enter username to search for...",
+                minChars: 2,
+                tokenLimit: 5
+                        }
+    );
+
+        $("#groupSearch").tokenInput("/EXT_pilot_functions.php?op=findGroup&format=json",
+        {
+            hintText: "Enter group name to search for...",
+            minChars: 2,
+            tokenLimit: 1
+                    }
+    );
+});
+
+
+</script>
+
+
+<h1 class='pageheader'>Live Tracks \\  List<small><a  href='javascript:toggleSearch();'>Search <span class='caret'></span></a></small></h1>
+<div id='filterMenu'>
+    <table width='100%' cellpadding='8' cellspacing='0'>
+        <tr>
+            <th class='borderRight' width='220' valign='top'>
+                Groups
+            </th>
+
+            <th width='220' valign='top'>When
+            </th>
+            <th valign='top'>Where
+            </th>
+            <th valign='top'>What
+            </th>
+            <th valign='top'>Who
+            </th>
+
+        <tr>
+                        <td class='borderRight' valign='top'>
+                <input type="text" id="groupSearch" name="groupSearch" />
+            </td>
+            <td valign='top'>
+                <div style='width:60px; float:left;'>From: </div><input type='text' size='13' id='fromDate' value='2024-02-08'><br>
+                <div style='width:60px; float:left;'>To: </div><input type='text' size='13' id='toDate' value='2024-02-08'>
+
+                <a style='float:left; margin-top:10px; border-bottom:1px dotted #858585;' href='javascript:resetDates();'>Reset Dates</a>
+
+            </td>
+
+            <td valign='top'>
+                <Select name='countryCodeFilter[]' multiple='multiple' id='countryCodeFilter'><option value=''>--- Show All ---</option>
+<option value='fr' >France</option>
+<option value='it' >Italy</option>
+<option value='jp'  selected='selected' >Japan</option>
+<option value='es' >Spain</option>
+<option value='gb' >UK</option>
+<option value='us' >USA</option>
+<option value='ch' >Switzerland</option>
+<option value='de' >Germany</option>
+<option value='gr' >Greece</option>
+<option value='at' >Austria</option>
+<option value='br' >Brazil</option>
+<option value='si' >Slovenia</option>
+<option value='au' >Australia</option>
+<option value='za' >South Africa</option>
+<option value='co' >Colombia</option>
+<option value='pt' >Portugal</option>
+<option value='tr' >Turkey</option>
+<option value='pl' >Poland</option>
+<option value='bg' >Bulgaria</option>
+<option value='mk' >Former Yugoslav Macedonia</option>
+<option value='no' >Norway</option>
+<option value='hu' >Hungary</option>
+<option value='se' >Sweden</option>
+<option value='ru' >Russia</option>
+<option value='mx' >Mexico</option>
+<option value='ro' >Romania</option>
+<option value='dk' >Denmark</option>
+<option value='nl' >Netherlands</option>
+<option value='fi' >Finland</option>
+<option value='cz' >Czech</option>
+<option value='in' >India</option>
+<option value='hr' >Croatia</option>
+<option value='id' >Indonesia</option>
+<option value='cn' >China</option>
+<option value='vn' >Vietnam</option>
+<option value='ar' >Argentine</option>
+<option value='nz' >New Zealand</option>
+<option value='ca' >Canada</option>
+<option value='be' >Belgium</option>
+<option value='ma' >Morocco</option>
+<option value='re' >Reunion</option>
+<option value='cs' >Serbia and Montenegro</option>
+<option value='th' >Thailand</option>
+<option value='ir' >Iran</option>
+<option value='sk' >Slovakia</option>
+<option value='cl' >Chile</option>
+<option value='il' >Israel</option>
+<option value='tw' >Taiwan</option>
+<option value='kz' >Kazakhstan</option>
+<option value='np' >Nepal</option>
+<option value='mt' >Malta</option>
+<option value='kr' >South Korea</option>
+<option value='lt' >Lithuania</option>
+<option value='ua' >Ukraine</option>
+<option value='ve' >Venezuela</option>
+<option value='lv' >Latvia</option>
+<option value='cr' >Costa Rica</option>
+<option value='ke' >Kenya</option>
+<option value='ie' >Ireland</option>
+<option value='gt' >Guatemala</option>
+<option value='ec' >Ecuador</option>
+<option value='is' >Iceland</option>
+<option value='am' >Armenia</option>
+<option value='ee' >Estonia</option>
+<option value='hk' >Hong Kong</option>
+<option value='cy' >Cyprus</option>
+<option value='lu' >Luxembourg</option>
+<option value='na' >Namibia</option>
+<option value='om' >Oman</option>
+<option value='ao' >Angola</option>
+<option value='by' >Belarus</option>
+<option value='li' >Liechtenstein</option>
+<option value='md' >Moldova</option>
+<option value='ba' >Bosnia and Herzegovina</option>
+<option value='pk' >Pakistan</option>
+<option value='my' >Malaysia</option>
+<option value='tz' >Tanzania</option>
+<option value='do' >Dominican</option>
+<option value='al' >Albania</option>
+<option value='ly' >Libya</option>
+<option value='cv' >Cape Verde</option>
+<option value='uy' >Uruguay</option>
+<option value='ae' >United Arab Emirates</option>
+<option value='gi' >Gibraltar</option>
+<option value='ge' >Georgia</option>
+<option value='ad' >Andorra</option>
+<option value='qa' >Qatar</option>
+<option value='ci' >Cote d'Ivoire</option>
+<option value='gl' >Greenland</option>
+<option value='pe' >Peru</option>
+<option value='kg' >Kyrgyz</option>
+<option value='tm' >Turkmenistan</option>
+<option value='et' >Ethiopia</option>
+<option value='bm' >Bermuda</option>
+<option value='sg' >Singapore</option>
+<option value='ls' >Lesotho</option>
+<option value='uz' >Uzbekistan</option>
+<option value='gh' >Ghana</option>
+<option value='sd' >Sudan</option>
+<option value='pm' >St. Pierre and Miquelon</option>
+<option value='sm' >San Marino</option>
+<option value='mn' >Mongolia</option>
+<option value='nc' >New Caledonia</option>
+<option value='eg' >Egypt</option>
+<option value='ph' >Philippines</option>
+<option value='mz' >Mozambique</option>
+<option value='mc' >Monaco</option>
+<option value='sj' >Svalbard & Jan Mayen Islands</option>
+<option value='bw' >Botswana</option>
+<option value='ng' >Nigeria</option>
+<option value='bz' >Belize</option>
+<option value='cu' >Cuba</option>
+<option value='bo' >Bolivia</option>
+<option value='az' >Azerbaijan</option>
+<option value='mv' >Maldives</option>
+<option value='bh' >Bahrain</option>
+<option value='la' >Lao</option>
+<option value='sv' >El Salvador</option>
+<option value='tj' >Tajikistan</option>
+<option value='sa' >Saudi Arabia</option>
+<option value='vi' >US Virgin Islands</option>
+<option value='pf' >French Polynesia</option>
+<option value='gm' >Gambia</option>
+<option value='iq' >Iraq</option>
+<option value='mo' >Macau - China</option>
+<option value='sh' >St. Helena</option>
+<option value='tn' >Tunisia</option>
+<option value='lb' >Lebanese</option>
+<option value='dz' >Algeria</option>
+<option value='lk' >Sri Lanka</option>
+<option value='ug' >Uganda</option>
+<option value='mg' >Madagascar</option>
+<option value='zm' >Zambia</option>
+<option value='ag' >Antigua and Barbuda</option>
+<option value='sz' >Swaziland</option>
+<option value='cf' >Central Africa</option>
+<option value='sc' >Seychelles</option>
+<option value='mw' >Malawi</option>
+<option value='af' >Afghanistan</option>
+<option value='pg' >Papua New Guinea</option>
+<option value='kp' >North Korea</option>
+<option value='bn' >Brunei Darussalam</option>
+<option value='mu' >Mauritius</option>
+<option value='gf' >French Guiana</option>
+<option value='kh' >Cambodia</option>
+<option value='aw' >Aruba</option>
+<option value='mr' >Mauritania</option>
+<option value='tg' >Togolese</option>
+<option value='ne' >Niger</option>
+<option value='pa' >Panama</option>
+<option value='gp' >Guadaloupe</option>
+<option value='st' >Sao Tome and Principe</option>
+<option value='bd' >Bangladesh</option>
+<option value='py' >Paraguay</option>
+<option value='mq' >Martinique</option>
+<option value='jo' >Jordan</option>
+<option value='td' >Chad</option>
+<option value='gq' >Equatorial Guinea</option>
+<option value='jm' >Jamaica</option>
+<option value='lr' >Liberia</option>
+<option value='ws' >Samoa</option>
+<option value='bs' >Bahamas</option>
+<option value='pn' >Pitcairn Island</option>
+<option value='ml' >Mali</option>
+<option value='vu' >Vanuatu</option>
+<option value='bb' >Barbados</option>
+<option value='kw' >Kuwait</option>
+<option value='ky' >Cayman Islands</option>
+<option value='ye' >Yemen</option>
+<option value='cg' >Congo</option>
+<option value='fj' >Fiji Islands</option>
+<option value='fm' >Micronesia</option>
+<option value='mm' >Burma</option>
+<option value='ht' >Haiti</option>
+<option value='so' >Somalia</option>
+<option value='dj' >Djibouti</option>
+<option value='bf' >Burkina Faso</option>
+<option value='hn' >Honduras</option>
+<option value='tt' >Trinidad and Tobago</option>
+<option value='lc' >Saint Lucia</option>
+<option value='sn' >Senegal</option>
+<option value='tk' >Tokelau</option>
+<option value='wf' >Wallis and Futuna Islands</option>
+<option value='cd' >Congo</option>
+<option value='yt' >Mayotte</option>
+<option value='bt' >Bhutan</option>
+<option value='sl' >Sierra Leone</option>
+<option value='fo' >Faeroe Islands</option>
+<option value='ni' >Nicaragua</option>
+<option value='pw' >Palau</option>
+<option value='ki' >Kiribati</option>
+<option value='er' >Eritrea</option>
+<option value='gd' >Grenada</option>
+<option value='sr' >Suriname</option>
+</Select>            </td>
+            <td valign='top'>
+                <Select  multiple='multiple' name='activityFilter[]' id='activityFilter'  ><option value=''>--- Show All ---</option>
+<option value='0' >General</option>
+<option value='1' >Paraglider</option>
+<option value='2' >Flex wing FAI1</option>
+<option value='4' >Rigid wing FAI5</option>
+<option value='6' >Ultralight Glider FAI2</option>
+<option value='8' >Glider</option>
+<option value='16' >Paramotor</option>
+<option value='32' >Trike</option>
+<option value='64' >Powered flight</option>
+<option value='128' >Hot Air Balloon</option>
+<option value='256' >HG Mosquito</option>
+<option value='512' >SkyDive</option>
+<option value='1023' >AirSports</option>
+<option value='1024' >Bird</option>
+<option value='16385' >Walk</option>
+<option value='16386' >Run</option>
+<option value='16388' >Bike</option>
+<option value='16400' >Hike</option>
+<option value='16401' >Cycle</option>
+<option value='16402' >Mountain Bike</option>
+<option value='16403' >Motorcycle</option>
+<option value='16500' >Windsurf</option>
+<option value='16501' >Kitesurf</option>
+<option value='16502' >Sailing</option>
+<option value='16503' >Kayak</option>
+<option value='16504' >Sea Kayak</option>
+<option value='16600' >Snowboard</option>
+<option value='16601' >Ski</option>
+<option value='16602' >Snowkite</option>
+<option value='17100' >Car</option>
+<option value='17101' >4x4 Car</option>
+<option value='18000' >Horse</option>
+<option value='18001' >Dog</option>
+</Select>            </td>
+
+            <td width='200' valign='top'>
+                <input type="text" id="userSearch" name="userSearch" />
+            </td>
+
+
+
+        </tr>
+        <tr>
+            <td class='borderRight' valign='top' align='right'>
+                <input class='btn btn-primary' type="button" id='searchButtonGroup' value="Visit Group" />
+            </td>
+            <td colspan='4' valign='top' align='right'>
+                <div align='right'>
+                    <input class='btn btn-primary' type="button" id='searchButton' value="Update Your Search" />
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div id='secondLine'>
+    <ol id='barSimple' class='tracksBarSimple'><li style='background:none;'><a href='javascript:toggleSearch();' class='current'>Now showing >></a></li><li>&nbsp;<img class='flagFilter' src='https://www.livetrack24.com/img/flags/jp.gif'  align='absmiddle'  title='Japan'>&nbsp;</li><li><div class='barSimpleDivider'>&nbsp;</div></li><li>&nbsp;<img width='16' src='https://www.livetrack24.com/img/icon_calendar.png' align='absmiddle' title=''> 2024-02-08 &nbsp;</li><li><div class='barSimpleDivider'>&nbsp;</div></li></ol>    <div id='timeBox'>
+        <a id='timeBoxActivate' href='javascript:;' >
+            <span id="servertime"></span> UTC        </a>
+    </div>
+</div>
+
+
+
+<div style='clear:both; height:10px;'></div>
+<div width='100%' class='clearfix' id='tracksPagination'><ul class="pagination">
+<li class="active"><a href="javascript:;">1<span class="sr-only">(current)</span></a></li>
+<li><a href="/tracks/country/jp/from/2024-02-08/to/2024-02-08/page_num/2">2</a></li>
+<li><a href="/tracks/country/jp/from/2024-02-08/to/2024-02-08/page_num/3">3</a></li>
+<li><a href="/tracks/country/jp/from/2024-02-08/to/2024-02-08/page_num/4">4</a></li>
+
+</ul></div><table class='clearfix listTable0' cellpadding='0' cellspacing='0'  \><tr><td valign='top'><table class='listTable' cellpadding='0' cellspacing='0'  \><tr><td>
+	<div class="boxgridSocial"
+         data-userID="39015"
+         data-trackID="2552840"
+         data-username="flyhiwa"
+         id='trackRow_39015_2552840_flyhiwa'>
+          	<table width=100% class="tracktable" cellpadding="0" cellspacing="0">
+                	<tr>
+                    	<td class='userCellParent' id='userCellParent_39015_2552840_flyhiwa'>
+                            <a class='' href="javascript:;"
+                               title="flyhiwa"
+                               data-trigger="manual"
+                               data-placement="top"
+                               data-username0='flyhiwa'  >
+
+                                <img  class="zoomImg img-rounded" src="https://www.livetrack24.com/files/users/39015/photo.thumb.jpg" width=70 height=70>
+                                <img class='activityImg' src='https://www.livetrack24.com/img/cat/icon_cat_1.png' align='absmiddle' alt='Paraglider' title='Paraglider'><img class='userFlag img-rounded' src='https://www.livetrack24.com/img/flags/jp.gif' >                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_info"
+                                   title="Network"
+                                   data-trigger="hover"
+                                   data-placement="right"
+                                   data-trackid="2552840" >
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_menu"
+                                   title="Select action for this LiveTrack"
+                                   data-trigger="manual"
+                                   data-placement="right"
+                                   data-width="350"
+                                   data-trackid="2552840" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2552840">
+	                        
+                    		<img src='https://www.livetrack24.com/img/icon_flight_end_ok.gif'
+                                 title='Track was ended normally'
+                                 alt='Track was ended normally'
+                                 border=0 align='absmiddle'>
+                    		                    		<span class='liveusername'>
+                                 <a class='noAction' href="javascript:;"
+                                    title="flyhiwa"
+                                    data-trigger="manual"
+                                    data-placement="top"
+                                    data-username0='flyhiwa'  >
+                                    flyhiwa                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="/track/2552840">
+                                <div class='list_last_location'>was at <img style='vertical-align:text-bottom' src='https://www.livetrack24.com/img/icon_city.gif'> Wakayama - JP [~33.0 km]</div>
+
+                                <div class='list_last_time'>
+                                     on 08-02-2024 07:50:59 UTC+0&nbsp;                                </div>
+
+                                <div class='list_last_location'>
+                                    Alt:<strong>24 m</strong>,
+                                    Speed:<strong>0 km/h</strong>,
+                                    Duration:<strong>02:48:42</strong>
+                                </div>
+
+                                                                <div class='list_last_location'>
+                                Distance from takeoff                                <strong>1.0 km</strong>,
+                                 [Max] <strong>7.7 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign='middle' align='center' width="70">
+                    <div class='mapContainer'>
+                        <img title='waypoint Object
+(
+    [type] => 2
+    [countryCode] => JP
+    [name] => Wakayama
+    [intName] => Wakayama
+    [location] => 
+    [intLocation] => 
+    [link] => 
+    [description] => 
+    [modifyDate] => 2005-09-01
+    [waypointID] => 8618
+    [gpsTime] => 
+    [lat] => 34.0903
+    [lon] => -135.09
+    [varioAlt] => 
+    [gpsAlt] => 
+    [timezone] => 0
+)
+' class='ccFlag' src='/img/flags/32/jp.png'>                            <a
+                                    class='noAction'
+                                    data-mapimage="2552840"
+                                    title="."
+                                    data-trigger="manual"
+                                    href='/track/2552840'>
+                                <img ref='trackMap_39015_2552840_flyhiwa'
+                                     class='staticPosMap img-thumbnail'
+                                     src='https://www.livetrack24.com/files/tracks/maps/25/52/2552840/map_small.jpg'>
+                            </a>
+                            <div style="margin-top:9px; text-align: center" >
+
+                          <div class='row btn btn-xs btn-default trackMenuTrigger'
+                               data-userID="39015"
+                               data-trackID="2552840"
+                               data-username="flyhiwa"
+                               style="width:65px;"
+                                title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class='mapPopup' id='mapPopup_2552840'>
+
+                            <img src='https://www.livetrack24.com/files/tracks/maps/25/52/2552840/map_small.jpg'>
+                            <BR>
+                        <span class='startDescText'>
+                        Takeoff:
+                            <img style='vertical-align:text-bottom'  src='https://www.livetrack24.com/img/icon_city.gif'> Wakayama - JP <span class='distanceSpan'>~31.7km</span>                            <BR>
+                         at 08-02-2024 05:02:17 UTC+9
+
+                                                        <BR>
+                            Distance from takeoff                            <strong>7.7 km</strong><BR>
+                             [Max] <strong>7.7 km</strong> [Max] <b>7.7 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan='3' class="trackDetailsBox noAction"  ref='1707378659_0_0_0' id='action_39015_2552840_flyhiwa'>
+				  </td>
+				  </tr>
+                  
+                </table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial"
+         data-userID="19039"
+         data-trackID="2552844"
+         data-username="hirao_ueno"
+         id='trackRow_19039_2552844_hirao_ueno'>
+          	<table width=100% class="tracktable" cellpadding="0" cellspacing="0">
+                	<tr>
+                    	<td class='userCellParent' id='userCellParent_19039_2552844_hirao_ueno'>
+                            <a class='' href="javascript:;"
+                               title="hirao_ueno"
+                               data-trigger="manual"
+                               data-placement="top"
+                               data-username0='hirao_ueno'  >
+
+                                <img  class="zoomImg img-rounded" src="https://www.livetrack24.com/files/users/19039/photo.thumb.jpg" width=70 height=70>
+                                <img class='activityImg' src='https://www.livetrack24.com/img/cat/icon_cat_1.png' align='absmiddle' alt='Paraglider' title='Paraglider'><img class='userFlag img-rounded' src='https://www.livetrack24.com/img/flags/jp.gif' >                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_info"
+                                   title="Network"
+                                   data-trigger="hover"
+                                   data-placement="right"
+                                   data-trackid="2552844" >
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_menu"
+                                   title="Select action for this LiveTrack"
+                                   data-trigger="manual"
+                                   data-placement="right"
+                                   data-width="350"
+                                   data-trackid="2552844" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2552844">
+	                        
+                    		<img src='https://www.livetrack24.com/img/icon_flight_end_ok.gif'
+                                 title='Track was ended normally'
+                                 alt='Track was ended normally'
+                                 border=0 align='absmiddle'>
+                    		                    		<span class='liveusername'>
+                                 <a class='noAction' href="javascript:;"
+                                    title="hirao_ueno"
+                                    data-trigger="manual"
+                                    data-placement="top"
+                                    data-username0='hirao_ueno'  >
+                                    hirao_ueno                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="/track/2552844">
+                                <div class='list_last_location'>was at <img style='vertical-align:text-bottom' src='https://www.livetrack24.com/img/icon_takeoff.gif'> Glider-yama - JP [~0.1 km]</div>
+
+                                <div class='list_last_time'>
+                                     on 08-02-2024 07:30:42 UTC+0&nbsp;                                </div>
+
+                                <div class='list_last_location'>
+                                    Alt:<strong>36 m</strong>,
+                                    Speed:<strong>0 km/h</strong>,
+                                    Duration:<strong>01:31:18</strong>
+                                </div>
+
+                                                                <div class='list_last_location'>
+                                Distance from takeoff                                <strong>2.4 km</strong>,
+                                 [Max] <strong>3.0 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign='middle' align='center' width="70">
+                    <div class='mapContainer'>
+                        <img title='waypoint Object
+(
+    [type] => 1000
+    [countryCode] => JP
+    [name] => Guraidaa-yama
+    [intName] => Glider-yama
+    [location] => Mino
+    [intLocation] => Mino
+    [link] => http://skycruise.a.la9.jp/
+    [description] => On a long E-W ridge, good ridge soaring and thermaling in WNW-NNE wind (particularly winter season).
+    [modifyDate] => 2015-09-01
+    [waypointID] => 72421
+    [gpsTime] => 
+    [lat] => 33.3006
+    [lon] => -130.638
+    [varioAlt] => 
+    [gpsAlt] => 
+    [timezone] => 0
+)
+' class='ccFlag' src='/img/flags/32/jp.png'>                            <a
+                                    class='noAction'
+                                    data-mapimage="2552844"
+                                    title="."
+                                    data-trigger="manual"
+                                    href='/track/2552844'>
+                                <img ref='trackMap_19039_2552844_hirao_ueno'
+                                     class='staticPosMap img-thumbnail'
+                                     src='https://www.livetrack24.com/files/tracks/maps/25/52/2552844/map_small.jpg'>
+                            </a>
+                            <div style="margin-top:9px; text-align: center" >
+
+                          <div class='row btn btn-xs btn-default trackMenuTrigger'
+                               data-userID="19039"
+                               data-trackID="2552844"
+                               data-username="hirao_ueno"
+                               style="width:65px;"
+                                title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class='mapPopup' id='mapPopup_2552844'>
+
+                            <img src='https://www.livetrack24.com/files/tracks/maps/25/52/2552844/map_small.jpg'>
+                            <BR>
+                        <span class='startDescText'>
+                        Takeoff:
+                            <img style='vertical-align:text-bottom'  src='https://www.livetrack24.com/img/icon_takeoff.gif'> Glider-yama - JP                            <BR>
+                         at 08-02-2024 05:59:24 UTC+9
+
+                                                        <BR>
+                            Distance from takeoff                            <strong>3.0 km</strong><BR>
+                             [Max] <strong>3.0 km</strong> [Max] <b>3.0 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan='3' class="trackDetailsBox noAction"  ref='1707377442_0_0_0' id='action_19039_2552844_hirao_ueno'>
+				  </td>
+				  </tr>
+                  
+                </table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial"
+         data-userID="21005"
+         data-trackID="2552879"
+         data-username="gensan"
+         id='trackRow_21005_2552879_gensan'>
+          	<table width=100% class="tracktable" cellpadding="0" cellspacing="0">
+                	<tr>
+                    	<td class='userCellParent' id='userCellParent_21005_2552879_gensan'>
+                            <a class='' href="javascript:;"
+                               title="gensan"
+                               data-trigger="manual"
+                               data-placement="top"
+                               data-username0='gensan'  >
+
+                                <img  class="zoomImg img-rounded" src="https://www.livetrack24.com/files/users/21005/photo.thumb.jpg" width=70 height=70>
+                                <img class='activityImg' src='https://www.livetrack24.com/img/cat/icon_cat_1.png' align='absmiddle' alt='Paraglider' title='Paraglider'><img class='userFlag img-rounded' src='https://www.livetrack24.com/img/flags/jp.gif' >                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_info"
+                                   title="Network"
+                                   data-trigger="hover"
+                                   data-placement="right"
+                                   data-trackid="2552879" >
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_menu"
+                                   title="Select action for this LiveTrack"
+                                   data-trigger="manual"
+                                   data-placement="right"
+                                   data-width="350"
+                                   data-trackid="2552879" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2552879">
+	                        
+                    		<img src='https://www.livetrack24.com/img/icon_flight_end_unknown.gif'
+                                 title='No end of Track was received'
+                                 alt='No end of Track was received'
+                                 border=0 align='absmiddle'>
+                    		                    		<span class='liveusername'>
+                                 <a class='noAction' href="javascript:;"
+                                    title="gensan"
+                                    data-trigger="manual"
+                                    data-placement="top"
+                                    data-username0='gensan'  >
+                                    gensan                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="/track/2552879">
+                                <div class='list_last_location'>was at <img style='vertical-align:text-bottom' src='https://www.livetrack24.com/img/icon_city.gif'> Wakayama - JP [~31.5 km]</div>
+
+                                <div class='list_last_time'>
+                                     on 08-02-2024 07:28:12 UTC+0&nbsp;                                </div>
+
+                                <div class='list_last_location'>
+                                    Alt:<strong>22 m</strong>,
+                                    Speed:<strong>6 km/h</strong>,
+                                    Duration:<strong>02:48:50</strong>
+                                </div>
+
+                                                                <div class='list_last_location'>
+                                Distance from takeoff                                <strong>1.1 km</strong>,
+                                 [Max] <strong>7.0 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign='middle' align='center' width="70">
+                    <div class='mapContainer'>
+                        <img title='waypoint Object
+(
+    [type] => 2
+    [countryCode] => JP
+    [name] => Wakayama
+    [intName] => Wakayama
+    [location] => 
+    [intLocation] => 
+    [link] => 
+    [description] => 
+    [modifyDate] => 2005-09-01
+    [waypointID] => 8618
+    [gpsTime] => 
+    [lat] => 34.0903
+    [lon] => -135.09
+    [varioAlt] => 
+    [gpsAlt] => 
+    [timezone] => 0
+)
+' class='ccFlag' src='/img/flags/32/jp.png'>                            <a
+                                    class='noAction'
+                                    data-mapimage="2552879"
+                                    title="."
+                                    data-trigger="manual"
+                                    href='/track/2552879'>
+                                <img ref='trackMap_21005_2552879_gensan'
+                                     class='staticPosMap img-thumbnail'
+                                     src='https://www.livetrack24.com/files/tracks/maps/25/52/2552879/map_small.jpg'>
+                            </a>
+                            <div style="margin-top:9px; text-align: center" >
+
+                          <div class='row btn btn-xs btn-default trackMenuTrigger'
+                               data-userID="21005"
+                               data-trackID="2552879"
+                               data-username="gensan"
+                               style="width:65px;"
+                                title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class='mapPopup' id='mapPopup_2552879'>
+
+                            <img src='https://www.livetrack24.com/files/tracks/maps/25/52/2552879/map_small.jpg'>
+                            <BR>
+                        <span class='startDescText'>
+                        Takeoff:
+                            <img style='vertical-align:text-bottom'  src='https://www.livetrack24.com/img/icon_city.gif'> Wakayama - JP <span class='distanceSpan'>~31.7km</span>                            <BR>
+                         at 08-02-2024 04:39:22 UTC+9
+
+                                                        <BR>
+                            Distance from takeoff                            <strong>7.0 km</strong><BR>
+                             [Max] <strong>7.0 km</strong> [Max] <b>7.0 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan='3' class="trackDetailsBox noAction"  ref='1707377292_0_0_0' id='action_21005_2552879_gensan'>
+				  </td>
+				  </tr>
+                  
+                </table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial"
+         data-userID="47671"
+         data-trackID="2552836"
+         data-username="naruse"
+         id='trackRow_47671_2552836_naruse'>
+          	<table width=100% class="tracktable" cellpadding="0" cellspacing="0">
+                	<tr>
+                    	<td class='userCellParent' id='userCellParent_47671_2552836_naruse'>
+                            <a class='' href="javascript:;"
+                               title="naruse"
+                               data-trigger="manual"
+                               data-placement="top"
+                               data-username0='naruse'  >
+
+                                <img  class="zoomImg img-rounded" src="https://www.livetrack24.com/files/users/47671/photo.thumb.jpg" width=70 height=70>
+                                <img class='activityImg' src='https://www.livetrack24.com/img/cat/icon_cat_1.png' align='absmiddle' alt='Paraglider' title='Paraglider'><img class='userFlag img-rounded' src='https://www.livetrack24.com/img/flags/jp.gif' >                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_info"
+                                   title="Network"
+                                   data-trigger="hover"
+                                   data-placement="right"
+                                   data-trackid="2552836" >
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_menu"
+                                   title="Select action for this LiveTrack"
+                                   data-trigger="manual"
+                                   data-placement="right"
+                                   data-width="350"
+                                   data-trackid="2552836" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2552836">
+	                        
+                    		<img src='https://www.livetrack24.com/img/icon_flight_end_ok.gif'
+                                 title='Track was ended normally'
+                                 alt='Track was ended normally'
+                                 border=0 align='absmiddle'>
+                    		                    		<span class='liveusername'>
+                                 <a class='noAction' href="javascript:;"
+                                    title="naruse"
+                                    data-trigger="manual"
+                                    data-placement="top"
+                                    data-username0='naruse'  >
+                                    naruse                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="/track/2552836">
+                                <div class='list_last_location'>was at <img style='vertical-align:text-bottom' src='https://www.livetrack24.com/img/icon_city.gif'> Wakayama - JP [~31.8 km]</div>
+
+                                <div class='list_last_time'>
+                                     on 08-02-2024 06:37:51 UTC+0&nbsp;                                </div>
+
+                                <div class='list_last_location'>
+                                    Alt:<strong>35 m</strong>,
+                                    Speed:<strong>0 km/h</strong>,
+                                    Duration:<strong>02:26:59</strong>
+                                </div>
+
+                                                                <div class='list_last_location'>
+                                Distance from takeoff                                <strong>1.1 km</strong>,
+                                 [Max] <strong>7.9 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign='middle' align='center' width="70">
+                    <div class='mapContainer'>
+                        <img title='waypoint Object
+(
+    [type] => 2
+    [countryCode] => JP
+    [name] => Wakayama
+    [intName] => Wakayama
+    [location] => 
+    [intLocation] => 
+    [link] => 
+    [description] => 
+    [modifyDate] => 2005-09-01
+    [waypointID] => 8618
+    [gpsTime] => 
+    [lat] => 34.0903
+    [lon] => -135.09
+    [varioAlt] => 
+    [gpsAlt] => 
+    [timezone] => 0
+)
+' class='ccFlag' src='/img/flags/32/jp.png'>                            <a
+                                    class='noAction'
+                                    data-mapimage="2552836"
+                                    title="."
+                                    data-trigger="manual"
+                                    href='/track/2552836'>
+                                <img ref='trackMap_47671_2552836_naruse'
+                                     class='staticPosMap img-thumbnail'
+                                     src='https://www.livetrack24.com/files/tracks/maps/25/52/2552836/map_small.jpg'>
+                            </a>
+                            <div style="margin-top:9px; text-align: center" >
+
+                          <div class='row btn btn-xs btn-default trackMenuTrigger'
+                               data-userID="47671"
+                               data-trackID="2552836"
+                               data-username="naruse"
+                               style="width:65px;"
+                                title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class='mapPopup' id='mapPopup_2552836'>
+
+                            <img src='https://www.livetrack24.com/files/tracks/maps/25/52/2552836/map_small.jpg'>
+                            <BR>
+                        <span class='startDescText'>
+                        Takeoff:
+                            <img style='vertical-align:text-bottom'  src='https://www.livetrack24.com/img/icon_city.gif'> Wakayama - JP <span class='distanceSpan'>~31.8km</span>                            <BR>
+                         at 08-02-2024 04:10:52 UTC+9
+
+                                                        <BR>
+                            Distance from takeoff                            <strong>7.9 km</strong><BR>
+                             [Max] <strong>7.9 km</strong> [Max] <b>7.9 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan='3' class="trackDetailsBox noAction"  ref='1707374271_0_0_0' id='action_47671_2552836_naruse'>
+				  </td>
+				  </tr>
+                  
+                </table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial"
+         data-userID="20709"
+         data-trackID="2552838"
+         data-username="yukihiro"
+         id='trackRow_20709_2552838_yukihiro'>
+          	<table width=100% class="tracktable" cellpadding="0" cellspacing="0">
+                	<tr>
+                    	<td class='userCellParent' id='userCellParent_20709_2552838_yukihiro'>
+                            <a class='' href="javascript:;"
+                               title="yukihiro"
+                               data-trigger="manual"
+                               data-placement="top"
+                               data-username0='yukihiro'  >
+
+                                <img  class="zoomImg img-rounded" src="https://www.livetrack24.com/files/users/20709/photo.thumb.jpg" width=70 height=70>
+                                <img class='activityImg' src='https://www.livetrack24.com/img/cat/icon_cat_1.png' align='absmiddle' alt='Paraglider' title='Paraglider'><img class='userFlag img-rounded' src='https://www.livetrack24.com/img/flags/jp.gif' >                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_info"
+                                   title="Network"
+                                   data-trigger="hover"
+                                   data-placement="right"
+                                   data-trackid="2552838" >
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_menu"
+                                   title="Select action for this LiveTrack"
+                                   data-trigger="manual"
+                                   data-placement="right"
+                                   data-width="350"
+                                   data-trackid="2552838" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2552838">
+	                        
+                    		<img src='https://www.livetrack24.com/img/icon_flight_end_ok.gif'
+                                 title='Track was ended normally'
+                                 alt='Track was ended normally'
+                                 border=0 align='absmiddle'>
+                    		                    		<span class='liveusername'>
+                                 <a class='noAction' href="javascript:;"
+                                    title="yukihiro"
+                                    data-trigger="manual"
+                                    data-placement="top"
+                                    data-username0='yukihiro'  >
+                                    yukihiro                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="/track/2552838">
+                                <div class='list_last_location'>was at <img style='vertical-align:text-bottom' src='https://www.livetrack24.com/img/icon_city.gif'> Wakayama - JP [~31.6 km]</div>
+
+                                <div class='list_last_time'>
+                                     on 08-02-2024 06:30:14 UTC+0&nbsp;                                </div>
+
+                                <div class='list_last_location'>
+                                    Alt:<strong>35 m</strong>,
+                                    Speed:<strong>0 km/h</strong>,
+                                    Duration:<strong>01:42:05</strong>
+                                </div>
+
+                                                                <div class='list_last_location'>
+                                Distance from takeoff                                <strong>1.0 km</strong>,
+                                 [Max] <strong>1.7 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign='middle' align='center' width="70">
+                    <div class='mapContainer'>
+                        <img title='waypoint Object
+(
+    [type] => 2
+    [countryCode] => JP
+    [name] => Wakayama
+    [intName] => Wakayama
+    [location] => 
+    [intLocation] => 
+    [link] => 
+    [description] => 
+    [modifyDate] => 2005-09-01
+    [waypointID] => 8618
+    [gpsTime] => 
+    [lat] => 34.0903
+    [lon] => -135.09
+    [varioAlt] => 
+    [gpsAlt] => 
+    [timezone] => 0
+)
+' class='ccFlag' src='/img/flags/32/jp.png'>                            <a
+                                    class='noAction'
+                                    data-mapimage="2552838"
+                                    title="."
+                                    data-trigger="manual"
+                                    href='/track/2552838'>
+                                <img ref='trackMap_20709_2552838_yukihiro'
+                                     class='staticPosMap img-thumbnail'
+                                     src='https://www.livetrack24.com/files/tracks/maps/25/52/2552838/map_small.jpg'>
+                            </a>
+                            <div style="margin-top:9px; text-align: center" >
+
+                          <div class='row btn btn-xs btn-default trackMenuTrigger'
+                               data-userID="20709"
+                               data-trackID="2552838"
+                               data-username="yukihiro"
+                               style="width:65px;"
+                                title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class='mapPopup' id='mapPopup_2552838'>
+
+                            <img src='https://www.livetrack24.com/files/tracks/maps/25/52/2552838/map_small.jpg'>
+                            <BR>
+                        <span class='startDescText'>
+                        Takeoff:
+                            <img style='vertical-align:text-bottom'  src='https://www.livetrack24.com/img/icon_city.gif'> Wakayama - JP <span class='distanceSpan'>~31.7km</span>                            <BR>
+                         at 08-02-2024 04:48:09 UTC+9
+
+                                                        <BR>
+                            Distance from takeoff                            <strong>1.7 km</strong><BR>
+                             [Max] <strong>1.7 km</strong> [Max] <b>1.7 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan='3' class="trackDetailsBox noAction"  ref='1707373814_0_0_0' id='action_20709_2552838_yukihiro'>
+				  </td>
+				  </tr>
+                  
+                </table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial"
+         data-userID="19845"
+         data-trackID="2552834"
+         data-username="hirao_kubo"
+         id='trackRow_19845_2552834_hirao_kubo'>
+          	<table width=100% class="tracktable" cellpadding="0" cellspacing="0">
+                	<tr>
+                    	<td class='userCellParent' id='userCellParent_19845_2552834_hirao_kubo'>
+                            <a class='' href="javascript:;"
+                               title="hirao_kubo"
+                               data-trigger="manual"
+                               data-placement="top"
+                               data-username0='hirao_kubo'  >
+
+                                <img  class="zoomImg img-rounded" src="https://www.livetrack24.com/files/users/19845/photo.thumb.jpg" width=70 height=70>
+                                <img class='activityImg' src='https://www.livetrack24.com/img/cat/icon_cat_1.png' align='absmiddle' alt='Paraglider' title='Paraglider'><img class='userFlag img-rounded' src='https://www.livetrack24.com/img/flags/jp.gif' >                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_info"
+                                   title="Network"
+                                   data-trigger="hover"
+                                   data-placement="right"
+                                   data-trackid="2552834" >
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_menu"
+                                   title="Select action for this LiveTrack"
+                                   data-trigger="manual"
+                                   data-placement="right"
+                                   data-width="350"
+                                   data-trackid="2552834" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2552834">
+	                        
+                    		<img src='https://www.livetrack24.com/img/icon_flight_end_ok.gif'
+                                 title='Track was ended normally'
+                                 alt='Track was ended normally'
+                                 border=0 align='absmiddle'>
+                    		                    		<span class='liveusername'>
+                                 <a class='noAction' href="javascript:;"
+                                    title="hirao_kubo"
+                                    data-trigger="manual"
+                                    data-placement="top"
+                                    data-username0='hirao_kubo'  >
+                                    hirao_kubo                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="/track/2552834">
+                                <div class='list_last_location'>was at <img style='vertical-align:text-bottom' src='https://www.livetrack24.com/img/icon_takeoff.gif'> Komenoyama - JP [~38.2 km]</div>
+
+                                <div class='list_last_time'>
+                                     on 08-02-2024 06:25:38 UTC+0&nbsp;                                </div>
+
+                                <div class='list_last_location'>
+                                    Alt:<strong>67 m</strong>,
+                                    Speed:<strong>56 km/h</strong>,
+                                    Duration:<strong>02:21:11</strong>
+                                </div>
+
+                                                                <div class='list_last_location'>
+                                Distance from takeoff                                <strong>4.6 km</strong>,
+                                 [Max] <strong>4.6 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign='middle' align='center' width="70">
+                    <div class='mapContainer'>
+                        <img title='waypoint Object
+(
+    [type] => 1000
+    [countryCode] => JP
+    [name] => 米の山
+    [intName] => Komenoyama
+    [location] => Fukuoka 
+    [intLocation] => Fukuoka 
+    [link] => 
+    [description] => 
+    [modifyDate] => 2015-03-03
+    [waypointID] => 71809
+    [gpsTime] => 
+    [lat] => 33.6066
+    [lon] => -130.541
+    [varioAlt] => 
+    [gpsAlt] => 
+    [timezone] => 0
+)
+' class='ccFlag' src='/img/flags/32/jp.png'>                            <a
+                                    class='noAction'
+                                    data-mapimage="2552834"
+                                    title="."
+                                    data-trigger="manual"
+                                    href='/track/2552834'>
+                                <img ref='trackMap_19845_2552834_hirao_kubo'
+                                     class='staticPosMap img-thumbnail'
+                                     src='https://www.livetrack24.com/files/tracks/maps/25/52/2552834/map_small.jpg'>
+                            </a>
+                            <div style="margin-top:9px; text-align: center" >
+
+                          <div class='row btn btn-xs btn-default trackMenuTrigger'
+                               data-userID="19845"
+                               data-trackID="2552834"
+                               data-username="hirao_kubo"
+                               style="width:65px;"
+                                title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class='mapPopup' id='mapPopup_2552834'>
+
+                            <img src='https://www.livetrack24.com/files/tracks/maps/25/52/2552834/map_small.jpg'>
+                            <BR>
+                        <span class='startDescText'>
+                        Takeoff:
+                            <img style='vertical-align:text-bottom'  src='https://www.livetrack24.com/img/icon_takeoff.gif'> Komenoyama - JP <span class='distanceSpan'>~38.3km</span>                            <BR>
+                         at 08-02-2024 04:04:27 UTC+9
+
+                                                        <BR>
+                            Distance from takeoff                            <strong>4.6 km</strong><BR>
+                             [Max] <strong>4.6 km</strong> [Max] <b>4.6 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan='3' class="trackDetailsBox noAction"  ref='1707373538_0_0_0' id='action_19845_2552834_hirao_kubo'>
+				  </td>
+				  </tr>
+                  
+                </table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial"
+         data-userID="60917"
+         data-trackID="2552847"
+         data-username="kuriyasu"
+         id='trackRow_60917_2552847_kuriyasu'>
+          	<table width=100% class="tracktable" cellpadding="0" cellspacing="0">
+                	<tr>
+                    	<td class='userCellParent' id='userCellParent_60917_2552847_kuriyasu'>
+                            <a class='' href="javascript:;"
+                               title="kuriyasu"
+                               data-trigger="manual"
+                               data-placement="top"
+                               data-username0='kuriyasu'  >
+
+                                <img  class="zoomImg img-rounded" src="https://www.livetrack24.com/files/users/60917/photo.thumb.jpg" width=70 height=70>
+                                <img class='activityImg' src='https://www.livetrack24.com/img/cat/icon_cat_1.png' align='absmiddle' alt='Paraglider' title='Paraglider'><img class='userFlag img-rounded' src='https://www.livetrack24.com/img/flags/jp.gif' >                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_info"
+                                   title="Network"
+                                   data-trigger="hover"
+                                   data-placement="right"
+                                   data-trackid="2552847" >
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_menu"
+                                   title="Select action for this LiveTrack"
+                                   data-trigger="manual"
+                                   data-placement="right"
+                                   data-width="350"
+                                   data-trackid="2552847" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2552847">
+	                        
+                    		<img src='https://www.livetrack24.com/img/icon_flight_end_ok.gif'
+                                 title='Track was ended normally'
+                                 alt='Track was ended normally'
+                                 border=0 align='absmiddle'>
+                    		                    		<span class='liveusername'>
+                                 <a class='noAction' href="javascript:;"
+                                    title="kuriyasu"
+                                    data-trigger="manual"
+                                    data-placement="top"
+                                    data-username0='kuriyasu'  >
+                                    kuriyasu                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="/track/2552847">
+                                <div class='list_last_location'>was at <img style='vertical-align:text-bottom' src='https://www.livetrack24.com/img/icon_city.gif'> Yokohama - JP [~16.8 km]</div>
+
+                                <div class='list_last_time'>
+                                     on 08-02-2024 06:25:18 UTC+0&nbsp;                                </div>
+
+                                <div class='list_last_location'>
+                                    Alt:<strong>42 m</strong>,
+                                    Speed:<strong>0 km/h</strong>,
+                                    Duration:<strong>00:00:59</strong>
+                                </div>
+
+                                                                <div class='list_last_location'>
+                                Distance from takeoff                                <strong>0.0 km</strong>,
+                                 [Max] <strong>0.0 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign='middle' align='center' width="70">
+                    <div class='mapContainer'>
+                        <img title='waypoint Object
+(
+    [type] => 2
+    [countryCode] => JP
+    [name] => Yokohama
+    [intName] => Yokohama
+    [location] => 
+    [intLocation] => 
+    [link] => 
+    [description] => 
+    [modifyDate] => 2005-09-01
+    [waypointID] => 8751
+    [gpsTime] => 
+    [lat] => 35.45
+    [lon] => -139.65
+    [varioAlt] => 
+    [gpsAlt] => 
+    [timezone] => 0
+)
+' class='ccFlag' src='/img/flags/32/jp.png'>                            <a
+                                    class='noAction'
+                                    data-mapimage="2552847"
+                                    title="."
+                                    data-trigger="manual"
+                                    href='/track/2552847'>
+                                <img ref='trackMap_60917_2552847_kuriyasu'
+                                     class='staticPosMap img-thumbnail'
+                                     src='https://www.livetrack24.com/files/tracks/maps/25/52/2552847/map_small.jpg'>
+                            </a>
+                            <div style="margin-top:9px; text-align: center" >
+
+                          <div class='row btn btn-xs btn-default trackMenuTrigger'
+                               data-userID="60917"
+                               data-trackID="2552847"
+                               data-username="kuriyasu"
+                               style="width:65px;"
+                                title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class='mapPopup' id='mapPopup_2552847'>
+
+                            <img src='https://www.livetrack24.com/files/tracks/maps/25/52/2552847/map_small.jpg'>
+                            <BR>
+                        <span class='startDescText'>
+                        Takeoff:
+                            <img style='vertical-align:text-bottom'  src='https://www.livetrack24.com/img/icon_city.gif'> Yokohama - JP <span class='distanceSpan'>~16.8km</span>                            <BR>
+                         at 08-02-2024 06:24:19 UTC+9
+
+                                                        <BR>
+                            Distance from takeoff                            <strong>0.0 km</strong><BR>
+                             [Max] <strong>0.0 km</strong> [Max] <b>0.0 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan='3' class="trackDetailsBox noAction"  ref='1707373518_0_0_0' id='action_60917_2552847_kuriyasu'>
+				  </td>
+				  </tr>
+                  
+                </table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial"
+         data-userID="60917"
+         data-trackID="2552845"
+         data-username="kuriyasu"
+         id='trackRow_60917_2552845_kuriyasu'>
+          	<table width=100% class="tracktable" cellpadding="0" cellspacing="0">
+                	<tr>
+                    	<td class='userCellParent' id='userCellParent_60917_2552845_kuriyasu'>
+                            <a class='' href="javascript:;"
+                               title="kuriyasu"
+                               data-trigger="manual"
+                               data-placement="top"
+                               data-username0='kuriyasu'  >
+
+                                <img  class="zoomImg img-rounded" src="https://www.livetrack24.com/files/users/60917/photo.thumb.jpg" width=70 height=70>
+                                <img class='activityImg' src='https://www.livetrack24.com/img/cat/icon_cat_1.png' align='absmiddle' alt='Paraglider' title='Paraglider'><img class='userFlag img-rounded' src='https://www.livetrack24.com/img/flags/jp.gif' >                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_info"
+                                   title="Network"
+                                   data-trigger="hover"
+                                   data-placement="right"
+                                   data-trackid="2552845" >
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_menu"
+                                   title="Select action for this LiveTrack"
+                                   data-trigger="manual"
+                                   data-placement="right"
+                                   data-width="350"
+                                   data-trackid="2552845" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2552845">
+	                        
+                    		<img src='https://www.livetrack24.com/img/icon_flight_end_ok.gif'
+                                 title='Track was ended normally'
+                                 alt='Track was ended normally'
+                                 border=0 align='absmiddle'>
+                    		                    		<span class='liveusername'>
+                                 <a class='noAction' href="javascript:;"
+                                    title="kuriyasu"
+                                    data-trigger="manual"
+                                    data-placement="top"
+                                    data-username0='kuriyasu'  >
+                                    kuriyasu                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="/track/2552845">
+                                <div class='list_last_location'>was at <img style='vertical-align:text-bottom' src='https://www.livetrack24.com/img/icon_city.gif'> Yokohama - JP [~16.8 km]</div>
+
+                                <div class='list_last_time'>
+                                     on 08-02-2024 06:18:45 UTC+0&nbsp;                                </div>
+
+                                <div class='list_last_location'>
+                                    Alt:<strong>42 m</strong>,
+                                    Speed:<strong>0 km/h</strong>,
+                                    Duration:<strong>00:06:17</strong>
+                                </div>
+
+                                                                <div class='list_last_location'>
+                                Distance from takeoff                                <strong>0.0 km</strong>,
+                                 [Max] <strong>0.0 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign='middle' align='center' width="70">
+                    <div class='mapContainer'>
+                        <img title='waypoint Object
+(
+    [type] => 2
+    [countryCode] => JP
+    [name] => Yokohama
+    [intName] => Yokohama
+    [location] => 
+    [intLocation] => 
+    [link] => 
+    [description] => 
+    [modifyDate] => 2005-09-01
+    [waypointID] => 8751
+    [gpsTime] => 
+    [lat] => 35.45
+    [lon] => -139.65
+    [varioAlt] => 
+    [gpsAlt] => 
+    [timezone] => 0
+)
+' class='ccFlag' src='/img/flags/32/jp.png'>                            <a
+                                    class='noAction'
+                                    data-mapimage="2552845"
+                                    title="."
+                                    data-trigger="manual"
+                                    href='/track/2552845'>
+                                <img ref='trackMap_60917_2552845_kuriyasu'
+                                     class='staticPosMap img-thumbnail'
+                                     src='https://www.livetrack24.com/files/tracks/maps/25/52/2552845/map_small.jpg'>
+                            </a>
+                            <div style="margin-top:9px; text-align: center" >
+
+                          <div class='row btn btn-xs btn-default trackMenuTrigger'
+                               data-userID="60917"
+                               data-trackID="2552845"
+                               data-username="kuriyasu"
+                               style="width:65px;"
+                                title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class='mapPopup' id='mapPopup_2552845'>
+
+                            <img src='https://www.livetrack24.com/files/tracks/maps/25/52/2552845/map_small.jpg'>
+                            <BR>
+                        <span class='startDescText'>
+                        Takeoff:
+                            <img style='vertical-align:text-bottom'  src='https://www.livetrack24.com/img/icon_city.gif'> Yokohama - JP <span class='distanceSpan'>~16.8km</span>                            <BR>
+                         at 08-02-2024 06:12:28 UTC+9
+
+                                                        <BR>
+                            Distance from takeoff                            <strong>0.0 km</strong><BR>
+                             [Max] <strong>0.0 km</strong> [Max] <b>0.0 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan='3' class="trackDetailsBox noAction"  ref='1707373125_0_0_0' id='action_60917_2552845_kuriyasu'>
+				  </td>
+				  </tr>
+                  
+                </table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial"
+         data-userID="58485"
+         data-trackID="2552803"
+         data-username="teamkendi"
+         id='trackRow_58485_2552803_teamkendi'>
+          	<table width=100% class="tracktable" cellpadding="0" cellspacing="0">
+                	<tr>
+                    	<td class='userCellParent' id='userCellParent_58485_2552803_teamkendi'>
+                            <a class='' href="javascript:;"
+                               title="teamkendi"
+                               data-trigger="manual"
+                               data-placement="top"
+                               data-username0='teamkendi'  >
+
+                                <img  class="zoomImg img-rounded" src="https://www.livetrack24.com/files/users/58485/photo.thumb.jpg" width=70 height=70>
+                                <img class='activityImg' src='https://www.livetrack24.com/img/cat/icon_cat_1.png' align='absmiddle' alt='Paraglider' title='Paraglider'><img class='userFlag img-rounded' src='https://www.livetrack24.com/img/flags/jp.gif' >                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_info"
+                                   title="Network"
+                                   data-trigger="hover"
+                                   data-placement="right"
+                                   data-trackid="2552803" >
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_menu"
+                                   title="Select action for this LiveTrack"
+                                   data-trigger="manual"
+                                   data-placement="right"
+                                   data-width="350"
+                                   data-trackid="2552803" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2552803">
+	                        
+                    		<img src='https://www.livetrack24.com/img/icon_flight_end_ok.gif'
+                                 title='Track was ended normally'
+                                 alt='Track was ended normally'
+                                 border=0 align='absmiddle'>
+                    		                    		<span class='liveusername'>
+                                 <a class='noAction' href="javascript:;"
+                                    title="teamkendi"
+                                    data-trigger="manual"
+                                    data-placement="top"
+                                    data-username0='teamkendi'  >
+                                    teamkendi                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="/track/2552803">
+                                <div class='list_last_location'>was at <img style='vertical-align:text-bottom' src='https://www.livetrack24.com/img/icon_takeoff.gif'> Dairabo - JP [~19.8 km]</div>
+
+                                <div class='list_last_time'>
+                                     on 08-02-2024 05:45:51 UTC+0&nbsp;                                </div>
+
+                                <div class='list_last_location'>
+                                    Alt:<strong>-31 m</strong>,
+                                    Speed:<strong>0 km/h</strong>,
+                                    Duration:<strong>04:04:17</strong>
+                                </div>
+
+                                                                <div class='list_last_location'>
+                                Distance from takeoff                                <strong>6.4 km</strong>,
+                                 [Max] <strong>24.2 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign='middle' align='center' width="70">
+                    <div class='mapContainer'>
+                        <img title='waypoint Object
+(
+    [type] => 1000
+    [countryCode] => JP
+    [name] => Dairabo
+    [intName] => Dairabo
+    [location] => 
+    [intLocation] => 
+    [link] => 
+    [description] => 
+    [modifyDate] => 2014-01-07
+    [waypointID] => 70454
+    [gpsTime] => 
+    [lat] => 34.9903
+    [lon] => -138.274
+    [varioAlt] => 
+    [gpsAlt] => 
+    [timezone] => 0
+)
+' class='ccFlag' src='/img/flags/32/jp.png'>                            <a
+                                    class='noAction'
+                                    data-mapimage="2552803"
+                                    title="."
+                                    data-trigger="manual"
+                                    href='/track/2552803'>
+                                <img ref='trackMap_58485_2552803_teamkendi'
+                                     class='staticPosMap img-thumbnail'
+                                     src='https://www.livetrack24.com/files/tracks/maps/25/52/2552803/map_small.jpg'>
+                            </a>
+                            <div style="margin-top:9px; text-align: center" >
+
+                          <div class='row btn btn-xs btn-default trackMenuTrigger'
+                               data-userID="58485"
+                               data-trackID="2552803"
+                               data-username="teamkendi"
+                               style="width:65px;"
+                                title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class='mapPopup' id='mapPopup_2552803'>
+
+                            <img src='https://www.livetrack24.com/files/tracks/maps/25/52/2552803/map_small.jpg'>
+                            <BR>
+                        <span class='startDescText'>
+                        Takeoff:
+                            <img style='vertical-align:text-bottom'  src='https://www.livetrack24.com/img/icon_takeoff.gif'> Dairabo - JP <span class='distanceSpan'>~19.8km</span>                            <BR>
+                         at 08-02-2024 01:41:34 UTC+9
+
+                                                        <BR>
+                            Distance from takeoff                            <strong>24.2 km</strong><BR>
+                             [Max] <strong>24.2 km</strong> [Max] <b>24.2 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan='3' class="trackDetailsBox noAction"  ref='1707371151_0_0_0' id='action_58485_2552803_teamkendi'>
+				  </td>
+				  </tr>
+                  
+                </table>
+		</div>
+    
+    </td>
+    </tr>
+<tr><td>
+	<div class="boxgridSocial"
+         data-userID="20096"
+         data-trackID="2552830"
+         data-username="Mt791"
+         id='trackRow_20096_2552830_Mt791'>
+          	<table width=100% class="tracktable" cellpadding="0" cellspacing="0">
+                	<tr>
+                    	<td class='userCellParent' id='userCellParent_20096_2552830_Mt791'>
+                            <a class='' href="javascript:;"
+                               title="Mt791"
+                               data-trigger="manual"
+                               data-placement="top"
+                               data-username0='Mt791'  >
+
+                                <img  class="zoomImg img-rounded" src="https://www.livetrack24.com/files/users/20096/photo.thumb.jpg" width=70 height=70>
+                                <img class='activityImg' src='https://www.livetrack24.com/img/cat/icon_cat_1.png' align='absmiddle' alt='Paraglider' title='Paraglider'><img class='userFlag img-rounded' src='https://www.livetrack24.com/img/flags/jp.gif' >                            </a>
+                                                        <div style="margin-top:10px;">
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_info"
+                                   title="Network"
+                                   data-trigger="hover"
+                                   data-placement="right"
+                                   data-trackid="2552830" >
+                                    <i class="fa fa-signal"></i>
+                                </a>
+
+                                <a class='noAction btn btn-xs btn-default' href='javascript:;'
+                                   data-ajax="true"
+                                   data-action="track_menu"
+                                   title="Select action for this LiveTrack"
+                                   data-trigger="manual"
+                                   data-placement="right"
+                                   data-width="350"
+                                   data-trackid="2552830" >
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                            </div>
+                                                        
+                        </td>
+                                              		
+			
+                    	<td id="track_text_2552830">
+	                        
+                    		<img src='https://www.livetrack24.com/img/icon_flight_end_ok.gif'
+                                 title='Track was ended normally'
+                                 alt='Track was ended normally'
+                                 border=0 align='absmiddle'>
+                    		                    		<span class='liveusername'>
+                                 <a class='noAction' href="javascript:;"
+                                    title="Mt791"
+                                    data-trigger="manual"
+                                    data-placement="top"
+                                    data-username0='Mt791'  >
+                                    Mt791                                 </a>
+                            </span>
+
+                            <a class="trackTextInfo" href="/track/2552830">
+                                <div class='list_last_location'>was at <img style='vertical-align:text-bottom' src='https://www.livetrack24.com/img/icon_city.gif'> Utsunomiya - JP [~27.1 km]</div>
+
+                                <div class='list_last_time'>
+                                     on 08-02-2024 05:29:54 UTC+0&nbsp;                                </div>
+
+                                <div class='list_last_location'>
+                                    Alt:<strong>123 m</strong>,
+                                    Speed:<strong>0 km/h</strong>,
+                                    Duration:<strong>01:38:43</strong>
+                                </div>
+
+                                                                <div class='list_last_location'>
+                                Distance from takeoff                                <strong>18.9 km</strong>,
+                                 [Max] <strong>18.9 km</strong>                                </div>
+                            </a>
+                  </td>
+                  <td valign='middle' align='center' width="70">
+                    <div class='mapContainer'>
+                        <img title='waypoint Object
+(
+    [type] => 2
+    [countryCode] => JP
+    [name] => Utsunomiya
+    [intName] => Utsunomiya
+    [location] => 
+    [intLocation] => 
+    [link] => 
+    [description] => 
+    [modifyDate] => 2005-09-01
+    [waypointID] => 8502
+    [gpsTime] => 
+    [lat] => 36.55
+    [lon] => -139.867
+    [varioAlt] => 
+    [gpsAlt] => 
+    [timezone] => 0
+)
+' class='ccFlag' src='/img/flags/32/jp.png'>                            <a
+                                    class='noAction'
+                                    data-mapimage="2552830"
+                                    title="."
+                                    data-trigger="manual"
+                                    href='/track/2552830'>
+                                <img ref='trackMap_20096_2552830_Mt791'
+                                     class='staticPosMap img-thumbnail'
+                                     src='https://www.livetrack24.com/files/tracks/maps/25/52/2552830/map_small.jpg'>
+                            </a>
+                            <div style="margin-top:9px; text-align: center" >
+
+                          <div class='row btn btn-xs btn-default trackMenuTrigger'
+                               data-userID="20096"
+                               data-trackID="2552830"
+                               data-username="Mt791"
+                               style="width:65px;"
+                                title="Follow Track">
+                              <i class="fa fa-chevron-down"></i>
+                          </div>
+                        </div>
+                                                        <div class='mapPopup' id='mapPopup_2552830'>
+
+                            <img src='https://www.livetrack24.com/files/tracks/maps/25/52/2552830/map_small.jpg'>
+                            <BR>
+                        <span class='startDescText'>
+                        Takeoff:
+                            <img style='vertical-align:text-bottom'  src='https://www.livetrack24.com/img/icon_city.gif'> Utsunomiya - JP <span class='distanceSpan'>~27.0km</span>                            <BR>
+                         at 08-02-2024 03:51:11 UTC+9
+
+                                                        <BR>
+                            Distance from takeoff                            <strong>18.9 km</strong><BR>
+                             [Max] <strong>18.9 km</strong> [Max] <b>18.9 km</b>                        </span>
+                        </div>
+                                            </div>
+                  </td>
+                  </tr>
+                                                                                <tr>
+                  <td colspan='3' class="trackDetailsBox noAction"  ref='1707370194_0_0_0' id='action_20096_2552830_Mt791'>
+				  </td>
+				  </tr>
+                  
+                </table>
+		</div>
+    
+    </td>
+    </tr>
+</table><div width='100%' class='clearfix' id='tracksPagination2'><ul class="pagination">
+<li class="active"><a href="javascript:;">1<span class="sr-only">(current)</span></a></li>
+<li><a href="/tracks/country/jp/from/2024-02-08/to/2024-02-08/page_num/2">2</a></li>
+<li><a href="/tracks/country/jp/from/2024-02-08/to/2024-02-08/page_num/3">3</a></li>
+<li><a href="/tracks/country/jp/from/2024-02-08/to/2024-02-08/page_num/4">4</a></li>
+
+</ul></div></td><td valign='top'></td><td valign='top' width='130' style='padding-left:20px; background: none;'>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- LiveTrack24 block 1 -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:120px;height:240px"
+         data-ad-client="ca-pub-1129886839181308"
+         data-ad-slot="3154798270"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+
+    <!-- LiveTrack24 block 2 -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:120px;height:240px"
+         data-ad-client="ca-pub-1129886839181308"
+         data-ad-slot="3015197473"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <!-- LiveTrack24 block 3 -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:120px;height:240px"
+         data-ad-client="ca-pub-1129886839181308"
+         data-ad-slot="4491930678"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+
+
+
+
+
+</td>
+
+
+</tr></table>
+
+<!-- Definition of popup boxes  -->
+<div id='userBox'></div>
+
+<!-- Modal -->
+<div id="userModalBox" class="modal hide fade" tabindex="-1" role="dialog"
+     aria-labelledby=""
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Info</h3>
+    </div>
+    <div class="modal-body">
+        <p></p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        <button class="btn btn-primary">Save changes</button>
+    </div>
+</div>
+
+<div id='trackMenuBox' class='trackMenuBoxMinimal' align='center'></div>
+
+
+<div id="takeoffAddID" class="dropBox takeoffOptionsDropDown" style="display:none; z-index:9999; left:0" width="10"><iframe
+        name="addTakeoffFrame" id="addTakeoffFrame" width="100%" height="100%" frameborder=0 style='border-width:0px'></iframe></div>
+
+
+<div id="wikiWindow">
+    <div align=right><a href='javascript:wikiWindowHide()'>close</a></div>
+    <div id="wikiWindowContent"></div>
+</div>
+
+<div id='actionDiv'>
+    <div class="actionDivHeader">
+        <div id="actionDivTitle" class='title'>Select action for this LiveTrack</div>
+        <div class='closeButton'></div>
+    </div>
+    <div id='actionDivMain'></div>
+</div>
+
+
+<div id='sendTrackTemplate' class='sendTrackMenu'>
+</div>
+
+<div id='selectTzBox'>
+    <h2 class="modal-title" id="myModalLabel">Timezone offset in Hours</h2>
+    <form METHOD="POST">
+        Timezone offset in Hours        <input type="text" size="3" id='changeOffset' name='changeOffset' value="0">
+        <br>
+        <input name="showLocalTimes" id="showLocalTimes" type="checkbox" value="1"  >
+        <label for='showLocalTimes'>
+            Display tracks in their local time        </label>
+        <br><BR>
+
+        <button type="button" class="btn btn-default"  data-dismiss='clickover'>Cancel</button>
+        <input class='btn btn-primary' type="button"  onclick='changeTZ()' name="Submit" value="Change">
+    </form>
+
+</div>
+
+</div> 	</div>
+
+    <div class="hsep1 clearfix" ></div>
+</div>
+
+    <div class="modal fade" id="modalDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">INFO</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="bottom1div" width="100%" style="clear:both;"></div>
+<div class="bottom2div" width="100%" style="clear:both;">
+
+    <div id="ft">
+        <div id="footer_nav">
+          <div class="yui-u first">
+            <ul class="left" style='width:180px'>
+              <li><strong>About</strong></li>
+              <li><a href="/docs/aboutus">About us</a></li>
+              <li><a href="/docs/index">How it works</a></li>
+              <li><a href="/apps/gprs_calculator">How much does it cost</a></li>
+              <li><a href="/services/index">Features and services</a></li>
+              <li><a contact-id='2' href="javascript:;" onclick="showContact( $(this).attr('contact-id') )">Contact Us</a></li>
+            </ul>
+            <ul class="left" style='width:180px'>
+              <li><strong>I want to be tracked...</strong></li>
+              <li><a href="/apps/index" >Install on the Phone </a></li>
+              <li><a href="/docs/mobile">Our App for Android/iPhone</a></li>
+              <li><a href="/store/index">Get a Tracking device</a></li>
+              <li><a href="/register">Create an account</a></li>
+              <li><a href="/docs/embed">Let your friends know</a></li>
+
+            </ul>
+            <ul class="left" style='width:200px'>
+              <li><strong>I want to track a friend</strong></li>
+              <li><a href="/docs/viewing">General FAQ for viewers</a></li>
+              <li><a href="/docs/rss">Rss feeds</a></li>
+              <li><a href="/docs/mobilepages">Pages for use on Mobile phones</a></li>
+            </ul>
+            <ul class="left" style='width:180px'>
+              <li><strong><a href="/tasks" rel="nofollow" >Events / Races / Comps</a></strong></li>
+              <li><a href="/services/events">Services for organizers</a></li>
+              <li><a href="/doc/Livetracking%20for%20Competitions.pdf">Guide for organizers</a></li>
+              <li><a contact-id='2' href="javascript:;" onclick="showContact( $(this).attr('contact-id') )">Contact Us</a></li>
+
+            </ul>
+            <div class="clearl"></div>
+          </div>
+
+
+
+            <div id="footer_copyright">
+            ©2006-2024 LiveTrack24 ::
+                <a href='/wiki'>Wiki</a> ::
+                <a href='/docs/api'>API</a>
+
+          </div>
+        </div>
+    </div>
+  
+</div>
+
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+</body>
+</html>
+

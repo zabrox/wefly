@@ -53,15 +53,27 @@ export const zoomToTracks = (tracks) => {
     console.time('zoomToTracks');
     let cartesians = new Array();
     if (tracks.length > 0) {
-        tracks.forEach(track => cartesians.push(...track.cartesians));
+        tracks.forEach(track => {
+            track.path.points.forEach(point => {
+                cartesians.push(Cesium.Cartesian3.fromDegrees(...point))
+            });
+        });
         viewer.camera.flyToBoundingSphere(Cesium.BoundingSphere.fromPoints(cartesians), { duration: 1 });
     }
     console.timeEnd('zoomToTracks');
 }
 
 export const zoomToTrackGroup = (group) => {
-    const cartesians = new Array();
-    group.tracks.forEach(track => cartesians.push(...track.cartesians));
+    viewer.camera.flyToBoundingSphere(
+        Cesium.BoundingSphere.fromPoints([Cesium.Cartesian3.fromDegrees(...group.position)]), {
+            duration: 1,
+            offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-60), 3000),
+        });
+    viewer.selectedEntity = undefined;
+}
+
+export const zoomToTrackGroups = (groups) => {
+    const cartesians = groups.map(group => Cesium.Cartesian3.fromDegrees(...group.position));
     viewer.camera.flyToBoundingSphere(Cesium.BoundingSphere.fromPoints(cartesians), { duration: 1 });
     viewer.selectedEntity = undefined;
 }
