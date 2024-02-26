@@ -2,7 +2,7 @@ import React from "react";
 import * as Cesium from "cesium";
 import * as CesiumMap from '../../cesiummap';
 import { trackColor } from '../../util/trackcolor';
-import { createTrackGroupPin } from "./trackgrouppin";
+import { createTrackGroupPin } from './trackgrouppin';
 
 let removeCameraMoveEvent = undefined;
 let clickHandler = undefined;
@@ -77,7 +77,6 @@ const initializeTrackGroupEntity = (trackGroups) => {
     const MAX_ICON_SIZE = 250;
     const COEFFICIENT = (MAX_ICON_SIZE - MIN_ICON_SIZE) / 200;
     trackGroups.forEach(trackGroup => {
-        const trackGroupPin = createTrackGroupPin(trackGroup);
         let size = MIN_ICON_SIZE + trackGroup.trackIds.length * COEFFICIENT;
         size = size > MAX_ICON_SIZE ? MAX_ICON_SIZE : size;
         CesiumMap.viewer.entities.add({
@@ -85,7 +84,7 @@ const initializeTrackGroupEntity = (trackGroups) => {
             position: Cesium.Cartesian3.fromDegrees(...trackGroup.position),
             groupid: trackGroup.groupid,
             billboard: {
-                image: trackGroupPin,
+                image: createTrackGroupPin(trackGroup),
                 height: size,
                 width: size * 3 / 4,
                 pixelOffset: new Cesium.Cartesian2(0, -size / 2),
