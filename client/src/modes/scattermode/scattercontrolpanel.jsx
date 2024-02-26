@@ -74,11 +74,12 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
             CesiumMap.zoomToTracks(tracksInGroup);
             return;
         }
+        setScatterState(scatterState => { return { ...scatterState, loading: true } });
         await loadPaths(tracksInGroup);
         setState(state => { return { ...state, tracks: copyTracks } });
         const copySelectedTrackGroups = new TrackGroupSelector(scatterState.selectedTrackGroups);
         copySelectedTrackGroups.add(group);
-        setScatterState(state => { return { ...state, selectedTrackGroups: copySelectedTrackGroups } });
+        setScatterState(state => { return { ...state, selectedTrackGroups: copySelectedTrackGroups, loading: false } });
         CesiumMap.zoomToTracks(tracksInGroup);
     }, [state, scatterState]);
 
