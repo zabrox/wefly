@@ -92,20 +92,29 @@ const getPath = async (req, res) => {
         return;
     }
     const trackids = req.query.trackids.split(',');
+    const storage = new Storage();
+    const bucket = storage.bucket(lakeBucketName);
+    const ret = {};
+    const errors = {};
     try {
-        const storage = new Storage();
-        const bucket = storage.bucket(lakeBucketName);
-        const ret = {};
-        for (const trackid of trackids) {
+        const promises = trackids.map(async (trackid) => {
             const fileName = `paths/${trackid}.json`;
             const file = bucket.file(fileName);
-            if (!file.exists) {
-                ret.status(404).send(`Path for ${trackid} not found.`);
+            const exists = await file.exists();
+            if (!exists[0]) {
+                errors[trackid] = 'Not found';
                 return;
             }
             const [content] = await file.download();
             ret[trackid] = JSON.parse(content.toString());
-        };
+        });
+
+        await Promise.all(promises);
+
+        if (Object.keys(errors).length > 0) {
+            ret.errors = errors;
+        }
+
         res.status(200).send(ret);
     } catch (error) {
         res.status(500).send({ message: `Error fetching paths for ${trackids}`, error: error.message });
