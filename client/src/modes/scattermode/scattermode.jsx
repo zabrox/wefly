@@ -1,9 +1,9 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { Filter } from './trackfilter';
 import { ControlPanel } from "../../controlpanel";
 import { ScatterControlPanel } from "./scattercontrolpanel";
 import { TrackGroupSelector } from './trackGroupSelector';
+import { TracksLoadingDialog } from './tracksloadingdialog';
 import { SCATTER_MODE } from '../mode';
 
 export const ScatterMode = ({ state, setState }) => {
@@ -21,8 +21,11 @@ export const ScatterMode = ({ state, setState }) => {
     }
 
     return (
-        <ControlPanel state={state} setState={setState}>
-            <ScatterControlPanel state={state} setState={setState} scatterState={scatterState} setScatterState={setScatterState} />
-        </ControlPanel>
+        <div>
+            <ControlPanel state={state} setState={setState}>
+                <ScatterControlPanel state={state} setState={setState} scatterState={scatterState} setScatterState={setScatterState} />
+            </ControlPanel>
+            <TracksLoadingDialog open={scatterState.loading} />
+        </div>
     );
 }
