@@ -74,7 +74,7 @@ const fetchMetadata = async (date) => {
 
 const getMetadata = async (req, res) => {
     try {
-        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
         res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
         const date = req.query.date;
         const metadatas = await fetchMetadata(date);
@@ -85,7 +85,7 @@ const getMetadata = async (req, res) => {
 }
 
 const getPath = async (req, res) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
     if (req.query.trackids === undefined) {
         res.status(400).send('Bad Request');
@@ -95,14 +95,13 @@ const getPath = async (req, res) => {
     const storage = new Storage();
     const bucket = storage.bucket(lakeBucketName);
     const ret = {};
-    const errors = {};
     try {
         const promises = trackids.map(async (trackid) => {
             const fileName = `paths/${trackid}.json`;
             const file = bucket.file(fileName);
             const exists = await file.exists();
             if (!exists[0]) {
-                errors[trackid] = 'Not found';
+                console.error(`File not found: ${fileName}`);
                 return;
             }
             const [content] = await file.download();
@@ -110,10 +109,6 @@ const getPath = async (req, res) => {
         });
 
         await Promise.all(promises);
-
-        if (Object.keys(errors).length > 0) {
-            ret.errors = errors;
-        }
 
         res.status(200).send(ret);
     } catch (error) {
@@ -123,7 +118,7 @@ const getPath = async (req, res) => {
 
 const getTrackGroups = async (req, res) => {
     try {
-        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
         res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
         const date = req.query.date;
         const metadatas = await fetchMetadata(date);
