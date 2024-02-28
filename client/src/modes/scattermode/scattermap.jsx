@@ -16,12 +16,13 @@ const initializeTrackPointEntities = (track) => {
     let lastPoint = track.path.times[0];
     const cartesians = track.path.points.map((point) => Cesium.Cartesian3.fromDegrees(...point));
     cartesians.forEach((cartesian, index) => {
-        if (track.path.times[index].diff(lastPoint, 'seconds') < POINTS_INTERVAL) {
+        if (index > 0 && track.path.times[index].diff(lastPoint, 'seconds') < POINTS_INTERVAL) {
             return;
         }
         lastPoint = track.path.times[index];
         CesiumMap.viewer.entities.add({
             id: trackPointEntitiyId(track, index),
+            type: 'trackpoint',
             trackid: track.getId(),
             position: cartesian,
             name: track.metadata.pilotname,
@@ -32,12 +33,6 @@ const initializeTrackPointEntities = (track) => {
                 outlineWidth: 1,
                 scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
             },
-            description: `
-                    <table>
-                        <tr><th>Time</th><td>${track.path.times[index].format('YYYY-MM-DD HH:mm:ss')}</td></tr>
-                        <tr><th>Altitude</th><td>${track.path.altitudes()[index]}m</td></tr>
-                    </table>
-                `,
         });
     });
 };
@@ -50,6 +45,7 @@ const initializeTrackLineEntity = (track) => {
     const cartesians = track.path.points.map((point) => Cesium.Cartesian3.fromDegrees(...point));
     CesiumMap.viewer.entities.add({
         id: tracklineEntitiyId(track),
+        type: 'trackline',
         trackid: track.getId(),
         polyline: {
             positions: cartesians,
@@ -81,6 +77,7 @@ const initializeTrackGroupEntity = (trackGroups) => {
         size = size > MAX_ICON_SIZE ? MAX_ICON_SIZE : size;
         CesiumMap.viewer.entities.add({
             id: trackGroupEntitiyId(trackGroup),
+            type: 'trackgroup',
             position: Cesium.Cartesian3.fromDegrees(...trackGroup.position),
             groupid: trackGroup.groupid,
             billboard: {
@@ -93,6 +90,27 @@ const initializeTrackGroupEntity = (trackGroups) => {
         });
     });
 }
+
+const trackPointClick = (entityId, handleTrackPointClick) => {
+    const index = entityId.id.split('-')[2];
+    handleTrackPointClick(entityId.trackid, index);
+}
+
+const trackLineClick = (entityId, tracks, clickPosition, handleTrackPointClick) => {
+    const clickCartesian = CesiumMap.viewer.scene.pickPosition(clickPosition);
+    const track = tracks.find(track => track.getId() === entityId.trackid);
+    let minimumDistance = 100000;
+    let index = 0;
+    track.path.points.forEach((point, i) => {
+        const distance = Cesium.Cartesian3.distance(Cesium.Cartesian3.fromDegrees(...point), clickCartesian);
+        if (distance < minimumDistance) {
+            minimumDistance = distance;
+            index = i;
+        }
+    })
+    handleTrackPointClick(entityId.trackid, index);
+}
+
 
 const registerEventHandlerOnPointClick = (handleTrackPointClick, handleTrackGroupClick, tracks, trackGroups) => {
     if (tracks.length === 0 || trackGroups.length === 0) {
@@ -108,34 +126,36 @@ const registerEventHandlerOnPointClick = (handleTrackPointClick, handleTrackGrou
         if (Cesium.defined(pickedObject) && Cesium.defined(pickedObject.id)) {
             const entityId = pickedObject.id;
             if (entityId instanceof Cesium.Entity) {
-                if ('trackid' in entityId) {
-                    handleTrackPointClick(entityId.trackid);
-                } else if ('groupid' in entityId) {
+                if (entityId.type === 'trackpoint') {
+                    trackPointClick(entityId, handleTrackPointClick);
+                } else if (entityId.type === 'trackline') {
+                    trackLineClick(entityId, tracks, click.position, handleTrackPointClick);
+                } else if (entityId.type === 'trackgroup') {
                     handleTrackGroupClick(entityId.groupid, trackGroups);
-                } else {
-                    CesiumMap.viewer.selectedEntity = undefined;
                 }
+                CesiumMap.viewer.selectedEntity = undefined;
             }
         }
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
 
-const showTrack = (track, selectedTrackGroups) => {
-    const wantedShow = selectedTrackGroups.containsTrack(track);
-    const point = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, 0));
-    if (point === undefined) {
-        return;
-    }
-    if (wantedShow === point.show) {
-        return;
-    }
-
+const showTrack = (track, selectedTracks, selectedTrackGroups) => {
+    const tracklineShow = selectedTrackGroups.containsTrack(track) && selectedTracks.has(track.getId());
     const entity = CesiumMap.viewer.entities.getById(tracklineEntitiyId(track));
-    if (entity !== undefined) entity.show = wantedShow;
+    if (entity !== undefined && entity.show != tracklineShow) {
+        entity.show = tracklineShow;
+    }
 
+    const trackpointShow = selectedTrackGroups.containsTrack(track) && !selectedTracks.has(track.getId());
+    const firstpoint = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, 0));
+    if (firstpoint === undefined || firstpoint.show === trackpointShow) {
+        return;
+    }
     for (let i = 0; i < track.path.points.length; i++) {
         const entity = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, i));
-        if (entity !== undefined) entity.show = wantedShow;
+        if (entity !== undefined && entity.show != trackpointShow) {
+            entity.show = trackpointShow;
+        }
     }
 }
 
@@ -145,17 +165,15 @@ const showTracks = (tracks, selectedTracks, selectedTrackGroups) => {
         return;
     }
     tracksWithPath.forEach(track => {
-        let entity = CesiumMap.viewer.entities.getById(tracklineEntitiyId(track));
-        if (entity === undefined) {
+        const tracklineEntity = CesiumMap.viewer.entities.getById(tracklineEntitiyId(track));
+        if (tracklineEntity === undefined) {
             initializeTrackEntity(track);
             return;
         }
 
-        entity.show = selectedTracks.has(track.getId());
-        showTrack(track, selectedTrackGroups);
+        showTrack(track, selectedTracks, selectedTrackGroups);
     });
 }
-
 
 const showTrackGroups = (trackGroups) => {
     if (trackGroups.length === 0) {

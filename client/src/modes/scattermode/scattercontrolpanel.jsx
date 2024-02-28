@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { Typography, Table, TableContainer, Box } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { Track } from '../../entities/track';
+import { TrackPoint } from './trackpoint';
 import { ProgressBar } from '../playbackmode/progressbar';
 import { ScatterActionDial } from './scatteractiondial';
 import * as CesiumMap from '../../cesiummap';
@@ -38,25 +39,6 @@ const loadTracks = async (state, setState, scatterState, setScatterState) => {
     setState({ ...state, tracks: tracks, trackGroups: trackGroups, });
     setScatterState({ ...scatterState, loading: false });
 };
-
-const scrollToTrack = (trackid) => {
-    const row = document.getElementById(`trackrow-${trackid}`);
-    if (row !== null) {
-        row.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-
-const listup = (tracks, accessor) => {
-    const namesSet = new Set();
-
-    tracks.forEach(track => {
-        if (accessor(track) && !namesSet.has(accessor(track))) {
-            namesSet.add(accessor(track));
-        }
-    });
-
-    return namesSet;
-}
 
 export const ScatterControlPanel = ({ state, setState, scatterState, setScatterState }) => {
     React.useEffect(() => {
@@ -95,10 +77,14 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         return select;
     }, [scatterState]);
 
-    const handleTrackPointClick = React.useCallback((trackid) => {
+    const handleTrackPointClick = React.useCallback((trackid, index) => {
         if (!scatterState.selectedTracks.has(trackid)) {
             toggleSelectionOfTrack(trackid);
         }
+        const track = state.tracks.find(track => track.getId() === trackid);
+        setScatterState(state => {
+            return { ...state, selectedTrackPoint: new TrackPoint(track, index) }
+        });
     }, [state, scatterState]);
 
     const handleTrackClick = React.useCallback(async (trackid) => {
