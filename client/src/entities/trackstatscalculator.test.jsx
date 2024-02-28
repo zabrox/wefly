@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { TrackPlaybackStats } from './trackplaybackstats';
+import { TrackStatsCalculator } from './trackstatscalculator';
 import dayjs from 'dayjs';
 
-describe('TrackPlaybackStats', () => {
+describe('TrackStatsCalculator', () => {
     it('calculates average altitude correctly', () => {
         const mockTrack = {
             path: {
@@ -12,7 +12,7 @@ describe('TrackPlaybackStats', () => {
             }
         };
 
-        const stats = new TrackPlaybackStats(mockTrack);
+        const stats = new TrackStatsCalculator(mockTrack);
         const starttime = dayjs('2020-01-01T00:00:00Z');
         const endtime = dayjs('2020-01-01T00:02:59Z');
 
@@ -27,7 +27,7 @@ describe('TrackPlaybackStats', () => {
             }
         };
 
-        const stats = new TrackPlaybackStats(mockTrack);
+        const stats = new TrackStatsCalculator(mockTrack);
         const starttime = dayjs('2020-12-31T23:59:00Z');
         const endtime = dayjs('2020-01-01T00:03:00Z');
 
@@ -43,7 +43,7 @@ describe('TrackPlaybackStats', () => {
             }
         };
 
-        const stats = new TrackPlaybackStats(mockTrack);
+        const stats = new TrackStatsCalculator(mockTrack);
         const starttime = dayjs('2020-01-01T00:00:00Z');
         const endtime = dayjs('2020-01-01T00:04:00Z');
 
@@ -61,7 +61,7 @@ describe('TrackPlaybackStats', () => {
             }
         };
 
-        const stats = new TrackPlaybackStats(mockTrack);
+        const stats = new TrackStatsCalculator(mockTrack);
         const starttime = dayjs('2020-01-01T00:00:00Z');
         const endtime = dayjs('2020-01-01T00:02:59Z');
 
@@ -79,7 +79,7 @@ describe('TrackPlaybackStats', () => {
             }
         };
 
-        const stats = new TrackPlaybackStats(mockTrack);
+        const stats = new TrackStatsCalculator(mockTrack);
         const starttime = dayjs('2020-01-01T00:00:00Z');
         const endtime = dayjs('2020-01-01T00:02:30Z');
 
@@ -97,7 +97,7 @@ describe('TrackPlaybackStats', () => {
             }
         };
 
-        const stats = new TrackPlaybackStats(mockTrack);
+        const stats = new TrackStatsCalculator(mockTrack);
         const starttime = dayjs('2020-01-01T00:00:00Z');
         const endtime = dayjs('2020-01-01T00:02:30Z');
 
@@ -115,7 +115,7 @@ describe('TrackPlaybackStats', () => {
             }
         };
 
-        const stats = new TrackPlaybackStats(mockTrack);
+        const stats = new TrackStatsCalculator(mockTrack);
         const endtime = dayjs('2020-01-01T00:02:30Z');
 
         const distance = stats.getDistance(endtime);
@@ -132,7 +132,7 @@ describe('TrackPlaybackStats', () => {
             }
         };
 
-        const stats = new TrackPlaybackStats(mockTrack);
+        const stats = new TrackStatsCalculator(mockTrack);
         const endtime = dayjs('2020-01-01T00:02:30Z');
 
         const distance = stats.getTotalDistance(endtime);

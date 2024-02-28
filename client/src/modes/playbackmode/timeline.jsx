@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Cesium from 'cesium';
-import { TrackPlaybackStats } from './trackplaybackstats';
+import { TrackStatsCalculator } from '../../entities/trackstatscalculator';
 import * as CesiumMap from '../../cesiummap';
 import { trackColor } from '../../util/trackcolor';
 import './timeline.css';
@@ -44,7 +44,7 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
         if (end === undefined || start === undefined) return;
         let time = track.path.times[0];
 
-        const stats = new TrackPlaybackStats(track);
+        const stats = new TrackStatsCalculator(track);
         const duration = end.diff(start, 'seconds');
         const cellNumber = timelineCanvas.current.width / CELL_WIDTH;
         const span = duration / cellNumber;

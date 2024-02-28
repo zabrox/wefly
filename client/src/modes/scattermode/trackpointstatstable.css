@@ -1,0 +1,4 @@
+#track-point-stats-table {
+    display: flex;
+    flex-direction: row;
+}
