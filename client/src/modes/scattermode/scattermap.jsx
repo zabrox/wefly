@@ -111,7 +111,6 @@ const trackLineClick = (entityId, tracks, clickPosition, handleTrackPointClick) 
     handleTrackPointClick(entityId.trackid, index);
 }
 
-
 const registerEventHandlerOnPointClick = (handleTrackPointClick, handleTrackGroupClick, tracks, trackGroups) => {
     if (tracks.length === 0 || trackGroups.length === 0) {
         return;
@@ -175,6 +174,33 @@ const showTracks = (tracks, selectedTracks, selectedTrackGroups) => {
     });
 }
 
+const showSelectedTrackPoint = (selectedTrackPoint) => {
+    if (selectedTrackPoint === undefined) {
+        return;
+    }
+    const entity = CesiumMap.viewer.entities.getById('selectedtrackpoint');
+    if (entity !== undefined) {
+        CesiumMap.viewer.entities.remove(entity);
+    }
+    const track = selectedTrackPoint.track;
+    const point = track.path.points[selectedTrackPoint.index];
+    const cartesian = Cesium.Cartesian3.fromDegrees(...point);
+    console.log(cartesian);
+    CesiumMap.viewer.entities.add({
+        id: 'selectedtrackpoint',
+        type: 'selectedtrackpoint',
+        trackid: track.getId(),
+        position: cartesian,
+        point: {
+            pixelSize: 8,
+            color: Cesium.Color.WHITE,
+            outlineColor: trackColor(track).darken(0.3, new Cesium.Color()),
+            outlineWidth: 4,
+            scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
+        },
+    });
+}
+
 const showTrackGroups = (trackGroups) => {
     if (trackGroups.length === 0) {
         return;
@@ -203,18 +229,19 @@ const hideTrackGroupsCloseToCamera = (selectedTrackGroups) => {
     });
 }
 
-const registerEventListenerOnCameraMove = (tracks, trackGroups, selectedTracks, selectedTrackGroups) => {
+const registerEventListenerOnCameraMove = (tracks, trackGroups, selectedTracks, selectedTrackGroups, selectedTrackPoint) => {
     if (removeCameraMoveEvent !== undefined) {
         removeCameraMoveEvent();
     }
     removeCameraMoveEvent = CesiumMap.viewer.camera.changed.addEventListener(() => {
-        render(tracks, trackGroups, selectedTracks, selectedTrackGroups);
+        render(tracks, trackGroups, selectedTracks, selectedTrackGroups, selectedTrackPoint);
     });
 }
 
-const render = (tracks, trackGroups, selectedTracks, selectedTrackGroups) => {
+const render = (tracks, trackGroups, selectedTracks, selectedTrackGroups, selectedTrackPoint) => {
     showTrackGroups(trackGroups);
     showTracks(tracks, selectedTracks, selectedTrackGroups);
+    showSelectedTrackPoint(selectedTrackPoint);
     hideTrackGroupsCloseToCamera(selectedTrackGroups);
 }
 
@@ -255,12 +282,14 @@ export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatte
         registerEventListenerOnCameraMove(state.tracks,
             state.trackGroups,
             scatterState.selectedTracks,
-            scatterState.selectedTrackGroups);
+            scatterState.selectedTrackGroups,
+            scatterState.selectedTrackPoint);
         render(state.tracks,
             state.trackGroups,
             scatterState.selectedTracks,
-            scatterState.selectedTrackGroups);
-    }, [state, scatterState.selectedTrackGroups, scatterState.selectedTracks]);
+            scatterState.selectedTrackGroups,
+            scatterState.selectedTrackPoint);
+    }, [state, scatterState.selectedTrackGroups, scatterState.selectedTracks, scatterState.selectedTrackPoint]);
 
     return null;
 }
