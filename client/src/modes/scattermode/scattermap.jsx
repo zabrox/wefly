@@ -175,17 +175,16 @@ const showTracks = (tracks, selectedTracks, selectedTrackGroups) => {
 }
 
 const showSelectedTrackPoint = (selectedTrackPoint) => {
-    if (selectedTrackPoint === undefined) {
-        return;
-    }
     const entity = CesiumMap.viewer.entities.getById('selectedtrackpoint');
     if (entity !== undefined) {
         CesiumMap.viewer.entities.remove(entity);
     }
+    if (selectedTrackPoint === undefined) {
+        return;
+    }
     const track = selectedTrackPoint.track;
     const point = track.path.points[selectedTrackPoint.index];
     const cartesian = Cesium.Cartesian3.fromDegrees(...point);
-    console.log(cartesian);
     CesiumMap.viewer.entities.add({
         id: 'selectedtrackpoint',
         type: 'selectedtrackpoint',

@@ -10,9 +10,9 @@ export const TrackPlaybackStatsTable = ({ playbackState }) => {
     const stats = new TrackStatsCalculator(playbackState.selectedTrack);
     const duration = stats.duration(currentTime).format('HH:mm:ss');
     const altitude = stats.getAverageAltitude(currentTime.add(-1, 'seconds'), currentTime);
-    const speed = stats.getAverageSpeed(currentTime.add(-5, 'seconds'), currentTime);
-    const gain = stats.getAverageGain(currentTime.add(-5, 'seconds'), currentTime);
-    const glideRatio = stats.getAverageGlideRatio(currentTime.add(-5, 'seconds'), currentTime);
+    const speed = stats.getAverageSpeed(currentTime.add(-3, 'seconds'), currentTime);
+    const gain = stats.getAverageGain(currentTime.add(-3, 'seconds'), currentTime);
+    const glideRatio = stats.getAverageGlideRatio(currentTime.add(-3, 'seconds'), currentTime);
     const distance = stats.getDistance(currentTime);
     const totalDistance = stats.getTotalDistance(currentTime);
 
