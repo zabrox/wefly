@@ -10,7 +10,7 @@ extend(isSameOrAfter);
 extend(isSameOrBefore);
 extend(isBetween);
 
-export class TrackPlaybackStats {
+export class TrackStatsCalculator {
     #track = undefined;
 
     constructor(track) {
@@ -58,30 +58,6 @@ export class TrackPlaybackStats {
         const altitudes = this.#track.path.altitudes().slice(startIndex, endIndex + 1);
         const sum = altitudes.reduce((a, b) => a + b, 0);
         return sum / altitudes.length;
-    }
-
-    getAverageAltitudeList(span) {
-        let averages = [];
-        const path = this.#track.path;
-        if (path.times.length === 0) return averages;
-
-        let startTime = path.times[0];
-        const endTime = path.times[path.times.length - 1];
-
-        while (startTime.isBefore(endTime)) {
-            const nextTime = startTime.add(span, 'seconds');
-            const altitudesInSpan = path.points
-                .filter((_, index) => path.times[index].isBetween(startTime, nextTime, null, '[)'))
-                .map(point => point[2]);
-
-            const sum = altitudesInSpan.reduce((acc, cur) => acc + cur, 0);
-            const avg = altitudesInSpan.length > 0 ? sum / altitudesInSpan.length : 0;
-            averages.push(avg);
-
-            startTime = nextTime;
-        }
-
-        return averages;
     }
 
     #distanceBetween(startIndex, endIndex) {

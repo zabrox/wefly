@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { Table, TableRow, TableCell, TableBody } from '@mui/material';
 import { TrackStatsCalculator } from '../../entities/trackstatscalculator';
-import './trackplaybackstatstable.css';
+import './trackpointstatstable.css';
 
-export const TrackPlaybackStatsTable = ({ playbackState }) => {
-    if (playbackState.selectedTrack === undefined) return null;
-    const currentTime = playbackState.currentTime;
-
-    const stats = new TrackStatsCalculator(playbackState.selectedTrack);
+export const TrackPointStatsTable = ({ trackPoint }) => {
+    const currentTime = trackPoint.track.path.times[trackPoint.index];
+    const stats = new TrackStatsCalculator(trackPoint.track);
     const duration = stats.duration(currentTime).format('HH:mm:ss');
     const altitude = stats.getAverageAltitude(currentTime.add(-1, 'seconds'), currentTime);
     const speed = stats.getAverageSpeed(currentTime.add(-5, 'seconds'), currentTime);
@@ -17,8 +15,8 @@ export const TrackPlaybackStatsTable = ({ playbackState }) => {
     const totalDistance = stats.getTotalDistance(currentTime);
 
     return (
-        <div id='track-playback-stats-table'>
-            <Table id='track-playback-stats-table1' size='small'>
+        <div id='track-point-stats-table'>
+            <Table id='track-point-stats-table1' size='small'>
                 <TableBody>
                     <TableRow sx={{ padding: 0 }}>
                         <TableCell><b>時刻</b></TableCell>
@@ -38,7 +36,7 @@ export const TrackPlaybackStatsTable = ({ playbackState }) => {
                     </TableRow>
                 </TableBody>
             </Table>
-            <Table id='track-playback-stats-table2' size='small'>
+            <Table id='track-point-stats-table2' size='small'>
                 <TableBody>
                     <TableRow sx={{ padding: 0 }}>
                         <TableCell><b>飛行時間</b></TableCell>
