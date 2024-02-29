@@ -6,8 +6,7 @@ const util = require('util');
 const gzip = util.promisify(zlib.gzip);
 const storage = new Storage();
 
-// const endpoint = 'https://www.wefly.tokyo/api/tracks';
-const endpoint = 'http://localhost:8080/api/tracks';
+const endpoint = 'https://www.wefly.tokyo/api/tracks';
 
 async function saveTracks(tracks) {
     for (const track of tracks) {
