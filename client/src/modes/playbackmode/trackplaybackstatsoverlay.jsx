@@ -45,10 +45,15 @@ export const TrackPlaybackStatsOverlay = ({ playbackState }) => {
                     </div>
                 }
                 subheader={
-                    <div>
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
                         <Typography variant='body2' color='text.secondary'>
-                            {selectedTrack.area}
+                            {selectedTrack.metadata.area.areaName}
                         </Typography>
+                        {selectedTrack.metadata.model !== '' &&
+                            <Typography variant='subtitle2' color='text.secondary'>
+                                {`　${selectedTrack.metadata.model}`}
+                            </Typography>
+                        }
                     </div>
                 } />
             <ExpandStatsButton expanded={expanded} onExpand={handleExpand} />
