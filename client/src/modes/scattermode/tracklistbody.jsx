@@ -31,13 +31,13 @@ const mapTracksToTableRows = (tracks, selectedTracks, onTrackClicked) => {
 };
 
 export const TrackListBody = ({ state, scatterState, onTrackClicked }) => {
-    const sortedrows = React.useMemo(() => {
+    const sortedTracks = React.useMemo(() => {
         const comparator = headers.find(header => header.id === scatterState.orderBy).comparator;
         const sortedTracks = state.tracks.slice().sort(comparator);
         return scatterState.order === 'asc' ? sortedTracks : sortedTracks.reverse();
     }, [state, scatterState]);
 
-    const unfilteredTracks = scatterState.selectedTrackGroups.filterTracks(state.tracks); 
+    const unfilteredTracks = scatterState.selectedTrackGroups.filterTracks(sortedTracks); 
 
     return (
         <TableBody id='track-list-body'>{

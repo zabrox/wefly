@@ -49,6 +49,14 @@ export const headers = [
         }
     },
     {
+        id: 'model',
+        label: '機体',
+        numeric: false,
+        defaultOrder: 'asc',
+        comparator: compareByKey.bind(null, 'model'),
+        display: (track) => (track.metadata.model),
+    },
+    {
         id: 'area',
         label: 'エリア',
         numeric: false,
