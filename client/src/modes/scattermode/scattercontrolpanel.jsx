@@ -67,14 +67,14 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
 
     const toggleSelectionOfTrack = React.useCallback((trackid) => {
         const copySelectedTracks = new Set(scatterState.selectedTracks);
-        let copySelectedTrackPoint = scatterState.selectedTrackPoint;
+        let copySelectedTrackPoint = new TrackPoint(scatterState.selectedTrackPoint);
         const select = !copySelectedTracks.has(trackid);
         if (select) {
             copySelectedTracks.add(trackid);
         } else {
             copySelectedTracks.delete(trackid);
-            if (copySelectedTrackPoint.track.getId() == trackid) {
-                copySelectedTrackPoint = undefined;
+            if (copySelectedTrackPoint.isValid() && copySelectedTrackPoint.track.getId() == trackid) {
+                copySelectedTrackPoint = new TrackPoint();
             }
         }
         setScatterState(state => {

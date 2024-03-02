@@ -99,11 +99,6 @@ const getPath = async (req, res) => {
         const promises = trackids.map(async (trackid) => {
             const fileName = `paths/${trackid}.json`;
             const file = bucket.file(fileName);
-            const exists = await file.exists();
-            if (!exists[0]) {
-                console.error(`File not found: ${fileName}`);
-                return;
-            }
             const [content] = await file.download();
             ret[trackid] = JSON.parse(content.toString());
         });

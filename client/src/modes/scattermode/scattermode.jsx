@@ -5,6 +5,7 @@ import { ScatterControlPanel } from "./scattercontrolpanel";
 import { TrackGroupSelector } from './trackGroupSelector';
 import { TracksLoadingDialog } from './tracksloadingdialog';
 import { TrackPointStatsOverlay } from './trackpointstatsoverlay';
+import { TrackPoint } from './trackpoint';
 import { SCATTER_MODE } from '../mode';
 
 export const ScatterMode = ({ state, setState }) => {
@@ -15,7 +16,7 @@ export const ScatterMode = ({ state, setState }) => {
         loading: true,
         selectedTracks: new Set(),
         selectedTrackGroups: new TrackGroupSelector(),
-        selectedTrackPoint: undefined,
+        selectedTrackPoint: new TrackPoint(),
     });
 
     if (state.mode !== SCATTER_MODE) {
