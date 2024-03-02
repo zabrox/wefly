@@ -179,7 +179,7 @@ const showSelectedTrackPoint = (selectedTrackPoint) => {
     if (entity !== undefined) {
         CesiumMap.viewer.entities.remove(entity);
     }
-    if (selectedTrackPoint === undefined) {
+    if (!selectedTrackPoint.isValid()) {
         return;
     }
     const track = selectedTrackPoint.track;

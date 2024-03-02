@@ -29,6 +29,9 @@ export const TrackPointStatsOverlay = ({ scatterState }) => {
     }
 
     const selectedTrack = scatterState.selectedTrackPoint.track;
+    if (selectedTrack === undefined) {
+        return null;
+    }
 
     return (
         <Card id='track-point-stats-overlay'>
