@@ -1,6 +1,5 @@
 import React from 'react';
 import { SpeedDial, SpeedDialAction } from '@mui/material';
-import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { getTracksInPerspective, leaveScatterMode } from './scattermap';
@@ -37,16 +36,6 @@ export const ScatterActionDial = ({ state, setState, scatterState }) => {
                     setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: tracks });
                 }, [state])}
             />
-            {/* <SpeedDialAction
-                key='リスト全再生'
-                icon={<PlaylistPlayIcon />}
-                tooltipTitle='リスト全再生'
-                tooltipOpen
-                onClick={React.useCallback(() => {
-                    leaveScatterMode();
-                    setState({ ...state, mode: Mode.PLAYBACK_MODE, actionTargetTracks: filter.filterTracks(state.tracks) });
-                }, [state, filter])}
-            /> */}
         </SpeedDial>
     );
 }

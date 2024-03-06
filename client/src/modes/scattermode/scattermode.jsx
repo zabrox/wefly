@@ -2,7 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { ControlPanel } from "../../controlpanel";
 import { ScatterControlPanel } from "./scattercontrolpanel";
-import { TrackGroupSelector } from './trackGroupSelector';
+import { TrackGroupSelection } from './trackGroupSelection';
 import { TracksLoadingDialog } from './tracksloadingdialog';
 import { TrackPointStatsOverlay } from './trackpointstatsoverlay';
 import { TrackPoint } from './trackpoint';
@@ -15,7 +15,7 @@ export const ScatterMode = ({ state, setState }) => {
         orderBy: 'starttime',
         loading: true,
         selectedTracks: new Set(),
-        selectedTrackGroups: new TrackGroupSelector(),
+        selectedTrackGroups: new TrackGroupSelection(),
         selectedTrackPoint: new TrackPoint(),
     });
 
