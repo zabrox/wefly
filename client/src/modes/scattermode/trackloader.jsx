@@ -41,11 +41,11 @@ const convertPathsJson = (json, tracks) => {
 }
 
 export const loadPaths = async (tracks) => {
-    const metadatasurl = `${import.meta.env.VITE_API_URL}/tracks/paths?trackids=`;
+    const pathsurl = `${import.meta.env.VITE_API_URL}/tracks/paths?trackids=`;
     console.time('loadPaths');
     try {
         const trackids = tracks.map((track) => track.getId()).join(',');
-        const response = await axios({ method: "get", url: `${metadatasurl}${trackids}`, responseType: "json" })
+        const response = await axios({ method: "get", url: `${pathsurl}${trackids}`, responseType: "json" })
         convertPathsJson(response.data, tracks);
     } catch (error) {
         throw error;
