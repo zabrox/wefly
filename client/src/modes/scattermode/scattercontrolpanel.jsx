@@ -10,7 +10,7 @@ import * as CesiumMap from '../../cesiummap';
 import { ScatterMap } from './scattermap';
 import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
-import { TrackGroupSelector } from './trackGroupSelector';
+import { TrackGroupSelection } from './trackGroupSelection';
 import { loadMetadatas, loadPaths, loadTrackGroups } from './trackloader';
 import * as Mode from '../mode';
 import './scattercontrolpanel.css';
@@ -59,7 +59,7 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         setScatterState(scatterState => { return { ...scatterState, loading: true } });
         await loadPaths(tracksInGroup);
         setState(state => { return { ...state, tracks: copyTracks } });
-        const copySelectedTrackGroups = new TrackGroupSelector(scatterState.selectedTrackGroups);
+        const copySelectedTrackGroups = new TrackGroupSelection(scatterState.selectedTrackGroups);
         copySelectedTrackGroups.add(group);
         setScatterState(state => { return { ...state, selectedTrackGroups: copySelectedTrackGroups, loading: false } });
         CesiumMap.zoomToTracks(tracksInGroup);
@@ -110,7 +110,7 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         console.debug('handleDateChange');
         CesiumMap.removeAllEntities();
         const date = dayjs(newDate);
-        loadTracks(state, setState, { ...scatterState, selectedTrackGroups: new TrackGroupSelector(), date: date }, setScatterState);
+        loadTracks(state, setState, { ...scatterState, selectedTrackGroups: new TrackGroupSelection(), date: date }, setScatterState);
     }, [state, scatterState]);
 
     const trackNumber = React.useCallback(() => {

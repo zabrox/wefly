@@ -1,19 +1,10 @@
-export class TrackGroupSelector {
+export class TrackGroupSelection {
     groups = new Set();
 
     constructor(instance) {
         if (instance) {
             this.groups = new Set(instance.groups);
         }
-    }
-
-    isSelected(track) {
-        for (const group of this.groups) {
-            if (group.trackIds.includes(track.getId())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     add(group) {
