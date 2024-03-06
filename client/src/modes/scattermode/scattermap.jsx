@@ -85,6 +85,7 @@ const initializeTrackGroupEntity = (trackGroups) => {
                 height: size,
                 width: size * 3 / 4,
                 pixelOffset: new Cesium.Cartesian2(0, -size / 2),
+                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
             },
             show: true,
         });
