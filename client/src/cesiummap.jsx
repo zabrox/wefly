@@ -80,14 +80,14 @@ const registerEventListenerOnCameraMove = () => {
         if (lastCameraPosition !== undefined) {
             const geodesic = new Cesium.EllipsoidGeodesic(lastCameraPosition, viewer.camera.positionCartographic);
             const distance = geodesic.surfaceDistance;
-            if (distance < 1000) {
+            if (distance < 10000) {
                 return;
             }
         }
         lastCameraPosition = viewer.camera.positionCartographic;
         const longitude = Cesium.Math.toDegrees(viewer.camera.positionCartographic.longitude);
         const latitude = Cesium.Math.toDegrees(viewer.camera.positionCartographic.latitude);
-        const placeNames = await loadPlaceNames(longitude, latitude);
+        const placeNames = await loadPlaceNames(longitude, latitude, 20);
         displayPlaceNames(placeNames);
     });
 }
