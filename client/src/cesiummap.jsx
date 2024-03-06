@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import * as Cesium from "cesium";
+import { loadPlaceNames } from "./placenameloader";
 
 export let viewer = undefined;
+let lastCameraPosition = undefined;
+let removeCameraMoveEvent = undefined;
 
 const initializeCesium = async (cesiumContainerRef) => {
     console.debug('initializeCesium');
@@ -20,12 +23,6 @@ const initializeCesium = async (cesiumContainerRef) => {
         terrainShadows: Cesium.ShadowMode.DISABLED,
     });
     viewer.scene.globe.depthTestAgainstTerrain = true;
-    // const tileset = await Cesium.Cesium3DTileset.fromIonAssetId(2275207, {
-    //     dynamicScreenSpaceError: true,
-    //     dynamicScreenSpaceErrorDensity: 100.0,
-    //     dynamicScreenSpaceErrorFactor: 100.0,
-    // });
-    // viewer.scene.primitives.add(tileset);
     viewer.scene.fog.enabled = true;
     viewer.scene.fog.density = 0.0003;
     viewer.scene.fog.minimumBrightness = 0.8;
@@ -39,6 +36,60 @@ const initializeCesium = async (cesiumContainerRef) => {
 
     // export cesium viewer to global for E2E test
     window.cesiumViewer = viewer;
+}
+
+const placenameLabelId = (placename) => {
+    return `${placename.name}_${placename.longitude}_${placename.latitude}`;
+}
+
+const displayPlaceNames = (placeNames) => {
+    placeNames.forEach(placename => {
+        const id = placenameLabelId(placename);
+        const entity = viewer.entities.getById(id);
+        if (entity !== undefined) {
+            return;
+        }
+        let text = placename.name;
+        text = placename.altitude === 0 ? text : text.concat(` [${placename.altitude}m]`);
+        viewer.entities.add({
+            id: placenameLabelId(placename),
+            position: Cesium.Cartesian3.fromDegrees(placename.longitude, placename.latitude, placename.altitude),
+            label: {
+                text: text,
+                font: '20px Arial',
+                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+                verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+                scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 10000, 0.3),
+                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 10000),
+                showBackground: true,
+                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+                backgroundColor: Cesium.Color.GRAY.withAlpha(0.7),
+            }
+        })
+    });
+};
+
+const registerEventListenerOnCameraMove = () => {
+    if (removeCameraMoveEvent !== undefined) {
+        removeCameraMoveEvent();
+    }
+    removeCameraMoveEvent = viewer.camera.changed.addEventListener(async () => {
+        if (viewer.camera.positionCartographic.height > 5000) {
+            return;
+        }
+        if (lastCameraPosition !== undefined) {
+            const geodesic = new Cesium.EllipsoidGeodesic(lastCameraPosition, viewer.camera.positionCartographic);
+            const distance = geodesic.surfaceDistance;
+            if (distance < 1000) {
+                return;
+            }
+        }
+        lastCameraPosition = viewer.camera.positionCartographic;
+        const longitude = Cesium.Math.toDegrees(viewer.camera.positionCartographic.longitude);
+        const latitude = Cesium.Math.toDegrees(viewer.camera.positionCartographic.latitude);
+        const placeNames = await loadPlaceNames(longitude, latitude);
+        displayPlaceNames(placeNames);
+    });
 }
 
 export const zoomToPoints = (cartesians) => {
@@ -66,9 +117,9 @@ export const zoomToTracks = (tracks) => {
 export const zoomToTrackGroup = (group) => {
     viewer.camera.flyToBoundingSphere(
         Cesium.BoundingSphere.fromPoints([Cesium.Cartesian3.fromDegrees(...group.position)]), {
-            duration: 1,
-            offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-60), 3000),
-        });
+        duration: 1,
+        offset: new Cesium.HeadingPitchRange(0, Cesium.Math.toRadians(-60), 3000),
+    });
     viewer.selectedEntity = undefined;
 }
 
@@ -87,6 +138,7 @@ export const CesiumMapContainer = () => {
 
     useEffect(() => {
         initializeCesium(cesiumContainerRef);
+        registerEventListenerOnCameraMove();
     }, []);
 
     return (

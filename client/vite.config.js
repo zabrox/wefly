@@ -7,6 +7,7 @@ import cesium from 'vite-plugin-cesium'
 export default defineConfig({
   plugins: [react(), cesium()],
   test: {
+    environment: 'happy-dom',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}']
   },
   server: {
