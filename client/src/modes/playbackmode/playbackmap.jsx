@@ -6,6 +6,7 @@ import { trackColor } from '../../util/trackcolor';
 
 const speed = 32;
 const trailTime = 900;
+const entities = [];
 let clickHandler = undefined;
 let onTickFollowTrackRemoveCallback = undefined;
 let onTickRemoveCallback = undefined;
@@ -121,6 +122,7 @@ const createPathEntity = (track) => {
             trailTime: trailTime,
         }
     });
+    entities.push(pathEntity);
     const positionProperty = pathEntity.position;
     for (let i = 0; i < track.path.points.length; i++) {
         const time = Cesium.JulianDate.fromIso8601(track.path.times[i].format('YYYY-MM-DDTHH:mm:ssZ'));
@@ -132,7 +134,7 @@ const createPathEntity = (track) => {
 
 const createCurtain = (track, positionProperty) => {
     const curtainSeconds = 30;
-    CesiumMap.viewer.entities.add({
+    entities.push(CesiumMap.viewer.entities.add({
         wall: {
             positions: new Cesium.CallbackProperty(() => {
                 const currentTime = CesiumMap.viewer.clock.currentTime;
@@ -146,14 +148,14 @@ const createCurtain = (track, positionProperty) => {
             material: new Cesium.ColorMaterialProperty(trackColor(track).brighten(0.3, new Cesium.Color()).withAlpha(0.2)),
             outline: false,
         }
-    });
+    }));
 }
 
 const createPlaybackPoint = (track, positionProperty) => {
     if (CesiumMap.viewer.entities.getById(playbackPointId(track)) !== undefined) {
         return;
     }
-    CesiumMap.viewer.entities.add({
+    entities.push(CesiumMap.viewer.entities.add({
         id: playbackPointId(track),
         position: positionProperty,
         trackid: track.getId(),
@@ -164,7 +166,7 @@ const createPlaybackPoint = (track, positionProperty) => {
             outlineWidth: 1,
             scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 1.0),
         }
-    });
+    }));
 }
 
 export const focusOnTrack = (track) => {
@@ -184,7 +186,7 @@ const createPilotLabels = (track, positionProperty) => {
     if (CesiumMap.viewer.entities.getById(labelId(track)) !== undefined) {
         return;
     }
-    CesiumMap.viewer.entities.add({
+    entities.push(CesiumMap.viewer.entities.add({
         id: labelId(track),
         position: positionProperty, // Cesium.Cartesian3 position
         trackid: track.getId(),
@@ -202,7 +204,7 @@ const createPilotLabels = (track, positionProperty) => {
             scale: 0.3,
             scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.3),
         }
-    });
+    }));
 }
 
 const setClock = (startTime, stopTime) => {
@@ -237,7 +239,6 @@ export const stopPlayback = () => {
     CesiumMap.viewer.clock.shouldAnimate = false;
     CesiumMap.viewer.infoBox.container.style.display = 'block';
     CesiumMap.viewer.camera.lookAtTransform(Cesium.Matrix4.IDENTITY);
-    CesiumMap.removeAllEntities();
     if (clickHandler) {
         clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
         clickHandler = undefined;
@@ -248,6 +249,7 @@ export const stopPlayback = () => {
     if (onTickRemoveCallback) {
         onTickRemoveCallback();
     }
+    entities.forEach((entity) => CesiumMap.viewer.entities.removeById(entity.id));
 }
 
 export const PlaybackMap = ({ state, playbackState, setPlaybackState, onTickEventHandler }) => {
