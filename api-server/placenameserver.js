@@ -50,7 +50,11 @@ const getPlacename = async (req, res) => {
 
 const postPlacename = async (req, res) => {
     try {
-        const { longitude, latitude, altitude, name } = req.body;
+        const longitude = parseFloat(req.body.longitude);
+        const latitude = parseFloat(req.body.latitude);
+        const altitude = parseFloat(req.body.altitude);
+        const name = req.body.name;
+        const properties = req.body.properties;
         console.log(`longitude: ${longitude}, latitude: ${latitude}, altitude: ${altitude}, name: ${name}`)
         const keyname = `${name}_${longitude}_${latitude}`;
         const hash = geofire.geohashForLocation([latitude, longitude]);
@@ -59,6 +63,7 @@ const postPlacename = async (req, res) => {
             latitude: latitude,
             altitude: altitude,
             geohash: hash,
+            properties: properties,
             name: name,
         });
         res.status(201).send(`Document added with ID: ${docRef.id}`);

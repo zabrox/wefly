@@ -8,6 +8,7 @@ let removeCameraMoveEvent = undefined;
 let clickHandler = undefined;
 
 const POINTS_INTERVAL = 60;
+const entities = [];
 
 const trackPointEntitiyId = (track, index) => {
     return `trackpoint-${track.getId()}-${index}`;
@@ -20,7 +21,7 @@ const initializeTrackPointEntities = (track) => {
             return;
         }
         lastPoint = track.path.times[index];
-        CesiumMap.viewer.entities.add({
+        entities.push(CesiumMap.viewer.entities.add({
             id: trackPointEntitiyId(track, index),
             type: 'trackpoint',
             trackid: track.getId(),
@@ -33,7 +34,7 @@ const initializeTrackPointEntities = (track) => {
                 outlineWidth: 1,
                 scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
             },
-        });
+        }));
     });
 };
 
@@ -43,7 +44,7 @@ const tracklineEntitiyId = (track) => {
 const initializeTrackLineEntity = (track) => {
     const color = trackColor(track);
     const cartesians = track.path.points.map((point) => Cesium.Cartesian3.fromDegrees(...point));
-    CesiumMap.viewer.entities.add({
+    entities.push(CesiumMap.viewer.entities.add({
         id: tracklineEntitiyId(track),
         type: 'trackline',
         trackid: track.getId(),
@@ -57,7 +58,7 @@ const initializeTrackLineEntity = (track) => {
             }),
         },
         show: false,
-    });
+    }));
 };
 
 const initializeTrackEntity = (track) => {
@@ -75,7 +76,7 @@ const initializeTrackGroupEntity = (trackGroups) => {
     trackGroups.forEach(trackGroup => {
         let size = MIN_ICON_SIZE + trackGroup.trackIds.length * COEFFICIENT;
         size = size > MAX_ICON_SIZE ? MAX_ICON_SIZE : size;
-        CesiumMap.viewer.entities.add({
+        entities.push(CesiumMap.viewer.entities.add({
             id: trackGroupEntitiyId(trackGroup),
             type: 'trackgroup',
             position: Cesium.Cartesian3.fromDegrees(...trackGroup.position),
@@ -88,7 +89,7 @@ const initializeTrackGroupEntity = (trackGroups) => {
                 heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
             },
             show: true,
-        });
+        }));
     });
 }
 
@@ -186,7 +187,7 @@ const showSelectedTrackPoint = (selectedTrackPoint) => {
     const track = selectedTrackPoint.track;
     const point = track.path.points[selectedTrackPoint.index];
     const cartesian = Cesium.Cartesian3.fromDegrees(...point);
-    CesiumMap.viewer.entities.add({
+    entities.push(CesiumMap.viewer.entities.add({
         id: 'selectedtrackpoint',
         type: 'selectedtrackpoint',
         trackid: track.getId(),
@@ -198,7 +199,7 @@ const showSelectedTrackPoint = (selectedTrackPoint) => {
             outlineWidth: 4,
             scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
         },
-    });
+    }));
 }
 
 const showTrackGroups = (trackGroups) => {
@@ -246,7 +247,7 @@ const render = (tracks, trackGroups, selectedTracks, selectedTrackGroups, select
 }
 
 export const leaveScatterMode = () => {
-    CesiumMap.removeAllEntities();
+    entities.forEach((entity) => CesiumMap.viewer.entities.removeById(entity.id));
     removeCameraMoveEvent();
     if (clickHandler) {
         clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);

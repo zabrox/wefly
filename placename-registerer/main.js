@@ -1,45 +1,48 @@
 const axios = require('axios');
 const fs = require('fs');
-const path = require('path');
+const turf = require('@turf/turf');
+const querystring = require('querystring');
 
 //const endpoint = 'https://www.wefly.tokyo/api/placenames';
 const endpoint = 'http://localhost:8080/api/placenames';
 
 const main = async () => {
-    const directory = process.argv[2];
-    if (directory === undefined) {
+    const filepath = process.argv[2];
+    if (filepath === undefined) {
         console.error('Usage: node main.js <path>');
         return;
     }
-    // read all json files in the directory
-    const files = fs.readdirSync(directory).filter(file => file.endsWith('.json'));
-    for (const file of files) {
-        console.log(`processing ${file}`);
-        const geojson = JSON.parse(fs.readFileSync(path.join(directory, file), 'utf-8'));
-        for (const feature of geojson.features) {
-            const name = feature.properties.name;
-            const longitude = feature.geometry.coordinates[0];
-            const latitude = feature.geometry.coordinates[1];
-            let altitude = feature.properties.ele;
-            if (name === undefined ||
-                longitude === undefined ||
-                latitude === undefined) {
-                continue;
-            }
-            altitude = (altitude === undefined) ? 0 : altitude;
-            // POST /api/placenames
-            try {
-                await axios.post(endpoint, {
-                    longitude: parseFloat(longitude),
-                    latitude: parseFloat(latitude),
-                    altitude: parseFloat(altitude),
-                    name: name,
-                });
-                console.log(`Posted placename ${name}`);
-            } catch (error) {
-                console.error(`Failed to post placename ${name}: ${error.message}`);
-            };
+    console.log(`processing ${filepath}`);
+    const geojson = JSON.parse(fs.readFileSync(filepath, 'utf-8'));
+    for (const feature of geojson.features) {
+        let name = feature.properties.name;
+        const center = turf.center(feature).geometry.coordinates;
+        const longitude = center[0];
+        const latitude = center[1];
+        let altitude = feature.properties.ele;
+        if (name === undefined ||
+            longitude === undefined ||
+            latitude === undefined) {
+            continue;
         }
+        name = name.replace(/\//g, ' ');
+        altitude = (altitude === undefined) ? 0 : altitude;
+        const properties = feature.properties;
+        // POST /api/placenames
+        try {
+            await axios.post(endpoint, querystring.encode({
+                longitude: parseFloat(longitude),
+                latitude: parseFloat(latitude),
+                altitude: parseFloat(altitude),
+                name: name,
+                properties: properties
+            }), {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            });
+            console.log(`Posted placename ${name}`);
+        } catch (error) {
+            console.error(`Failed to post placename ${name}: ${error.message}`);
+        };
     }
 }
 
