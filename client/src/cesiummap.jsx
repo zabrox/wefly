@@ -5,6 +5,7 @@ import { loadPlaceNames } from "./placenameloader";
 export let viewer = undefined;
 let lastCameraPosition = undefined;
 let removeCameraMoveEvent = undefined;
+const PLACENAME_RADIUS = 5;
 
 const initializeCesium = async (cesiumContainerRef) => {
     console.debug('initializeCesium');
@@ -56,14 +57,13 @@ const displayPlaceNames = (placeNames) => {
             position: Cesium.Cartesian3.fromDegrees(placename.longitude, placename.latitude, placename.altitude),
             label: {
                 text: text,
-                font: '20px Arial',
+                font: '18px sans-serif',
                 heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
+                pixcelOffset: new Cesium.Cartesian2(0, -20),
                 verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-                scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 10000, 0.3),
-                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 10000),
-                showBackground: true,
-                style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-                backgroundColor: Cesium.Color.GRAY.withAlpha(0.7),
+                scaleByDistance: new Cesium.NearFarScalar(100, 1.5, 10000, 0.3),
+                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 5000),
+                fillColor: Cesium.Color.WHITE,
             }
         })
     });
@@ -74,21 +74,22 @@ const registerEventListenerOnCameraMove = () => {
         removeCameraMoveEvent();
     }
     removeCameraMoveEvent = viewer.camera.changed.addEventListener(async () => {
-        if (viewer.camera.positionCartographic.height > 5000) {
+        if (viewer.camera.positionCartographic.height > 10000) {
             return;
         }
         if (lastCameraPosition !== undefined) {
             const geodesic = new Cesium.EllipsoidGeodesic(lastCameraPosition, viewer.camera.positionCartographic);
             const distance = geodesic.surfaceDistance;
-            if (distance < 10000) {
+            if (distance < PLACENAME_RADIUS * 1000) {
                 return;
             }
         }
         lastCameraPosition = viewer.camera.positionCartographic;
         const longitude = Cesium.Math.toDegrees(viewer.camera.positionCartographic.longitude);
         const latitude = Cesium.Math.toDegrees(viewer.camera.positionCartographic.latitude);
-        const placeNames = await loadPlaceNames(longitude, latitude, 20);
-        displayPlaceNames(placeNames);
+        loadPlaceNames(longitude, latitude, PLACENAME_RADIUS).then(placeNames => {
+            displayPlaceNames(placeNames);
+        });
     });
 }
 
