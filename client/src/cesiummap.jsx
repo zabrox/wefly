@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
 import * as Cesium from "cesium";
-import { loadPlaceNames } from "./placenameloader";
+import { registerEventListenerOnCameraMove } from "./placenameloader";
 
 export let viewer = undefined;
-let lastCameraPosition = undefined;
-let removeCameraMoveEvent = undefined;
-const PLACENAME_RADIUS = 5;
 
 const initializeCesium = async (cesiumContainerRef) => {
     console.debug('initializeCesium');
@@ -37,60 +34,6 @@ const initializeCesium = async (cesiumContainerRef) => {
 
     // export cesium viewer to global for E2E test
     window.cesiumViewer = viewer;
-}
-
-const placenameLabelId = (placename) => {
-    return `${placename.name}_${placename.longitude}_${placename.latitude}`;
-}
-
-const displayPlaceNames = (placeNames) => {
-    placeNames.forEach(placename => {
-        const id = placenameLabelId(placename);
-        const entity = viewer.entities.getById(id);
-        if (entity !== undefined) {
-            return;
-        }
-        let text = placename.name;
-        text = placename.altitude === 0 ? text : text.concat(` [${placename.altitude}m]`);
-        viewer.entities.add({
-            id: placenameLabelId(placename),
-            position: Cesium.Cartesian3.fromDegrees(placename.longitude, placename.latitude, placename.altitude),
-            label: {
-                text: text,
-                font: '18px sans-serif',
-                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-                pixcelOffset: new Cesium.Cartesian2(0, -20),
-                verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-                scaleByDistance: new Cesium.NearFarScalar(100, 1.5, 10000, 0.3),
-                distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 5000),
-                fillColor: Cesium.Color.WHITE,
-            }
-        })
-    });
-};
-
-const registerEventListenerOnCameraMove = () => {
-    if (removeCameraMoveEvent !== undefined) {
-        removeCameraMoveEvent();
-    }
-    removeCameraMoveEvent = viewer.camera.changed.addEventListener(async () => {
-        if (viewer.camera.positionCartographic.height > 10000) {
-            return;
-        }
-        if (lastCameraPosition !== undefined) {
-            const geodesic = new Cesium.EllipsoidGeodesic(lastCameraPosition, viewer.camera.positionCartographic);
-            const distance = geodesic.surfaceDistance;
-            if (distance < PLACENAME_RADIUS * 1000) {
-                return;
-            }
-        }
-        lastCameraPosition = viewer.camera.positionCartographic;
-        const longitude = Cesium.Math.toDegrees(viewer.camera.positionCartographic.longitude);
-        const latitude = Cesium.Math.toDegrees(viewer.camera.positionCartographic.latitude);
-        loadPlaceNames(longitude, latitude, PLACENAME_RADIUS).then(placeNames => {
-            displayPlaceNames(placeNames);
-        });
-    });
 }
 
 export const zoomToPoints = (cartesians) => {
