@@ -1,7 +1,5 @@
 const dayjs = require('dayjs');
-const { Metadata } = require('./common/metadata.js');
 const { groupTracks } = require('./trackgrouper.js');
-const { TrackGroup } = require('./common/trackgroup.js');
 
 describe('groupTracks', () => {
     it('should group tracks based on start positions', () => {
