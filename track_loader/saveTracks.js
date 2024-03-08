@@ -1,10 +1,4 @@
-const { Storage } = require('@google-cloud/storage');
 const axios = require('axios');
-const zlib = require('zlib');
-const util = require('util');
-
-const gzip = util.promisify(zlib.gzip);
-const storage = new Storage();
 
 const endpoint = 'https://www.wefly.tokyo/api/tracks';
 
