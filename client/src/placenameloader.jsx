@@ -6,6 +6,7 @@ import * as CesiumMap from './cesiummap';
 let lastCameraPosition = undefined;
 let removeCameraMoveEvent = undefined;
 const PLACENAME_RADIUS = 5;
+const PLACENAME_LOAD_MAX_ALTITUDE = 10000;
 const PLACENAME_SHOW_DISTANCE = 10000;
 
 const loadPlaceNames = async (longitude, latitude, radius) => {
@@ -57,7 +58,7 @@ export const registerEventListenerOnCameraMove = () => {
         removeCameraMoveEvent();
     }
     removeCameraMoveEvent = CesiumMap.viewer.camera.changed.addEventListener(async () => {
-        if (CesiumMap.viewer.camera.positionCartographic.height > 10000) {
+        if (CesiumMap.viewer.camera.positionCartographic.height > PLACENAME_LOAD_MAX_ALTITUDE) {
             return;
         }
         if (lastCameraPosition !== undefined) {
