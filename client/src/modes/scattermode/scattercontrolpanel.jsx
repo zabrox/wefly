@@ -21,8 +21,7 @@ const loadTracks = async (state, setState, scatterState, setScatterState) => {
     let tracks = [];
     let trackGroups = [];
     try {
-        let metadatas = await loadMetadatas(scatterState.date);
-        metadatas = metadatas.filter(metadata => metadata !== undefined && metadata.duration > 5);
+        const metadatas = await loadMetadatas(scatterState.date);
         tracks = metadatas.map(metadata => {
             const t = new Track();
             t.metadata = metadata;
@@ -52,12 +51,18 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         CesiumMap.zoomToTrackGroup(group);
         const copyTracks = [...state.tracks];
         const tracksInGroup = copyTracks.filter(track => group.trackIds.includes(track.getId()))
+        console.log(group);
+        console.log(copyTracks);
         if (scatterState.selectedTrackGroups.has(group)) {
             CesiumMap.zoomToTracks(tracksInGroup);
             return;
         }
         setScatterState(scatterState => { return { ...scatterState, loading: true } });
-        await loadPaths(tracksInGroup);
+        try {
+            await loadPaths(tracksInGroup);
+        } catch (error) {
+            console.error(error);
+        }
         setState(state => { return { ...state, tracks: copyTracks } });
         const copySelectedTrackGroups = new TrackGroupSelection(scatterState.selectedTrackGroups);
         copySelectedTrackGroups.add(group);

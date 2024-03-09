@@ -9,7 +9,7 @@ $osmium tags-filter geodata/japan-latest.osm.pbf \
     leisure=golf_course,stadium,track \
     highway=services,motorway_junction \
     building=shrine,temple,train_station \
-    amenity=college,driving_school,training,school,traffic_park,university \
+    amenity=training \
     landuse=industrial \
     religion=buddhist,shinto \
     tourism=theme_park,zoo \
