@@ -8,7 +8,7 @@ let removeCameraMoveEvent = undefined;
 const PLACENAME_RADIUS = 5;
 const PLACENAME_LOAD_MAX_ALTITUDE = 10000;
 const PLACENAME_SHOW_DISTANCE = 10000;
-const MAX_PLACENAME_COUNT = 30;
+const MAX_PLACENAME_COUNT = 50;
 
 const loadPlaceNames = async (longitude, latitude, radius) => {
     const placenamesurl = `${import.meta.env.VITE_API_URL}/placenames?longitude=${longitude}&latitude=${latitude}&radius=${radius}`;
@@ -26,7 +26,7 @@ const placenameLabelId = (placename) => {
 }
 
 const displayPlaceNames = (placeNames) => {
-    let displayTargetPlaceNames = [];
+    let displayTargetPlaceNames = placeNames;
     if (placeNames.length > MAX_PLACENAME_COUNT) {
         displayTargetPlaceNames = placeNames.slice(0, MAX_PLACENAME_COUNT);
     }
@@ -76,8 +76,10 @@ export const registerEventListenerOnCameraMove = () => {
         lastCameraPosition = CesiumMap.viewer.camera.positionCartographic;
         const longitude = Cesium.Math.toDegrees(CesiumMap.viewer.camera.positionCartographic.longitude);
         const latitude = Cesium.Math.toDegrees(CesiumMap.viewer.camera.positionCartographic.latitude);
+        console.time('loadPlaceNames');
         loadPlaceNames(longitude, latitude, PLACENAME_RADIUS).then(placeNames => {
             displayPlaceNames(placeNames);
+            console.timeEnd('loadPlaceNames');
         });
     });
 }
