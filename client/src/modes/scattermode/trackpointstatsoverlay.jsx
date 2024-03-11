@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { Card, CardHeader, CardContent, Typography } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Collapse from '@mui/material/Collapse';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ActivityIcon } from '../../util/activityicon';
 import { PilotIcon } from '../../util/piloticon';
+import { TrackPoint } from './trackpoint';
 import { TrackPointStatsTable } from './trackpointstatstable';
 import './trackpointstatsoverlay.css';
 
@@ -20,13 +22,19 @@ const ExpandStatsButton = ({ expanded, onExpand }) => {
     );
 }
 
-export const TrackPointStatsOverlay = ({ scatterState }) => {
+export const TrackPointStatsOverlay = ({ scatterState, setScatterState }) => {
     if (scatterState.selectedTrackPoint === undefined) return null;
 
     const [expanded, setExpanded] = React.useState(true);
     const handleExpand = () => {
         setExpanded(!expanded);
     }
+    const handleVisibilityChange = React.useCallback((e) => {
+        const copySelectedTracks = new Set(scatterState.selectedTracks);
+        copySelectedTracks.delete(scatterState.selectedTrackPoint.track.getId());
+        setScatterState(scatterState => ({ ...scatterState, selectedTracks: copySelectedTracks, selectedTrackPoint: new TrackPoint() }));
+        e.stopPropagation();
+    });
 
     const selectedTrack = scatterState.selectedTrackPoint.track;
     if (selectedTrack === undefined) {
@@ -45,6 +53,8 @@ export const TrackPointStatsOverlay = ({ scatterState }) => {
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <ActivityIcon track={selectedTrack} size={23} />
                         <Typography variant='h6' style={{ paddingLeft: '5px' }}>{selectedTrack.metadata.pilotname}</Typography>
+                        <VisibilityIcon style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={handleVisibilityChange} />
+                        <ExpandStatsButton expanded={expanded} onExpand={handleExpand} />
                     </div>
                 }
                 subheader={
@@ -59,7 +69,6 @@ export const TrackPointStatsOverlay = ({ scatterState }) => {
                         }
                     </div>
                 } />
-            <ExpandStatsButton expanded={expanded} onExpand={handleExpand} />
             <Collapse in={expanded} timeout='auto' unmountOnExit>
                 <CardContent id='track-point-stats-content'>
                     <TrackPointStatsTable trackPoint={scatterState.selectedTrackPoint} />

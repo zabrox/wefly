@@ -25,7 +25,7 @@ export const ScatterMode = ({ state, setState }) => {
 
     return (
         <div>
-            <TrackPointStatsOverlay scatterState={scatterState} />
+            <TrackPointStatsOverlay scatterState={scatterState} setScatterState={setScatterState} />
             <ControlPanel state={state} setState={setState}>
                 <ScatterControlPanel state={state} setState={setState} scatterState={scatterState} setScatterState={setScatterState} />
             </ControlPanel>
