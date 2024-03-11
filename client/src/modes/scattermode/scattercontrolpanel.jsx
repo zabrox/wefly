@@ -147,7 +147,6 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                 <TableContainer id='tracklist'>
                     <Table size="medium">
                         <TrackListHeader
-                            tracks={state.tracks}
                             scatterState={scatterState}
                             setScatterState={setScatterState} />
                         <TrackListBody
