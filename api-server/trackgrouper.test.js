@@ -42,9 +42,6 @@ describe('groupTracks', () => {
             },
         ];
 
-        const expectedGroups = [
-        ];
-
         const groups = groupTracks(metadatas);
 
         expect(groups[0].trackIds).toEqual(["pilot1_20240101000000", "pilot3_20240101000000", "pilot4_20240101000000"]);
@@ -59,6 +56,4 @@ describe('groupTracks', () => {
 
         expect(groups).toEqual([]);
     });
-
-    // Add more test cases as needed
 });

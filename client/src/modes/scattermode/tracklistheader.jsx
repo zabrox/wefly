@@ -102,7 +102,7 @@ export const headers = [
     },
 ];
 
-export const TrackListHeader = ({ tracks, scatterState, setScatterState }) => {
+export const TrackListHeader = ({ scatterState, setScatterState }) => {
 
     const handleSort = React.useCallback((property) => {
         let order = false;
