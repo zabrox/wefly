@@ -21,10 +21,23 @@ class MetadataPerpetuator {
         await bigQuery.query(query);
     }
 
-    async fetch(date) {
-        const start = dayjs(date).startOf('D').format('YYYY-MM-DD HH:mm:ss');
-        const end = dayjs(date).endOf('D').format('YYYY-MM-DD HH:mm:ss');
-        const query = `SELECT * FROM \`${datasetId}.${tableId}\` WHERE startTime >= '${start}' AND startTime <= '${end}'`;
+    async fetch(searchCondition) {
+        const start = searchCondition.fromDate.startOf('D').format('YYYY-MM-DD HH:mm:ss');
+        const end = searchCondition.toDate.endOf('D').format('YYYY-MM-DD HH:mm:ss');
+        let query = `SELECT * FROM \`${datasetId}.${tableId}\` WHERE
+            startTime >= '${start}' AND startTime <= '${end}'`;
+        if (searchCondition.pilotname) {
+            query += ` AND pilotname = '${searchCondition.pilotname}'`;
+        }
+        if (searchCondition.maxAltitude) {
+            query += ` AND maxAltitude >= ${searchCondition.maxAltitude}`;
+        }
+        if (searchCondition.distance) {
+            query += ` AND distance >= ${searchCondition.distance}`;
+        }
+        if (searchCondition.duration) {
+            query += ` AND duration >= ${searchCondition.duration}`;
+        }
         const [job] = await bigQuery.createQueryJob({ query: query });
         const [rows] = await job.getQueryResults();
         if (rows.empty) {
@@ -49,7 +62,6 @@ class MetadataPerpetuator {
         metadata.activity = row.activity;
         metadata.model = row.model;
         metadata.area = row.area;
-        console.log(metadata);
         return metadata;
     }
 }
