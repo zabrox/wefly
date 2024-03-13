@@ -60,7 +60,7 @@ export const TrackPointStatsOverlay = ({ scatterState, setScatterState }) => {
                 subheader={
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                         <Typography variant='body2' color='text.secondary'>
-                            {selectedTrack.metadata.area.areaName}
+                            {selectedTrack.metadata.area}
                         </Typography>
                         {selectedTrack.metadata.model !== '' &&
                             <Typography variant='subtitle2' color='text.secondary'>

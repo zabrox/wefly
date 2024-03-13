@@ -1,7 +1,6 @@
 const dayjs = require('dayjs');
 const Timezone = require('dayjs/plugin/timezone');
 const { Track } = require('./track.js');
-const { Area } = require('./area.js');
 const { Metadata } = require('./metadata.js');
 
 dayjs.extend(Timezone);
@@ -30,7 +29,7 @@ test('serialize and desrialize track', () => {
     track.metadata.lastPosition = [37.7750, -122.4193, 100];
     track.metadata.activity = 'Paraglider';
     track.metadata.model = 'Kangri';
-    track.metadata.area = new Area("Asagiri", 35.3, 138.9, 1000);
+    track.metadata.area = "Asagiri";
 
     track.path.addPoint(37.7749, -122.4194, 0, dayjs('2024-02-14 12:34:56'));
     track.path.addPoint(37.7750, -122.4193, 100, dayjs('2024-02-14 12:34:57'));
@@ -48,7 +47,7 @@ test('serialize and desrialize track', () => {
             duration: 60,
             maxAltitude: 1000,
             model: "Kangri",
-            area: {areaName: "Asagiri", position: [35.3, 138.9, 1000]},
+            area: "Asagiri",
         },
         path: {
             points: [

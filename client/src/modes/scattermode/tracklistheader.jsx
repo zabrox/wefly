@@ -62,11 +62,11 @@ export const headers = [
         numeric: false,
         defaultOrder: 'asc',
         comparator: ((track1, track2) => {
-            const area1 = track1.metadata.area.areaName;
-            const area2 = track2.metadata.area.areaName;
+            const area1 = track1.metadata.area;
+            const area2 = track2.metadata.area;
             return area1.localeCompare(area2);
         }),
-        display: (track) => (cutDownAreaName(track.metadata.area.areaName)),
+        display: (track) => (cutDownAreaName(track.metadata.area)),
     },
     {
         id: 'starttime',

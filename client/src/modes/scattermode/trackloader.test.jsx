@@ -60,12 +60,12 @@ describe('TrackLoader', () => {
         it('loads metadatas successfully', async () => {
             const date = dayjs('2022-01-01');
             const metadatasurl = `${import.meta.env.VITE_API_URL}/tracks/metadata?date=`;
-            const metadata1 = Metadata.deserialize({ pilotname: 'Takase', distance: 123, duration: 60, area: { areaName: 'Asagiri', position: [137.5, 35.5, 800] } });
-            const metadata2 = Metadata.deserialize({ pilotname: 'Hirayama', distance: 2, duration: 3, area: { areaName: 'Ongata', position: [138.5, 36.5, 200] } });
+            const metadata1 = Metadata.deserialize({ pilotname: 'Takase', distance: 123, duration: 60, area: 'Asagiri' });
+            const metadata2 = Metadata.deserialize({ pilotname: 'Hirayama', distance: 2, duration: 3, area: 'Ongata' });
             const response = {
                 data: [
-                    {...metadata1},
-                    {...metadata2},
+                    { ...metadata1 },
+                    { ...metadata2 },
                 ],
             };
             axios.mockResolvedValueOnce(response);

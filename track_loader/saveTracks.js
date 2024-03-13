@@ -1,6 +1,7 @@
 const axios = require('axios');
 
-const endpoint = 'https://www.wefly.tokyo/api/tracks';
+//const endpoint = 'https://www.wefly.tokyo/api/tracks';
+const endpoint = 'http://localhost:8080/api/tracks';
 
 async function saveTracks(tracks) {
     for (const track of tracks) {
