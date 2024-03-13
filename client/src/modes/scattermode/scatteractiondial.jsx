@@ -12,8 +12,7 @@ export const ScatterActionDial = ({ state, setState, scatterState }) => {
                 position: 'absolute',
                 bottom: '50px',
                 left: state.controlPanelSize - 85,
-            }}
-            FabProps={{ sx: { bgcolor: '#e95800', '&:hover': { bgcolor: '#e95800', } } }}>
+            }}>
             <SpeedDialAction
                 key='選択中のトラックを再生'
                 icon={<PlayArrowIcon />}

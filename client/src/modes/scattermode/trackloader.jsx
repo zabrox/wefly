@@ -2,6 +2,8 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { Metadata } from '../../entities/metadata';
 import { TrackGroup } from '../../entities/trackgroup';
+import { Track } from '../../entities/track';
+import * as CesiumMap from '../../cesiummap';
 
 export const loadTrackGroups = async (date) => {
     const trackgroupsurl = `${import.meta.env.VITE_API_URL}/trackgroups?date=`;
@@ -52,3 +54,27 @@ export const loadPaths = async (tracks) => {
     }
     console.timeEnd('loadPaths');
 }
+
+export const loadTracks = async (state, setState, scatterState, setScatterState) => {
+    setState({ ...state, tracks: [], trackGroups: [] });
+    setScatterState({ ...scatterState, loading: true })
+    let tracks = [];
+    let trackGroups = [];
+    try {
+        const metadatas = await loadMetadatas(scatterState.searchCondition.from);
+        tracks = metadatas.map(metadata => {
+            const t = new Track();
+            t.metadata = metadata;
+            return t;
+        });
+        trackGroups = await loadTrackGroups(scatterState.searchCondition.from);
+    } catch (error) {
+        console.error(error);
+        setState({ ...state, tracks: [], trackGroups: [] });
+        setScatterState({ ...scatterState, loading: false });
+        return;
+    }
+    CesiumMap.zoomToTrackGroups(trackGroups);
+    setState({ ...state, tracks: tracks, trackGroups: trackGroups, });
+    setScatterState({ ...scatterState, loading: false });
+};
