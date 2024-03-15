@@ -41,9 +41,9 @@ const getMetadata = async (req, res) => {
             dayjs(req.query.from),
             dayjs(req.query.to),
             req.query.pilotname,
-            req.query.maxAltitude,
-            req.query.distance,
-            req.query.duration,
+            parseInt(req.query.maxAltitude),
+            parseFloat(req.query.distance),
+            parseInt(req.query.duration),
         );
         const metadatas = await fetchMetadata(searchCondition);
         if (metadatas.length === 0) {

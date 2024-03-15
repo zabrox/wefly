@@ -2,10 +2,10 @@ const { BigQuery } = require('@google-cloud/bigquery');
 const dayjs = require('dayjs');
 const { Metadata } = require('./common/metadata.js');
 
-const bigQuery = new BigQuery();
-
 const datasetId = 'wefly';
 const tableId = 'metadata';
+
+const bigQuery = new BigQuery();
 
 class MetadataPerpetuator {
     async perpetuate(track) {
@@ -22,8 +22,8 @@ class MetadataPerpetuator {
     }
 
     async fetch(searchCondition) {
-        const start = searchCondition.fromDate.startOf('D').format('YYYY-MM-DD HH:mm:ss');
-        const end = searchCondition.toDate.endOf('D').format('YYYY-MM-DD HH:mm:ss');
+        const start = searchCondition.fromDate.format('YYYY-MM-DD HH:mm:ss');
+        const end = searchCondition.toDate.format('YYYY-MM-DD HH:mm:ss');
         let query = `SELECT * FROM \`${datasetId}.${tableId}\` WHERE
             startTime >= '${start}' AND startTime <= '${end}'`;
         if (searchCondition.pilotname) {
