@@ -58,7 +58,7 @@ export class Filter {
         return tracks.filter((track) => {
             return (this.filters[this.PILOTNAME_KEY].size == 0 || this.filters[this.PILOTNAME_KEY].has(track.metadata.pilotname)) &&
                 (this.filters[this.ACTIVITY_KEY].size == 0 || this.filters[this.ACTIVITY_KEY].has(track.metadata.activity)) &&
-                (this.filters[this.AREA_KEY].size == 0 || this.filters[this.AREA_KEY].has(track.metadata.area.areaName)) &&
+                (this.filters[this.AREA_KEY].size == 0 || this.filters[this.AREA_KEY].has(track.metadata.area)) &&
                 (this.filters[this.TRACK_GROUP_KEY].size == 0 || this.#filteredByTrackGroup(track));
         });
     }
@@ -66,7 +66,7 @@ export class Filter {
     filtersTrack(track) {
         return !((this.filters[this.PILOTNAME_KEY].size == 0 || this.filters[this.PILOTNAME_KEY].has(track.metadata.pilotname)) &&
             (this.filters[this.ACTIVITY_KEY].size == 0 || this.filters[this.ACTIVITY_KEY].has(track.metadata.activity)) &&
-            (this.filters[this.AREA_KEY].size == 0 || this.filters[this.AREA_KEY].has(track.metadata.area.areaName)) &&
+            (this.filters[this.AREA_KEY].size == 0 || this.filters[this.AREA_KEY].has(track.metadata.area)) &&
             (this.filters[this.TRACK_GROUP_KEY].size == 0 || this.#filteredByTrackGroup(track)));
     }
 }

@@ -9,7 +9,7 @@ export const ControlPanel = ({ state, setState, children }) => {
             <div id='control-panel'
                 style={state.isControlPanelOpen ? { width: state.controlPanelSize, height: '100%', } : { display: 'none' }}>
                 <AppBar id='app-bar' position="static">
-                    <Typography id='title' variant="h5" >
+                    <Typography id='title' variant="h5">
                         WeFly
                     </Typography>
                 </AppBar>

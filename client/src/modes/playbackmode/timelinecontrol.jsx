@@ -1,5 +1,6 @@
 import React from 'react';
 import * as Cesium from 'cesium';
+import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -24,14 +25,14 @@ export const TimelineControl = ({ playbackState, setPlaybackState }) => {
     const handleBackward = React.useCallback((e) => {
         const backwardTime = playbackState.currentTime.subtract(10, 'minutes');
         setPlaybackState(playbackState => {
-            return {...playbackState, currentTime: backwardTime}
+            return { ...playbackState, currentTime: backwardTime }
         });
         CesiumMap.viewer.clock.currentTime = Cesium.JulianDate.fromIso8601(backwardTime.format('YYYY-MM-DDTHH:mm:ssZ'));
     }, [playbackState]);
     const handleForward = React.useCallback((e) => {
         const forwardTime = playbackState.currentTime.add(10, 'minutes');
         setPlaybackState(playbackState => {
-            return {...playbackState, currentTime: forwardTime}
+            return { ...playbackState, currentTime: forwardTime }
         });
         CesiumMap.viewer.clock.currentTime = Cesium.JulianDate.fromIso8601(forwardTime.format('YYYY-MM-DDTHH:mm:ssZ'));
     }, [playbackState]);
@@ -49,7 +50,7 @@ export const TimelineControl = ({ playbackState, setPlaybackState }) => {
         e.stopPropagation();
     }
     return (
-        <div id='timeline-control-container'>
+        <Box id='timeline-control-container' bgcolor='primary.main'>
             <Typography id='timeline-control-time'>
                 {playbackState.currentTime.format('HH:mm:ss')}
             </Typography>
@@ -70,6 +71,6 @@ export const TimelineControl = ({ playbackState, setPlaybackState }) => {
                 </Typography>
                 <ArrowDropUpIcon id='timeline-overlay-speed-up' onClick={handleSpeedUp} />
             </div>
-        </div>
+        </Box>
     )
 }

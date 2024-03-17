@@ -1,6 +1,5 @@
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
-const { Area } = require('./area.js');
 
 dayjs.extend(utc);
 
@@ -15,7 +14,7 @@ class Metadata {
     lastPosition = undefined;
     activity = "";
     model = "";
-    area = new Area("", 0, 0, 0);
+    area = "";
 
     getId() {
         return (this.pilotname + '_' + this.lastTime.utc().format('YYYYMMDDHHmmss')).replace(' ', '');
@@ -39,7 +38,7 @@ class Metadata {
             lastPosition: this.lastPosition,
             activity: this.activity,
             model: this.model,
-            area: this.area.serialize(),
+            area: this.area,
         };
     }
 
@@ -55,7 +54,7 @@ class Metadata {
         metadata.lastPosition = json.lastPosition;
         metadata.activity = json.activity;
         metadata.model = json.model;
-        metadata.area = Area.deserialize(json.area);
+        metadata.area = json.area;
         return metadata;
     }
 }

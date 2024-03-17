@@ -25,6 +25,7 @@ jest.mock('./pathperpetuator.js', () => {
     };
 });
 const { app } = require('./server');
+const { SearchCondition } = require('./searchcondition');
 
 describe('POST /api/tracks', () => {
     it('should respond with status code 200', async () => {
@@ -52,7 +53,10 @@ describe('POST /api/tracks', () => {
 });
 
 describe('GET /api/tracks/metadata', () => {
-    it('should respond with 404 for empty metadata', async () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+    it('should respond with 200 for get metadata', async () => {
         const metadata1 = new Metadata();
         metadata1.pilotname = 'John Doe';
         metadata1.startTime = dayjs('2022-01-01T11:34:56.000Z');
@@ -71,10 +75,24 @@ describe('GET /api/tracks/metadata', () => {
 
         const response = await request(app)
             .get('/api/tracks/metadata')
-            .query({ date: '2024-03-08' })
+            .query({
+                from: '2024-03-08T00:00:00Z',
+                to: '2024-03-08T23:59:59Z',
+                pilotname: 'Takase',
+                maxAltitude: 1000,
+                distance: 100,
+                duration: 100,
+            })
             .expect(200);
 
-        expect(mockMetadataFetch).toHaveBeenCalledWith('2024-03-08');
+        expect(mockMetadataFetch).toHaveBeenCalledWith(new SearchCondition(
+            dayjs("2024-03-08T00:00:00.000Z"),
+            dayjs("2024-03-08T23:59:59.000Z"),
+            'Takase',
+            1000,
+            100,
+            100,
+        ));
         expect(Metadata.deserialize(response.body[0])).toEqual(metadata1);
         expect(Metadata.deserialize(response.body[1])).toEqual(metadata2);
     });
@@ -84,10 +102,18 @@ describe('GET /api/tracks/metadata', () => {
 
         const response = await request(app)
             .get('/api/tracks/metadata')
-            .query({ date: '2024-03-08' })
+            .query({
+                from: '2024-03-08T00:00:00Z', to: '2024-03-08T23:59:59Z' })
             .expect(404);
 
-        expect(mockMetadataFetch).toHaveBeenCalledWith('2024-03-08');
+        expect(mockMetadataFetch).toHaveBeenCalledWith(new SearchCondition(
+            dayjs("2024-03-08T00:00:00.000Z"),
+            dayjs("2024-03-08T23:59:59.000Z"),
+            undefined,
+            NaN,
+            NaN,
+            NaN,
+        ));
         expect(response.text).toBe('No tracks found.');
     });
 });

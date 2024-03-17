@@ -1,9 +1,10 @@
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const { Area } = require('./area.js');
 
 dayjs.extend(utc);
 
-export class Metadata {
+class Metadata {
     pilotname = "";
     distance = 0;    // in km
     duration = 0   // in minutes
@@ -58,3 +59,5 @@ export class Metadata {
         return metadata;
     }
 }
+
+module.exports = { Metadata };

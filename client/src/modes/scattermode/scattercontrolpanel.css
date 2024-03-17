@@ -3,10 +3,6 @@
     display: flex;
     flex-direction: column;
 }
-#date-picker-container {
-    padding: 10px;
-    height: 10%;
-}
 
 #tracknumber-label {
     text-align: right;
