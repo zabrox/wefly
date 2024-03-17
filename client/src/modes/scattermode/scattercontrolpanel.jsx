@@ -28,6 +28,8 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
             await loadPaths(tracksInGroup);
         } catch (error) {
             console.error(error);
+            setScatterState(scatterState => { return { ...scatterState, loading: false } });
+            return;
         }
         setState(state => { return { ...state, tracks: copyTracks } });
         const copySelectedTrackGroups = new TrackGroupSelection(scatterState.selectedTrackGroups);

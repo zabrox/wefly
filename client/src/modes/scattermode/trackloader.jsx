@@ -43,7 +43,7 @@ export const loadPaths = async (tracks) => {
     console.time('loadPaths');
     try {
         const trackids = tracks.map((track) => track.getId()).join(',');
-        const response = await axios({ method: "get", url: `${pathsurl}${trackids}`, responseType: "json" })
+        const response = await axios({ method: "get", url: `${pathsurl}${trackids}` })
         convertPathsJson(response.data, tracks);
     } catch (error) {
         throw error;
@@ -52,7 +52,6 @@ export const loadPaths = async (tracks) => {
 }
 
 export const loadTracks = async (state, setState, scatterState, setScatterState) => {
-    console.log(scatterState.searchCondition);
     setState({ ...state, tracks: [], trackGroups: [] });
     setScatterState({ ...scatterState, loading: true })
     let tracks = [];
@@ -71,7 +70,6 @@ export const loadTracks = async (state, setState, scatterState, setScatterState)
         setScatterState({ ...scatterState, loading: false });
         return;
     }
-    console.log(trackGroups);
     CesiumMap.zoomToTrackGroups(trackGroups);
     setState({ ...state, tracks: tracks, trackGroups: trackGroups, });
     setScatterState({ ...scatterState, loading: false });
