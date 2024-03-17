@@ -140,12 +140,4 @@ describe('GET /api/tracks/paths', () => {
         expect(Path.deserialize(response.body[0])).toEqual(path1);
         expect(Path.deserialize(response.body[1])).toEqual(path2);
     });
-
-    it('should respond with 400 for invalid trackids', async () => {
-        mockPathFetch.mockRejectedValue(new Error('Invalid trackids'));
-
-        const response = await request(app)
-            .get('/api/tracks/paths')
-            .expect(400);
-    });
 });

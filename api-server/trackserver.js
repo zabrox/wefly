@@ -69,12 +69,12 @@ const getPath = async (req, res) => {
         return;
     }
     const trackids = req.query.trackids.split(',');
-    try {
-        const ret = await fetchPath(trackids);
-        res.status(200).send(ret);
-    } catch (error) {
-        res.status(500).send({ message: `Error fetching paths for ${trackids}`, error: error.message });
+    const ret = await fetchPath(trackids);
+    if (Object.keys(ret).length === 0) {
+        res.status(404).send('No paths found.');
+        return;
     }
+    res.status(200).send(ret);
 }
 const registerTracksEndpoint = (app) => {
     app.post('/api/tracks', async (req, res) => {

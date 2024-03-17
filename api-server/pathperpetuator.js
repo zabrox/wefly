@@ -1,5 +1,5 @@
 const { Storage } = require('@google-cloud/storage');
-const e = require('express');
+const zlib = require('zlib');
 
 const lakeBucketName = 'wefly-lake';
 
@@ -9,7 +9,7 @@ class PathPerpetuator {
     }
 
     perpetuate(track) {
-        const fileName = `paths/${track.getId()}.json`;
+        const fileName = `paths/${track.getId()}.json.gz`;
         const storage = new Storage();
         const bucket = storage.bucket(lakeBucketName);
         const file = bucket.file(fileName);
@@ -17,25 +17,41 @@ class PathPerpetuator {
         const json = JSON.stringify(track.path.points.map((point, index) => {
             return [...point, track.path.times[index].toDate()];
         }));
-        file.save(json);
+        const gzip = zlib.gzipSync(json);
+        file.save(gzip, {
+            metadata: {
+                contentType: 'application/gzip',
+                contentEncoding: 'gzip'
+            }
+        });
     }
 
     async fetch(trackids) {
         const storage = new Storage();
         const bucket = storage.bucket(lakeBucketName);
-        const ret = {};
-        try {
-            const promises = trackids.map(async (trackid) => {
-                const fileName = `paths/${trackid}.json`;
-                const file = bucket.file(fileName);
-                const [content] = await file.download();
-                ret[trackid] = JSON.parse(content.toString());
+        const promises = trackids.map(async (trackid) => {
+            return new Promise(async (resolve) => {
+                const paths = {};
+                try {
+                    const fileName = `paths/${trackid}.json.gz`;
+                    const file = bucket.file(fileName);
+                    const [content] = await file.download();
+                    paths[trackid] = JSON.parse(content.toString());
+                    resolve(paths);
+                } catch (error) {
+                    console.error(error)
+                    resolve(paths);
+                }
             });
+        });
 
-            await Promise.all(promises);
-        } catch (error) {
-            throw error;
-        }
+        const paths = await Promise.all(promises);
+        const ret = {};
+        paths.forEach((path) => {
+            Object.keys(path).forEach((key) => {
+                ret[key] = path[key];
+            });
+        });
         return ret;
     }
 }

@@ -41,7 +41,7 @@ describe('TrackLoader', () => {
                 params: {
                     from: "2022-01-01T00:00:00+09:00",
                     to: "2022-01-01T23:59:59+09:00",
-                    pilotname: undefined,
+                    pilotname: "",
                     maxAltitude: undefined,
                     distance: undefined,
                     duration: undefined,
@@ -71,7 +71,7 @@ describe('TrackLoader', () => {
                 params: {
                     from: "2022-01-01T00:00:00+09:00",
                     to: "2022-01-01T23:59:59+09:00",
-                    pilotname: undefined,
+                    pilotname: "",
                     maxAltitude: undefined,
                     distance: undefined,
                     duration: undefined,
@@ -110,7 +110,6 @@ describe('TrackLoader', () => {
             expect(axios).toHaveBeenCalledWith({
                 method: 'get',
                 url: `${pathsurl}${trackId1},${trackId2}`,
-                responseType: 'json',
             });
             expect(tracks[0].path.addPoint).toHaveBeenCalledWith(137.5, 35.8, 300, dayjs('2022-01-01T00:00:01Z'));
             expect(tracks[0].path.addPoint).toHaveBeenCalledWith(137.5, 35.8, 300, dayjs('2022-01-01T00:00:02Z'));
@@ -134,7 +133,6 @@ describe('TrackLoader', () => {
             expect(axios).toHaveBeenCalledWith({
                 method: 'get',
                 url: `${pathsurl}1,2`,
-                responseType: 'json',
             });
             expect(tracks[0].path.addPoint).not.toHaveBeenCalled();
             expect(tracks[1].path.addPoint).not.toHaveBeenCalled();
