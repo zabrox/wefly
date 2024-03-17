@@ -9,47 +9,47 @@ import GliderIcon from '/images/glider.svg';
 import HanggliderIcon from '/images/hangglider.svg';
 import './advancedsearchdialog.css';
 
-export const AdvancedSearchDialog = ({ scatterState, show, setShow }) => {
-    const [searchCondition, setSearchCondition] = React.useState({
-        searchCondition: new SearchCondition(scatterState.searchCondition),
-    });
+export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) => {
+    const [searchCondition, setSearchCondition] = React.useState(new SearchCondition(scatterState.searchCondition));
 
     const handleCancelClick = () => {
         setShow(false);
     }
     const handleSearchClick = React.useCallback(() => {
         setShow(false);
-    }, [searchCondition]);
+        search(searchCondition);
+    }, [scatterState, searchCondition, search]);
     const handleFromDateChange = React.useCallback((newDate) => {
-        const copySearchCondition = searchCondition;
+        const copySearchCondition = new SearchCondition(searchCondition);
         copySearchCondition.from = dayjs(newDate);
         setSearchCondition(copySearchCondition);
-    }, [searchCondition]);
+    }, [scatterState, searchCondition]);
     const handleToDateChange = React.useCallback((newDate) => {
-        const copySearchCondition = searchCondition;
+        const copySearchCondition = new SearchCondition(searchCondition);
         copySearchCondition.to = dayjs(newDate);
         setSearchCondition(copySearchCondition);
-    }, [searchCondition]);
+    }, [scatterState, searchCondition]);
     const handlePilotnameChange = React.useCallback((e) => {
-        const copySearchCondition = searchCondition;
-        copySearchCondition.pilotName = e.target.value;
+        const copySearchCondition = new SearchCondition(searchCondition);
+        copySearchCondition.pilotname = e.target.value;
+        console.log(copySearchCondition)
         setSearchCondition(copySearchCondition);
-    }, [searchCondition]);
+    }, [scatterState, searchCondition]);
     const handleMaxAltChange = React.useCallback((e) => {
-        const copySearchCondition = searchCondition;
+        const copySearchCondition = new SearchCondition(searchCondition);
         copySearchCondition.maxAltitude = e.target.value;
         setSearchCondition(copySearchCondition);
-    }, [searchCondition]);
+    }, [scatterState, searchCondition]);
     const handleDistanceChange = React.useCallback((e) => {
-        const copySearchCondition = searchCondition;
+        const copySearchCondition = new SearchCondition(searchCondition);
         copySearchCondition.distance = e.target.value;
         setSearchCondition(copySearchCondition);
-    }, [searchCondition]);
+    }, [scatterState, searchCondition]);
     const handleDurationChange = React.useCallback((e) => {
-        const copySearchCondition = searchCondition;
+        const copySearchCondition = new SearchCondition(searchCondition);
         copySearchCondition.duration = e.target.value;
         setSearchCondition(copySearchCondition);
-    }, [searchCondition]);
+    }, [scatterState, searchCondition]);
 
     return (
         <Dialog open={show} >
@@ -71,35 +71,31 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow }) => {
                             onChange={handleToDateChange} />
                     </Grid>
                     <Grid item>
-                        <ToggleButtonGroup
-                            exclusive
-                            aria-label="アクティビティ"
-                        >
-                            <ToggleButton value="Paraglider" aria-label="パラグライダー">
-                                <img src={ParagliderIcon} />
-                            </ToggleButton>
-                            <ToggleButton value="Hangglider" aria-label="ハンググライダー">
-                                <img src={HanggliderIcon} />
-                            </ToggleButton>
-                            <ToggleButton value="Glider" aria-label="グライダー">
-                                <img src={GliderIcon} />
-                            </ToggleButton>
-                            <ToggleButton value="Other" aria-label="その他">
-                                <QuestionMarkIcon sx={{ width: '32px', height: '32px' }} />
-                            </ToggleButton>
-                        </ToggleButtonGroup>
+                        <TextField
+                            label="パイロット名"
+                            onChange={handlePilotnameChange}
+                            defaultValue={searchCondition.pilotname} />
                     </Grid>
                     <Grid item>
-                        <TextField label="パイロット名" onChange={handlePilotnameChange} />
+                        <TextField
+                            label="最高高度≧ (m)"
+                            type="number"
+                            onChange={handleMaxAltChange}
+                            defaultValue={searchCondition.maxAltitude} />
                     </Grid>
                     <Grid item>
-                        <TextField label="最高高度≧ (m)" type="number" onChange={handleMaxAltChange} />
+                        <TextField
+                            label="距離≧ (km)"
+                            type="number"
+                            onChange={handleDistanceChange}
+                            defaultValue={searchCondition.distance} />
                     </Grid>
                     <Grid item>
-                        <TextField label="距離≧ (km)" type="number" onChange={handleDistanceChange} />
-                    </Grid>
-                    <Grid item>
-                        <TextField label="飛行時間≧ (分)" type="number" onChange={handleDurationChange} />
+                        <TextField
+                            label="飛行時間≧ (分)"
+                            type="number"
+                            onChange={handleDurationChange}
+                            defaultValue={searchCondition.duration} />
                     </Grid>
                     <Grid item>
                         <Grid container spacing={3} justifyContent="center">

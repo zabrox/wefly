@@ -4,10 +4,10 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { loadTracks } from './trackloader';
 import { TrackGroupSelection } from './trackGroupSelection';
+import { TrackPoint } from './trackpoint';
 import { AdvancedSearchDialog } from './advancedsearchdialog';
 import * as CesiumMap from '../../cesiummap';
 import './datepicker.css';
-import { SearchCondition } from './searchcondition';
 
 export const DatePicker = ({ state, setState, scatterState, setScatterState }) => {
     const [showAdvancedSearchDialog, setShowAdvancedSearchDialog] = React.useState(false);
@@ -18,17 +18,23 @@ export const DatePicker = ({ state, setState, scatterState, setScatterState }) =
         }
     }, []);
 
-    const handleDateChange = React.useCallback((newDate) => {
+    const handleSearchConditionChange = React.useCallback((newSearchCondition) => {
         CesiumMap.removeAllEntities();
-        const date = dayjs(newDate);
-        const copySearchCondition = scatterState.searchCondition;
-        copySearchCondition.from = date;
-        copySearchCondition.to = date;
         loadTracks(state, setState, {
             ...scatterState,
+            selectedTracks: new Set(),
             selectedTrackGroups: new TrackGroupSelection(),
-            searchCondition: copySearchCondition,
+            selectedTrackPoint: new TrackPoint(),
+            searchCondition: newSearchCondition,
         }, setScatterState);
+    }, [state, scatterState]);
+
+    const handleDateChange = React.useCallback((newDate) => {
+        const date = dayjs(newDate);
+        const copySearchCondition = scatterState.searchCondition;
+        copySearchCondition.from = date.startOf('day');
+        copySearchCondition.to = date.endOf('day');
+        handleSearchConditionChange(copySearchCondition);
     }, [state, scatterState]);
 
     const handleAdvancedSearchIconClick = React.useCallback(() => {
@@ -48,7 +54,8 @@ export const DatePicker = ({ state, setState, scatterState, setScatterState }) =
             <AdvancedSearchDialog
                 scatterState={scatterState}
                 show={showAdvancedSearchDialog}
-                setShow={setShowAdvancedSearchDialog} />
+                setShow={setShowAdvancedSearchDialog}
+                search={handleSearchConditionChange} />
         </div>
     );
 }
