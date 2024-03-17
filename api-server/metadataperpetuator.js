@@ -6,6 +6,7 @@ const datasetId = 'wefly';
 const tableId = 'metadata';
 
 const bigQuery = new BigQuery();
+const QUERY_LIMIT = 10000;
 
 class MetadataPerpetuator {
     async perpetuate(track) {
@@ -38,6 +39,7 @@ class MetadataPerpetuator {
         if (searchCondition.duration) {
             query += ` AND duration >= ${searchCondition.duration}`;
         }
+        query += ` LIMIT ${QUERY_LIMIT}`;
         const [job] = await bigQuery.createQueryJob({ query: query });
         const [rows] = await job.getQueryResults();
         if (rows.empty) {
