@@ -1,7 +1,7 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { cyan } from '@mui/material/colors';
+import { deepOrange } from '@mui/material/colors';
 
-export const primaryColor = cyan[500];
+export const primaryColor = deepOrange[500];
 
 const theme = createTheme({
     palette: {
