@@ -1,8 +1,5 @@
 import React from 'react';
-import dayjs from 'dayjs';
 import { Typography, Table, TableContainer, Box } from '@mui/material';
-import { DesktopDatePicker } from '@mui/x-date-pickers';
-import { Track } from '../../entities/track';
 import { TrackPoint } from './trackpoint';
 import { ProgressBar } from '../playbackmode/progressbar';
 import { ScatterActionDial } from './scatteractiondial';
@@ -10,42 +7,13 @@ import * as CesiumMap from '../../cesiummap';
 import { ScatterMap } from './scattermap';
 import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
+import { DatePicker } from './datepicker';
 import { TrackGroupSelection } from './trackGroupSelection';
-import { loadMetadatas, loadPaths, loadTrackGroups } from './trackloader';
+import { loadPaths } from './trackloader';
 import * as Mode from '../mode';
 import './scattercontrolpanel.css';
 
-const loadTracks = async (state, setState, scatterState, setScatterState) => {
-    setState({ ...state, tracks: [], trackGroups: [] });
-    setScatterState({ ...scatterState, loading: true })
-    let tracks = [];
-    let trackGroups = [];
-    try {
-        const metadatas = await loadMetadatas(scatterState.date);
-        tracks = metadatas.map(metadata => {
-            const t = new Track();
-            t.metadata = metadata;
-            return t;
-        });
-        trackGroups = await loadTrackGroups(scatterState.date);
-    } catch (error) {
-        console.error(error);
-        setState({ ...state, tracks: [], trackGroups: [] });
-        setScatterState({ ...scatterState, loading: false });
-        return;
-    }
-    CesiumMap.zoomToTrackGroups(trackGroups);
-    setState({ ...state, tracks: tracks, trackGroups: trackGroups, });
-    setScatterState({ ...scatterState, loading: false });
-};
-
 export const ScatterControlPanel = ({ state, setState, scatterState, setScatterState }) => {
-    React.useEffect(() => {
-        if (state.tracks.length === 0) {
-            loadTracks(state, setState, scatterState, setScatterState);
-        }
-    }, []);
-
     const handleTrackGroupClick = React.useCallback(async (groupid, trackGroups) => {
         const group = trackGroups.find(group => group.groupid === groupid);
         CesiumMap.zoomToTrackGroup(group);
@@ -60,6 +28,8 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
             await loadPaths(tracksInGroup);
         } catch (error) {
             console.error(error);
+            setScatterState(scatterState => { return { ...scatterState, loading: false } });
+            return;
         }
         setState(state => { return { ...state, tracks: copyTracks } });
         const copySelectedTrackGroups = new TrackGroupSelection(scatterState.selectedTrackGroups);
@@ -109,13 +79,6 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         }
     }, [state, scatterState]);
 
-    const handleDateChange = React.useCallback((newDate) => {
-        console.debug('handleDateChange');
-        CesiumMap.removeAllEntities();
-        const date = dayjs(newDate);
-        loadTracks(state, setState, { ...scatterState, selectedTrackGroups: new TrackGroupSelection(), date: date }, setScatterState);
-    }, [state, scatterState]);
-
     const trackNumber = React.useCallback(() => {
         if (scatterState.selectedTrackGroups.groups.size === 0) {
             return state.tracks.length;
@@ -133,13 +96,11 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
 
     return (
         <div id='scatter-control-panel'>
-            <div id='date-picker-container'><center>
-                <DesktopDatePicker
-                    defaultValue={scatterState.date}
-                    format="YYYY-MM-DD (ddd)"
-                    onChange={handleDateChange} />
-            </center>
-            </div>
+            <DatePicker
+                state={state}
+                setState={setState}
+                scatterState={scatterState}
+                setScatterState={setScatterState} />
             <Typography id='tracknumber-label'>
                 {trackNumber()} tracks
             </Typography>

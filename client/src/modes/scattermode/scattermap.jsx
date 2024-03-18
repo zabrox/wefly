@@ -71,7 +71,7 @@ const trackGroupEntitiyId = (trackGroup) => {
 }
 const initializeTrackGroupEntity = (trackGroups) => {
     const MIN_ICON_SIZE = 30;
-    const MAX_ICON_SIZE = 250;
+    const MAX_ICON_SIZE = 120;
     const COEFFICIENT = (MAX_ICON_SIZE - MIN_ICON_SIZE) / 200;
     trackGroups.forEach(trackGroup => {
         let size = MIN_ICON_SIZE + trackGroup.trackIds.length * COEFFICIENT;

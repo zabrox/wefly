@@ -51,7 +51,7 @@ async function findArea(tracks) {
         });
 
         if (minDistance <= AREA_RADIUS) {
-            track.metadata.area = closestArea;
+            track.metadata.area = closestArea.areaName;
         }
     });
 }

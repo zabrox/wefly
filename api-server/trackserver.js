@@ -1,6 +1,8 @@
+const dayjs = require('dayjs');
 const { Track } = require('./common/track.js');
 const { MetadataPerpetuator } = require('./metadataperpetuator.js');
 const { PathPerpetuator } = require('./pathperpetuator.js');
+const { SearchCondition } = require('./searchcondition.js');
 
 const projectId = 'wefly-407313'
 
@@ -26,17 +28,24 @@ const postTracks = async (req, res) => {
     }
 }
 
-const fetchMetadata = async (date) => {
+const fetchMetadata = async (searchCondition) => {
     const perpetuator = new MetadataPerpetuator(projectId);
-    return await perpetuator.fetch(date);
+    return await perpetuator.fetch(searchCondition);
 }
 
 const getMetadata = async (req, res) => {
     try {
         res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
         res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
-        const date = req.query.date;
-        const metadatas = await fetchMetadata(date);
+        const searchCondition = new SearchCondition(
+            dayjs(req.query.from),
+            dayjs(req.query.to),
+            req.query.pilotname,
+            parseInt(req.query.maxAltitude),
+            parseFloat(req.query.distance),
+            parseInt(req.query.duration),
+        );
+        const metadatas = await fetchMetadata(searchCondition);
         if (metadatas.length === 0) {
             res.status(404).send('No tracks found.');
             return;
@@ -60,12 +69,12 @@ const getPath = async (req, res) => {
         return;
     }
     const trackids = req.query.trackids.split(',');
-    try {
-        const ret = await fetchPath(trackids);
-        res.status(200).send(ret);
-    } catch (error) {
-        res.status(500).send({ message: `Error fetching paths for ${trackids}`, error: error.message });
+    const ret = await fetchPath(trackids);
+    if (Object.keys(ret).length === 0) {
+        res.status(404).send('No paths found.');
+        return;
     }
+    res.status(200).send(ret);
 }
 const registerTracksEndpoint = (app) => {
     app.post('/api/tracks', async (req, res) => {
