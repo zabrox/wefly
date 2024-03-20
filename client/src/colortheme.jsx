@@ -2,12 +2,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { deepOrange } from '@mui/material/colors';
 
 export const primaryColor = deepOrange[500];
+export const secondaryColor = '#fff';
 
 const theme = createTheme({
     palette: {
         primary: {
             main: primaryColor,
-            contrastText: '#fff',
+            contrastText: secondaryColor,
         },
     }
 });

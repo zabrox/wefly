@@ -9,6 +9,7 @@ import FastRewindIcon from '@mui/icons-material/FastRewind';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import * as CesiumMap from '../../cesiummap';
+import { secondaryColor } from '../../colortheme';
 import './timelinecontrol.css';
 
 export const TimelineControl = ({ playbackState, setPlaybackState }) => {
@@ -51,26 +52,36 @@ export const TimelineControl = ({ playbackState, setPlaybackState }) => {
     }
     return (
         <Box id='timeline-control-container' bgcolor='primary.main'>
-            <Typography id='timeline-control-time'>
+            <Typography id='timeline-control-time' color='primary.contrastText'>
                 {playbackState.currentTime.format('HH:mm:ss')}
             </Typography>
-            <div id='timeline-control'>
-                <FastRewindIcon id='timeline-overlay-fast-rewind' onClick={handleBackward} />
+            <Box id='timeline-control'>
+                <FastRewindIcon id='timeline-overlay-fast-rewind'
+                    onClick={handleBackward}
+                    sx={{ color: 'primary.contrastText' }} />
                 <PauseIcon id='timeline-overlay-pause'
                     onClick={handlePause}
-                    style={{ display: isPause ? 'none' : 'block' }} />
+                    style={{ display: isPause ? 'none' : 'block' }}
+                    sx={{ color: 'primary.contrastText' }} />
                 <PlayArrowIcon id='timeline-overlay-play'
                     onClick={handlePlay}
-                    style={{ display: isPause ? 'block' : 'none' }} />
-                <FastForwardIcon id='timeline-overlay-fast-forward' onClick={handleForward} />
-            </div>
-            <div id='timeline-speed-control'>
-                <ArrowDropDownIcon id='timeline-overlay-speed-down' onClick={handleSpeedDown} />
-                <Typography id='timeline-overlay-speed'>
+                    style={{ display: isPause ? 'block' : 'none' }}
+                    sx={{ color: 'primary.contrastText' }} />
+                <FastForwardIcon id='timeline-overlay-fast-forward'
+                    onClick={handleForward}
+                    sx={{ color: 'primary.contrastText' }} />
+            </Box>
+            <Box id='timeline-speed-control'>
+                <ArrowDropDownIcon id='timeline-overlay-speed-down'
+                    onClick={handleSpeedDown}
+                    sx={{ color: 'primary.contrastText' }} />
+                <Typography id='timeline-overlay-speed' color='primary.contrastText'>
                     x{CesiumMap.viewer.clock.multiplier}
                 </Typography>
-                <ArrowDropUpIcon id='timeline-overlay-speed-up' onClick={handleSpeedUp} />
-            </div>
+                <ArrowDropUpIcon id='timeline-overlay-speed-up'
+                    onClick={handleSpeedUp}
+                    sx={{ color: 'primary.contrastText' }} />
+            </Box>
         </Box>
     )
 }
