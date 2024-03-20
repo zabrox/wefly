@@ -21,7 +21,7 @@ class MetadataPerpetuator {
             '${track.metadata.activity}', '${track.metadata.model}', '${track.metadata.area}')`;
         const query = `IF NOT EXISTS (
             SELECT id FROM \`${datasetId}.${tableId}\` WHERE id = '${track.getId()}'
-            ) THEN ${insertQuery} 
+            ) THEN ${insertQuery};
         END IF;`;
         await bigQuery.query(query);
     }
