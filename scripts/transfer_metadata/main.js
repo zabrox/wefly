@@ -1,57 +1,37 @@
-const dayjs = require('dayjs');
-const { Firestore } = require('@google-cloud/firestore');
 const { BigQuery } = require('@google-cloud/bigquery');
-const { Metadata } = require('./metadata.js');
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
 
-const firestore = new Firestore();
+dayjs.extend(utc);
+
 const bigQuery = new BigQuery();
-
 const datasetId = 'wefly';
-const tableId = 'metadata';
-
-function convertFromFirestoreObject(obj) {
-    const metadata = Metadata.deserialize(obj);
-    metadata.startTime = dayjs(obj.startTime.toDate());
-    metadata.lastTime = dayjs(obj.lastTime.toDate());
-    return metadata;
-}
+const oldTable = 'metadata';
+const newTable = 'metadatas';
 
 async function transferData() {
-    const snapshot = await firestore.collection('metadatas').get();
-    const rowsToInsert = snapshot.docs.map(doc => {
-        const metadata = convertFromFirestoreObject(doc.data());
-        if (metadata.startTime.year() <= 2023) {
-            return;
-        }
-        return {
-            id: metadata.getId(),
-            pilotname: metadata.pilotname,
-            distance: metadata.distance,
-            duration: metadata.duration,
-            maxAltitude: metadata.maxAltitude,
-            startTime: metadata.startTime.format('YYYY-MM-DD HH:mm:ss'),
-            lastTime: metadata.lastTime.format('YYYY-MM-DD HH:mm:ss'),
-            startLongitude: metadata.startPosition[0],
-            startLatitude: metadata.startPosition[1],
-            startAltitude: metadata.startPosition[2],
-            lastLongitude: metadata.lastPosition[0],
-            lastLatitude: metadata.lastPosition[1],
-            lastAltitude: metadata.lastPosition[2],
-            activity: metadata.activity,
-            model: metadata.model,
-            area: metadata.area,
-        };
-    });
+    const ids = new Set();
+    const query = `SELECT * FROM \`${datasetId}.${oldTable}\``;
+    const [job] = await bigQuery.createQueryJob({ query: query });
+    const [rows] = await job.getQueryResults();
 
-    // BigQueryにデータを挿入
-    try {
-        await bigQuery
-            .dataset(datasetId)
-            .table(tableId)
-            .insert(rowsToInsert);
-        console.log(`Inserted ${rowsToInsert.length} rows`);
-    } catch (error) {
-        console.error('ERROR:', error);
+    for (const row of rows) {
+        if (ids.has(row.id)) {
+            continue;
+        }
+        ids.add(row.id);
+        const startTime = dayjs(row.startTime.value);
+        const endTime = dayjs(row.lastTime.value);
+        const insertQuery = `INSERT INTO \`${datasetId}.${newTable}\` (
+            id, pilotname, distance, duration, maxAltitude, startTime, lastTime,
+            startLongitude, startLatitude, startAltitude,
+            lastLongitude, lastLatitude, lastAltitude, activity, model, area) VALUES 
+            ('${row.id}', '${row.pilotname}', ${row.distance},
+            ${row.duration}, ${row.maxAltitude}, DATETIME('${startTime.utc().format('YYYY-MM-DD HH:mm:ss')}'), DATETIME('${endTime.utc().format('YYYY-MM-DD HH:mm:ss')}'),
+            ${row.startLongitude}, ${row.startLatitude}, ${row.startAltitude},
+            ${row.lastLongitude}, ${row.lastLatitude}, ${row.lastAltitude},
+            '${row.activity}', '${row.model}', '${row.area}')`;
+        await bigQuery.query(insertQuery);
     }
 }
 
