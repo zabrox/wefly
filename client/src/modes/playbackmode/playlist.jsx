@@ -7,6 +7,8 @@ import { PilotIcon } from '../../util/piloticon';
 import './playlist.css';
 
 const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
+    const [sortedTracks, setSortedTracks] = React.useState(tracks.toSorted((a, b) => a.metadata.startTime.isAfter(b.metadata.startTime) ? 1 : -1));
+
     const handleClick = React.useCallback((e, track) => {
         if (track.path.times[0].isBefore(playbackState.currentTime) &&
             track.path.times[track.path.times.length - 1].isAfter(playbackState.currentTime)) {
@@ -14,12 +16,12 @@ const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
         }
     }, [tracks, playbackState]);
 
-    return tracks.map((track, i) => (
+    return sortedTracks.map((track, i) => (
         <TableRow
             key={"tr" + i}
             id={`trackrow-${track.getId()}`}
             onClick={(e) => handleClick(e, track)}>
-            <TableCell className='pilotcell' sx={{padding: '5px'}}>
+            <TableCell className='pilotcell' sx={{ padding: '5px' }}>
                 <div>
                     <PilotIcon track={track} />
                     <div className='pilotname-container'>
@@ -35,20 +37,15 @@ const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
                     start={playbackState.startTime}
                     end={playbackState.stopTime} />
             </TableCell>
-        </TableRow>
-    ));
+        </TableRow>));
 };
 
 export const PlayList = ({ state, playbackState, setPlaybackState }) => {
-    const sortedTracks = React.useMemo(() => {
-        return state.actionTargetTracks.slice().sort((a, b) => a.metadata.startTime.isBefore(b.metadata.startTime));
-    }, [state.actionTargetTracks]);
-
     return (
         <TableContainer id='playlist-container'>
             <Table id='playlist-table'>
                 <TableBody>{
-                    mapTracksToTableRows(sortedTracks, playbackState, setPlaybackState)
+                    mapTracksToTableRows(state.actionTargetTracks, playbackState, setPlaybackState)
                 }</TableBody>
             </Table>
             <TimelineBarContainer playbackState={playbackState} />
