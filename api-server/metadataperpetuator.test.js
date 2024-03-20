@@ -18,7 +18,7 @@ jest.mock('@google-cloud/bigquery', () => ({
 const { MetadataPerpetuator } = require('./metadataperpetuator.js');
 
 const datasetId = 'wefly';
-const tableId = 'metadata';
+const tableId = 'metadatas';
 
 describe('MetadataPerpetuator', () => {
     afterEach(() => {
