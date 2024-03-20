@@ -1,4 +1,5 @@
 const dayjs = require('dayjs');
+const { Firestore } = require('@google-cloud/firestore');
 const { program } = require("commander");
 const { loadTrackListPages } = require('./trackListPageLoader.js');
 const { parseTrackListPage } = require('./trackListPageParser.js');
@@ -50,14 +51,19 @@ async function main() {
     if (opts.start !== undefined && opts.end !== undefined) {
         const start = dayjs(opts.start);
         const end = dayjs(opts.end);
-        let interval = parseInt(opts.interval, 10);
-        if (interval === NaN) {
-            interval = 0;
+        const firestore = new Firestore();
+        const docRef = firestore.collection('track_loader').doc('lastLoaded');
+        const doc = await docRef.get();
+        let date = start;
+        if (doc.exists) {
+            date = dayjs(doc.data().date).add(1, 'day');
         }
-        for (let date = start; date <= end; date = date.add(1, 'day')) {
-            await loadTracks(date.format('YYYY-MM-DD'), opts);
-            await sleep(parseInt(opts.interval, 10))
+        if (date.isAfter(end)) {
+            console.log('Target date is after end date');
+            return;
         }
+        await loadTracks(date.format('YYYY-MM-DD'), opts);
+        await docRef.set({ date: date.format('YYYY-MM-DD') });
         return;
     }
     let date = opts.date;

@@ -1,5 +1,5 @@
-CREATE TABLE wefly.metadata (
-  id string,
+CREATE TABLE wefly.metadatas (
+  id string PRIMARY KEY NOT ENFORCED,
   pilotname string not null,
   distance float64 not null,
   duration int64 not null,

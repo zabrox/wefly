@@ -3,14 +3,14 @@ const dayjs = require('dayjs');
 const { Metadata } = require('./common/metadata.js');
 
 const datasetId = 'wefly';
-const tableId = 'metadata';
+const tableId = 'metadatas';
 
 const bigQuery = new BigQuery();
 const QUERY_LIMIT = 10000;
 
 class MetadataPerpetuator {
     async perpetuate(track) {
-        const query = `INSERT INTO \`${datasetId}.${tableId}\` (
+        const insertQuery = `INSERT INTO \`${datasetId}.${tableId}\` (
             id, pilotname, distance, duration, maxAltitude, startTime, lastTime,
             startLongitude, startLatitude, startAltitude,
             lastLongitude, lastLatitude, lastAltitude, activity, model, area) VALUES 
@@ -19,6 +19,10 @@ class MetadataPerpetuator {
             ${track.metadata.startPosition[0]}, ${track.metadata.startPosition[1]}, ${track.metadata.startPosition[2]},
             ${track.metadata.lastPosition[0]}, ${track.metadata.lastPosition[1]}, ${track.metadata.lastPosition[2]},
             '${track.metadata.activity}', '${track.metadata.model}', '${track.metadata.area}')`;
+        const query = `IF NOT EXISTS (
+            SELECT id FROM \`${datasetId}.${tableId}\` WHERE id = '${track.getId()}'
+            ) THEN ${insertQuery} 
+        END IF;`;
         await bigQuery.query(query);
     }
 
