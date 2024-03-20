@@ -47,14 +47,15 @@ describe('MetadataPerpetuator', () => {
         await (new MetadataPerpetuator).perpetuate(track);
 
         expect(mockQuery.mock.calls[0][0].replaceAll(/\s+/g, ' ')).toStrictEqual(
-            `INSERT INTO \`${datasetId}.${tableId}\` (
+            `IF NOT EXISTS ( SELECT id FROM \`${datasetId}.${tableId}\` WHERE id = 'Takase_20240101120000' ) THEN 
+                INSERT INTO \`${datasetId}.${tableId}\` (
                 id, pilotname, distance, duration, maxAltitude, startTime, lastTime,
                 startLongitude, startLatitude, startAltitude,
                 lastLongitude, lastLatitude, lastAltitude, activity, model, area) VALUES 
                 ('Takase_20240101120000', 'Takase', 100, 60, 1000, DATETIME('2024-01-01 12:00:00'), DATETIME('2024-01-01 13:34:56'),
                 37.7749, -122.4194, 0,
                 37.775, -122.4193, 100,
-                'Paraglider', 'Kangri', 'Asagiri')`.replaceAll(/\s+/g, ' ')
+                'Paraglider', 'Kangri', 'Asagiri') END IF;`.replaceAll(/\s+/g, ' ')
         );
     });
 
