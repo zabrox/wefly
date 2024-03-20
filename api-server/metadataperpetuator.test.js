@@ -55,7 +55,7 @@ describe('MetadataPerpetuator', () => {
                 ('Takase_20240101120000', 'Takase', 100, 60, 1000, DATETIME('2024-01-01 12:00:00'), DATETIME('2024-01-01 13:34:56'),
                 37.7749, -122.4194, 0,
                 37.775, -122.4193, 100,
-                'Paraglider', 'Kangri', 'Asagiri') END IF;`.replaceAll(/\s+/g, ' ')
+                'Paraglider', 'Kangri', 'Asagiri'); END IF;`.replaceAll(/\s+/g, ' ')
         );
     });
 
