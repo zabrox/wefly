@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import dayjs from 'dayjs';
 import { Dialog, DialogContent, DialogTitle, TextField, Grid, Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
@@ -21,12 +21,12 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
     }, [scatterState, searchCondition, search]);
     const handleFromDateChange = React.useCallback((newDate) => {
         const copySearchCondition = new SearchCondition(searchCondition);
-        copySearchCondition.from = dayjs(newDate);
+        copySearchCondition.from = dayjs(newDate).startOf('day');
         setSearchCondition(copySearchCondition);
     }, [scatterState, searchCondition]);
     const handleToDateChange = React.useCallback((newDate) => {
         const copySearchCondition = new SearchCondition(searchCondition);
-        copySearchCondition.to = dayjs(newDate);
+        copySearchCondition.to = dayjs(newDate).endOf('day');
         setSearchCondition(copySearchCondition);
     }, [scatterState, searchCondition]);
     const handlePilotnameChange = React.useCallback((e) => {
@@ -37,17 +37,17 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
     }, [scatterState, searchCondition]);
     const handleMaxAltChange = React.useCallback((e) => {
         const copySearchCondition = new SearchCondition(searchCondition);
-        copySearchCondition.maxAltitude = e.target.value;
+        copySearchCondition.maxAltitude = e.target.value === '' ? undefined : e.target.value;
         setSearchCondition(copySearchCondition);
     }, [scatterState, searchCondition]);
     const handleDistanceChange = React.useCallback((e) => {
         const copySearchCondition = new SearchCondition(searchCondition);
-        copySearchCondition.distance = e.target.value;
+        copySearchCondition.distance = e.target.value === '' ? undefined : e.target.value;
         setSearchCondition(copySearchCondition);
     }, [scatterState, searchCondition]);
     const handleDurationChange = React.useCallback((e) => {
         const copySearchCondition = new SearchCondition(searchCondition);
-        copySearchCondition.duration = e.target.value;
+        copySearchCondition.duration = e.target.value === '' ? undefined : e.target.value;
         setSearchCondition(copySearchCondition);
     }, [scatterState, searchCondition]);
 
