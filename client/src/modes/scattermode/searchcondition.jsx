@@ -20,4 +20,13 @@ export class SearchCondition {
             this.activity = new Set(arg.activity);
         }
     }
+
+    isAdvancedSearchEnabled() {
+        return this.from.format('YYYY-MM-DD') !== this.to.format('YYYY-MM-DD') ||
+            this.pilotname !== '' ||
+            this.maxAltitude !== undefined ||
+            this.distance !== undefined ||
+            this.duration !== undefined ||
+            this.activity.size !== 0;
+    }
 }

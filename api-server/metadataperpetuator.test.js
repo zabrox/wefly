@@ -73,7 +73,7 @@ describe('MetadataPerpetuator', () => {
 
         expect(mockCreateQueryJob.mock.calls[0][0].query.replaceAll(/\s+/g, ' ')).toStrictEqual(
             `SELECT * FROM \`${datasetId}.${tableId}\` WHERE
-            startTime >= '2024-01-01 12:00:00' AND startTime <= '2024-01-31 12:00:00' AND pilotname = 'John Doe' AND maxAltitude >= 1000 AND distance >= 100 AND duration >= 60 LIMIT 10000`.replaceAll(/\s+/g, ' ')
+            startTime >= '2024-01-01 12:00:00' AND startTime <= '2024-01-31 12:00:00' AND pilotname = 'John Doe' AND maxAltitude >= 1000 AND distance >= 100 AND duration >= 60 LIMIT 1000`.replaceAll(/\s+/g, ' ')
         );
         expect(result).toEqual([{ pilotname: 'John Doe' }]);
     });
@@ -88,7 +88,7 @@ describe('MetadataPerpetuator', () => {
 
         expect(mockCreateQueryJob.mock.calls[0][0].query.replaceAll(/\s+/g, ' ')).toStrictEqual(
             `SELECT * FROM \`${datasetId}.${tableId}\` WHERE
-            startTime >= '2024-01-01 12:00:00' AND startTime <= '2024-01-31 12:00:00' LIMIT 10000`.replaceAll(/\s+/g, ' ')
+            startTime >= '2024-01-01 12:00:00' AND startTime <= '2024-01-31 12:00:00' LIMIT 1000`.replaceAll(/\s+/g, ' ')
         );
         expect(result).toEqual([{ pilotname: 'John Doe' }]);
     });
@@ -106,7 +106,7 @@ describe('MetadataPerpetuator', () => {
 
         expect(mockCreateQueryJob.mock.calls[0][0].query.replaceAll(/\s+/g, ' ')).toStrictEqual(
             `SELECT * FROM \`${datasetId}.${tableId}\` WHERE
-            startTime >= '2024-01-01 12:00:00' AND startTime <= '2024-01-31 12:00:00' LIMIT 10000`.replaceAll(/\s+/g, ' ')
+            startTime >= '2024-01-01 12:00:00' AND startTime <= '2024-01-31 12:00:00' LIMIT 1000`.replaceAll(/\s+/g, ' ')
         );
         expect(result).toEqual([]);
     });

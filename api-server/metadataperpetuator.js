@@ -6,7 +6,7 @@ const datasetId = 'wefly';
 const tableId = 'metadatas';
 
 const bigQuery = new BigQuery();
-const QUERY_LIMIT = 10000;
+const QUERY_LIMIT = 1000;
 
 class MetadataPerpetuator {
     async perpetuate(track) {
