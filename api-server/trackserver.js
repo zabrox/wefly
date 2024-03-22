@@ -1,8 +1,12 @@
 const dayjs = require('dayjs');
+const zlib = require('zlib');
+const util = require('util');
 const { Track } = require('./common/track.js');
 const { MetadataPerpetuator } = require('./metadataperpetuator.js');
 const { PathPerpetuator } = require('./pathperpetuator.js');
 const { SearchCondition } = require('./searchcondition.js');
+
+const gzip = util.promisify(zlib.gzip);
 
 const projectId = 'wefly-407313'
 
@@ -50,7 +54,11 @@ const getMetadata = async (req, res) => {
             res.status(404).send('No tracks found.');
             return;
         }
-        res.status(200).send(metadatas);
+        const jsonString = JSON.stringify(metadatas);
+        const buffer = await gzip(jsonString);
+        res.header('Content-Encoding', 'gzip');
+        res.header('Content-Type', 'application/json');
+        res.status(200).send(buffer);
     } catch (error) {
         res.status(500).send({ message: 'Error fetching track', error: error.message });
     }
@@ -74,8 +82,13 @@ const getPath = async (req, res) => {
         res.status(404).send('No paths found.');
         return;
     }
-    res.status(200).send(ret);
+    const jsonString = JSON.stringify(ret);
+    const buffer = await gzip(jsonString);
+    res.header('Content-Encoding', 'gzip');
+    res.header('Content-Type', 'application/json');
+    res.status(200).send(buffer);
 }
+
 const registerTracksEndpoint = (app) => {
     app.post('/api/tracks', async (req, res) => {
         postTracks(req, res);
