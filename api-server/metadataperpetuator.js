@@ -1,6 +1,9 @@
 const { BigQuery } = require('@google-cloud/bigquery');
 const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
 const { Metadata } = require('./common/metadata.js');
+
+dayjs.extend(utc);
 
 const datasetId = 'wefly';
 const tableId = 'metadatas';
@@ -61,8 +64,8 @@ class MetadataPerpetuator {
         metadata.distance = row.distance;
         metadata.duration = row.duration;
         metadata.maxAltitude = row.maxAltitude;
-        metadata.startTime = dayjs(row.startTime.value);
-        metadata.lastTime = dayjs(row.lastTime.value);
+        metadata.startTime = dayjs.utc(row.startTime.value);
+        metadata.lastTime = dayjs.utc(row.lastTime.value);
         metadata.startPosition = [row.startLongitude, row.startLatitude, row.startAltitude];
         metadata.lastPosition = [row.lastLongitude, row.lastLatitude, row.lastAltitude]
         metadata.activity = row.activity;

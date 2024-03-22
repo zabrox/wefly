@@ -12,6 +12,7 @@
     height: 36px;
     z-index: 1;
     border-radius: 50%;
+    background-color: #fff;
     box-shadow: 3px 3px rgba(128, 128, 128, 0.5);
     pointer-events: all;
 }

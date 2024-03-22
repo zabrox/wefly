@@ -21,7 +21,7 @@ export const createTrackGroupPin = (trackGroup) => {
     ctx.fill();
     ctx.beginPath();
     ctx.fillStyle = primaryColor;
-    ctx.font = 'bold 22px sans-serif';
+    ctx.font = 'bold 20px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(`${trackGroup.trackIds.length}`, 30, 30);
