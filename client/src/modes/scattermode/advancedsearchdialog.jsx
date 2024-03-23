@@ -32,7 +32,6 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
     const handlePilotnameChange = React.useCallback((e) => {
         const copySearchCondition = new SearchCondition(searchCondition);
         copySearchCondition.pilotname = e.target.value;
-        console.log(copySearchCondition)
         setSearchCondition(copySearchCondition);
     }, [scatterState, searchCondition]);
     const handleMaxAltChange = React.useCallback((e) => {
