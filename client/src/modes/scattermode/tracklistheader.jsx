@@ -66,7 +66,7 @@ export const headers = [
         numeric: false,
         defaultOrder: 'asc',
         comparator: compareByKey.bind(null, 'startTime'),
-        display: (track) => (track.metadata.startTime.format('HH:mm:ss')),
+        display: (track) => (track.metadata.startTime.format('YY-MM-DD HH:mm')),
     },
     {
         id: 'duration',
