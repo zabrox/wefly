@@ -76,7 +76,7 @@ describe('TrackListBody', () => {
         const rows = screen.getAllByRole('row');
         expect(rows[0]).toHaveTextContent('Yukari');
         expect(rows[0]).toHaveTextContent('Ongata');
-        expect(rows[0]).toHaveTextContent('20:00:00');
+        expect(rows[0]).toHaveTextContent('24-03-11 20:00');
         expect(rows[0]).toHaveTextContent('6m');
         expect(rows[0]).toHaveTextContent('200m');
         expect(rows[0]).toHaveTextContent('5km');
