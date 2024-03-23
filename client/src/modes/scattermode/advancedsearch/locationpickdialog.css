@@ -1,0 +1,12 @@
+.leaflet-container {
+    position: relative;
+    background-color: #f8f8f8;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(120, 120, 120, 0.3);
+}
+
+div:has(> .leaflet-container) {
+    padding-left: 5px;
+    padding-right: 5px;
+}

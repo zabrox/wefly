@@ -1,16 +1,19 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { Dialog, DialogContent, DialogTitle, TextField, Grid, Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Dialog, DialogContent, DialogActions, DialogTitle, TextField, Grid, Button, Typography, Box } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
-import { SearchCondition } from './searchcondition';
+import { SearchCondition } from '../searchcondition';
+import InfoIcon from '@mui/icons-material/Info';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import ParagliderIcon from '/images/paraglider.svg';
 import GliderIcon from '/images/glider.svg';
 import HanggliderIcon from '/images/hangglider.svg';
 import './advancedsearchdialog.css';
+import { LocationPickDialog } from './locationpickdialog';
 
 export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) => {
     const [searchCondition, setSearchCondition] = React.useState(new SearchCondition(scatterState.searchCondition));
+    const [showLocationPickDialog, setShowLocationPickDialog] = React.useState(false);
 
     const handleCancelClick = () => {
         setShow(false);
@@ -49,6 +52,11 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
         copySearchCondition.duration = e.target.value === '' ? undefined : e.target.value;
         setSearchCondition(copySearchCondition);
     }, [scatterState, searchCondition]);
+    const handleLocationSelect = React.useCallback((bounds) => {
+        const copySearchCondition = new SearchCondition(searchCondition);
+        copySearchCondition.bounds = [[bounds[0][1], bounds[0][0]], [bounds[1][1], bounds[1][0]]];
+        setSearchCondition(copySearchCondition);
+    }, [searchCondition]);
 
     return (
         <Dialog open={show} >
@@ -97,17 +105,32 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
                             defaultValue={searchCondition.duration} />
                     </Grid>
                     <Grid item>
-                        <Grid container spacing={3} justifyContent="center">
-                            <Grid item>
-                                <Button variant="contained" onClick={handleSearchClick}>検索</Button>
-                            </Grid>
-                            <Grid item>
-                                <Button variant="outlined" onClick={handleCancelClick}>キャンセル</Button>
-                            </Grid>
-                        </Grid>
+                        <Typography>ロケーション検索</Typography>
+                        <Button onClick={() => setShowLocationPickDialog(true)}>ロケーションを追加</Button>
+                        <LocationPickDialog open={showLocationPickDialog}
+                            onClose={React.useCallback(() => { setShowLocationPickDialog(false) }, [])}
+                            onConfirm={handleLocationSelect} />
+                    </Grid>
+                    <Grid item>
+                        <Box style={{ display: 'flex' }}>
+                            <InfoIcon color='primary' style={{ paddingRight: '5px' }} />
+                            <Typography>最大検索件数は1000件です</Typography>
+                        </Box>
                     </Grid>
                 </Grid>
             </DialogContent>
-        </Dialog>
+            <DialogActions>
+                <Grid item>
+                    <Grid container spacing={3} justifyContent="center">
+                        <Grid item>
+                            <Button variant="outlined" onClick={handleCancelClick}>CANCEL</Button>
+                        </Grid>
+                        <Grid item>
+                            <Button variant="contained" onClick={handleSearchClick}>検索</Button>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </DialogActions>
+        </Dialog >
     );
 };

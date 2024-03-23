@@ -37,6 +37,23 @@ const fetchMetadata = async (searchCondition) => {
     return await perpetuator.fetch(searchCondition);
 }
 
+const parseBounds = (boundsQuery) => {
+    console.log(boundsQuery);
+    if (boundsQuery === undefined) {
+        return [];
+    }
+    const bounds = boundsQuery.split(',').map((bound) => (parseFloat(bound)));
+    if (bounds.length % 4 !== 0) {
+        return [];
+    }
+    const ret = [];
+    for (let i = 0; i < bounds.length; i += 4) {
+        ret.push([[bounds[i], bounds[i + 1]], [bounds[i + 2], bounds[i + 3]]]);
+    }
+    console.log(ret);
+    return ret;
+}
+
 const getMetadata = async (req, res) => {
     try {
         res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -48,7 +65,9 @@ const getMetadata = async (req, res) => {
             parseInt(req.query.maxAltitude),
             parseFloat(req.query.distance),
             parseInt(req.query.duration),
+            parseBounds(req.query.bounds),
         );
+        console.log(searchCondition);
         const metadatas = await fetchMetadata(searchCondition);
         if (metadatas.length === 0) {
             res.status(404).send('No tracks found.');
@@ -60,6 +79,7 @@ const getMetadata = async (req, res) => {
         res.header('Content-Type', 'application/json');
         res.status(200).send(buffer);
     } catch (error) {
+        console.error(`Error fetching track`, error);
         res.status(500).send({ message: 'Error fetching track', error: error.message });
     }
 }
