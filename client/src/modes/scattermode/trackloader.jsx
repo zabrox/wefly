@@ -9,6 +9,7 @@ export const loadMetadatas = async (searchCondition) => {
     const metadatasurl = `${import.meta.env.VITE_API_URL}/tracks/metadata`;
     try {
         console.time('loadTracks');
+        const bounds = searchCondition.bounds.flat().join(',');
         const response = await axios({
             method: "get",
             url: metadatasurl, 
@@ -20,6 +21,7 @@ export const loadMetadatas = async (searchCondition) => {
                 maxAltitude: searchCondition.maxAltitude,
                 distance: searchCondition.distance,
                 duration: searchCondition.duration,
+                bounds: bounds,
             }
         });
         console.timeEnd('loadTracks');

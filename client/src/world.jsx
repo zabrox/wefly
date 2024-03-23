@@ -6,6 +6,7 @@ import { Mode } from "./modes/mode";
 import { MessageDialog } from "./messagedialog";
 import { ColorTheme } from "./colortheme";
 import "./world.css";
+import "./modes/scattermode/advancedsearch/locationpickdialog"
 
 const World = () => {
     return (

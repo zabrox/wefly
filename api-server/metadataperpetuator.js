@@ -46,6 +46,12 @@ class MetadataPerpetuator {
         if (searchCondition.duration) {
             query += ` AND duration >= ${searchCondition.duration}`;
         }
+        if (searchCondition.bounds.length > 0) {
+            searchCondition.bounds.forEach((bound) => {
+                query += ` AND startLongitude >= ${bound[0][0]} AND startLongitude <= ${bound[1][0]}`;
+                query += ` AND startLatitude >= ${bound[0][1]} AND startLatitude <= ${bound[1][1]}`;
+            });
+        }
         query += ` LIMIT ${QUERY_LIMIT}`;
         const [job] = await bigQuery.createQueryJob({ query: query });
         const [rows] = await job.getQueryResults();

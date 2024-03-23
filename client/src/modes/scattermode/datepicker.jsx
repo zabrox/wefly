@@ -7,7 +7,7 @@ import { Box } from '@mui/system';
 import { loadTracks } from './trackloader';
 import { TrackGroupSelection } from './trackGroupSelection';
 import { TrackPoint } from './trackpoint';
-import { AdvancedSearchDialog } from './advancedsearchdialog';
+import { AdvancedSearchDialog } from './advancedsearch/advancedsearchdialog';
 import { judgeMedia } from '../../util/media'
 import * as CesiumMap from '../../cesiummap';
 import './datepicker.css';
