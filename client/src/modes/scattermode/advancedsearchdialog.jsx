@@ -1,8 +1,9 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { Dialog, DialogContent, DialogTitle, TextField, Grid, Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, TextField, Grid, Button, Typography, Box } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { SearchCondition } from './searchcondition';
+import InfoIcon from '@mui/icons-material/Info';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import ParagliderIcon from '/images/paraglider.svg';
 import GliderIcon from '/images/glider.svg';
@@ -95,6 +96,12 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
                             type="number"
                             onChange={handleDurationChange}
                             defaultValue={searchCondition.duration} />
+                    </Grid>
+                    <Grid item>
+                        <Box style={{ display: 'flex' }}>
+                            <InfoIcon color='primary' style={{ paddingRight: '5px' }} />
+                            <Typography>最大検索件数は1000件です</Typography>
+                        </Box>
                     </Grid>
                     <Grid item>
                         <Grid container spacing={3} justifyContent="center">
