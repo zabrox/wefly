@@ -24,10 +24,9 @@ const DatePicker = ({ scatterState, handleDateChange }) => {
 const AdvancedSearchCondition = ({ scatterState }) => {
     const cond = scatterState.searchCondition;
     const variant = judgeMedia().isMobile ? 'caption' : 'body2';
-    const width = judgeMedia().isMobile ? '100%' : '80%';
     return (
-        <Box id='advanced-search-condition' style={{ width: width }}>
-            <Grid container spacing={3} columnSpacing={{ md: 2, sm: 1, xs: 1 }}>
+        <Box style={{ width: '80%' }}>
+            <Grid container id='advanced-search-condition' spacing={1} columnSpacing={{ md: 2, sm: 1, xs: 1 }}>
                 <Grid item md={4} sm={6} xs={6}>
                     <Typography variant={variant}><b>From:</b> {cond.from.format('YYYY-MM-DD')}</Typography>
                 </Grid>
