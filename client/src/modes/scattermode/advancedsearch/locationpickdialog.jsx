@@ -32,9 +32,9 @@ export function LocationPickDialog({ open, onClose, onConfirm }) {
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle>ロケーションを追加</DialogTitle>
+            <DialogTitle>スタート位置を選択</DialogTitle>
             <DialogContent>
-                <MapContainer style={{ height: mapHeight, width: mapWidth }} center={[35.681236, 139.767125]} zoom={5}>
+                <MapContainer style={{ height: mapHeight, width: mapWidth }} center={[35.681236, 139.767125]} zoom={7}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <MapWithSelection />
                 </MapContainer>

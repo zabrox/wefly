@@ -8,7 +8,7 @@ export class SearchCondition {
     distance = undefined;
     duration = undefined;
     activity = new Set();
-    bounds = [];
+    bounds = undefined;
 
     constructor(arg) {
         if (arg instanceof SearchCondition) {
@@ -30,6 +30,6 @@ export class SearchCondition {
             this.distance !== undefined ||
             this.duration !== undefined ||
             this.activity.size !== 0 ||
-            this.bounds.length !== 0;
+            this.bounds !== undefined;
     }
 }
