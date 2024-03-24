@@ -9,7 +9,7 @@ export const loadMetadatas = async (searchCondition) => {
     const metadatasurl = `${import.meta.env.VITE_API_URL}/tracks/metadata`;
     try {
         console.time('loadTracks');
-        const bounds = searchCondition.bounds.flat().join(',');
+        const bounds = searchCondition.bounds ? searchCondition.bounds.flat().join(',') : undefined;
         const response = await axios({
             method: "get",
             url: metadatasurl, 

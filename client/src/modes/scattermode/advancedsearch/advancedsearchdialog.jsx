@@ -57,6 +57,11 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
         copySearchCondition.bounds = [[bounds[0][1], bounds[0][0]], [bounds[1][1], bounds[1][0]]];
         setSearchCondition(copySearchCondition);
     }, [searchCondition]);
+    const handleClearLocation = React.useCallback(() => {
+        const copySearchCondition = new SearchCondition(searchCondition);
+        copySearchCondition.bounds = undefined;
+        setSearchCondition(copySearchCondition);
+    }, [searchCondition]);
 
     return (
         <Dialog open={show} >
@@ -105,11 +110,20 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
                             defaultValue={searchCondition.duration} />
                     </Grid>
                     <Grid item>
-                        <Typography>ロケーション検索</Typography>
-                        <Button onClick={() => setShowLocationPickDialog(true)}>ロケーションを追加</Button>
+                        <Typography>スタート位置で検索</Typography>
+                    </Grid>
+                    <Grid item>
+                        <Button onClick={() => setShowLocationPickDialog(true)}>ロケーションを選択</Button>
+                        <Button onClick={handleClearLocation}>クリア</Button>
                         <LocationPickDialog open={showLocationPickDialog}
                             onClose={React.useCallback(() => { setShowLocationPickDialog(false) }, [])}
                             onConfirm={handleLocationSelect} />
+                    </Grid>
+                    <Grid item>
+                        <TextField label="緯度" size='small' value={searchCondition.bounds ? searchCondition.bounds[0][1] : ""} />
+                    </Grid>
+                    <Grid item>
+                        <TextField label="経度" size='small' value={searchCondition.bounds ? searchCondition.bounds[0][0] : ""} />
                     </Grid>
                     <Grid item>
                         <Box style={{ display: 'flex' }}>
