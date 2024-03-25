@@ -12,19 +12,19 @@ export function LocationPickDialog({ searchCondition, open, onClose, onConfirm }
     const minBoundsSize = 0.02;
     const maxBoundsSize = 1.0;
 
-    const center = bounds ? [(bounds[0][0] + bounds[1][0]) / 2, (bounds[0][1] + bounds[1][1]) / 2] : [35.681236, 139.767125];
+    const center = bounds ? [(bounds[0][1] + bounds[1][1]) / 2, (bounds[0][0] + bounds[1][0]) / 2] : [35.681236, 139.767125];
 
     const MapWithSelection = () => {
         useMapEvents({
             click(e) {
                 const { lat, lng } = e.latlng;
                 setBounds([
-                    [lat - boundsSize / 2, lng - boundsSize / 2],
-                    [lat + boundsSize / 2, lng + boundsSize / 2]]);
+                    [lng - boundsSize / 2, lat - boundsSize / 2],
+                    [lng + boundsSize / 2, lat + boundsSize / 2]]);
             },
         }, [boundsSize]);
 
-        return bounds ? <Rectangle bounds={bounds} editable={true} /> : null;
+        return bounds ? <Rectangle bounds={[[bounds[0][1], bounds[0][0]], [bounds[1][1], bounds[1][0]]]} editable={true} /> : null;
     };
 
     const handleSliderChange = React.useCallback((e, newValue) => {
