@@ -66,7 +66,8 @@ describe('MetadataPerpetuator', () => {
             pilotname: 'John Doe',
             maxAltitude: 1000,
             distance: 100,
-            duration: 60
+            duration: 60,
+            bounds: [],
         };
 
         const result = await (new MetadataPerpetuator).fetch(searchCondition);
@@ -82,6 +83,7 @@ describe('MetadataPerpetuator', () => {
         const searchCondition = {
             fromDate: dayjs('2024-01-01 12:00:00'),
             toDate: dayjs('2024-01-31 12:00:00'),
+            bounds: [],
         };
 
         const result = await (new MetadataPerpetuator).fetch(searchCondition);
@@ -100,6 +102,7 @@ describe('MetadataPerpetuator', () => {
         const searchCondition = {
             fromDate: dayjs('2024-01-01 12:00:00'),
             toDate: dayjs('2024-01-31 12:00:00'),
+            bounds: [],
         };
 
         const result = await (new MetadataPerpetuator).fetch(searchCondition);
