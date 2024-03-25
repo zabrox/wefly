@@ -35,25 +35,23 @@ function distance(point1, point2) {
     return Cartesian3.distance(c1, c2);
 }
 
-async function findArea(tracks) {
+async function findArea(track) {
     const areas = await loadAreasFromCupFile();
 
-    tracks.forEach(track => {
-        let closestArea = null;
-        let minDistance = Infinity;
+    let closestArea = null;
+    let minDistance = Infinity;
 
-        areas.forEach(area => {
-            const d = distance(track.path.points[0], area.position);
-            if (d < minDistance) {
-                closestArea = area;
-                minDistance = d;
-            }
-        });
-
-        if (minDistance <= AREA_RADIUS) {
-            track.metadata.area = closestArea.areaName;
+    areas.forEach(area => {
+        const d = distance(track.path.points[0], area.position);
+        if (d < minDistance) {
+            closestArea = area;
+            minDistance = d;
         }
     });
+
+    if (minDistance <= AREA_RADIUS) {
+        track.metadata.area = closestArea.areaName;
+    }
 }
 
 module.exports = { findArea };
