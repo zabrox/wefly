@@ -9,8 +9,11 @@ const endpoint = 'https://www.wefly.tokyo/api/tracks';
 async function saveTracks(date, tracks) {
     for (const track of tracks) {
         await parseIgc(date, track);
+        if(track.path.points.length === 0) {
+            console.log(`No points in track ${track.getId()}`);
+            continue;
+        }
         await findArea(track);
-        tracks = tracks.filter(track => track.path.points.length > 0);
         try {
             await axios.post(endpoint, track);
         } catch (error) {
