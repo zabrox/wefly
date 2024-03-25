@@ -52,11 +52,9 @@ class IGCParser {
     }
 }
 
-async function parseIgcs(date, tracks) {
-    for (const track of tracks) {
-        const parser = new IGCParser();
-        await parser.parseIGC(date, track);
-    }
+async function parseIgc(date, track) {
+    const parser = new IGCParser();
+    await parser.parseIGC(date, track);
 }
 
-module.exports = { parseIgcs };
+module.exports = { parseIgc };

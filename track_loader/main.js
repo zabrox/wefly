@@ -6,12 +6,8 @@ const { parseTrackListPage } = require('./trackListPageParser.js');
 const { loadTrackPages } = require('./trackPageLoader.js');
 const { parseTrackPages } = require('./trackPageParser.js');
 const { loadIgcs } = require('./igcLoader.js');
-const { parseIgcs } = require('./igcParser.js');
-const { findArea } = require('./areaFinder.js');
 const { saveTracks } = require('./saveTracks.js');
 const { loadPilotIcons } = require('./piloticonLoader.js');
-
-const sleep = (second) => new Promise(resolve => setTimeout(resolve, second * 1000));
 
 async function loadTracks(date, opts) {
     if (!opts.nodownload) {
@@ -30,12 +26,8 @@ async function loadTracks(date, opts) {
     if (!opts.nodownload) {
         await loadIgcs(date, tracks, opts);
     }
-    await parseIgcs(date, tracks);
-    tracks = tracks.filter(track => track.path.points.length > 0);
-
-    await findArea(tracks);
     await loadPilotIcons(tracks);
-    await saveTracks(tracks);
+    await saveTracks(date, tracks);
 }
 
 async function main() {
