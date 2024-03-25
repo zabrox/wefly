@@ -115,8 +115,10 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
                     <Grid item>
                         <Button onClick={() => setShowLocationPickDialog(true)}>ロケーションを選択</Button>
                         <Button onClick={handleClearLocation}>クリア</Button>
-                        <LocationPickDialog open={showLocationPickDialog}
-                            onClose={React.useCallback(() => { setShowLocationPickDialog(false) }, [])}
+                        <LocationPickDialog
+                            searchCondition={searchCondition}
+                            open={showLocationPickDialog}
+                            onClose={() => { setShowLocationPickDialog(false) }}
                             onConfirm={handleLocationSelect} />
                     </Grid>
                     <Grid item>

@@ -92,6 +92,7 @@ describe('GET /api/tracks/metadata', () => {
             1000,
             100,
             100,
+            [],
         ));
         expect(Metadata.deserialize(response.body[0])).toEqual(metadata1);
         expect(Metadata.deserialize(response.body[1])).toEqual(metadata2);
@@ -113,6 +114,7 @@ describe('GET /api/tracks/metadata', () => {
             NaN,
             NaN,
             NaN,
+            [],
         ));
         expect(response.text).toBe('No tracks found.');
     });
