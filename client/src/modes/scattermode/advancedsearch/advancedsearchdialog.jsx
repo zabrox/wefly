@@ -54,7 +54,7 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
     }, [scatterState, searchCondition]);
     const handleLocationSelect = React.useCallback((bounds) => {
         const copySearchCondition = new SearchCondition(searchCondition);
-        copySearchCondition.bounds = [[bounds[0][1], bounds[0][0]], [bounds[1][1], bounds[1][0]]];
+        copySearchCondition.bounds = bounds;
         setSearchCondition(copySearchCondition);
     }, [searchCondition]);
     const handleClearLocation = React.useCallback(() => {

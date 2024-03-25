@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Card, CardHeader, CardContent, Typography } from '@mui/material';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Collapse from '@mui/material/Collapse';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ActivityIcon } from '../../util/activityicon';
@@ -53,7 +53,7 @@ export const TrackPointStatsOverlay = ({ scatterState, setScatterState }) => {
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <ActivityIcon track={selectedTrack} size={23} />
                         <Typography variant='h6' style={{ paddingLeft: '5px' }}>{selectedTrack.metadata.pilotname}</Typography>
-                        <VisibilityIcon style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={handleVisibilityChange} />
+                        <VisibilityOffIcon style={{ marginLeft: 'auto', marginRight: '20px' }} onClick={handleVisibilityChange} />
                         <ExpandStatsButton expanded={expanded} onExpand={handleExpand} />
                     </div>
                 }

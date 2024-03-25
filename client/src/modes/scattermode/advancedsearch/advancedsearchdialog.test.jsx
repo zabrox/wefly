@@ -57,7 +57,7 @@ describe('AdvancedSearchDialog', () => {
             </LocalizationProvider>
         );
 
-        fireEvent.click(screen.getByText('キャンセル'));
+        fireEvent.click(screen.getByText('CANCEL'));
 
         expect(mockSetShow).toHaveBeenCalledWith(false);
     });
