@@ -22,6 +22,7 @@ export const loadMetadatas = async (searchCondition) => {
                 distance: searchCondition.distance,
                 duration: searchCondition.duration,
                 bounds: bounds,
+                activities: Array.from(searchCondition.activities).join(','),
             }
         });
         console.timeEnd('loadTracks');

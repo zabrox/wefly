@@ -95,7 +95,8 @@ describe('AdvancedSearchDialog', () => {
             maxAltitude: '1000',
             distance: '50',
             duration: '30',
-            activity: new Set(),
+            bounds: undefined,
+            activities: ["Paraglider", "Hangglider", "Glider", "Other"],
         });
     });
 });
