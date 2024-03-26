@@ -4,12 +4,9 @@ import { Dialog, DialogContent, DialogActions, DialogTitle, TextField, Grid, But
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { SearchCondition } from '../searchcondition';
 import InfoIcon from '@mui/icons-material/Info';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import ParagliderIcon from '/images/paraglider.svg';
-import GliderIcon from '/images/glider.svg';
-import HanggliderIcon from '/images/hangglider.svg';
-import './advancedsearchdialog.css';
+import { ActivitiesSearch } from './activitiessearch';
 import { LocationPickDialog } from './locationpickdialog';
+import './advancedsearchdialog.css';
 
 export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) => {
     const [searchCondition, setSearchCondition] = React.useState(new SearchCondition(scatterState.searchCondition));
@@ -82,6 +79,7 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
                             format="YYYY-MM-DD (ddd)"
                             onChange={handleToDateChange} />
                     </Grid>
+                    <ActivitiesSearch searchCondition={searchCondition} setSearchCondition={setSearchCondition} />
                     <Grid item>
                         <TextField
                             label="パイロット名"

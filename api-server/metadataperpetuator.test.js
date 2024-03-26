@@ -68,13 +68,15 @@ describe('MetadataPerpetuator', () => {
             distance: 100,
             duration: 60,
             bounds: [],
+            activities: ['Paraglider', 'Hangglider'],
         };
 
         const result = await (new MetadataPerpetuator).fetch(searchCondition);
 
         expect(mockCreateQueryJob.mock.calls[0][0].query.replaceAll(/\s+/g, ' ')).toStrictEqual(
             `SELECT * FROM \`${datasetId}.${tableId}\` WHERE
-            startTime >= '2024-01-01 12:00:00' AND startTime <= '2024-01-31 12:00:00' AND pilotname = 'John Doe' AND maxAltitude >= 1000 AND distance >= 100 AND duration >= 60 LIMIT 1000`.replaceAll(/\s+/g, ' ')
+            startTime >= '2024-01-01 12:00:00' AND startTime <= '2024-01-31 12:00:00' AND pilotname = 'John Doe' AND maxAltitude >= 1000 AND distance >= 100 AND duration >= 60 
+            AND (activity = 'Paraglider' OR activity = 'Flex wing FAI1' OR activity = 'Rigid wing FAI5') LIMIT 1000`.replaceAll(/\s+/g, ' ')
         );
         expect(result).toEqual([{ pilotname: 'John Doe' }]);
     });
@@ -84,6 +86,7 @@ describe('MetadataPerpetuator', () => {
             fromDate: dayjs('2024-01-01 12:00:00'),
             toDate: dayjs('2024-01-31 12:00:00'),
             bounds: [],
+            activities: [],
         };
 
         const result = await (new MetadataPerpetuator).fetch(searchCondition);
@@ -103,6 +106,7 @@ describe('MetadataPerpetuator', () => {
             fromDate: dayjs('2024-01-01 12:00:00'),
             toDate: dayjs('2024-01-31 12:00:00'),
             bounds: [],
+            activities: [],
         };
 
         const result = await (new MetadataPerpetuator).fetch(searchCondition);

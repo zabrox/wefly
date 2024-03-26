@@ -38,7 +38,6 @@ const fetchMetadata = async (searchCondition) => {
 }
 
 const parseBounds = (boundsQuery) => {
-    console.log(boundsQuery);
     if (boundsQuery === undefined) {
         return [];
     }
@@ -46,12 +45,13 @@ const parseBounds = (boundsQuery) => {
     if (bounds.length % 4 !== 0) {
         return [];
     }
-    const ret = [];
-    for (let i = 0; i < bounds.length; i += 4) {
-        ret.push([[bounds[i], bounds[i + 1]], [bounds[i + 2], bounds[i + 3]]]);
+    return [[bounds[0], bounds[1]], [bounds[2], bounds[3]]];
+}
+const parseActivities = (activitiesQuery) => {
+    if (activitiesQuery === undefined) {
+        return [];
     }
-    console.log(ret);
-    return ret;
+    return activitiesQuery.split(',');
 }
 
 const getMetadata = async (req, res) => {
@@ -66,6 +66,7 @@ const getMetadata = async (req, res) => {
             parseFloat(req.query.distance),
             parseInt(req.query.duration),
             parseBounds(req.query.bounds),
+            parseActivities(req.query.activities),
         );
         console.log(searchCondition);
         const metadatas = await fetchMetadata(searchCondition);

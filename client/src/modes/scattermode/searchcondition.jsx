@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 
+const defaultActivities = ['Paraglider', 'Hangglider', 'Glider', 'Other'];
+
 export class SearchCondition {
     from = dayjs().startOf('day');
     to = dayjs().endOf('day');
@@ -7,8 +9,8 @@ export class SearchCondition {
     maxAltitude = undefined;
     distance = undefined;
     duration = undefined;
-    activity = new Set();
     bounds = undefined;
+    activities = defaultActivities;
 
     constructor(arg) {
         if (arg instanceof SearchCondition) {
@@ -18,8 +20,8 @@ export class SearchCondition {
             this.maxAltitude = arg.maxAltitude;
             this.distance = arg.distance;
             this.duration = arg.duration;
-            this.activity = new Set(arg.activity);
             this.bounds = arg.bounds;
+            this.activities = arg.activities;
         }
     }
 
@@ -29,7 +31,7 @@ export class SearchCondition {
             this.maxAltitude !== undefined ||
             this.distance !== undefined ||
             this.duration !== undefined ||
-            this.activity.size !== 0 ||
+            this.activities != defaultActivities ||
             this.bounds !== undefined;
     }
 }
