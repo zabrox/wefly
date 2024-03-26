@@ -21,6 +21,12 @@ describe('TrackLoader', () => {
             const searchCondition = new SearchCondition();
             searchCondition.from = date.startOf('day');
             searchCondition.to = date.endOf('day');
+            searchCondition.pilotname = 'Takase';
+            searchCondition.maxAltitude = 1000;
+            searchCondition.distance = 100;
+            searchCondition.duration = 60;
+            searchCondition.bounds = [[-122.42000, 37.77000], [-122.40000, 37.78000]];
+            searchCondition.activities = new Set(['Paraglider', 'Hangglider']);
             const metadatasurl = `${import.meta.env.VITE_API_URL}/tracks/metadata`;
             const metadata1 = Metadata.deserialize({ pilotname: 'Takase', distance: 123, duration: 60, area: 'Asagiri' });
             const metadata2 = Metadata.deserialize({ pilotname: 'Hirayama', distance: 2, duration: 3, area: 'Ongata' });
@@ -41,10 +47,12 @@ describe('TrackLoader', () => {
                 params: {
                     from: "2022-01-01T00:00:00+09:00",
                     to: "2022-01-01T23:59:59+09:00",
-                    pilotname: "",
-                    maxAltitude: undefined,
-                    distance: undefined,
-                    duration: undefined,
+                    pilotname: "Takase",
+                    maxAltitude: 1000,
+                    distance: 100,
+                    duration: 60,
+                    bounds: "-122.42,37.77,-122.4,37.78",
+                    activities: "Paraglider,Hangglider",
                 }
             });
             expect(metadatas).toEqual([
@@ -75,6 +83,8 @@ describe('TrackLoader', () => {
                     maxAltitude: undefined,
                     distance: undefined,
                     duration: undefined,
+                    bounds: undefined,
+                    activities: "Paraglider,Hangglider,Glider,Other",
                 }
             });
         });

@@ -82,6 +82,8 @@ describe('GET /api/tracks/metadata', () => {
                 maxAltitude: 1000,
                 distance: 100,
                 duration: 100,
+                bounds: '-122.42000,37.77000,-122.40000,37.78000',
+                activities: 'Paraglider,Hangglider',
             })
             .expect(200);
 
@@ -92,7 +94,8 @@ describe('GET /api/tracks/metadata', () => {
             1000,
             100,
             100,
-            [],
+            [[-122.42, 37.77], [-122.4, 37.78]],
+            ["Paraglider", "Hangglider"],
         ));
         expect(Metadata.deserialize(response.body[0])).toEqual(metadata1);
         expect(Metadata.deserialize(response.body[1])).toEqual(metadata2);
@@ -114,6 +117,7 @@ describe('GET /api/tracks/metadata', () => {
             NaN,
             NaN,
             NaN,
+            [],
             [],
         ));
         expect(response.text).toBe('No tracks found.');

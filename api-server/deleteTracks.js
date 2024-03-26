@@ -27,7 +27,6 @@ async function deleteFromPg(tracks) {
 
     // delete existing path data
     const deleteQuery = `DELETE FROM path WHERE trackid IN (${tracks.join(',')});`;
-    console.log(deleteQuery);
     try {
         await client.query(deleteQuery);
     } catch (error) {

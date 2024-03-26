@@ -47,11 +47,26 @@ class MetadataPerpetuator {
             query += ` AND duration >= ${searchCondition.duration}`;
         }
         if (searchCondition.bounds.length > 0) {
-            searchCondition.bounds.forEach((bound) => {
-                query += ` AND startLongitude >= ${bound[0][0]} AND startLongitude <= ${bound[1][0]}`;
-                query += ` AND startLatitude >= ${bound[0][1]} AND startLatitude <= ${bound[1][1]}`;
-            });
+            query += ` AND startLongitude >= ${bounds[0][0]} AND startLongitude <= ${bounds[1][0]}`;
+            query += ` AND startLatitude >= ${bounds[0][1]} AND startLatitude <= ${bounds[1][1]}`;
         }
+        if (searchCondition.activities.length > 0) {
+            let activities = searchCondition.activities;
+            if (activities.includes('Hangglider')) {
+                activities = activities.filter(activity => activity !== 'Hangglider');
+                activities.push('Flex wing FAI1');
+                activities.push('Rigid wing FAI5');
+            }
+            query += ` AND (`;
+            activities.forEach((activity, index) => {
+                if (index !== 0) {
+                    query += ` OR `;
+                }
+                query += `activity = '${activity}'`;
+            });
+            query += `)`;
+        }
+
         query += ` LIMIT ${QUERY_LIMIT}`;
         const [job] = await bigQuery.createQueryJob({ query: query });
         const [rows] = await job.getQueryResults();
