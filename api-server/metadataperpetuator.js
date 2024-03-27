@@ -47,6 +47,7 @@ class MetadataPerpetuator {
             query += ` AND duration >= ${searchCondition.duration}`;
         }
         if (searchCondition.bounds.length > 0) {
+            const bounds = searchCondition.bounds;
             query += ` AND startLongitude >= ${bounds[0][0]} AND startLongitude <= ${bounds[1][0]}`;
             query += ` AND startLatitude >= ${bounds[0][1]} AND startLatitude <= ${bounds[1][1]}`;
         }

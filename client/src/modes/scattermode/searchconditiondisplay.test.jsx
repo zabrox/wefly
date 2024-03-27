@@ -3,7 +3,7 @@ import { describe, it, expect, afterEach, vi } from 'vitest';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
-import { SearchCondition } from './datepicker';
+import { SearchConditionDisplay } from './searchconditiondisplay';
 import { loadTracks } from './trackloader';
 import { TrackGroupSelection } from './trackGroupSelection';
 import { TrackPoint } from './trackpoint';
@@ -35,7 +35,7 @@ describe('SearchCondition', () => {
 
         render(
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <SearchCondition
+                <SearchConditionDisplay
                     state={state}
                     setState={setState}
                     scatterState={scatterState}
@@ -71,7 +71,7 @@ describe('SearchCondition', () => {
 
         render(
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <SearchCondition
+                <SearchConditionDisplay
                     state={state}
                     setState={setState}
                     scatterState={scatterState}
@@ -116,7 +116,7 @@ describe('SearchCondition', () => {
         const setScatterState = vi.fn();
 
         render(
-            <SearchCondition
+            <SearchConditionDisplay
                 state={state}
                 setState={setState}
                 scatterState={scatterState}
@@ -145,7 +145,7 @@ describe('SearchCondition', () => {
 
         render(
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <SearchCondition
+                <SearchConditionDisplay
                     state={state}
                     setState={setState}
                     scatterState={scatterState}
