@@ -68,7 +68,6 @@ const getMetadata = async (req, res) => {
             parseBounds(req.query.bounds),
             parseActivities(req.query.activities),
         );
-        console.log(searchCondition);
         const metadatas = await fetchMetadata(searchCondition);
         if (metadatas.length === 0) {
             res.status(404).send('No tracks found.');
