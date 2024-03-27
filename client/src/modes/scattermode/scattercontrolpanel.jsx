@@ -7,7 +7,7 @@ import * as CesiumMap from '../../cesiummap';
 import { ScatterMap } from './scattermap';
 import { TrackListHeader } from './tracklistheader';
 import { TrackListBody } from './tracklistbody';
-import { SearchCondition } from './datepicker';
+import { SearchConditionDisplay } from './searchconditiondisplay';
 import { TrackGroupSelection } from './trackGroupSelection';
 import { loadPaths } from './trackloader';
 import * as Mode from '../mode';
@@ -96,7 +96,7 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
 
     return (
         <div id='scatter-control-panel'>
-            <SearchCondition
+            <SearchConditionDisplay
                 state={state}
                 setState={setState}
                 scatterState={scatterState}

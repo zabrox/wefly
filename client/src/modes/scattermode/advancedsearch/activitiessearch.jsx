@@ -1,3 +1,4 @@
+import React from 'react';
 import { Grid, ToggleButtonGroup, ToggleButton } from '@mui/material';
 import { SearchCondition } from '../searchcondition';
 import ParagliderIcon from '/images/paraglider.svg';
@@ -12,11 +13,11 @@ const activities = [
 ];
 
 export const ActivitiesSearch = ({ searchCondition, setSearchCondition }) => {
-    const handleSelectionChange = (e, value) => {
+    const handleSelectionChange = React.useCallback((e, value) => {
         const copySearchCondition = new SearchCondition(searchCondition);
         copySearchCondition.activities = value;
         setSearchCondition(copySearchCondition);
-    }
+    }, [searchCondition]);
     return (
         <Grid item>
             <ToggleButtonGroup size='small'

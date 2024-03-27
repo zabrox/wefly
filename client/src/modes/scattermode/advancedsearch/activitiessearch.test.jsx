@@ -11,9 +11,10 @@ describe('ActivitiesSearch', () => {
     });
 
     it('updates search condition on selection change', () => {
-        const searchCondition = {
-            activities: [],
-        };
+        const searchCondition = new SearchCondition();
+        searchCondition.activities = [];
+        searchCondition.from = dayjs("2024-03-25T15:00:00.000Z");
+        searchCondition.to = dayjs("2024-03-26T14:59:59.999Z");
         const setSearchCondition = vi.fn();
 
         render(
@@ -40,9 +41,10 @@ describe('ActivitiesSearch', () => {
     });
 
     it('toggles search condition on selection change', () => {
-        const searchCondition = {
-            activities: ['Paraglider', 'Hangglider', 'Glider', 'Other'],
-        };
+        const searchCondition = new SearchCondition();
+        searchCondition.activities = ['Paraglider', 'Hangglider', 'Glider', 'Other'],
+        searchCondition.from = dayjs("2024-03-25T15:00:00.000Z");
+        searchCondition.to = dayjs("2024-03-26T14:59:59.999Z");
         const setSearchCondition = vi.fn();
 
         render(
