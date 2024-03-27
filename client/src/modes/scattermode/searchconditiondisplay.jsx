@@ -10,12 +10,13 @@ import { TrackPoint } from './trackpoint';
 import { AdvancedSearchDialog } from './advancedsearch/advancedsearchdialog';
 import { judgeMedia } from '../../util/media'
 import * as CesiumMap from '../../cesiummap';
-import './datepicker.css';
+import './searchconditiondisplay.css';
 
 const DatePicker = ({ scatterState, handleDateChange }) => {
+    console.log(scatterState.searchCondition.from.format('YYYY-MM-DD (ddd)'));
     return (
         <DesktopDatePicker
-            defaultValue={scatterState.searchCondition.from}
+            value={scatterState.searchCondition.from}
             format="YYYY-MM-DD (ddd)"
             onChange={handleDateChange} />
     );
@@ -50,7 +51,7 @@ const AdvancedSearchCondition = ({ scatterState }) => {
     );
 }
 
-export const SearchCondition = ({ state, setState, scatterState, setScatterState }) => {
+export const SearchConditionDisplay = ({ state, setState, scatterState, setScatterState }) => {
     const [showAdvancedSearchDialog, setShowAdvancedSearchDialog] = React.useState(false);
 
     React.useEffect(() => {
