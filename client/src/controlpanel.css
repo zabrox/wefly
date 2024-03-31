@@ -18,11 +18,3 @@
     pointer-events: all;
 }
 
-
-#app-bar {
-    height: 9%;
-}
-#title {
-    margin: auto;
-    padding: 10px 20px;
-}
