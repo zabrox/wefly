@@ -3,7 +3,6 @@ import { Dialog, DialogContent, Typography } from '@mui/material';
 
 export const AboutDialog = ({ open, setOpen }) => {
     const handleClose = React.useCallback(() => {
-        console.log('handleClose');
         setOpen(false);
     }, [open]);
 
@@ -15,12 +14,11 @@ export const AboutDialog = ({ open, setOpen }) => {
                 </Typography>
                 <Typography component={'span'} variant="body2" gutterBottom>
                     WeFlyはパラグライダー・ハンググライダー・グライダーパイロットのためのフライトログ閲覧、分析プラットフォームです。<br />
-                    過去のトラックを様々な条件で検索し、3D Mapに表示することができます。<br />
-                    WeFlyを使うことでパイロットが抱える以下のような「？」を解決する手助けになれば幸いです。<br />
+                    WeFlyを使うことでパイロットが抱える次のような様々なニーズを満たすことができたら幸いです。<br />
                     <ul>
-                        <li>今日仕事で飛べなかったんだけどコンディション良さそうだったな。みんなどんなフライトをしたんだろう？</li>
-                        <li>来週初めて〇〇のエリアで飛ぶんだけど、どういう飛び方をすればいいのかな？</li>
-                        <li>〇〇さんと一緒に飛んでたのに自分だけ高度を失ってしまった。自分の飛びのどこが悪かったんだろう？</li>
+                        <li>今日のみんなの飛びをチェックして、すごいフライトをした人を見つけたい</li>
+                        <li>100kmを超えるビッグフライトを検索して、自分のフライトに活かしたい</li>
+                        <li>来週初めてのエリアで飛ぶんだけど、どういう飛び方をすればいいのか予習したい</li>
                     </ul>
                 </Typography>
 
@@ -37,7 +35,7 @@ export const AboutDialog = ({ open, setOpen }) => {
                 </Typography>
                 <Typography variant="body2" gutterBottom>
                     WeFlyは個人的なプロジェクトであり、機能開発やバグ修正には時間を要することがあります。<br />
-                    継続的な運営のために、様々なご協力をお願いすることもあるかと思いますが、ご容赦ください。
+                    継続的な運営のために、様々なご協力をお願いすることもあるかと思いますが、よろしくお願いいたします。<br />
                 </Typography>
 
                 <Typography variant="caption">
