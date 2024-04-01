@@ -88,4 +88,57 @@ describe('ScatterActionDial', () => {
             actionTargetTracks: mockTracksInPerspective,
         });
     });
+
+    it('displays an error message when no tracks are selected', async () => {
+        const mockSetState = vi.fn();
+        const mockSelectedTracks = new Set();
+        const mockTracks = [
+            { getId: () => "Takase_20240203120000" },
+            { getId: () => "Hirayama_20240203100000" },
+            { getId: () => "Okuda_20240203110000" }];
+
+        render(
+            <ScatterActionDial
+                state={{ controlPanelSize: 100, tracks: mockTracks }}
+                setState={mockSetState}
+                scatterState={{ selectedTracks: mockSelectedTracks }}
+            />
+        );
+
+        const actionDial = screen.getByRole('button', { name: 'Scatter Mode Action Dial' });
+        fireEvent.click(actionDial);
+
+        const playbackSelected = screen.getByText('選択中のトラックを再生');
+        fireEvent.click(playbackSelected);
+
+        const errorMessage = screen.getByText('再生するトラックを選択してください');
+        expect(errorMessage).toBeInTheDocument();
+    });
+
+    it('displays an error message when no tracks are in perspective', async () => {
+        const mockSetState = vi.fn();
+        const mockSelectedTracks = new Set();
+        const mockTracks = [
+            { getId: () => "Takase_20240203120000" },
+            { getId: () => "Hirayama_20240203100000" },
+            { getId: () => "Okuda_20240203110000" }];
+        scattermap.getTracksInPerspective.mockReturnValue([]);
+
+        render(
+            <ScatterActionDial
+                state={{ controlPanelSize: 100, tracks: mockTracks }}
+                setState={mockSetState}
+                scatterState={{ selectedTracks: mockSelectedTracks }}
+            />
+        );
+
+        const actionDial = screen.getByRole('button', { name: 'Scatter Mode Action Dial' });
+        fireEvent.click(actionDial);
+
+        const playbackPerspective = screen.getByText('視野内のトラックを再生');
+        fireEvent.click(playbackPerspective);
+
+        const errorMessage = screen.getByText('視野内に再生可能なトラックがありません');
+        expect(errorMessage).toBeInTheDocument();
+    });
 });
