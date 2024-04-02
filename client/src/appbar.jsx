@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, AppBar, Typography, Toolbar, Drawer, IconButton } from '@mui/material';
 import { List, ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AboutDialog } from './aboutdialog';
 import './appbar.css';
@@ -28,6 +29,17 @@ export const WeflyAppBar = () => {
                                     <HelpOutlineIcon />
                                 </ListItemIcon>
                                 <ListItemText primary="WeFlyについて" />
+                            </ListItemButton>
+                            <ListItemButton>
+                                <a href='https://note.com/parazabro/n/n2fe683bd7b0c'
+                                    target='_blank'
+                                    rel='noreferrer noopener'
+                                    style={{ textDecoration: 'none', display: 'flex',  }}>
+                                    <ListItemIcon>
+                                        <LightbulbIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="使い方" />
+                                </a>
                             </ListItemButton>
                         </List>
                         <AboutDialog open={aboutDialogOpen} setOpen={setAboutDialogOpen} />
