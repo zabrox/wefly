@@ -192,7 +192,7 @@ const createPilotLabels = (track, positionProperty) => {
         trackid: track.getId(),
         label: {
             text: track.metadata.pilotname,
-            font: '30px Arial',
+            font: '25px Arial',
             verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
             pixelOffset: new Cesium.Cartesian2(0, -25), // Adjust as needed
             fillColor: Cesium.Color.BLACK,

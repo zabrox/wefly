@@ -1,16 +1,14 @@
 import React from 'react';
-import { Box, SpeedDial, SpeedDialAction, Snackbar, Alert } from '@mui/material';
+import { Box, SpeedDial, SpeedDialAction } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { getTracksInPerspective, leaveScatterMode } from './scattermap';
 import * as Mode from '../mode';
 
 export const ScatterActionDial = ({ state, setState, scatterState }) => {
-    const [errorMessage, setErrorMessage] = React.useState('');
-
     const handlePlayback = React.useCallback((tracks, errorMessage) => {
         if (tracks.length === 0) {
-            setErrorMessage(errorMessage);
+            setState({ ...state, errorMessage: errorMessage });
             return;
         }
         leaveScatterMode();
@@ -50,11 +48,6 @@ export const ScatterActionDial = ({ state, setState, scatterState }) => {
                     onClick={handlePlaybackInPerspective}
                 />
             </SpeedDial>
-            <Snackbar open={errorMessage !== ''}
-                onClose={() => setErrorMessage('')}
-                autoHideDuration={3000}>
-                <Alert severity='error'>{errorMessage}</Alert>
-            </Snackbar>
         </Box>
     );
 }
