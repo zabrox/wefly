@@ -16,7 +16,7 @@ const createContextForPast = (canvas) => {
 }
 const createContextForFuture = (canvas) => {
     const context = canvas.getContext('2d');
-    context.strokeStyle = "rgba(200,200,200,0.5)";
+    context.strokeStyle = "rgba(128,128,128,0.5)";
     context.lineWidth = 1;
     const lineargradient = context.createLinearGradient(0, 0, 0, canvas.height);
     lineargradient.addColorStop(0, "rgba(200,200,200,0.5)");
