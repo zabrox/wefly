@@ -275,9 +275,6 @@ export const getTracksInPerspective = (tracks) => {
 export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatterState }) => {
     React.useEffect(() => {
         registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick, state.tracks, state.trackGroups);
-        // register callbacks on click for E2E test
-        // window.selectTrackGroup = (groupid) => onTrackGroupClick(groupid, state.trackGroups);
-        // window.selectTrackPoint = (trackid) => onTrackPointClick(trackid, state.tracks);
     }, [state, scatterState.selectedTrackGroups, scatterState.selectedTracks]);
     React.useEffect(() => {
         registerEventListenerOnCameraMove(state.tracks,
