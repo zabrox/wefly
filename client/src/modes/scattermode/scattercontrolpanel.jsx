@@ -28,6 +28,7 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
             await loadPaths(tracksInGroup);
         } catch (error) {
             console.error(error);
+            setState(state => { return { ...state, errorMessage: 'トラックのロードに失敗しました。トラックの数が多すぎます。' } });
             setScatterState(scatterState => { return { ...scatterState, loading: false } });
             return;
         }

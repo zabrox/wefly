@@ -34,7 +34,7 @@ export const WeflyAppBar = () => {
                                 <a href='https://note.com/parazabro/n/n2fe683bd7b0c'
                                     target='_blank'
                                     rel='noreferrer noopener'
-                                    style={{ textDecoration: 'none', display: 'flex',  }}>
+                                    style={{ textDecoration: 'none', display: 'flex' }}>
                                     <ListItemIcon>
                                         <LightbulbIcon />
                                     </ListItemIcon>
