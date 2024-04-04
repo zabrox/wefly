@@ -37,11 +37,9 @@ export const TrackListBody = ({ state, scatterState, onTrackClicked }) => {
         return scatterState.order === 'asc' ? sortedTracks : sortedTracks.reverse();
     }, [state, scatterState]);
 
-    const unfilteredTracks = scatterState.selectedTrackGroups.filterTracks(sortedTracks); 
-
     return (
         <TableBody id='track-list-body'>{
-            mapTracksToTableRows(unfilteredTracks, scatterState.selectedTracks, onTrackClicked)
+            mapTracksToTableRows(sortedTracks, scatterState.selectedTracks, onTrackClicked)
         }</TableBody>
     );
 }
