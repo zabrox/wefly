@@ -22,7 +22,7 @@ async function loadIgc(date, track, opts) {
             return;
         }
 
-        const igcUrl = `https://www.livetrack24.com/leo_live.php?op=igc&trackID=${track.livetrackId}`;
+        const igcUrl = `https://www.livetrack24.com/leo_live.php?op=igc&trackID=${track.metadata.liveTrackId}`;
         const response = await axios.get(igcUrl, {
             responseType: 'arraybuffer',
             httpAgent,

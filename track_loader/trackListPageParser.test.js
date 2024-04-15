@@ -41,7 +41,7 @@ describe('TrackListPageParser', () => {
         expected.metadata.startTime = undefined;
         expected.metadata.startPosition = undefined;
         expected.metadata.lastPosition = undefined;
-        expected.livetrackId = '2552840';
+        expected.metadata.liveTrackId = '2552840';
         expect(tracks[0]).toStrictEqual(expected);
     });
 

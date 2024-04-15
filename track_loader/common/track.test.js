@@ -9,7 +9,7 @@ dayjs.extend(Timezone);
 test('getId returns the correct ID', () => {
     const metadata = new Metadata();
     metadata.pilotname = 'John Doe';
-    metadata.lastTime = dayjs('2022-01-01 12:34:56');
+    metadata.startTime = dayjs('2022-01-01 12:34:56');
     const track = new Track();
     track.metadata = metadata;
 

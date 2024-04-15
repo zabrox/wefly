@@ -21,7 +21,7 @@ describe('loadTrackPages', () => {
                 }),
             }),
         }));
-        const tracks = [{ getId: jest.fn().mockReturnValue('Takase_12345'), livetrackId: '2552840' }];
+        const tracks = [{ getId: jest.fn().mockReturnValue('Takase_12345'), metadata: { liveTrackId: '2552840' } }];
         const opts = { force: false };
 
         await loadTrackPages('2024-02-08', tracks, opts);
@@ -29,7 +29,7 @@ describe('loadTrackPages', () => {
         expect(axios.get.mock.calls.length).toBe(1);
         expect(axios.get).toBeCalledWith('https://www.livetrack24.com/track/2552840', expect.anything());
         expect(mockUpload.mock.calls.length).toBe(1);
-        expect(mockUpload).toBeCalledWith('./2024-02-08/livetrack24/TrackPage-Takase_12345.html', expect.anything());
+        expect(mockUpload).toBeCalledWith('./2024-02-08/livetrack24/TrackPage-2552840.html', expect.anything());
     });
 
     it('should not download track pages if it already exists', async () => {
@@ -40,7 +40,7 @@ describe('loadTrackPages', () => {
                 }),
             }),
         }));
-        const tracks = [{ getId: jest.fn().mockReturnValue('Takase_12345'), livetrackId: '2552840' }];
+        const tracks = [{ getId: jest.fn().mockReturnValue('Takase_12345'), metadata: { liveTrackId: '2552840' } }];
         const opts = { force: false };
 
         await loadTrackPages('2024-02-08', tracks, opts);
@@ -59,7 +59,7 @@ describe('loadTrackPages', () => {
                 }),
             }),
         }));
-        const tracks = [{ getId: jest.fn().mockReturnValue('Takase_12345'), livetrackId: '2552840' }];
+        const tracks = [{ getId: jest.fn().mockReturnValue('Takase_12345'), metadata: { liveTrackId: '2552840' } }];
         const opts = { force: true };
 
         await loadTrackPages('2024-02-08', tracks, opts);
@@ -67,6 +67,6 @@ describe('loadTrackPages', () => {
         expect(axios.get.mock.calls.length).toBe(1);
         expect(axios.get).toBeCalledWith('https://www.livetrack24.com/track/2552840', expect.anything());
         expect(mockUpload.mock.calls.length).toBe(1);
-        expect(mockUpload).toBeCalledWith('./2024-02-08/livetrack24/TrackPage-Takase_12345.html', expect.anything());
+        expect(mockUpload).toBeCalledWith('./2024-02-08/livetrack24/TrackPage-2552840.html', expect.anything());
     });
 });
