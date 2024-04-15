@@ -46,7 +46,7 @@ describe('POST /api/tracks', () => {
             .send(track.serialize())
             .expect(200);
 
-        expect(response.text).toBe(`Path data for JohnDoe_20220101123456 saved successfully.`);
+        expect(response.text).toBe(`Path data for JohnDoe_20220101113456 saved successfully.`);
         expect(mockMetadataPerpetuate).toHaveBeenCalledWith(track);
         expect(mockPathPerpetuate).toHaveBeenCalledWith(track);
     });

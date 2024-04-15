@@ -17,7 +17,7 @@ export class Metadata {
     area = "";
 
     getId() {
-        return (this.pilotname + '_' + this.lastTime.utc().format('YYYYMMDDHHmmss')).replace(' ', '');
+        return (this.pilotname + '_' + this.startTime.utc().format('YYYYMMDDHHmmss')).replace(' ', '');
     }
 
     durationString() {

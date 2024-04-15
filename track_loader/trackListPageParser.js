@@ -22,7 +22,7 @@ async function parseTrackRow($, trackRow) {
     track.metadata.duration = parseInt(durationMatch[1]) * 60 + parseInt(durationMatch[2]);
 
     const trackId = $(trackRow).find('td[id^=track_text_]').attr('id').replace('track_text_', '');
-    track.livetrackId = trackId;
+    track.metadata.liveTrackId = trackId;
 
     track.metadata.activity = $(trackRow).find('img.activityImg').attr('alt');
 
