@@ -50,9 +50,9 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
         const span = duration / cellNumber;
         const cells = [];
         while (time.isBefore(track.path.times[track.path.times.length - 1])) {
+            const index = parseInt(cellNumber * time.diff(start, 'seconds') / duration);
             const height = timelineCanvas.current.height * stats.getAverageAltitude(time, time.add(span, 'seconds')) / track.metadata.maxAltitude;
-            const position = timelineCanvas.current.width * time.diff(start, 'seconds') / duration;
-            cells.push({ time: time, position: position, height: height });
+            cells.push({ time: time, position: CELL_WIDTH * index, height: height });
             time = time.add(span, 'seconds');
         };
         setTimelineCells(cells);

@@ -9,7 +9,9 @@ describe('igcLoader', () => {
     const date = '2024-02-08';
     const tracks = [{
         getId: jest.fn().mockReturnValue('12345'),
-        livetrackId: '2552840',
+        metadata: {
+            liveTrackId: '2552840',
+        },
     }];
     const bucketName = 'your-bucket-name';
 
@@ -37,7 +39,7 @@ describe('igcLoader', () => {
 
         await loadIgcs(date, tracks, { force: false });
 
-        expect(getMock).toHaveBeenCalledWith(`https://www.livetrack24.com/leo_live.php?op=igc&trackID=${tracks[0].livetrackId}`, expect.anything());
+        expect(getMock).toHaveBeenCalledWith(`https://www.livetrack24.com/leo_live.php?op=igc&trackID=${tracks[0].metadata.liveTrackId}`, expect.anything());
         expect(saveMock).toHaveBeenCalledWith('mock igc data');
     });
 
@@ -77,7 +79,7 @@ describe('igcLoader', () => {
 
         await loadIgcs(date, tracks, { force: false });
 
-        expect(getMock).toHaveBeenCalledWith(`https://www.livetrack24.com/leo_live.php?op=igc&trackID=${tracks[0].livetrackId}`, expect.anything());
+        expect(getMock).toHaveBeenCalledWith(`https://www.livetrack24.com/leo_live.php?op=igc&trackID=${tracks[0].metadata.liveTrackId}`, expect.anything());
         expect(saveMock).not.toHaveBeenCalled();
     });
 

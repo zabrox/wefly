@@ -12,11 +12,11 @@ const bucketName = 'wefly-lake';
 const baseUrl = 'https://www.livetrack24.com';
 
 function localFilePath(track, date) {
-    return `./${date}/livetrack24/TrackPage-${track.getId()}.html`;
+    return `./${date}/livetrack24/TrackPage-${track.metadata.liveTrackId}.html`;
 }
 
 function gcsFilePath(track, date) {
-    return `${date}/livetrack24/TrackPage-${track.getId()}.html`;
+    return `${date}/livetrack24/TrackPage-${track.metadata.liveTrackId}.html`;
 }
 
 async function uploadToGCS(track, date) {
@@ -54,10 +54,10 @@ async function checkExists(track, date) {
 async function downloadTrackPage(track, date, opts) {
     const exists = await checkExists(track, date);
     if (!opts.force && exists) {
-        console.log(`Track file already exists: ${track.getId()}`);
+        console.log(`Track file already exists: ${track.metadata.pilotname}`);
         return;
     }
-    const url = `${baseUrl}/track/${track.livetrackId}`;
+    const url = `${baseUrl}/track/${track.metadata.liveTrackId}`;
     console.log(`Downloading ${url}`)
     const response = await axios.get(url, {
         httpAgent,
@@ -65,7 +65,7 @@ async function downloadTrackPage(track, date, opts) {
         timeout: 10000
     });
     if (response.status !== 200) {
-        throw new Error(`Failed to download track page for ${track.getId()}`);
+        throw new Error(`Failed to download track page for ${track.metadata.pilotname}`);
     }
 
     await saveToLocal(response.data, track, date);
@@ -78,7 +78,7 @@ async function loadTrackPages(date, tracks, opts) {
             await downloadTrackPage(track, date, opts);
 
         } catch (error) {
-            console.error(`Error downloading or saving track page for ${track.getId()}: ${error}`);
+            console.error(`Error downloading or saving track page for ${track.metadata.pilotname}: ${error}`);
         }
     }
 }

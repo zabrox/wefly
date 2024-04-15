@@ -10,17 +10,19 @@ dayjs.extend(utc)
 dayjs.extend(customParseFormat)
 
 function gcsFilePath(track, date) {
-    return `${date}/livetrack24/TrackPage-${track.getId()}.html`;
+    return `${date}/livetrack24/TrackPage-${track.metadata.liveTrackId}.html`;
 }
 
 function parseHtml(html, track) {
     const $ = cheerio.load(html);
     const model = $('#row2_1 h3').text().trim();
     const activity = $('#row2_1 img').attr('alt');
-    if (model === 'My vehicle' || model == activity) {
-        return;
+    if (model != 'My vehicle' && model != activity) {
+        track.metadata.model = model;
     }
-    track.metadata.model = model;
+
+    const startTime = $('#row2_2 div').text().match(/(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/)[0];
+    track.metadata.startTime = dayjs.utc(startTime, 'YYYY-MM-DD HH:mm:ss')
 }
 
 async function parseTrackPage(date, track) {

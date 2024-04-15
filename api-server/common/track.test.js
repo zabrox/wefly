@@ -8,13 +8,14 @@ dayjs.extend(Timezone);
 test('getId returns the correct ID', () => {
     const metadata = new Metadata();
     metadata.pilotname = 'John Doe';
+    metadata.startTime = dayjs('2022-01-01 11:34:56');
     metadata.lastTime = dayjs('2022-01-01 12:34:56');
     const track = new Track();
     track.metadata = metadata;
 
     const id = track.getId();
 
-    expect(id).toBe('JohnDoe_20220101033456');
+    expect(id).toBe('JohnDoe_20220101023456');
 });
 
 test('serialize and desrialize track', () => {
