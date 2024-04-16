@@ -19,7 +19,7 @@ class Metadata {
 }
 
 async function listRowsAndCheckFiles() {
-    const query = `SELECT id, pilotname, startTime, lastTime FROM \`${datasetId}.${tableId}\``;
+    const query = `select * from \`${datasetId}.${tableId}\` where id in (select concat(concat(pilotname, '_'), FORMAT_DATETIME('%G%m%d%H%M%S', lastTime)) as idstr from \`${datasetId}.${tableId}\`) order by startTime desc`;
 
     // BigQueryからデータを取得
     const [rows] = await bigquery.query(query);
@@ -33,14 +33,16 @@ async function listRowsAndCheckFiles() {
 
         const oldId = `${metadata.pilotname}_${metadata.lastTime.format('YYYYMMDDHHmmss')}`;
         const newId = `${metadata.pilotname}_${metadata.startTime.format('YYYYMMDDHHmmss')}`;
-        const query = `UPDATE \`${datasetId}.${tableId}\` SET id = '${newId}' WHERE id = '${oldId}'`;
-        await bigquery.query(query);
-        console.log(`Updated id for ${metadata.pilotname} ${metadata.startTime}`);
-
-        const filePath = `paths/${oldId}.json.gz`;
-        const file = storage.bucket(bucketName).file(filePath);
-        await file.move(`paths/${newId}.json.gz`);
-        console.log(`Moved ${metadata.id}.json.gz`);
+        try {
+            const filePath = `paths/${oldId}.json.gz`;
+            const file = storage.bucket(bucketName).file(filePath);
+            await file.move(`paths/${newId}.json.gz`);
+        } catch (error) {
+            console.error(`Error moving ${oldId}.json.gz`);
+            console.error(error);
+            continue;
+        }
+        console.log(`Moved ${oldId}.json.gz`);
     }
 }
 
