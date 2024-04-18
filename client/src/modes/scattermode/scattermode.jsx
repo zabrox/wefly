@@ -5,13 +5,11 @@ import { ScatterControlPanel } from "./scattercontrolpanel";
 import { TrackGroupSelection } from './trackGroupSelection';
 import { TracksLoadingDialog } from './tracksloadingdialog';
 import { TrackPointStatsOverlay } from './trackpointstatsoverlay';
-import { SearchCondition } from './searchcondition';
 import { TrackPoint } from './trackpoint';
 import { SCATTER_MODE } from '../mode';
 
 export const ScatterMode = ({ state, setState }) => {
     const [scatterState, setScatterState] = React.useState({
-        searchCondition: new SearchCondition(),
         order: 'asc',
         orderBy: 'starttime',
         loading: true,

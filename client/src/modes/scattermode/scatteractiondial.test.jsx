@@ -96,10 +96,11 @@ describe('ScatterActionDial', () => {
             { getId: () => "Takase_20240203120000" },
             { getId: () => "Hirayama_20240203100000" },
             { getId: () => "Okuda_20240203110000" }];
+        const state = { controlPanelSize: 100, tracks: mockTracks };
 
         render(
             <ScatterActionDial
-                state={{ controlPanelSize: 100, tracks: mockTracks }}
+                state={state}
                 setState={mockSetState}
                 scatterState={{ selectedTracks: mockSelectedTracks }}
             />
@@ -111,8 +112,7 @@ describe('ScatterActionDial', () => {
         const playbackSelected = screen.getByText('選択中のトラックを再生');
         fireEvent.click(playbackSelected);
 
-        const errorMessage = screen.getByText('再生するトラックを選択してください');
-        expect(errorMessage).toBeInTheDocument();
+        expect(mockSetState).toHaveBeenCalledWith({...state, errorMessage: '再生するトラックを選択してください'});
     });
 
     it('displays an error message when no tracks are in perspective', async () => {
@@ -123,10 +123,11 @@ describe('ScatterActionDial', () => {
             { getId: () => "Hirayama_20240203100000" },
             { getId: () => "Okuda_20240203110000" }];
         scattermap.getTracksInPerspective.mockReturnValue([]);
+        const state = { controlPanelSize: 100, tracks: mockTracks };
 
         render(
             <ScatterActionDial
-                state={{ controlPanelSize: 100, tracks: mockTracks }}
+                state={state}
                 setState={mockSetState}
                 scatterState={{ selectedTracks: mockSelectedTracks }}
             />
@@ -138,7 +139,6 @@ describe('ScatterActionDial', () => {
         const playbackPerspective = screen.getByText('視野内のトラックを再生');
         fireEvent.click(playbackPerspective);
 
-        const errorMessage = screen.getByText('視野内に再生可能なトラックがありません');
-        expect(errorMessage).toBeInTheDocument();
+        expect(mockSetState).toHaveBeenCalledWith({...state, errorMessage: '視野内に再生可能なトラックがありません'});
     });
 });

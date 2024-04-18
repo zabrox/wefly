@@ -47,15 +47,21 @@ describe('MetadataPerpetuator', () => {
         await (new MetadataPerpetuator).perpetuate(track);
 
         expect(mockQuery.mock.calls[0][0].replaceAll(/\s+/g, ' ')).toStrictEqual(
-            `IF NOT EXISTS ( SELECT id FROM \`${datasetId}.${tableId}\` WHERE id = 'Takase_20240101120000' ) THEN 
-                INSERT INTO \`${datasetId}.${tableId}\` (
-                id, pilotname, distance, duration, maxAltitude, startTime, lastTime,
-                startLongitude, startLatitude, startAltitude,
-                lastLongitude, lastLatitude, lastAltitude, activity, model, area) VALUES 
-                ('Takase_20240101120000', 'Takase', 100, 60, 1000, DATETIME('2024-01-01 12:00:00'), DATETIME('2024-01-01 13:34:56'),
-                37.7749, -122.4194, 0,
-                37.775, -122.4193, 100,
-                'Paraglider', 'Kangri', 'Asagiri'); END IF;`.replaceAll(/\s+/g, ' ')
+            `MERGE INTO wefly.metadatas AS t
+                USING (SELECT 100 AS distance, 60 AS duration, 1000 AS maxAltitude,
+                DATETIME('2024-01-01 13:34:56') AS lastTime, 37.775 AS lastLongitude,
+                -122.4193 AS lastLatitude, 100 AS lastAltitude) AS s
+                ON t.id = 'Takase_20240101120000'
+                WHEN MATCHED THEN
+                UPDATE SET distance = s.distance, duration = s.duration, maxAltitude = s.maxAltitude,
+                    lastTime = s.lastTime, lastLongitude = s.lastLongitude, lastLatitude = s.lastLatitude, lastAltitude = s.lastAltitude
+                WHEN NOT MATCHED THEN
+                INSERT ( id, pilotname, distance, duration, maxAltitude, startTime, lastTime,
+                    startLongitude, startLatitude, startAltitude,
+                    lastLongitude, lastLatitude, lastAltitude, activity, model, area)
+                    VALUES ('Takase_20240101120000', 'Takase', 100, 60, 1000, DATETIME('2024-01-01 12:00:00'),
+                    DATETIME('2024-01-01 13:34:56'), 37.7749, -122.4194, 0, 37.775, -122.4193, 100,
+                    'Paraglider', 'Kangri', 'Asagiri')`.replaceAll(/\s+/g, ' ')
         );
     });
 

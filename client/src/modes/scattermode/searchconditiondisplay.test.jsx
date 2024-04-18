@@ -3,7 +3,7 @@ import { describe, it, expect, afterEach, vi } from 'vitest';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
-import { SearchConditionDisplay } from './searchconditiondisplay';
+import { SearchConditionDisplay, SearchConditionDisplayImpl } from './searchconditiondisplay';
 import { loadTracks } from './trackloader';
 import { TrackGroupSelection } from './trackGroupSelection';
 import { TrackPoint } from './trackpoint';
@@ -26,10 +26,9 @@ describe('SearchCondition', () => {
         const state = { tracks: [] };
         const setState = vi.fn();
         const scatterState = {
-            searchCondition: {
-                from: dayjs('2024-01-01 00:00:00'),
-                isAdvancedSearchEnabled: vi.fn().mockReturnValue(false),
-            },
+            selectedTracks: new Set(),
+            selectedTrackGroups: new TrackGroupSelection(),
+            selectedTrackPoint: new TrackPoint(),
         };
         const setScatterState = vi.fn();
 
@@ -44,29 +43,39 @@ describe('SearchCondition', () => {
             </LocalizationProvider>
         );
 
-        expect(loadTracks).toHaveBeenCalledWith(state, setState, scatterState, setScatterState);
-        const date = screen.getByDisplayValue('2024-01-01 (Mon)');
+        const searchCondition = {
+            from: dayjs().startOf('day'),
+            to: dayjs().endOf('day'),
+            pilotname: "",
+            maxAltitude: undefined,
+            distance: undefined,
+            duration: undefined,
+            activities: ['Paraglider', 'Hangglider', 'Glider', 'Other'],
+            bounds: undefined,
+        };
+        expect(loadTracks).toHaveBeenCalledWith(searchCondition, state, setState, scatterState, setScatterState);
+        const date = screen.getByDisplayValue(dayjs().format('YYYY-MM-DD (ddd)'));
         expect(date).toBeInTheDocument();
     });
 
     it('updates date and calls loadTracks', () => {
         const state = { tracks: ['AAA'] };
         const setState = vi.fn();
-        const mockIsAdvancedSearchEnabled = vi.fn().mockReturnValue(false);
         const scatterState = {
             selectedTracks: new Set(),
             selectedTrackGroups: new TrackGroupSelection(),
             selectedTrackPoint: new TrackPoint(),
-            searchCondition: {
-                from: dayjs('2024-01-01 00:00:00'),
-                isAdvancedSearchEnabled: mockIsAdvancedSearchEnabled,
-            },
         };
         const setScatterState = vi.fn();
         const newSearchCondition = {
             from: dayjs('2024-01-02 00:00:00'),
             to: dayjs('2024-01-02 23:59:59.999'),
-            isAdvancedSearchEnabled: mockIsAdvancedSearchEnabled,
+            pilotname: "",
+            maxAltitude: undefined,
+            distance: undefined,
+            duration: undefined,
+            activities: ['Paraglider', 'Hangglider', 'Glider', 'Other'],
+            bounds: undefined,
         };
 
         render(
@@ -80,17 +89,15 @@ describe('SearchCondition', () => {
             </LocalizationProvider>
         );
 
-        const date = screen.getByDisplayValue('2024-01-01 (Mon)');
+        const date = screen.getByDisplayValue(dayjs().format('YYYY-MM-DD (ddd)'));
         fireEvent.change(date, { target: { value: '2024-01-02 (Tue)' } });
 
         expect(loadTracks.mock.calls.length).toBe(1);
         expect(loadTracks).toHaveBeenCalledWith(
+            newSearchCondition,
             state,
             setState,
-            {
-                ...scatterState,
-                searchCondition: newSearchCondition,
-            },
+            scatterState,
             setScatterState
         );
     });
@@ -99,29 +106,33 @@ describe('SearchCondition', () => {
         const state = { tracks: ['AAA'] };
         const setState = vi.fn();
         const mockIsAdvancedSearchEnabled = vi.fn().mockReturnValue(true);
+        const searchCondition = {
+            from: dayjs('2024-01-01 00:00:00'),
+            to: dayjs('2024-01-03 00:00:00'),
+            pilotname: 'Takase',
+            maxAltitude: 1000,
+            distance: 100,
+            duration: 10,
+            isAdvancedSearchEnabled: mockIsAdvancedSearchEnabled,
+        };
         const scatterState = {
             selectedTracks: new Set(),
             selectedTrackGroups: new TrackGroupSelection(),
             selectedTrackPoint: new TrackPoint(),
-            searchCondition: {
-                from: dayjs('2024-01-01 00:00:00'),
-                to: dayjs('2024-01-03 00:00:00'),
-                pilotname: 'Takase',
-                maxAltitude: 1000,
-                distance: 100,
-                duration: 10,
-                isAdvancedSearchEnabled: mockIsAdvancedSearchEnabled,
-            },
         };
         const setScatterState = vi.fn();
 
         render(
-            <SearchConditionDisplay
-                state={state}
-                setState={setState}
-                scatterState={scatterState}
-                setScatterState={setScatterState}
-            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <SearchConditionDisplayImpl
+                    searchCondition={searchCondition}
+                    setSearchCondition={vi.fn()}
+                    state={state}
+                    setState={setState}
+                    scatterState={scatterState}
+                    setScatterState={setScatterState}
+                />
+            </LocalizationProvider>
         );
 
         expect(screen.getByText('2024-01-01')).toBeInTheDocument();
