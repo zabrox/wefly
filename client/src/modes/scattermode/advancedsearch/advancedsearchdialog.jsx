@@ -8,8 +8,8 @@ import { ActivitiesSearch } from './activitiessearch';
 import { LocationPickDialog } from './locationpickdialog';
 import './advancedsearchdialog.css';
 
-export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) => {
-    const [searchCondition, setSearchCondition] = React.useState(new SearchCondition(scatterState.searchCondition));
+export const AdvancedSearchDialog = ({ searchCondition, show, setShow, search }) => {
+    const [internalSearchCondition, setInternalSearchCondition] = React.useState(new SearchCondition(searchCondition));
     const [showLocationPickDialog, setShowLocationPickDialog] = React.useState(false);
 
     const handleCancelClick = () => {
@@ -17,48 +17,48 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
     }
     const handleSearchClick = React.useCallback(() => {
         setShow(false);
-        search(searchCondition);
-    }, [scatterState, searchCondition, search]);
+        search(internalSearchCondition);
+    }, [searchCondition, internalSearchCondition, search]);
     const handleFromDateChange = React.useCallback((newDate) => {
-        const copySearchCondition = new SearchCondition(searchCondition);
+        const copySearchCondition = new SearchCondition(internalSearchCondition);
         copySearchCondition.from = dayjs(newDate).startOf('day');
-        setSearchCondition(copySearchCondition);
-    }, [scatterState, searchCondition]);
+        setInternalSearchCondition(copySearchCondition);
+    }, [searchCondition, internalSearchCondition]);
     const handleToDateChange = React.useCallback((newDate) => {
-        const copySearchCondition = new SearchCondition(searchCondition);
+        const copySearchCondition = new SearchCondition(internalSearchCondition);
         copySearchCondition.to = dayjs(newDate).endOf('day');
-        setSearchCondition(copySearchCondition);
-    }, [scatterState, searchCondition]);
+        setInternalSearchCondition(copySearchCondition);
+    }, [searchCondition, internalSearchCondition]);
     const handlePilotnameChange = React.useCallback((e) => {
-        const copySearchCondition = new SearchCondition(searchCondition);
+        const copySearchCondition = new SearchCondition(internalSearchCondition);
         copySearchCondition.pilotname = e.target.value;
-        setSearchCondition(copySearchCondition);
-    }, [scatterState, searchCondition]);
+        setInternalSearchCondition(copySearchCondition);
+    }, [searchCondition, internalSearchCondition]);
     const handleMaxAltChange = React.useCallback((e) => {
-        const copySearchCondition = new SearchCondition(searchCondition);
+        const copySearchCondition = new SearchCondition(internalSearchCondition);
         copySearchCondition.maxAltitude = e.target.value === '' ? undefined : e.target.value;
-        setSearchCondition(copySearchCondition);
-    }, [scatterState, searchCondition]);
+        setInternalSearchCondition(copySearchCondition);
+    }, [searchCondition, internalSearchCondition]);
     const handleDistanceChange = React.useCallback((e) => {
-        const copySearchCondition = new SearchCondition(searchCondition);
+        const copySearchCondition = new SearchCondition(internalSearchCondition);
         copySearchCondition.distance = e.target.value === '' ? undefined : e.target.value;
-        setSearchCondition(copySearchCondition);
-    }, [scatterState, searchCondition]);
+        setInternalSearchCondition(copySearchCondition);
+    }, [searchCondition, internalSearchCondition]);
     const handleDurationChange = React.useCallback((e) => {
-        const copySearchCondition = new SearchCondition(searchCondition);
+        const copySearchCondition = new SearchCondition(internalSearchCondition);
         copySearchCondition.duration = e.target.value === '' ? undefined : e.target.value;
-        setSearchCondition(copySearchCondition);
-    }, [scatterState, searchCondition]);
+        setInternalSearchCondition(copySearchCondition);
+    }, [searchCondition, internalSearchCondition]);
     const handleLocationSelect = React.useCallback((bounds) => {
-        const copySearchCondition = new SearchCondition(searchCondition);
+        const copySearchCondition = new SearchCondition(internalSearchCondition);
         copySearchCondition.bounds = bounds;
-        setSearchCondition(copySearchCondition);
-    }, [searchCondition]);
+        setInternalSearchCondition(copySearchCondition);
+    }, [internalSearchCondition]);
     const handleClearLocation = React.useCallback(() => {
-        const copySearchCondition = new SearchCondition(searchCondition);
+        const copySearchCondition = new SearchCondition(internalSearchCondition);
         copySearchCondition.bounds = undefined;
-        setSearchCondition(copySearchCondition);
-    }, [searchCondition]);
+        setInternalSearchCondition(copySearchCondition);
+    }, [internalSearchCondition]);
 
     return (
         <Dialog open={show} >
@@ -68,44 +68,44 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
                     <Grid item>
                         <DesktopDatePicker
                             label="From"
-                            defaultValue={scatterState.searchCondition.from}
+                            defaultValue={searchCondition.from}
                             format="YYYY-MM-DD (ddd)"
                             onChange={handleFromDateChange} />
                     </Grid>
                     <Grid item>
                         <DesktopDatePicker
                             label="To"
-                            defaultValue={scatterState.searchCondition.to}
+                            defaultValue={searchCondition.to}
                             format="YYYY-MM-DD (ddd)"
                             onChange={handleToDateChange} />
                     </Grid>
-                    <ActivitiesSearch searchCondition={searchCondition} setSearchCondition={setSearchCondition} />
+                    <ActivitiesSearch searchCondition={internalSearchCondition} setSearchCondition={setInternalSearchCondition} />
                     <Grid item>
                         <TextField
                             label="パイロット名"
                             onChange={handlePilotnameChange}
-                            defaultValue={searchCondition.pilotname} />
+                            defaultValue={internalSearchCondition.pilotname} />
                     </Grid>
                     <Grid item>
                         <TextField
                             label="最高高度≧ (m)"
                             type="number"
                             onChange={handleMaxAltChange}
-                            defaultValue={searchCondition.maxAltitude} />
+                            defaultValue={internalSearchCondition.maxAltitude} />
                     </Grid>
                     <Grid item>
                         <TextField
                             label="距離≧ (km)"
                             type="number"
                             onChange={handleDistanceChange}
-                            defaultValue={searchCondition.distance} />
+                            defaultValue={internalSearchCondition.distance} />
                     </Grid>
                     <Grid item>
                         <TextField
                             label="飛行時間≧ (分)"
                             type="number"
                             onChange={handleDurationChange}
-                            defaultValue={searchCondition.duration} />
+                            defaultValue={internalSearchCondition.duration} />
                     </Grid>
                     <Grid item>
                         <Typography>スタート位置で検索</Typography>
@@ -114,16 +114,16 @@ export const AdvancedSearchDialog = ({ scatterState, show, setShow, search }) =>
                         <Button onClick={() => setShowLocationPickDialog(true)}>ロケーションを選択</Button>
                         <Button onClick={handleClearLocation}>クリア</Button>
                         <LocationPickDialog
-                            searchCondition={searchCondition}
+                            searchCondition={internalSearchCondition}
                             open={showLocationPickDialog}
                             onClose={() => { setShowLocationPickDialog(false) }}
                             onConfirm={handleLocationSelect} />
                     </Grid>
                     <Grid item>
-                        <TextField label="緯度" size='small' value={searchCondition.bounds ? searchCondition.bounds[0][1] : ""} />
+                        <TextField label="緯度" size='small' value={internalSearchCondition.bounds ? internalSearchCondition.bounds[0][1] : ""} />
                     </Grid>
                     <Grid item>
-                        <TextField label="経度" size='small' value={searchCondition.bounds ? searchCondition.bounds[0][0] : ""} />
+                        <TextField label="経度" size='small' value={internalSearchCondition.bounds ? internalSearchCondition.bounds[0][0] : ""} />
                     </Grid>
                     <Grid item>
                         <Box style={{ display: 'flex' }}>
