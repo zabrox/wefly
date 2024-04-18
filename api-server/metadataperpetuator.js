@@ -13,7 +13,17 @@ const QUERY_LIMIT = 1000;
 
 class MetadataPerpetuator {
     async perpetuate(track) {
-        const insertQuery = `INSERT INTO \`${datasetId}.${tableId}\` (
+        const source = `SELECT
+            ${track.metadata.distance} AS distance,
+            ${track.metadata.duration} AS duration, ${track.metadata.maxAltitude} AS maxAltitude, 
+            DATETIME('${track.metadata.lastTime.format('YYYY-MM-DD HH:mm:ss')}') AS lastTime,
+            ${track.metadata.lastPosition[0]} AS lastLongitude, ${track.metadata.lastPosition[1]} AS lastLatitude, ${track.metadata.lastPosition[2]} AS lastAltitude`;
+        const updateQuery = `UPDATE SET 
+            distance = s.distance,
+            duration = s.duration, maxAltitude = s.maxAltitude, 
+            lastTime = s.lastTime,
+            lastLongitude = s.lastLongitude, lastLatitude = s.lastLatitude, lastAltitude = s.lastAltitude`;
+        const insertQuery = `INSERT (
             id, pilotname, distance, duration, maxAltitude, startTime, lastTime,
             startLongitude, startLatitude, startAltitude,
             lastLongitude, lastLatitude, lastAltitude, activity, model, area) VALUES 
@@ -22,10 +32,11 @@ class MetadataPerpetuator {
             ${track.metadata.startPosition[0]}, ${track.metadata.startPosition[1]}, ${track.metadata.startPosition[2]},
             ${track.metadata.lastPosition[0]}, ${track.metadata.lastPosition[1]}, ${track.metadata.lastPosition[2]},
             '${track.metadata.activity}', '${track.metadata.model}', '${track.metadata.area}')`;
-        const query = `IF NOT EXISTS (
-            SELECT id FROM \`${datasetId}.${tableId}\` WHERE id = '${track.getId()}'
-            ) THEN ${insertQuery};
-        END IF;`;
+        const query = `MERGE INTO ${datasetId}.${tableId} AS t
+            USING (${source}) AS s
+            ON t.id = '${track.getId()}'
+            WHEN MATCHED THEN ${updateQuery}
+            WHEN NOT MATCHED THEN ${insertQuery}`;
         await bigQuery.query(query);
     }
 

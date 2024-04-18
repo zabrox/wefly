@@ -37,6 +37,8 @@ async function parseTrackRow($, trackRow) {
 
 async function parseTracks(html) {
     const $ = cheerio.load(html);
+    // Live中のトラックが完了として扱われる不具合調査のためにログを出力
+    console.log(html);
     const tracks = [];
     $('div[id^="trackRow_"]').each(async (index, element) => {
         try {
