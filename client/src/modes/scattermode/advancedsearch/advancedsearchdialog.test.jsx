@@ -18,11 +18,9 @@ describe('AdvancedSearchDialog', () => {
         render(
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <AdvancedSearchDialog
-                    scatterState={{
-                        searchCondition: {
-                            from: dayjs('2022-01-01').startOf('day'),
-                            to: dayjs('2022-01-31').endOf('day'),
-                        },
+                    searchCondition={{
+                        from: dayjs('2022-01-01').startOf('day'),
+                        to: dayjs('2022-01-31').endOf('day'),
                     }}
                     show={true}
                     setShow={mockSetShow}
@@ -44,11 +42,9 @@ describe('AdvancedSearchDialog', () => {
         render(
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <AdvancedSearchDialog
-                    scatterState={{
-                        searchCondition: {
-                            from: dayjs('2022-01-01').startOf('day'),
-                            to: dayjs('2022-01-31').endOf('day'),
-                        },
+                    searchCondition={{
+                        from: dayjs('2022-01-01').startOf('day'),
+                        to: dayjs('2022-01-31').endOf('day'),
                     }}
                     show={true}
                     setShow={mockSetShow}
@@ -66,11 +62,9 @@ describe('AdvancedSearchDialog', () => {
         render(
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <AdvancedSearchDialog
-                    scatterState={{
-                        searchCondition: {
-                            from: dayjs('2022-01-01').startOf('day'),
-                            to: dayjs('2022-01-31').endOf('day'),
-                        },
+                    searchCondition={{
+                        from: dayjs('2022-01-01').startOf('day'),
+                        to: dayjs('2022-01-31').endOf('day'),
                     }}
                     show={true}
                     setShow={mockSetShow}

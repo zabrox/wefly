@@ -54,13 +54,13 @@ export const loadPaths = async (tracks) => {
     console.timeEnd('loadPaths');
 }
 
-export const loadTracks = async (state, setState, scatterState, setScatterState) => {
+export const loadTracks = async (searchCondition, state, setState, scatterState, setScatterState) => {
     setState({ ...state, tracks: [], trackGroups: [] });
     setScatterState({ ...scatterState, loading: true })
     let tracks = [];
     let trackGroups = [];
     try {
-        const metadatas = await loadMetadatas(scatterState.searchCondition);
+        const metadatas = await loadMetadatas(searchCondition);
         tracks = metadatas.map(metadata => {
             const t = new Track();
             t.metadata = metadata;

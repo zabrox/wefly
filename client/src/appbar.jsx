@@ -11,6 +11,9 @@ export const WeflyAppBar = () => {
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const [aboutDialogOpen, setAboutDialogOpen] = React.useState(false);
 
+    const handleTitleClick = () => {
+        window.location.href = '/';
+    }
     const handleClickAbout = () => {
         setAboutDialogOpen(true);
     };
@@ -45,7 +48,7 @@ export const WeflyAppBar = () => {
                         <AboutDialog open={aboutDialogOpen} setOpen={setAboutDialogOpen} />
                     </Box>
                 </Drawer>
-                <Typography id='title' variant="h5">
+                <Typography id='title' variant="h5" onClick={handleTitleClick} color='primary.contrastText'>
                     WeFly
                 </Typography>
             </Toolbar>

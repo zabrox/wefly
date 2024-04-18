@@ -12,17 +12,22 @@ export class SearchCondition {
     bounds = undefined;
     activities = defaultActivities;
 
-    constructor(arg) {
-        if (arg instanceof SearchCondition) {
-            this.from = arg.from;
-            this.to = arg.to;
-            this.pilotname = arg.pilotname;
-            this.maxAltitude = arg.maxAltitude;
-            this.distance = arg.distance;
-            this.duration = arg.duration;
-            this.bounds = arg.bounds;
-            this.activities = arg.activities;
+    constructor(...args) {
+        if (args.length === 1 && args[0] instanceof SearchCondition) {
+            this.copyConstructor(args[0]);
+            return;
         }
+    }
+
+    copyConstructor(arg) {
+        this.from = arg.from;
+        this.to = arg.to;
+        this.pilotname = arg.pilotname;
+        this.maxAltitude = arg.maxAltitude;
+        this.distance = arg.distance;
+        this.duration = arg.duration;
+        this.bounds = arg.bounds;
+        this.activities = arg.activities;
     }
 
     isAdvancedSearchEnabled() {
