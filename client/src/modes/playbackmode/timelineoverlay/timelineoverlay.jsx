@@ -1,8 +1,8 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import * as Cesium from 'cesium';
-import { Timeline } from './timeline';
-import { OverallTimeline } from './overalltimeline';
+import { Timeline } from '../timeline';
+import { OverallTimeline } from '../overalltimeline';
 import './timelineoverlay.css';
 
 export const TimelineOverlay = ({ playbackState, setPlaybackState }) => {

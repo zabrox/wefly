@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Table, TableRow, TableCell, TableBody } from '@mui/material';
-import { TrackStatsCalculator } from '../../entities/trackstatscalculator';
+import { TrackStatsCalculator } from '../../../entities/trackstatscalculator';
 import './trackplaybackstatstable.css';
 
 export const TrackPlaybackStatsTable = ({ playbackState }) => {

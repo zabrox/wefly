@@ -2,9 +2,9 @@ import React from 'react';
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import * as Mode from '../mode';
-import * as CesiumMap from '../../cesiummap';
-import { PlaybackMap, stopPlayback } from './playbackmap';
+import * as Mode from '../../mode';
+import * as CesiumMap from '../../../cesiummap';
+import { PlaybackMap, stopPlayback } from '../map/playbackmap';
 import { PlayList } from './playlist';
 import './playbackcontrolpanel.css';
 

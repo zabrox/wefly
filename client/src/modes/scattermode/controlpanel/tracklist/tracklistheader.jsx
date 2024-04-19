@@ -1,7 +1,7 @@
 import React from 'react';
 import { TableHead, TableRow, TableCell, TableSortLabel } from '@mui/material';
-import { ActivityIcon } from '../../util/activityicon';
-import { PilotIcon } from '../../util/piloticon';
+import { ActivityIcon } from '../../../../util/activityicon';
+import { PilotIcon } from '../../../../util/piloticon';
 import './tracklistheader.css';
 
 const compareByKey = (key, track1, track2) => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import * as Cesium from 'cesium';
-import * as CesiumMap from '../../cesiummap';
-import { trackColor } from '../../util/trackcolor';
+import * as CesiumMap from '../../../cesiummap';
+import { trackColor } from '../../../util/trackcolor';
 
 const speed = 32;
 const trailTime = 900;

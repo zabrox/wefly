@@ -4,9 +4,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import { SearchConditionDisplay, SearchConditionDisplayImpl } from './searchconditiondisplay';
-import { loadTracks } from './trackloader';
-import { TrackGroupSelection } from './trackGroupSelection';
-import { TrackPoint } from './trackpoint';
+import { loadTracks } from '../trackloader';
+import { TrackGroupSelection } from '../trackGroupSelection';
+import { TrackPoint } from '../trackpoint';
 import "@testing-library/jest-dom/vitest";
 
 vi.mock('./trackloader', () => ({
