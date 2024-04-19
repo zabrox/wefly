@@ -8,8 +8,8 @@ vi.mock('./scattermap', () => ({
 }));
 
 import { ScatterActionDial } from './scatteractiondial';
-import * as scattermap from './scattermap';
-import * as Mode from '../mode';
+import * as scattermap from '../scattermap';
+import * as Mode from '../../mode';
 
 describe('ScatterActionDial', () => {
     afterEach(() => {

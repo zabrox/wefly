@@ -1,4 +1,4 @@
-import {primaryColor} from '../../colortheme';
+import {primaryColor} from '../../../colortheme';
 
 export const createTrackGroupPin = (trackGroup) => {
     const canvas = document.createElement('canvas');

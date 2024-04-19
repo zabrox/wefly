@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import { render, fireEvent, screen, cleanup } from '@testing-library/react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { TrackListBody } from './tracklistbody';
-import { TrackGroupSelection } from './trackGroupSelection';
-import { TrackGroup } from '../../entities/trackgroup';
+import { TrackGroupSelection } from '../../trackGroupSelection';
+import { TrackGroup } from '../../../../entities/trackgroup';
 import "@testing-library/jest-dom/vitest";
 
 const mockTracks = [

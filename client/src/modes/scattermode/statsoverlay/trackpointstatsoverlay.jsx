@@ -3,9 +3,9 @@ import { Card, CardHeader, CardContent, Typography } from '@mui/material';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Collapse from '@mui/material/Collapse';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ActivityIcon } from '../../util/activityicon';
-import { PilotIcon } from '../../util/piloticon';
-import { TrackPoint } from './trackpoint';
+import { ActivityIcon } from '../../../util/activityicon';
+import { PilotIcon } from '../../../util/piloticon';
+import { TrackPoint } from '../trackpoint';
 import { TrackPointStatsTable } from './trackpointstatstable';
 import './trackpointstatsoverlay.css';
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Table, TableRow, TableCell, TableContainer, TableBody } from '@mui/material';
 import { Typography } from '@mui/material';
-import { Timeline } from './timeline';
+import { Timeline } from '../timeline';
 import { TimelineBarContainer } from './timelinebar';
-import { PilotIcon } from '../../util/piloticon';
+import { PilotIcon } from '../../../util/piloticon';
 import './playlist.css';
 
 const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {

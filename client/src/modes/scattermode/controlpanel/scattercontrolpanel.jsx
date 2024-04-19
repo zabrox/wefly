@@ -1,16 +1,16 @@
 import React from 'react';
 import { Typography, Table, TableContainer, Box } from '@mui/material';
-import { TrackPoint } from './trackpoint';
-import { ProgressBar } from '../playbackmode/progressbar';
+import { TrackPoint } from '../trackpoint';
+import { ProgressBar } from '../../playbackmode/progressbar';
 import { ScatterActionDial } from './scatteractiondial';
-import * as CesiumMap from '../../cesiummap';
-import { ScatterMap } from './scattermap';
-import { TrackListHeader } from './tracklistheader';
-import { TrackListBody } from './tracklistbody';
+import * as CesiumMap from '../../../cesiummap';
+import { ScatterMap } from '../map/scattermap';
+import { TrackListHeader } from './tracklist/tracklistheader';
+import { TrackListBody } from './tracklist/tracklistbody';
 import { SearchConditionDisplay } from './searchconditiondisplay';
-import { TrackGroupSelection } from './trackGroupSelection';
-import { loadPaths } from './trackloader';
-import * as Mode from '../mode';
+import { TrackGroupSelection } from '../trackGroupSelection';
+import { loadPaths } from '../trackloader';
+import * as Mode from '../../mode';
 import './scattercontrolpanel.css';
 
 export const ScatterControlPanel = ({ state, setState, scatterState, setScatterState }) => {
