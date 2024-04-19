@@ -36,7 +36,15 @@ export class SearchCondition {
             this.maxAltitude !== undefined ||
             this.distance !== undefined ||
             this.duration !== undefined ||
-            this.activities != defaultActivities ||
+            !this.#isSameActivities(defaultActivities) ||
             this.bounds !== undefined;
+    }
+
+    #isSameActivities = (other) => {
+        if (this.activities.length !== other.length) return false;
+        for (let i = 0; i < this.activities.length; i++) {
+            if (this.activities[i] !== other[i]) return false;
+        }
+        return true;
     }
 }
