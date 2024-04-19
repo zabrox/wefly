@@ -1,7 +1,7 @@
 import React from "react";
 import * as Cesium from "cesium";
-import * as CesiumMap from '../../cesiummap';
-import { trackColor } from '../../util/trackcolor';
+import * as CesiumMap from '../../../cesiummap';
+import { trackColor } from '../../../util/trackcolor';
 import { createTrackGroupPin } from './trackgrouppin';
 
 let removeCameraMoveEvent = undefined;

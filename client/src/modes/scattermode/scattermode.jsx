@@ -1,10 +1,10 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { ControlPanel } from "../../controlpanel";
-import { ScatterControlPanel } from "./scattercontrolpanel";
+import { ScatterControlPanel } from "./controlpanel/scattercontrolpanel";
 import { TrackGroupSelection } from './trackGroupSelection';
 import { TracksLoadingDialog } from './tracksloadingdialog';
-import { TrackPointStatsOverlay } from './trackpointstatsoverlay';
+import { TrackPointStatsOverlay } from './statsoverlay/trackpointstatsoverlay';
 import { TrackPoint } from './trackpoint';
 import { SCATTER_MODE } from '../mode';
 

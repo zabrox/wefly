@@ -1,7 +1,7 @@
 import React from 'react';
 import { TableBody, TableRow, TableCell } from '@mui/material';
 import { headers } from './tracklistheader';
-import { trackColor } from '../../util/trackcolor';
+import { trackColor } from '../../../../util/trackcolor';
 
 const TrackCell = ({ track, header }) => {
     let style = {};

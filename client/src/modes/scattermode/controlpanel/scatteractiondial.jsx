@@ -2,8 +2,8 @@ import React from 'react';
 import { Box, SpeedDial, SpeedDialAction } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import { getTracksInPerspective, leaveScatterMode } from './scattermap';
-import * as Mode from '../mode';
+import { getTracksInPerspective, leaveScatterMode } from '../map/scattermap';
+import * as Mode from '../../mode';
 
 export const ScatterActionDial = ({ state, setState, scatterState }) => {
     const handlePlayback = React.useCallback((tracks, errorMessage) => {

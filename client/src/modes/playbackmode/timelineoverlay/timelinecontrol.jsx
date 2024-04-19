@@ -8,8 +8,8 @@ import FastForwardIcon from '@mui/icons-material/FastForward';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import * as CesiumMap from '../../cesiummap';
-import { secondaryColor } from '../../colortheme';
+import * as CesiumMap from '../../../cesiummap';
+import { secondaryColor } from '../../../colortheme';
 import './timelinecontrol.css';
 
 export const TimelineControl = ({ playbackState, setPlaybackState }) => {

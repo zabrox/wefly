@@ -3,9 +3,9 @@ import { Card, CardHeader, CardContent, Typography } from '@mui/material';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ActivityIcon } from '../../util/activityicon';
+import { ActivityIcon } from '../../../util/activityicon';
 import { TrackPlaybackStatsTable } from './trackplaybackstatstable';
-import { PilotIcon } from '../../util/piloticon';
+import { PilotIcon } from '../../../util/piloticon';
 import './trackplaybackstatsoverlay.css';
 
 const ExpandStatsButton = ({ expanded, onExpand }) => {

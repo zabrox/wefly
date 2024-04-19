@@ -1,10 +1,10 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { ControlPanel } from "../../controlpanel";
-import { PlaybackControlPanel } from "./playbackcontrolpanel";
-import { TimelineOverlay } from './timelineoverlay';
-import { TimelineControl } from './timelinecontrol';
-import { TrackPlaybackStatsOverlay } from './trackplaybackstatsoverlay';
+import { PlaybackControlPanel } from "./controlpanel/playbackcontrolpanel";
+import { TimelineOverlay } from './timelineoverlay/timelineoverlay';
+import { TimelineControl } from './timelineoverlay/timelinecontrol';
+import { TrackPlaybackStatsOverlay } from './statsoverlay/trackplaybackstatsoverlay';
 import { PLAYBACK_MODE } from '../mode';
 
 const calculateStartStopTime = (targetTracks) => {
