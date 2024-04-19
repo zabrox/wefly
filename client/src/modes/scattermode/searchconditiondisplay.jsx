@@ -59,26 +59,37 @@ const initializeSearchCondition = () => {
     const params = new URLSearchParams(window.location.search);
     condition.from = dayjs(params.get('from')).startOf('day');
     condition.to = dayjs(params.get('to')).endOf('day');
-    condition.pilotname = params.get('pilotname');
-    condition.maxAltitude = parseInt(params.get('maxAltitude'));
-    condition.distance = parseFloat(params.get('distance'));
-    condition.duration = parseFloat(params.get('duration'));
-    condition.activities = params.get('activities').split(',');
-    const boundsArray = params.get('bounds').split(',').map(parseFloat);
-    condition.bounds = [[boundsArray[0], boundsArray[1]], [boundsArray[2], boundsArray[3]]];
+    condition.pilotname = params.get('pilotname') || '';
+    condition.maxAltitude = parseInt(params.get('maxAltitude')) || undefined;
+    condition.distance = parseFloat(params.get('distance')) || undefined;
+    condition.duration = parseFloat(params.get('duration')) || undefined;
+    condition.activities = params.get('activities') ? params.get('activities').split(',') : undefined;
+    const boundsStrArray = params.get('bounds') ? params.get('bounds').split(',') : [];
+    const boundsArray = [];
+    for (const value of boundsStrArray) {
+        const float = parseFloat(value);
+        if (float === NaN) {
+            condition.bounds = undefined;
+            break;
+        }
+        boundsArray.push(float);
+    };
+    condition.bounds =
+        boundsArray.length !== 4 ? undefined : [[boundsArray[0], boundsArray[1]], [boundsArray[2], boundsArray[3]]];
     return condition;
 }
 
 const setUrl = (searchCondition) => {
-    history.replaceState(null, '',
-        `?from=${searchCondition.from.format('YYYY-MM-DD')}` +
-        `&to=${searchCondition.to.format('YYYY-MM-DD')}` +
-        `&pilotname=${searchCondition.pilotname}` +
-        `&maxAltitude=${searchCondition.maxAltitude}` +
-        `&distance=${searchCondition.distance}` +
-        `&duration=${searchCondition.duration}` +
-        `&activities=${searchCondition.activities.join(',')}` +
-        `&bounds=${searchCondition.bounds}`);
+    let location = `?from=${searchCondition.from.format('YYYY-MM-DD')}`;
+    location += `&to=${searchCondition.to.format('YYYY-MM-DD')}`;
+    if (searchCondition.pilotname !== '') location += `&pilotname=${searchCondition.pilotname}`;
+    if (searchCondition.maxAltitude !== undefined) location += `&maxAltitude=${searchCondition.maxAltitude}`;
+    if (searchCondition.distance !== undefined) location += `&distance=${searchCondition.distance}`;
+    if (searchCondition.duration !== undefined) location += `&duration=${searchCondition.duration}`;
+    if (searchCondition.activities.length !== 0) location += `&activities=${searchCondition.activities.join(',')}`;
+    if (searchCondition.bounds !== undefined) location += `&bounds=${searchCondition.bounds}`;
+
+    history.replaceState(null, '', location);
 }
 
 export const SearchConditionDisplay = ({ state, setState, scatterState, setScatterState }) => {
@@ -91,6 +102,7 @@ export const SearchConditionDisplay = ({ state, setState, scatterState, setScatt
         scatterState={scatterState}
         setScatterState={setScatterState} />;
 }
+
 export const SearchConditionDisplayImpl = ({
     searchCondition, setSearchCondition, state, setState, scatterState, setScatterState }) => {
 
