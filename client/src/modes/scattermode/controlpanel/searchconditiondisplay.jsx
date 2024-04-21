@@ -14,7 +14,6 @@ import * as CesiumMap from '../../../cesiummap';
 import './searchconditiondisplay.css';
 
 const DatePicker = ({ searchCondition, handleDateChange }) => {
-    console.log(searchCondition.from.format('YYYY-MM-DD (ddd)'));
     return (
         <DesktopDatePicker
             value={searchCondition.from}

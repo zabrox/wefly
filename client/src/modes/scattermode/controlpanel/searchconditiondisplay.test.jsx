@@ -9,10 +9,10 @@ import { TrackGroupSelection } from '../trackGroupSelection';
 import { TrackPoint } from '../trackpoint';
 import "@testing-library/jest-dom/vitest";
 
-vi.mock('./trackloader', () => ({
+vi.mock('../trackloader', () => ({
     loadTracks: vi.fn(),
 }));
-vi.mock('../../cesiummap', () => ({
+vi.mock('../../../cesiummap', () => ({
     removeAllEntities: vi.fn(),
 }));
 

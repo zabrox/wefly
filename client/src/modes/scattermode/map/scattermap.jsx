@@ -1,117 +1,13 @@
 import React from "react";
 import * as Cesium from "cesium";
 import * as CesiumMap from '../../../cesiummap';
-import { trackColor } from '../../../util/trackcolor';
-import { createTrackGroupPin } from './trackgrouppin';
+import { renderTrackGroups, removeTrackGroupEntities } from "./trackgrouprenderer";
+import { renderTracks, removeTrackEntities } from "./trackrenderer";
+import { trackPointClick } from "./trackpointrenderer";
+import { trackLineClick } from "./tracklinerenderer";
 
 let removeCameraMoveEvent = undefined;
 let clickHandler = undefined;
-
-const POINTS_INTERVAL = 60;
-const entities = [];
-
-const trackPointEntitiyId = (track, index) => {
-    return `trackpoint-${track.getId()}-${index}`;
-}
-const initializeTrackPointEntities = (track) => {
-    let lastPoint = track.path.times[0];
-    const cartesians = track.path.points.map((point) => Cesium.Cartesian3.fromDegrees(...point));
-    cartesians.forEach((cartesian, index) => {
-        if (index > 0 && track.path.times[index].diff(lastPoint, 'seconds') < POINTS_INTERVAL) {
-            return;
-        }
-        lastPoint = track.path.times[index];
-        entities.push(CesiumMap.viewer.entities.add({
-            id: trackPointEntitiyId(track, index),
-            type: 'trackpoint',
-            trackid: track.getId(),
-            position: cartesian,
-            name: track.metadata.pilotname,
-            point: {
-                pixelSize: 4,
-                color: trackColor(track).withAlpha(0.7),
-                outlineColor: Cesium.Color.BLACK.withAlpha(0.5),
-                outlineWidth: 1,
-                scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
-            },
-        }));
-    });
-};
-
-const tracklineEntitiyId = (track) => {
-    return `trackline-${track.getId()}`;
-}
-const initializeTrackLineEntity = (track) => {
-    const color = trackColor(track);
-    const cartesians = track.path.points.map((point) => Cesium.Cartesian3.fromDegrees(...point));
-    entities.push(CesiumMap.viewer.entities.add({
-        id: tracklineEntitiyId(track),
-        type: 'trackline',
-        trackid: track.getId(),
-        polyline: {
-            positions: cartesians,
-            width: 4,
-            material: new Cesium.PolylineOutlineMaterialProperty({
-                color: color.brighten(0.5, new Cesium.Color()),
-                outlineColor: color,
-                outlineWidth: 2,
-            }),
-        },
-        show: false,
-    }));
-};
-
-const initializeTrackEntity = (track) => {
-    initializeTrackLineEntity(track);
-    initializeTrackPointEntities(track);
-}
-
-const trackGroupEntitiyId = (trackGroup) => {
-    return `trackgroup-${trackGroup.groupid}`;
-}
-const initializeTrackGroupEntity = (trackGroups) => {
-    const MIN_ICON_SIZE = 30;
-    const MAX_ICON_SIZE = 120;
-    const COEFFICIENT = (MAX_ICON_SIZE - MIN_ICON_SIZE) / 200;
-    trackGroups.forEach(trackGroup => {
-        let size = MIN_ICON_SIZE + trackGroup.trackIds.length * COEFFICIENT;
-        size = size > MAX_ICON_SIZE ? MAX_ICON_SIZE : size;
-        entities.push(CesiumMap.viewer.entities.add({
-            id: trackGroupEntitiyId(trackGroup),
-            type: 'trackgroup',
-            position: Cesium.Cartesian3.fromDegrees(...trackGroup.position),
-            groupid: trackGroup.groupid,
-            billboard: {
-                image: createTrackGroupPin(trackGroup),
-                height: size,
-                width: size * 3 / 4,
-                pixelOffset: new Cesium.Cartesian2(0, -size / 2),
-                heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,
-            },
-            show: true,
-        }));
-    });
-}
-
-const trackPointClick = (entityId, handleTrackPointClick) => {
-    const index = entityId.id.split('-')[2];
-    handleTrackPointClick(entityId.trackid, index);
-}
-
-const trackLineClick = (entityId, tracks, clickPosition, handleTrackPointClick) => {
-    const clickCartesian = CesiumMap.viewer.scene.pickPosition(clickPosition);
-    const track = tracks.find(track => track.getId() === entityId.trackid);
-    let minimumDistance = 100000;
-    let index = 0;
-    track.path.points.forEach((point, i) => {
-        const distance = Cesium.Cartesian3.distance(Cesium.Cartesian3.fromDegrees(...point), clickCartesian);
-        if (distance < minimumDistance) {
-            minimumDistance = distance;
-            index = i;
-        }
-    })
-    handleTrackPointClick(entityId.trackid, index);
-}
 
 const registerEventHandlerOnPointClick = (handleTrackPointClick, handleTrackGroupClick, tracks, trackGroups) => {
     if (tracks.length === 0 || trackGroups.length === 0) {
@@ -140,97 +36,8 @@ const registerEventHandlerOnPointClick = (handleTrackPointClick, handleTrackGrou
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
 
-const showTrack = (track, selectedTracks, selectedTrackGroups) => {
-    const tracklineShow = selectedTrackGroups.containsTrack(track) && selectedTracks.has(track.getId());
-    const entity = CesiumMap.viewer.entities.getById(tracklineEntitiyId(track));
-    if (entity !== undefined && entity.show != tracklineShow) {
-        entity.show = tracklineShow;
-    }
-
-    const trackpointShow = selectedTrackGroups.containsTrack(track) && !selectedTracks.has(track.getId());
-    const firstpoint = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, 0));
-    if (firstpoint === undefined || firstpoint.show === trackpointShow) {
-        return;
-    }
-    for (let i = 0; i < track.path.points.length; i++) {
-        const entity = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, i));
-        if (entity !== undefined && entity.show != trackpointShow) {
-            entity.show = trackpointShow;
-        }
-    }
-}
-
-const showTracks = (tracks, selectedTracks, selectedTrackGroups) => {
-    const tracksWithPath = tracks.filter(track => track.path.points.length > 0);
-    if (tracksWithPath.length === 0) {
-        return;
-    }
-    tracksWithPath.forEach(track => {
-        const tracklineEntity = CesiumMap.viewer.entities.getById(tracklineEntitiyId(track));
-        if (tracklineEntity === undefined) {
-            initializeTrackEntity(track);
-            return;
-        }
-
-        showTrack(track, selectedTracks, selectedTrackGroups);
-    });
-}
-
-const showSelectedTrackPoint = (selectedTrackPoint) => {
-    const entity = CesiumMap.viewer.entities.getById('selectedtrackpoint');
-    if (entity !== undefined) {
-        CesiumMap.viewer.entities.remove(entity);
-    }
-    if (!selectedTrackPoint.isValid()) {
-        return;
-    }
-    const track = selectedTrackPoint.track;
-    const point = track.path.points[selectedTrackPoint.index];
-    const cartesian = Cesium.Cartesian3.fromDegrees(...point);
-    entities.push(CesiumMap.viewer.entities.add({
-        id: 'selectedtrackpoint',
-        type: 'selectedtrackpoint',
-        trackid: track.getId(),
-        position: cartesian,
-        point: {
-            pixelSize: 8,
-            color: Cesium.Color.WHITE,
-            outlineColor: trackColor(track).darken(0.3, new Cesium.Color()),
-            outlineWidth: 4,
-            scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
-        },
-    }));
-}
-
-const showTrackGroups = (trackGroups) => {
-    if (trackGroups.length === 0) {
-        return;
-    }
-    const entity = CesiumMap.viewer.entities.getById(trackGroupEntitiyId(trackGroups[0]));
-    if (entity === undefined) {
-        initializeTrackGroupEntity(trackGroups);
-    }
-    trackGroups.forEach(group => {
-        const entity = CesiumMap.viewer.entities.getById(trackGroupEntitiyId(group));
-        if (entity !== undefined) {
-            entity.show = true;
-        }
-    });
-}
-
-const hideTrackGroupsCloseToCamera = (selectedTrackGroups) => {
-    selectedTrackGroups.groups.forEach(group => {
-        const distance = Cesium.Cartesian3.distance(CesiumMap.viewer.camera.position, Cesium.Cartesian3.fromDegrees(...group.position));
-        if (distance < 50000) {
-            const entity = CesiumMap.viewer.entities.getById(trackGroupEntitiyId(group));
-            if (entity !== undefined) {
-                entity.show = false;
-            }
-        }
-    });
-}
-
-const registerEventListenerOnCameraMove = (tracks, trackGroups, selectedTracks, selectedTrackGroups, selectedTrackPoint) => {
+const registerEventListenerOnCameraMove = (
+    tracks, trackGroups, selectedTracks, selectedTrackGroups, selectedTrackPoint) => {
     if (removeCameraMoveEvent !== undefined) {
         removeCameraMoveEvent();
     }
@@ -240,14 +47,13 @@ const registerEventListenerOnCameraMove = (tracks, trackGroups, selectedTracks, 
 }
 
 const render = (tracks, trackGroups, selectedTracks, selectedTrackGroups, selectedTrackPoint) => {
-    showTrackGroups(trackGroups);
-    showTracks(tracks, selectedTracks, selectedTrackGroups);
-    showSelectedTrackPoint(selectedTrackPoint);
-    hideTrackGroupsCloseToCamera(selectedTrackGroups);
+    renderTrackGroups(trackGroups, selectedTrackGroups);
+    renderTracks(tracks, selectedTracks, selectedTrackGroups, selectedTrackPoint);
 }
 
 export const leaveScatterMode = () => {
-    entities.forEach((entity) => CesiumMap.viewer.entities.removeById(entity.id));
+    removeTrackEntities();
+    removeTrackGroupEntities();
     removeCameraMoveEvent();
     if (clickHandler) {
         clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
