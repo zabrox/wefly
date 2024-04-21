@@ -2,13 +2,13 @@ import { describe, it, expect, afterEach, vi } from 'vitest';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import "@testing-library/jest-dom/vitest";
 
-vi.mock('./scattermap', () => ({
+vi.mock('../map/scattermap', () => ({
     getTracksInPerspective: vi.fn(() => 'mocked getTracksInPerspective result'),
     leaveScatterMode: vi.fn(() => 'mocked leaveScatterMode result'),
 }));
 
 import { ScatterActionDial } from './scatteractiondial';
-import * as scattermap from '../scattermap';
+import * as scattermap from '../map/scattermap';
 import * as Mode from '../../mode';
 
 describe('ScatterActionDial', () => {
