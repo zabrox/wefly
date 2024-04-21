@@ -3,6 +3,7 @@ import * as CesiumMap from "../../../cesiummap";
 import { createTrackGroupPin } from './trackgrouppin';
 
 const entities = [];
+let clickHandler = undefined;
 
 const trackGroupEntitiyId = (trackGroup) => {
     return `trackgroup-${trackGroup.groupid}`;
@@ -51,6 +52,29 @@ export const renderTrackGroups = (trackGroups, selectedTrackGroups) => {
         }
     });
 }
+
+export const registerEventHandlerOnTrackGroupClick = (handleTrackGroupClick, trackGroups) => {
+    if (trackGroups.length === 0) {
+        return;
+    }
+    // Event handler for clicking on track points
+    if (clickHandler !== undefined) {
+        clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
+    clickHandler = new Cesium.ScreenSpaceEventHandler(CesiumMap.viewer.scene.canvas);
+    clickHandler.setInputAction((click) => {
+        const pickedObject = CesiumMap.viewer.scene.pick(click.position);
+        if (!Cesium.defined(pickedObject) || !Cesium.defined(pickedObject.id)) {
+            return;
+        }
+        const entityId = pickedObject.id;
+        if (!entityId instanceof Cesium.Entity || entityId.type !== 'trackgroup') {
+            return;
+        }
+        handleTrackGroupClick(entityId.groupid, trackGroups);
+        CesiumMap.viewer.selectedEntity = undefined;
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+};
 
 export const removeTrackGroupEntities = () => {
     entities.forEach((entity) => CesiumMap.viewer.entities.remove(entity));

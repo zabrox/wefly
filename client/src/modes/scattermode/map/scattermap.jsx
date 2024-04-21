@@ -1,40 +1,10 @@
 import React from "react";
 import * as Cesium from "cesium";
 import * as CesiumMap from '../../../cesiummap';
-import { renderTrackGroups, removeTrackGroupEntities } from "./trackgrouprenderer";
-import { renderTracks, removeTrackEntities } from "./trackrenderer";
-import { trackPointClick } from "./trackpointrenderer";
-import { trackLineClick } from "./tracklinerenderer";
+import { renderTrackGroups, removeTrackGroupEntities, registerEventHandlerOnTrackGroupClick } from "./trackgrouprenderer";
+import { renderTracks, removeTrackEntities, registerEventHandlerOnTrackClick } from "./trackrenderer";
 
 let removeCameraMoveEvent = undefined;
-let clickHandler = undefined;
-
-const registerEventHandlerOnPointClick = (handleTrackPointClick, handleTrackGroupClick, tracks, trackGroups) => {
-    if (tracks.length === 0 || trackGroups.length === 0) {
-        return;
-    }
-    // Event handler for clicking on track points
-    if (clickHandler !== undefined) {
-        clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
-    }
-    clickHandler = new Cesium.ScreenSpaceEventHandler(CesiumMap.viewer.scene.canvas);
-    clickHandler.setInputAction((click) => {
-        const pickedObject = CesiumMap.viewer.scene.pick(click.position);
-        if (Cesium.defined(pickedObject) && Cesium.defined(pickedObject.id)) {
-            const entityId = pickedObject.id;
-            if (entityId instanceof Cesium.Entity) {
-                if (entityId.type === 'trackpoint') {
-                    trackPointClick(entityId, handleTrackPointClick);
-                } else if (entityId.type === 'trackline') {
-                    trackLineClick(entityId, tracks, click.position, handleTrackPointClick);
-                } else if (entityId.type === 'trackgroup') {
-                    handleTrackGroupClick(entityId.groupid, trackGroups);
-                }
-                CesiumMap.viewer.selectedEntity = undefined;
-            }
-        }
-    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-};
 
 const registerEventListenerOnCameraMove = (
     tracks, trackGroups, selectedTracks, selectedTrackGroups, selectedTrackPoint) => {
@@ -55,10 +25,6 @@ export const leaveScatterMode = () => {
     removeTrackEntities();
     removeTrackGroupEntities();
     removeCameraMoveEvent();
-    if (clickHandler) {
-        clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
-        clickHandler = undefined;
-    }
 }
 
 export const getTracksInPerspective = (tracks) => {
@@ -80,7 +46,8 @@ export const getTracksInPerspective = (tracks) => {
 
 export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatterState }) => {
     React.useEffect(() => {
-        registerEventHandlerOnPointClick(onTrackPointClick, onTrackGroupClick, state.tracks, state.trackGroups);
+        registerEventHandlerOnTrackGroupClick(onTrackGroupClick, state.trackGroups);
+        registerEventHandlerOnTrackClick(onTrackPointClick, state.tracks);
     }, [state, scatterState.selectedTrackGroups, scatterState.selectedTracks]);
     React.useEffect(() => {
         registerEventListenerOnCameraMove(state.tracks,

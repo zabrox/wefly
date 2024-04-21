@@ -4,6 +4,7 @@ import { trackColor } from '../../../util/trackcolor';
 
 const POINTS_INTERVAL = 60;
 const entities = [];
+let clickHandler = undefined;
 
 const trackPointEntitiyId = (track, index) => {
     return `trackpoint-${track.getId()}-${index}`;
@@ -55,9 +56,32 @@ export const renderTrackPoints = (track, selectedTracks, selectedTrackGroups) =>
     }
 }
 
-export const trackPointClick = (entityId, handleTrackPointClick) => {
+const trackPointClick = (entityId, handleTrackPointClick) => {
     const index = entityId.id.split('-')[2];
     handleTrackPointClick(entityId.trackid, index);
+}
+
+export const registerEventHandlerOnTrackPointClick = (handleTrackPointClick, tracks) => {
+    if (tracks.length === 0) {
+        return;
+    }
+    // Event handler for clicking on track points
+    if (clickHandler !== undefined) {
+        clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
+    clickHandler = new Cesium.ScreenSpaceEventHandler(CesiumMap.viewer.scene.canvas);
+    clickHandler.setInputAction((click) => {
+        const pickedObject = CesiumMap.viewer.scene.pick(click.position);
+        if (!Cesium.defined(pickedObject) || !Cesium.defined(pickedObject.id)) {
+            return;
+        }
+        const entityId = pickedObject.id;
+        if (!entityId instanceof Cesium.Entity || entityId.type !== 'trackpoint') {
+            return;
+        }
+        trackPointClick(entityId, handleTrackPointClick);
+        CesiumMap.viewer.selectedEntity = undefined;
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 }
 
 export const removeTrackPointEntities = () => {

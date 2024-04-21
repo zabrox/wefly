@@ -1,5 +1,5 @@
-import { renderTrackLine, removeTrackLineEntities } from "./tracklinerenderer";
-import { renderTrackPoints, removeTrackPointEntities } from "./trackpointrenderer";
+import { renderTrackLine, removeTrackLineEntities, registerEventHandlerOnTrackLineClick } from "./tracklinerenderer";
+import { renderTrackPoints, removeTrackPointEntities, registerEventHandlerOnTrackPointClick } from "./trackpointrenderer";
 import { renderSelectedTrackPoint, removeSelectedTrackPointEntities } from "./selectedtrackpointrenderer";
 
 export const renderTracks = (tracks, selectedTracks, selectedTrackGroups, selectedTrackPoint) => {
@@ -12,6 +12,11 @@ export const renderTracks = (tracks, selectedTracks, selectedTrackGroups, select
         renderTrackLine(track, selectedTracks, selectedTrackGroups);
         renderSelectedTrackPoint(selectedTrackPoint);
     });
+}
+
+export const registerEventHandlerOnTrackClick = (handleTrackPointClick, tracks) => {
+    registerEventHandlerOnTrackLineClick(handleTrackPointClick, tracks);
+    registerEventHandlerOnTrackPointClick(handleTrackPointClick, tracks);
 }
 
 export const removeTrackEntities = () => {
