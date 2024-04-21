@@ -10,7 +10,7 @@
     "test-all": "npm run test-client && npm run test-api-server && npm run test-track-loader && npm run test-common",
     "test-client": "cd client && npm run test",
     "test-api-server": "cd api-server && npm run test",
-    "test-track-loader": "cd track_loader && npm run test",
+    "test-track-loader": "cd track_loader && npm run test"
   },
   "author": "",
   "license": "ISC",
