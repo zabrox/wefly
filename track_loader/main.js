@@ -3,6 +3,8 @@ const { Firestore } = require('@google-cloud/firestore');
 const { program } = require("commander");
 const { loadTrackListPages } = require('./trackListPageLoader.js');
 const { parseTrackListPage } = require('./trackListPageParser.js');
+const { filterExistingTracks } = require('./existingTrackFilter.js');
+const { loadMetadatas } = require('./metadataLoader.js');
 const { loadTrackPages } = require('./trackPageLoader.js');
 const { parseTrackPages } = require('./trackPageParser.js');
 const { loadIgcs } = require('./igcLoader.js');
@@ -10,18 +12,26 @@ const { saveTracks } = require('./saveTracks.js');
 const { loadPilotIcons } = require('./piloticonLoader.js');
 
 async function loadTracks(date, opts) {
+
     if (!opts.nodownload) {
         await loadTrackListPages(date);
     }
+
     let tracks = await parseTrackListPage(date, 1);
     if (tracks.length === 0) {
         console.log('No tracks found');
         return;
     }
+
     if (!opts.nodownload) {
         await loadTrackPages(date, tracks, opts);
     }
     await parseTrackPages(date, tracks);
+
+    if (!opts.force) {
+        const existingMetadatas = await loadMetadatas(date);
+        tracks = filterExistingTracks(tracks, existingMetadatas);
+    }
 
     if (!opts.nodownload) {
         await loadIgcs(date, tracks, opts);
