@@ -37,8 +37,8 @@ async function parseTrackRow($, trackRow) {
 
 async function parseTracks(html) {
     const $ = cheerio.load(html);
-    // Live中のトラックが完了として扱われる不具合調査のためにログを出力
-    console.log(html);
+    // // Live中のトラックが完了として扱われる不具合調査のためにログを出力
+    // console.log(html);
     const tracks = [];
     $('div[id^="trackRow_"]').each(async (index, element) => {
         try {
@@ -55,6 +55,7 @@ async function parseTracks(html) {
 }
 
 async function parseTrackListPage(date, pageNumber) {
+    console.log(`Parsing track list page ${pageNumber}`)
     const filePath = `${date}/livetrack24/TrackListPage-${pageNumber}.html`;
     let content;
     try {
@@ -71,7 +72,9 @@ async function parseTrackListPage(date, pageNumber) {
     }
     const html = content.toString('utf-8');
 
+    console.log(`load html for page ${pageNumber}`)
     const tracks = await parseTracks(html);
+    console.log(`parse html for page ${pageNumber}`)
     const tracksOnFollowingPages = await parseTrackListPage(date, pageNumber + 1);
     tracks.push(...tracksOnFollowingPages);
 

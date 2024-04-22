@@ -16,12 +16,6 @@ async function loadIgc(date, track, opts) {
     const file = bucket.file(igcFileName);
 
     try {
-        const [exists] = await file.exists();
-        if (!opts.force && exists) {
-            console.log(`IGC file already exists: ${igcFileName}`);
-            return;
-        }
-
         const igcUrl = `https://www.livetrack24.com/leo_live.php?op=igc&trackID=${track.metadata.liveTrackId}`;
         const response = await axios.get(igcUrl, {
             responseType: 'arraybuffer',

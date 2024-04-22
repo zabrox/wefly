@@ -20,10 +20,6 @@ jobs:
 
     - name: npm install
       run: npm install
-      working-directory: "./common"
-
-    - name: npm install
-      run: npm install
       working-directory: "./client"
 
     - name: npm install
