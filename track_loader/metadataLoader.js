@@ -18,7 +18,7 @@ async function loadMetadatas(date) {
         });
         return response.data.map(metadata => Metadata.deserialize(metadata));
     } catch (error) {
-        throw error;
+        return [];
     }
 }
 
