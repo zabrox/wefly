@@ -81,14 +81,14 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
     }, [state, scatterState]);
 
     const trackNumber = React.useCallback(() => {
-        if (scatterState.selectedTrackGroups.groups.size === 0) {
-            return state.tracks.length;
-        }
-        let count = 0;
-        for (const group of scatterState.selectedTrackGroups.groups) {
-            count += group.trackIds.length;
-        }
-        return count;
+        const trackIds = [];
+        scatterState.trackGroupsInPerspective.forEach(trackGroup => trackIds.push(...trackGroup.trackIds));
+        scatterState.tracksInPerspective.forEach(track => {
+            if (!trackIds.find(id => id === track.getId())){
+                trackIds.push(track.getId())
+            }
+        });
+        return trackIds.length;
     }, [state, scatterState]);
 
     if (state.mode !== Mode.SCATTER_MODE) {
@@ -127,7 +127,8 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                 onTrackPointClick={handleTrackPointClick}
                 onTrackGroupClick={handleTrackGroupClick}
                 state={state}
-                scatterState={scatterState} />
+                scatterState={scatterState}
+                setScatterState={setScatterState} />
         </div >
     );
 };
