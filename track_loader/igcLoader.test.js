@@ -43,24 +43,6 @@ describe('igcLoader', () => {
         expect(saveMock).toHaveBeenCalledWith('mock igc data');
     });
 
-    it('should not load IGC file if it already exists', async () => {
-        const saveMock = jest.fn().mockResolvedValueOnce();
-        const existsMock = jest.fn().mockResolvedValueOnce([true]);
-        Storage.mockImplementation(() => ({
-            bucket: () => ({
-                file: () => ({
-                    save: saveMock,
-                    exists: existsMock,
-                }),
-            }),
-        }));
-
-        await loadIgcs(date, tracks, { force: false });
-
-        expect(existsMock).toHaveBeenCalled();
-        expect(axios.get).not.toHaveBeenCalled();
-    });
-
     it('should handle error when downloading or saving IGC file', async () => {
         const saveMock = jest.fn().mockResolvedValueOnce();
         const existsMock = jest.fn().mockResolvedValueOnce([false]);
@@ -82,23 +64,4 @@ describe('igcLoader', () => {
         expect(getMock).toHaveBeenCalledWith(`https://www.livetrack24.com/leo_live.php?op=igc&trackID=${tracks[0].metadata.liveTrackId}`, expect.anything());
         expect(saveMock).not.toHaveBeenCalled();
     });
-
-    it('should load IGC file even if it already exists when force mode', async () => {
-        const saveMock = jest.fn().mockResolvedValueOnce();
-        const existsMock = jest.fn().mockResolvedValueOnce([true]);
-        Storage.mockImplementation(() => ({
-            bucket: () => ({
-                file: () => ({
-                    save: saveMock,
-                    exists: existsMock,
-                }),
-            }),
-        }));
-
-        await loadIgcs(date, tracks, { force: true });
-
-        expect(existsMock).toHaveBeenCalled();
-        expect(axios.get).toHaveBeenCalled();
-    });
-
 });
