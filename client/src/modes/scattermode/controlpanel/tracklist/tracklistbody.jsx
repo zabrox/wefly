@@ -31,11 +31,23 @@ const mapTracksToTableRows = (tracks, selectedTracks, onTrackClicked) => {
 };
 
 export const TrackListBody = ({ state, scatterState, onTrackClicked }) => {
+    const tracksInPerspective = [...scatterState.tracksInPerspective];
+    scatterState.trackGroupsInPerspective.forEach(trackGroup => {
+        trackGroup.trackIds.forEach(trackId => {
+            if (tracksInPerspective.find(t => t.getId() === trackId)) {
+                return;
+            }
+            const track = state.tracks.find(track => track.getId() === trackId);
+            if (track) {
+                tracksInPerspective.push(track);
+            }
+        });
+    });
     const sortedTracks = React.useMemo(() => {
-        const comparator = headers.find(header => header.id === scatterState.orderBy).comparator;
-        const sortedTracks = state.tracks.slice().sort(comparator);
-        return scatterState.order === 'asc' ? sortedTracks : sortedTracks.reverse();
-    }, [state, scatterState]);
+            const comparator = headers.find(header => header.id === scatterState.orderBy).comparator;
+            const sortedTracks = tracksInPerspective.slice().sort(comparator);
+            return scatterState.order === 'asc' ? sortedTracks : sortedTracks.reverse();
+        }, [state, scatterState]);
 
     return (
         <TableBody id='track-list-body'>{

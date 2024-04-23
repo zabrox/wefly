@@ -16,6 +16,8 @@ export const ScatterMode = ({ state, setState }) => {
         selectedTracks: new Set(),
         selectedTrackGroups: new TrackGroupSelection(),
         selectedTrackPoint: new TrackPoint(),
+        tracksInPerspective: [],
+        trackGroupsInPerspective: [],
     });
 
     if (state.mode !== SCATTER_MODE) {
