@@ -68,6 +68,8 @@ describe('TrackListBody', () => {
                     selectedTracks: mockSelectedTracks,
                     orderBy: 'starttime',
                     order: 'asc',
+                    tracksInPerspective: mockTracks,
+                    trackGroupsInPerspective: [],
                 }}
                 onTrackClicked={mockOnTrackClicked}
             />
@@ -105,6 +107,8 @@ describe('TrackListBody', () => {
                         selectedTracks: mockSelectedTracks,
                         orderBy: condition.orderBy,
                         order: condition.order,
+                        tracksInPerspective: mockTracks,
+                        trackGroupsInPerspective: [],
                     }}
                     onTrackClicked={mockOnTrackClicked}
                 />
@@ -133,6 +137,8 @@ describe('TrackListBody', () => {
                     selectedTracks: mockSelectedTracks,
                     orderBy: 'starttime',
                     order: 'asc',
+                    tracksInPerspective: mockTracks,
+                    trackGroupsInPerspective: [],
                 }}
                 onTrackClicked={mockOnTrackClicked}
             />
@@ -155,6 +161,8 @@ describe('TrackListBody', () => {
                     selectedTracks: mockSelectedTracks,
                     orderBy: 'starttime',
                     order: 'asc',
+                    tracksInPerspective: mockTracks,
+                    trackGroupsInPerspective: [],
                 }}
                 onTrackClicked={mockOnTrackClicked}
             />
