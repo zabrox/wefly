@@ -74,7 +74,7 @@ export const registerEventHandlerOnTrackLineClick = (handleTrackPointClick, trac
             return;
         }
         const entityId = pickedObject.id;
-        if (!entityId instanceof Cesium.Entity || entityId.type !== 'trackline') {
+        if (!(entityId instanceof Cesium.Entity) || entityId.type !== 'trackline') {
             return;
         }
         trackLineClick(entityId, tracks, click.position, handleTrackPointClick);
