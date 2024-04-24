@@ -67,7 +67,7 @@ const initializeSearchCondition = () => {
     const boundsArray = [];
     for (const value of boundsStrArray) {
         const float = parseFloat(value);
-        if (float === NaN) {
+        if (isNaN(float)) {
             condition.bounds = undefined;
             break;
         }
