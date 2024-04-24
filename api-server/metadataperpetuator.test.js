@@ -83,7 +83,7 @@ describe('MetadataPerpetuator', () => {
             `SELECT * FROM \`${datasetId}.${tableId}\` WHERE
             startTime >= '2024-01-01 12:00:00' AND startTime <= '2024-01-31 12:00:00' AND pilotname = 'John Doe' AND maxAltitude >= 1000 AND distance >= 100 AND duration >= 60 
             AND startLongitude >= 139.95498077133317 AND startLongitude <= 140.45498077133317 AND startLatitude >= 36.04253346930107 AND startLatitude <= 36.54253346930107
-            AND (activity = 'Paraglider' OR activity = 'Flex wing FAI1' OR activity = 'Rigid wing FAI5') LIMIT 1000`.replaceAll(/\s+/g, ' ')
+            AND (activity IN ('Paraglider', 'Flex wing FAI1', 'Rigid wing FAI5')) LIMIT 1000`.replaceAll(/\s+/g, ' ')
         );
         expect(result).toEqual([{ pilotname: 'John Doe' }]);
     });

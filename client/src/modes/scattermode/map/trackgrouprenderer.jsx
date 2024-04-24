@@ -68,7 +68,7 @@ export const registerEventHandlerOnTrackGroupClick = (handleTrackGroupClick, tra
             return;
         }
         const entityId = pickedObject.id;
-        if (!entityId instanceof Cesium.Entity || entityId.type !== 'trackgroup') {
+        if (!(entityId instanceof Cesium.Entity) || entityId.type !== 'trackgroup') {
             return;
         }
         handleTrackGroupClick(entityId.groupid, trackGroups);

@@ -2,6 +2,7 @@ const { BigQuery } = require('@google-cloud/bigquery');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const { Metadata } = require('./common/metadata.js');
+const { activityQuery } = require('./activityquery');
 
 dayjs.extend(utc);
 
@@ -63,20 +64,7 @@ class MetadataPerpetuator {
             query += ` AND startLatitude >= ${bounds[0][1]} AND startLatitude <= ${bounds[1][1]}`;
         }
         if (searchCondition.activities.length > 0) {
-            let activities = searchCondition.activities;
-            if (activities.includes('Hangglider')) {
-                activities = activities.filter(activity => activity !== 'Hangglider');
-                activities.push('Flex wing FAI1');
-                activities.push('Rigid wing FAI5');
-            }
-            query += ` AND (`;
-            activities.forEach((activity, index) => {
-                if (index !== 0) {
-                    query += ` OR `;
-                }
-                query += `activity = '${activity}'`;
-            });
-            query += `)`;
+            query += activityQuery(searchCondition.activities);
         }
 
         query += ` LIMIT ${QUERY_LIMIT}`;
