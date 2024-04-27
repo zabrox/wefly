@@ -4,13 +4,13 @@ import * as CesiumMap from '../../../cesiummap';
 import { renderTrackGroups, removeTrackGroupEntities, registerEventHandlerOnTrackGroupClick } from "./trackgrouprenderer";
 import { renderTracks, removeTrackEntities, registerEventHandlerOnTrackClick } from "./trackrenderer";
 
-let removeCameraMoveEvent = undefined;
+let removeCameraMoveEndEvent = undefined;
 
-const registerEventListenerOnCameraMove = (state, scatterState, setScatterState) => {
-    if (removeCameraMoveEvent !== undefined) {
-        removeCameraMoveEvent();
+const registerEventListenerOnCameraMoveEnd = (state, scatterState, setScatterState) => {
+    if (removeCameraMoveEndEvent !== undefined) {
+        removeCameraMoveEndEvent();
     }
-    removeCameraMoveEvent = CesiumMap.viewer.camera.changed.addEventListener(() => {
+    removeCameraMoveEndEvent = CesiumMap.viewer.camera.moveEnd.addEventListener(() => {
         const tracksInPerspective = getTracksInPerspective(state.tracks);
         const trackGroupsInPerspective = getTrackGroupsInPerspective(state.trackGroups);
         setScatterState(state => ({
@@ -28,7 +28,7 @@ const render = (tracks, trackGroups, selectedTracks, selectedTrackGroups, select
 export const leaveScatterMode = () => {
     removeTrackEntities();
     removeTrackGroupEntities();
-    removeCameraMoveEvent();
+    removeCameraMoveEndEvent();
 }
 
 const getTracksInPerspective = (tracks) => {
@@ -39,7 +39,7 @@ const getTracksInPerspective = (tracks) => {
     tracks.forEach(track => {
         for (let i = 0; i < track.path.points.length; i++) {
             const cartesian = Cesium.Cartesian3.fromDegrees(...track.path.points[i]);
-            if (cullingVolume.computeVisibility(new Cesium.BoundingSphere(cartesian, 100)) === Cesium.Intersect.INSIDE) {
+            if (cullingVolume.computeVisibility(new Cesium.BoundingSphere(cartesian, 1)) === Cesium.Intersect.INSIDE) {
                 visibleTracks.push(track);
                 break;
             }
@@ -55,7 +55,7 @@ const getTrackGroupsInPerspective = (trackGroups) => {
     const visibleTrackGroups = [];
     trackGroups.forEach(trackGroup => {
         const cartesian = Cesium.Cartesian3.fromDegrees(...trackGroup.position);
-        if (cullingVolume.computeVisibility(new Cesium.BoundingSphere(cartesian, 100)) === Cesium.Intersect.INSIDE) {
+        if (cullingVolume.computeVisibility(new Cesium.BoundingSphere(cartesian, 1)) === Cesium.Intersect.INSIDE) {
             visibleTrackGroups.push(trackGroup);
         }
     });
@@ -68,7 +68,7 @@ export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatte
         registerEventHandlerOnTrackClick(onTrackPointClick, state.tracks);
     }, [state, scatterState.selectedTrackGroups, scatterState.selectedTracks]);
     React.useEffect(() => {
-        registerEventListenerOnCameraMove(
+        registerEventListenerOnCameraMoveEnd(
             state,
             scatterState,
             setScatterState);
