@@ -27,7 +27,7 @@ const initializeCesium = async (cesiumContainerRef) => {
     viewer.scene.globe.atmosphereLightIntensity = 30;
     document.getElementsByClassName('cesium-viewer-bottom')[0].remove();
     viewer.camera.percentageChanged = 0.1;
-    viewer.camera.frustum.fov = Cesium.Math.toRadians(100);
+    viewer.camera.frustum.fov = Cesium.Math.toRadians(80);
     viewer.selectionIndicator.viewModel.selectionIndicatorElement.style.visibility = 'hidden';
     viewer.scene.postProcessStages.fxaa.enabled = true;
     viewer.useBrowserRecommendedResolution = true;
