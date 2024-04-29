@@ -12,7 +12,7 @@ export const loadMetadatas = async (searchCondition) => {
         const bounds = searchCondition.bounds ? searchCondition.bounds.flat().join(',') : undefined;
         const response = await axios({
             method: "get",
-            url: metadatasurl, 
+            url: metadatasurl,
             responseType: "json",
             params: {
                 from: searchCondition.from.format('YYYY-MM-DDTHH:mm:ssZ'),
@@ -45,9 +45,22 @@ export const loadPaths = async (tracks) => {
     const pathsurl = `${import.meta.env.VITE_API_URL}/tracks/paths?trackids=`;
     console.time('loadPaths');
     try {
-        const trackids = tracks.map((track) => track.getId()).join(',');
-        const response = await axios({ method: "get", url: `${pathsurl}${trackids}` })
-        convertPathsJson(response.data, tracks);
+        const maxTrackIds = 100;
+        const trackids = tracks.map((track) => track.getId());
+        let index = 0;
+        const promises = [];
+        while (true) {
+            const tracksChunk = tracks.slice(index, index + maxTrackIds);
+            const trackIdsQuery = trackids.slice(index, index + maxTrackIds).join(',');
+            promises.push(axios({ method: "get", url: `${pathsurl}${trackIdsQuery}` }).then((response) => {
+                convertPathsJson(response.data, tracksChunk);
+            }));
+            index += maxTrackIds;
+            if (index >= tracks.length) {
+                break;
+            }
+        }
+        await Promise.all(promises);
     } catch (error) {
         throw error;
     }
