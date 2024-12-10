@@ -1,7 +1,8 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { DesktopDatePicker } from '@mui/x-date-pickers';
+import TodayIcon from '@mui/icons-material/Today';
+import { MobileDatePicker } from '@mui/x-date-pickers';
 import { Typography, Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import { SearchCondition } from '../searchcondition';
@@ -15,10 +16,10 @@ import './searchconditiondisplay.css';
 
 const DatePicker = ({ searchCondition, handleDateChange }) => {
     return (
-        <DesktopDatePicker
+        <MobileDatePicker
             value={searchCondition.from}
             format="YYYY-MM-DD (ddd)"
-            onChange={handleDateChange} />
+            onAccept={handleDateChange} />
     );
 }
 
@@ -138,11 +139,23 @@ export const SearchConditionDisplayImpl = ({
         setShowAdvancedSearchDialog(true);
     });
 
+    const handleTodayIconClick = React.useCallback(() => {
+        const date = dayjs();
+        const copySearchCondition = searchCondition;
+        copySearchCondition.from = date.startOf('day');
+        copySearchCondition.to = date.endOf('day');
+        handleSearchConditionChange(copySearchCondition);
+    });
+
     return (
-        <div id='date-picker-container'>
-            {searchCondition.isAdvancedSearchEnabled() ?
-                <AdvancedSearchCondition searchCondition={searchCondition} /> :
-                <DatePicker searchCondition={searchCondition} handleDateChange={handleDateChange} />}
+        <Box id='search-condition-container'>
+            <Box id='date-picker-container'>
+                {searchCondition.isAdvancedSearchEnabled() ?
+                    <AdvancedSearchCondition searchCondition={searchCondition} /> :
+                    <DatePicker searchCondition={searchCondition} handleDateChange={handleDateChange} />}
+                <TodayIcon id='todayicon'
+                    onClick={handleTodayIconClick} />
+            </Box>
             <AddCircleOutlineIcon
                 id='advanced-search'
                 color='primary'
@@ -152,6 +165,6 @@ export const SearchConditionDisplayImpl = ({
                 show={showAdvancedSearchDialog}
                 setShow={setShowAdvancedSearchDialog}
                 search={handleSearchConditionChange} />
-        </div>
+        </Box>
     );
 }

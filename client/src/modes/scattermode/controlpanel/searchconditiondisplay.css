@@ -1,8 +1,18 @@
-#date-picker-container {
+#search-condition-container {
     padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+#date-picker-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#todayicon {
+    position: relative;
+    left: -40px;
+    color: rgba(80, 80, 80);
 }
 #date-picker{
     width: 150px;
