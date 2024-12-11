@@ -4,20 +4,6 @@
     justify-content: center;
     align-items: center;
 }
-#date-picker-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-#todayicon {
-    position: absolute;
-    left: 180px;
-    color: rgba(80, 80, 80);
-}
-#date-picker{
-    width: 150px;
-}
 #advanced-search {
     height: 30px;
     width: 30px;
