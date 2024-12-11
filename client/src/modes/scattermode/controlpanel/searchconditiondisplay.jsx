@@ -1,59 +1,16 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import UpcomingIcon from '@mui/icons-material/Upcoming';
-import { MobileDatePicker } from '@mui/x-date-pickers';
-import { Typography, Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import { SearchCondition } from '../searchcondition';
 import { loadTracks } from '../trackloader';
 import { TrackGroupSelection } from '../trackGroupSelection';
 import { TrackPoint } from '../trackpoint';
 import { AdvancedSearchDialog } from '../advancedsearch/advancedsearchdialog';
-import { judgeMedia } from '../../../util/media'
+import { AdvancedSearchCondition } from './advancedsearchcondition';
+import { DatePicker } from './datepicker';
 import * as CesiumMap from '../../../cesiummap';
 import './searchconditiondisplay.css';
-
-const DatePicker = ({ searchCondition, handleDateChange, handleTodayIconClick }) => {
-    return (
-        <Box id='date-picker-container'>
-            <MobileDatePicker
-                value={searchCondition.from}
-                format="YYYY-MM-DD (ddd)"
-                onAccept={handleDateChange} />
-            <UpcomingIcon id='todayicon'
-                onClick={handleTodayIconClick} />
-        </Box>
-    );
-}
-
-const AdvancedSearchCondition = ({ searchCondition }) => {
-    const variant = judgeMedia().isMobile ? 'caption' : 'body2';
-    return (
-        <Box style={{ width: '80%' }}>
-            <Grid container id='advanced-search-condition' spacing={1} columnSpacing={{ md: 2, sm: 1, xs: 1 }}>
-                <Grid item md={4} sm={6} xs={6}>
-                    <Typography variant={variant}><b>From:</b> {searchCondition.from.format('YYYY-MM-DD')}</Typography>
-                </Grid>
-                <Grid item md={4} sm={6} xs={6}>
-                    <Typography variant={variant}><b>To:</b> {searchCondition.to.format('YYYY-MM-DD')}</Typography>
-                </Grid>
-                <Grid item md={4} sm={6} xs={6}>
-                    <Typography variant={variant}><b>パイロット:</b> {searchCondition.pilotname === '' ? '---' : searchCondition.pilotname}</Typography>
-                </Grid>
-                <Grid item md={4} sm={6} xs={6}>
-                    <Typography variant={variant}><b>最高高度:</b> {!searchCondition.maxAltitude ? '---' : searchCondition.maxAltitude}</Typography>
-                </Grid>
-                <Grid item md={4} sm={6} xs={6}>
-                    <Typography variant={variant}><b>飛行距離:</b> {!searchCondition.distance ? '---' : searchCondition.distance}</Typography>
-                </Grid>
-                <Grid item md={4} sm={6} xs={6}>
-                    <Typography variant={variant}><b>飛行時間:</b> {!searchCondition.duration ? '---' : searchCondition.duration}</Typography>
-                </Grid>
-            </Grid >
-        </Box >
-    );
-}
 
 const initializeSearchCondition = () => {
     const condition = new SearchCondition();
