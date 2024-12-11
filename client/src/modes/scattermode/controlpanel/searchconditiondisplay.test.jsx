@@ -67,9 +67,10 @@ describe('SearchCondition', () => {
             selectedTrackPoint: new TrackPoint(),
         };
         const setScatterState = vi.fn();
+        const firstDay = dayjs().startOf('month');
         const newSearchCondition = {
-            from: dayjs('2024-01-02 00:00:00'),
-            to: dayjs('2024-01-02 23:59:59.999'),
+            from: firstDay.startOf('day'),
+            to: firstDay.endOf('day'),
             pilotname: "",
             maxAltitude: undefined,
             distance: undefined,
@@ -90,7 +91,11 @@ describe('SearchCondition', () => {
         );
 
         const date = screen.getByDisplayValue(dayjs().format('YYYY-MM-DD (ddd)'));
-        fireEvent.change(date, { target: { value: '2024-01-02 (Tue)' } });
+        fireEvent.click(date);
+        const targetDate = screen.getByText("1");
+        fireEvent.click(targetDate);
+        const okButton = screen.getByText("OK");
+        fireEvent.click(okButton);
 
         expect(loadTracks.mock.calls.length).toBe(1);
         expect(loadTracks).toHaveBeenCalledWith(

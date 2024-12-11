@@ -5,13 +5,14 @@
     align-items: center;
 }
 #date-picker-container {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #todayicon {
-    position: relative;
-    left: -40px;
+    position: absolute;
+    left: 180px;
     color: rgba(80, 80, 80);
 }
 #date-picker{
