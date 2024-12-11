@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import TodayIcon from '@mui/icons-material/Today';
+import UpcomingIcon from '@mui/icons-material/Upcoming';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 import { Typography, Grid } from '@mui/material';
 import { Box } from '@mui/system';
@@ -14,12 +14,16 @@ import { judgeMedia } from '../../../util/media'
 import * as CesiumMap from '../../../cesiummap';
 import './searchconditiondisplay.css';
 
-const DatePicker = ({ searchCondition, handleDateChange }) => {
+const DatePicker = ({ searchCondition, handleDateChange, handleTodayIconClick }) => {
     return (
-        <MobileDatePicker
-            value={searchCondition.from}
-            format="YYYY-MM-DD (ddd)"
-            onAccept={handleDateChange} />
+        <Box id='date-picker-container'>
+            <MobileDatePicker
+                value={searchCondition.from}
+                format="YYYY-MM-DD (ddd)"
+                onAccept={handleDateChange} />
+            <UpcomingIcon id='todayicon'
+                onClick={handleTodayIconClick} />
+        </Box>
     );
 }
 
@@ -149,13 +153,9 @@ export const SearchConditionDisplayImpl = ({
 
     return (
         <Box id='search-condition-container'>
-            <Box id='date-picker-container'>
-                {searchCondition.isAdvancedSearchEnabled() ?
-                    <AdvancedSearchCondition searchCondition={searchCondition} /> :
-                    <DatePicker searchCondition={searchCondition} handleDateChange={handleDateChange} />}
-                <TodayIcon id='todayicon'
-                    onClick={handleTodayIconClick} />
-            </Box>
+            {searchCondition.isAdvancedSearchEnabled() ?
+                <AdvancedSearchCondition searchCondition={searchCondition} /> :
+                <DatePicker searchCondition={searchCondition} handleDateChange={handleDateChange} handleTodayIconClick={handleTodayIconClick} />}
             <AddCircleOutlineIcon
                 id='advanced-search'
                 color='primary'
