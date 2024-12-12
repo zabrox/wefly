@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { Dialog, DialogContent, DialogActions, DialogTitle, TextField, Grid, Button, Typography, Box } from '@mui/material';
-import { DesktopDatePicker } from '@mui/x-date-pickers';
+import { MobileDatePicker } from '@mui/x-date-pickers';
 import { SearchCondition } from '../searchcondition';
 import InfoIcon from '@mui/icons-material/Info';
 import { ActivitiesSearch } from './activitiessearch';
@@ -66,18 +66,18 @@ export const AdvancedSearchDialog = ({ searchCondition, show, setShow, search })
             <DialogContent id='advanced-search-dialog-content'>
                 <Grid container spacing={2} direction="column">
                     <Grid item>
-                        <DesktopDatePicker
+                        <MobileDatePicker
                             label="From"
-                            defaultValue={searchCondition.from}
+                            value={searchCondition.from}
                             format="YYYY-MM-DD (ddd)"
-                            onChange={handleFromDateChange} />
+                            onAccept={handleFromDateChange} />
                     </Grid>
                     <Grid item>
-                        <DesktopDatePicker
+                        <MobileDatePicker
                             label="To"
-                            defaultValue={searchCondition.to}
+                            value={searchCondition.to}
                             format="YYYY-MM-DD (ddd)"
-                            onChange={handleToDateChange} />
+                            onAccept={handleToDateChange} />
                     </Grid>
                     <ActivitiesSearch searchCondition={internalSearchCondition} setSearchCondition={setInternalSearchCondition} />
                     <Grid item>

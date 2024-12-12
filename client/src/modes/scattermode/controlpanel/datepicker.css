@@ -1,0 +1,11 @@
+#date-picker-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#todayicon {
+    position: absolute;
+    right: 8%;
+    color: rgba(80, 80, 80);
+}

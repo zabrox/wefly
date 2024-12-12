@@ -1,11 +1,8 @@
-#date-picker-container {
+#search-condition-container {
     padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-#date-picker{
-    width: 150px;
 }
 #advanced-search {
     height: 30px;
