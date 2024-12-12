@@ -3,15 +3,16 @@ import UpcomingIcon from '@mui/icons-material/Upcoming';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 import './datepicker.css';
 
-export const DatePicker = ({ searchCondition, handleDateChange, handleTodayIconClick }) => {
+export const DatePicker = ({ date, handleDateChange, handleTodayIconClick, showTodayButton }) => {
     return (
         <Box id='date-picker-container'>
             <MobileDatePicker id='mobile-date-picker'
-                value={searchCondition.from}
+                value={date}
                 format="YYYY-MM-DD (ddd)"
                 onAccept={handleDateChange} />
-            <UpcomingIcon id='todayicon'
-                onClick={handleTodayIconClick} />
+            { showTodayButton ? 
+                <UpcomingIcon id='todayicon'
+                    onClick={handleTodayIconClick} /> : null }
         </Box>
     );
 }
