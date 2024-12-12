@@ -112,7 +112,7 @@ export const SearchConditionDisplayImpl = ({
         <Box id='search-condition-container'>
             {searchCondition.isAdvancedSearchEnabled() ?
                 <AdvancedSearchCondition searchCondition={searchCondition} /> :
-                <DatePicker searchCondition={searchCondition} handleDateChange={handleDateChange} handleTodayIconClick={handleTodayIconClick} />}
+                <DatePicker date={searchCondition.from} handleDateChange={handleDateChange} handleTodayIconClick={handleTodayIconClick} showTodayButton={true} />}
             <AddCircleOutlineIcon
                 id='advanced-search'
                 color='primary'
