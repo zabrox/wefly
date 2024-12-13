@@ -10,9 +10,9 @@ export const DatePicker = ({ date, handleDateChange, handleTodayIconClick, showT
                 value={date}
                 format="YYYY-MM-DD (ddd)"
                 onAccept={handleDateChange} />
-            { showTodayButton ? 
+            {showTodayButton ?
                 <UpcomingIcon id='todayicon'
-                    onClick={handleTodayIconClick} /> : null }
+                    onClick={handleTodayIconClick} /> : null}
         </Box>
     );
 }
