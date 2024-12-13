@@ -1,0 +1,8 @@
+#track-menu-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#track-menu {
+    margin: 0 0 0 10px;
+}
