@@ -9,6 +9,7 @@ import { TrackListHeader } from './tracklist/tracklistheader';
 import { TrackListBody } from './tracklist/tracklistbody';
 import { SearchConditionDisplay } from './searchconditiondisplay';
 import { TrackGroupSelection } from '../trackGroupSelection';
+import { TrackMenu } from './trackmenu';
 import { loadPaths } from '../trackloader';
 import * as Mode from '../../mode';
 import './scattercontrolpanel.css';
@@ -84,7 +85,7 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         const trackIds = [];
         scatterState.trackGroupsInPerspective.forEach(trackGroup => trackIds.push(...trackGroup.trackIds));
         scatterState.tracksInPerspective.forEach(track => {
-            if (!trackIds.find(id => id === track.getId())){
+            if (!trackIds.find(id => id === track.getId())) {
                 trackIds.push(track.getId())
             }
         });
@@ -102,9 +103,12 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                 setState={setState}
                 scatterState={scatterState}
                 setScatterState={setScatterState} />
-            <Typography id='tracknumber-label'>
-                {trackNumber()} tracks
-            </Typography>
+            <Box id='track-menu-container'>
+                <TrackMenu state={state} />
+                <Typography id='tracknumber-label'>
+                    {trackNumber()} tracks
+                </Typography>
+            </Box>
             <Box id='tracklist-container'>
                 <TableContainer id='tracklist'>
                     <Table size="medium">
