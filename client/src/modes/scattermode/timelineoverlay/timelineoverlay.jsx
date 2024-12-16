@@ -1,7 +1,7 @@
 import React from 'react';
-import dayjs from 'dayjs';
 import { Box } from '@mui/material';
 import { Timeline } from '../../../timeline';
+import { TrackPoint } from '../trackpoint';
 import './timelineoverlay.css';
 
 export const TimelineOverlay = ({ scatterState, setScatterState }) => {
@@ -14,12 +14,31 @@ export const TimelineOverlay = ({ scatterState, setScatterState }) => {
         setCurrentTime(selectedTrackPoint.track.path.times[selectedTrackPoint.index])
     }, [scatterState.selectedTrackPoint])
 
-    const handleCurrentTimeChange = React.useCallback((newCurrentTime) => {
+    const handleTimelineClick = React.useCallback((e, newCurrentTime) => {
+        const track = scatterState.selectedTrackPoint.track;
+        const path = track.path;
+        if (!path) {
+            return;
+        }
 
-    });
+        let closestIndex = 0;
+        let minDifference = Number.MAX_VALUE;
 
-    if (!scatterState.selectedTrackPoint || 
-        !scatterState.selectedTrackPoint.track || 
+        for (let i = 0; i < path.times.length; i++) {
+            const difference = Math.abs(newCurrentTime.diff(path.times[i]));
+            if (difference < minDifference) {
+                minDifference = difference;
+                closestIndex = i;
+            }
+        }
+
+        setScatterState(state => {
+            return {...state, selectedTrackPoint: new TrackPoint(track, closestIndex)}
+        });
+    }, [scatterState.selectedTrackPoint]);
+
+    if (!scatterState.selectedTrackPoint ||
+        !scatterState.selectedTrackPoint.track ||
         !scatterState.selectedTrackPoint.track.path) {
         return null;
     }
@@ -30,9 +49,10 @@ export const TimelineOverlay = ({ scatterState, setScatterState }) => {
                 <Timeline
                     track={scatterState.selectedTrackPoint.track}
                     currentTime={currentTime}
-                    setCurrentTime={handleCurrentTimeChange}
+                    setCurrentTime={setCurrentTime}
                     start={scatterState.selectedTrackPoint.track.path.times[0]}
-                    end={scatterState.selectedTrackPoint.track.path.times.slice(-1)[0]} />
+                    end={scatterState.selectedTrackPoint.track.path.times.slice(-1)[0]}
+                    handleTimelineClick={handleTimelineClick}/>
             </Box>
         </Box>
     )
