@@ -46,8 +46,6 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         const select = !copySelectedTracks.has(trackid);
         if (select) {
             copySelectedTracks.add(trackid);
-            // const track = state.tracks.find(track => track.getId() === trackid);
-            // copySelectedTrackPoint = new TrackPoint(track, 0);
         } else {
             copySelectedTracks.delete(trackid);
             if (copySelectedTrackPoint.isValid() && copySelectedTrackPoint.track.getId() == trackid) {
@@ -79,6 +77,9 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                 const groupid = state.trackGroups.find(group => group.trackIds.includes(trackid)).groupid;
                 await handleTrackGroupClick(groupid, state.trackGroups);
             }
+            setScatterState(state => {
+                return { ...state, selectedTrackPoint: new TrackPoint(targetTrack, 0)}
+            })
             CesiumMap.zoomToTracks([targetTrack]);
         }
     }, [state, scatterState]);
