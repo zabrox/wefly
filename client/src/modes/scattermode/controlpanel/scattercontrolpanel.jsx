@@ -56,7 +56,7 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
             return { ...state, selectedTracks: copySelectedTracks, selectedTrackPoint: copySelectedTrackPoint }
         });
         return select;
-    }, [scatterState]);
+    }, [state, scatterState]);
 
     const handleTrackPointClick = React.useCallback((trackid, index) => {
         if (!scatterState.selectedTracks.has(trackid)) {
@@ -77,6 +77,9 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                 const groupid = state.trackGroups.find(group => group.trackIds.includes(trackid)).groupid;
                 await handleTrackGroupClick(groupid, state.trackGroups);
             }
+            setScatterState(state => {
+                return { ...state, selectedTrackPoint: new TrackPoint(targetTrack, 0)}
+            })
             CesiumMap.zoomToTracks([targetTrack]);
         }
     }, [state, scatterState]);
