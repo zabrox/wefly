@@ -1,8 +1,8 @@
 import React from 'react';
 import * as Cesium from 'cesium';
-import { TrackStatsCalculator } from '../../entities/trackstatscalculator';
-import * as CesiumMap from '../../cesiummap';
-import { trackColor } from '../../util/trackcolor';
+import { TrackStatsCalculator } from './entities/trackstatscalculator';
+import * as CesiumMap from './cesiummap';
+import { trackColor } from './util/trackcolor';
 import './timeline.css';
 
 const CELL_WIDTH = 4;
@@ -28,7 +28,7 @@ const createContextForFuture = (canvas) => {
     return context;
 }
 
-export const Timeline = ({ track, playbackState, setPlaybackState, start, end }) => {
+export const Timeline = ({ track, currentTime, setCurrentTime, start, end, handleTimelineClick }) => {
     const [timelineCells, setTimelineCells] = React.useState([]);
     const timelineContainer = React.useRef(null);
     const timelineCanvas = React.useRef(null);
@@ -65,7 +65,7 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
         context.clearRect(0, 0, timelineCanvas.current.width, timelineCanvas.current.height);
 
         timelineCells.forEach((cell) => {
-            if (cell.time.isAfter(playbackState.currentTime)) {
+            if (cell.time.isAfter(currentTime)) {
                 context = createContextForFuture(timelineCanvas.current);
             }
             context.beginPath();
@@ -73,19 +73,16 @@ export const Timeline = ({ track, playbackState, setPlaybackState, start, end })
             context.fill();
             context.stroke();
         });
-    }, [track, timelineCells, playbackState.currentTime]);
+    }, [track, timelineCells, currentTime]);
 
     const handleClick = (e) => {
         const rect = timelineCanvas.current.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const duration = end.diff(start, 'seconds');
-        const currentTime = start.add(duration * x / rect.width, 'seconds');
-        CesiumMap.viewer.clock.currentTime = Cesium.JulianDate.fromIso8601(currentTime.format('YYYY-MM-DDTHH:mm:ssZ'));
-        const newState = { ...playbackState, currentTime: currentTime };
-        if (track.path.times[0].isBefore(currentTime) && track.path.times[track.path.times.length - 1].isAfter(currentTime)) {
-            newState.selectedTrack = track;
-        }
-        setPlaybackState(newState);
+        const newCurrentTime = start.add(duration * x / rect.width, 'seconds');
+        CesiumMap.viewer.clock.currentTime = Cesium.JulianDate.fromIso8601(newCurrentTime.format('YYYY-MM-DDTHH:mm:ssZ'));
+        setCurrentTime(newCurrentTime);
+        handleTimelineClick(e, newCurrentTime);
     }
 
     return (

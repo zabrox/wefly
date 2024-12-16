@@ -2,6 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { ControlPanel } from "../../controlpanel";
 import { ScatterControlPanel } from "./controlpanel/scattercontrolpanel";
+import { TimelineOverlay } from './timelineoverlay/timelineoverlay';
 import { TrackGroupSelection } from './trackGroupSelection';
 import { TracksLoadingDialog } from './tracksloadingdialog';
 import { TrackPointStatsOverlay } from './statsoverlay/trackpointstatsoverlay';
@@ -26,6 +27,7 @@ export const ScatterMode = ({ state, setState }) => {
 
     return (
         <div>
+            <TimelineOverlay scatterState={scatterState} setScatterState={setScatterState} />
             <TrackPointStatsOverlay scatterState={scatterState} setScatterState={setScatterState} />
             <ControlPanel state={state} setState={setState}>
                 <ScatterControlPanel state={state} setState={setState} scatterState={scatterState} setScatterState={setScatterState} />
