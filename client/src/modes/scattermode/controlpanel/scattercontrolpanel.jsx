@@ -46,6 +46,8 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         const select = !copySelectedTracks.has(trackid);
         if (select) {
             copySelectedTracks.add(trackid);
+            // const track = state.tracks.find(track => track.getId() === trackid);
+            // copySelectedTrackPoint = new TrackPoint(track, 0);
         } else {
             copySelectedTracks.delete(trackid);
             if (copySelectedTrackPoint.isValid() && copySelectedTrackPoint.track.getId() == trackid) {
@@ -56,7 +58,7 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
             return { ...state, selectedTracks: copySelectedTracks, selectedTrackPoint: copySelectedTrackPoint }
         });
         return select;
-    }, [scatterState]);
+    }, [state, scatterState]);
 
     const handleTrackPointClick = React.useCallback((trackid, index) => {
         if (!scatterState.selectedTracks.has(trackid)) {

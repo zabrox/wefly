@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, TableRow, TableCell, TableContainer, TableBody } from '@mui/material';
 import { Typography } from '@mui/material';
-import { Timeline } from '../timeline';
+import { Timeline } from '../../../timeline';
 import { TimelineBarContainer } from './timelinebar';
 import { PilotIcon } from '../../../util/piloticon';
 import './playlist.css';
@@ -15,6 +15,12 @@ const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
             setPlaybackState({ ...playbackState, selectedTrack: track });
         }
     }, [tracks, playbackState]);
+
+    const handleTimelineClick = (e, newCurrentTime, track) => {
+        if (track.path.times[0].isBefore(newCurrentTime) && track.path.times[track.path.times.length - 1].isAfter(newCurrentTime)) {
+            setPlaybackState({ ...playbackState, selectedTrack: track });
+        }
+    }
 
     return sortedTracks.map((track, i) => (
         <TableRow
@@ -32,10 +38,13 @@ const mapTracksToTableRows = (tracks, playbackState, setPlaybackState) => {
             <TableCell className='timeline-cell'>
                 <Timeline
                     track={track}
-                    playbackState={playbackState}
-                    setPlaybackState={setPlaybackState}
+                    currentTime={playbackState.currentTime}
+                    setCurrentTime={(newCurrentTime) => {
+                        setPlaybackState({ ...playbackState, currentTime: newCurrentTime });
+                    }}
                     start={playbackState.startTime}
-                    end={playbackState.stopTime} />
+                    end={playbackState.stopTime}
+                    handleTimelineClick={(e, newCurrentTime) => { handleTimelineClick(e, newCurrentTime, track) }} />
             </TableCell>
         </TableRow>));
 };

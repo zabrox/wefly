@@ -1,7 +1,5 @@
 import React from 'react';
-import dayjs from 'dayjs';
-import * as Cesium from 'cesium';
-import { Timeline } from '../timeline';
+import { Timeline } from '../../../timeline';
 import { OverallTimeline } from '../overalltimeline';
 import './timelineoverlay.css';
 
@@ -13,8 +11,10 @@ export const TimelineOverlay = ({ playbackState, setPlaybackState }) => {
                 <div id='timeline-container'>
                     <Timeline
                         track={playbackState.selectedTrack}
-                        playbackState={playbackState}
-                        setPlaybackState={setPlaybackState}
+                        currentTime={playbackState.currentTime}
+                        setCurrentTime={(newCurrentTime) => {
+                            setPlaybackState({ ...playbackState, currentTime: newCurrentTime });
+                        }}
                         start={playbackState.selectedTrack.path.times[0]}
                         end={playbackState.selectedTrack.path.times[playbackState.selectedTrack.path.times.length - 1]} />
                 </div>
