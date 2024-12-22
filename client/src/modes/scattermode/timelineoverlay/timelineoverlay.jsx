@@ -44,7 +44,7 @@ export const TimelineOverlay = ({ scatterState, setScatterState }) => {
     }
 
     return (
-        <Box id='scatter-timeline-overlay'>
+        <Box id='scatter-timeline-overlay' data-testid='scatter-timeline-overlay'>
             <Box id='scatter-timeline-container'>
                 <Timeline
                     track={scatterState.selectedTrackPoint.track}

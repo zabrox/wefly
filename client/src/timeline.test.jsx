@@ -53,7 +53,7 @@ describe("Timeline コンポーネント", () => {
                 handleTimelineClick={mockHandleTimelineClick}
             />
         );
-        expect(screen.getByRole('timelinecanvas')).toBeInTheDocument();
+        expect(screen.getByTestId('timelinecanvas')).toBeInTheDocument();
     });
 
     it("キャンバスがクリックされると、現在の時間が更新される", () => {
@@ -79,7 +79,7 @@ describe("Timeline コンポーネント", () => {
             />
         );
 
-        const canvas = screen.getByRole("timelinecanvas", { hidden: true });
+        const canvas = screen.getByTestId("timelinecanvas", { hidden: true });
 
         fireEvent.click(canvas, { clientX: 150, clientY: 10 });
         expect(mockSetCurrentTime).toHaveBeenCalledWith(dayjs("2024-12-22 23:03:00"));
