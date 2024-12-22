@@ -88,6 +88,7 @@ export const Timeline = ({ track, currentTime, setCurrentTime, start, end, handl
     return (
         <div className='timeline-container' ref={timelineContainer}>
             <canvas className='timeline-canvas'
+                data-testid='timelinecanvas'
                 ref={timelineCanvas}
                 onClick={handleClick} />
         </div>
