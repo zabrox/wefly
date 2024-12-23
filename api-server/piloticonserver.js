@@ -7,7 +7,7 @@ const getPilotIcon = async (req, res) => {
         return res.status(400).send('pilotname is required');
     }
 
-    const fileName = `pilot_icons/${pilotname}.png`;
+    const fileName = `pilot_icons/${pilotname}.jpg`;
     const storage = new Storage();
     const bucket = storage.bucket(lakeBucketName);
     const file = bucket.file(fileName);
@@ -20,7 +20,7 @@ const getPilotIcon = async (req, res) => {
         }
 
         // ファイルの読み込みとクライアントへのストリーム送信
-        res.setHeader('Content-Type', 'image/png');
+        res.setHeader('Content-Type', 'image/jpeg');
         const stream = file.createReadStream();
         stream.pipe(res);
     } catch (error) {
