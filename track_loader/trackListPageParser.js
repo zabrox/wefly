@@ -24,6 +24,9 @@ async function parseTrackRow($, trackRow) {
     const trackId = $(trackRow).find('td[id^=track_text_]').attr('id').replace('track_text_', '');
     track.metadata.liveTrackId = trackId;
 
+    const userId = $(trackRow).attr('data-userid')
+    track.metadata.liveTrackUserId = userId;
+
     track.metadata.activity = $(trackRow).find('img.activityImg').attr('alt');
 
     const timestr = lastTime.text().trim().substring(3, 22);
