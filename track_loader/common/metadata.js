@@ -16,6 +16,7 @@ class Metadata {
     model = "";
     area = "";
     liveTrackId = 0;
+    liveTrackUserId = 0;
 
     getId() {
         return (this.pilotname + '_' + this.startTime.utc().format('YYYYMMDDHHmmss')).replace(' ', '');

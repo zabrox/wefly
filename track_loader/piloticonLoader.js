@@ -13,7 +13,7 @@ const folder = 'pilot_icons';
 async function loadPilotIcons(tracks) {
     const storage = new Storage();
     tracks.forEach(async (track) => {
-        const imageUrl = `https://www.livetrack24.com/files/users/${track.livetrackId}/photo.thumb.jpg`;
+        const imageUrl = `https://www.livetrack24.com/files/users/${track.metadata.liveTrackUserId}/photo.thumb.jpg`;
         try {
             const response = await axios({
                 method: 'get',
