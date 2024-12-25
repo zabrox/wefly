@@ -75,15 +75,31 @@ export const Timeline = ({ track, currentTime, setCurrentTime, start, end, handl
         });
     }, [track, timelineCells, currentTime]);
 
-    const handleClick = (e) => {
+    const handleCurrentTimeChange = (e, x) => {
         const rect = timelineCanvas.current.getBoundingClientRect();
-        const x = e.clientX - rect.left;
+        const clientRectX = x - rect.left;
         const duration = end.diff(start, 'seconds');
-        const newCurrentTime = start.add(duration * x / rect.width, 'seconds');
+        const newCurrentTime = start.add(duration * clientRectX / rect.width, 'seconds');
         CesiumMap.viewer.clock.currentTime = Cesium.JulianDate.fromIso8601(newCurrentTime.format('YYYY-MM-DDTHH:mm:ssZ'));
         setCurrentTime(newCurrentTime);
         handleTimelineClick(e, newCurrentTime);
     }
+
+    const handleClick = (e) => {
+        handleCurrentTimeChange(e, e.clientX);
+    }
+
+    const handleSwipe = (e) => {
+        handleCurrentTimeChange(e, e.changedTouches[0].clientX);
+    };
+
+    React.useEffect(() => {
+        const canvas = timelineCanvas.current;
+        canvas.addEventListener('touchmove', handleSwipe);
+        return () => {
+            canvas.removeEventListener('touchmove', handleSwipe);
+        };
+    }, [start, end]);
 
     return (
         <div className='timeline-container' ref={timelineContainer}>
