@@ -20,6 +20,8 @@ const getPilotIcon = async (req, res) => {
         }
 
         // ファイルの読み込みとクライアントへのストリーム送信
+        res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+        res.header('Access-Control-Allow-Methods', 'GET ');
         res.setHeader('Content-Type', 'image/jpeg');
         const stream = file.createReadStream();
         stream.pipe(res);
