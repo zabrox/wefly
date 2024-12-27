@@ -24,12 +24,12 @@ export const renderSelectedTrackPoint = (selectedTrackPoint) => {
         type: 'selectedtrackpoint',
         trackid: track.getId(),
         position: cartesian,
-        point: {
-            pixelSize: 8,
-            color: Cesium.Color.WHITE,
-            outlineColor: trackColor(track).darken(0.3, new Cesium.Color()),
-            outlineWidth: 4,
-            scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
+        billboard: {
+            image: `${import.meta.env.VITE_API_URL}/track/piloticon?pilotname=${track.metadata.pilotname}`,
+            width: 50,
+            height: 50,
+            pixelOffset: new Cesium.Cartesian2(0, -25),
+            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
         },
     }));
 }
