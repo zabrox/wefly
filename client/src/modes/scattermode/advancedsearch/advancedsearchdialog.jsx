@@ -67,6 +67,12 @@ export const AdvancedSearchDialog = ({ searchCondition, show, setShow, search })
                 <Grid container spacing={2} direction="column">
                     <Grid item>
                         <MobileDatePicker
+                            slotProps={{
+                                toolbar: {
+                                    toolbarFormat: 'YYYY-MM-DD (ddd)',
+                                    hidden: false,
+                                },
+                            }}
                             label="From"
                             value={searchCondition.from}
                             format="YYYY-MM-DD (ddd)"
@@ -74,6 +80,12 @@ export const AdvancedSearchDialog = ({ searchCondition, show, setShow, search })
                     </Grid>
                     <Grid item>
                         <MobileDatePicker
+                            slotProps={{
+                                toolbar: {
+                                    toolbarFormat: 'YYYY-MM-DD (ddd)',
+                                    hidden: false,
+                                },
+                            }}
                             label="To"
                             value={searchCondition.to}
                             format="YYYY-MM-DD (ddd)"

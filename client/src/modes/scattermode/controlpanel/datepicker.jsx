@@ -7,6 +7,12 @@ export const DatePicker = ({ date, handleDateChange, handleTodayIconClick, showT
     return (
         <Box id='date-picker-container'>
             <MobileDatePicker id='mobile-date-picker'
+                slotProps={{
+                    toolbar: {
+                        toolbarFormat: 'YYYY-MM-DD (ddd)',
+                        hidden: false,
+                    },
+                }}
                 value={date}
                 format="YYYY-MM-DD (ddd)"
                 onAccept={handleDateChange} />
