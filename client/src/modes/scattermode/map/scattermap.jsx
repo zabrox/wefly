@@ -3,6 +3,7 @@ import * as Cesium from "cesium";
 import * as CesiumMap from '../../../cesiummap';
 import { renderTrackGroups, removeTrackGroupEntities, registerEventHandlerOnTrackGroupClick } from "./trackgrouprenderer";
 import { renderTracks, removeTrackEntities, registerEventHandlerOnTrackClick } from "./trackrenderer";
+import { setTrackPointVisibility } from "./trackpointrenderer";
 
 let removeCameraMoveEndEvent = undefined;
 
@@ -67,12 +68,14 @@ export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatte
         registerEventHandlerOnTrackGroupClick(onTrackGroupClick, state.trackGroups);
         registerEventHandlerOnTrackClick(onTrackPointClick, state.tracks);
     }, [state, scatterState.selectedTrackGroups, scatterState.selectedTracks]);
+
     React.useEffect(() => {
         registerEventListenerOnCameraMoveEnd(
             state,
             scatterState,
             setScatterState);
     }, [state, scatterState]);
+
     React.useEffect(() => {
         render(state.tracks,
             state.trackGroups,
@@ -80,6 +83,11 @@ export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatte
             scatterState.selectedTrackGroups,
             scatterState.selectedTrackPoint);
     }, [state, scatterState.selectedTrackGroups, scatterState.selectedTracks, scatterState.selectedTrackPoint]);
+
+    React.useEffect(() => {
+        console.log("track point visibility changed");
+        setTrackPointVisibility(scatterState.isTrackPointVisible);
+    }, [scatterState.isTrackPointVisible]);
 
     return null;
 }
