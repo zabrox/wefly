@@ -3,10 +3,10 @@ import { MenuItem, Switch, ListItemText, ListItemSecondaryAction } from '@mui/ma
 
 export const ShowTrackPointsMenuItem = ({ scatterState, setScatterState }) => {
     const handleSwitchToggle = () => {
-        setScatterState((prevState) => ({
-            ...prevState,
-            isTrackPointVisible: !prevState.isTrackPointVisible,
-        }));
+        setScatterState({
+            ...scatterState,
+            isTrackPointVisible: !scatterState.isTrackPointVisible,
+        });
     };
 
     return (
