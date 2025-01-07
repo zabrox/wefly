@@ -1,3 +1,8 @@
 .scattermapmenu-wrapper .scattermapmenu {
     background-color: #cccccc;
 }
+
+.scattermapmenu-wrapper:hover {
+  background-color: #cccccc;
+  border-radius: 50%;
+}
