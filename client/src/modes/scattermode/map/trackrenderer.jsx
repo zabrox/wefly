@@ -2,13 +2,13 @@ import { renderTrackLine, removeTrackLineEntities, registerEventHandlerOnTrackLi
 import { renderTrackPoints, removeTrackPointEntities, registerEventHandlerOnTrackPointClick } from "./trackpointrenderer";
 import { renderSelectedTrackPoint, removeSelectedTrackPointEntities } from "./selectedtrackpointrenderer";
 
-export const renderTracks = (tracks, selectedTracks, selectedTrackGroups, selectedTrackPoint) => {
+export const renderTracks = (tracks, selectedTracks, selectedTrackGroups, selectedTrackPoint, isTrackPointVisible) => {
     const tracksWithPath = tracks.filter(track => track.path.points.length > 0);
     if (tracksWithPath.length === 0) {
         return;
     }
     tracksWithPath.forEach(track => {
-        renderTrackPoints(track, selectedTracks, selectedTrackGroups);
+        renderTrackPoints(track, selectedTracks, selectedTrackGroups, isTrackPointVisible);
         renderTrackLine(track, selectedTracks, selectedTrackGroups);
         renderSelectedTrackPoint(selectedTrackPoint);
     });
