@@ -34,17 +34,19 @@ const initializeTrackPointEntities = (track) => {
     });
 };
 
-const needToShowTrackPoints = (track, selectedTracks, selectedTrackGroups) => {
-    return selectedTrackGroups.containsTrack(track) && !selectedTracks.has(track.getId());
+const needToShowTrackPoints = (track, selectedTracks, selectedTrackGroups, isTrackPointVisible) => {
+    return isTrackPointVisible &&
+        selectedTrackGroups.containsTrack(track) &&
+        !selectedTracks.has(track.getId());
 }
 
-export const renderTrackPoints = (track, selectedTracks, selectedTrackGroups) => {
+export const renderTrackPoints = (track, selectedTracks, selectedTrackGroups, isTrackPointVisible) => {
     let firstpoint = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, 0));
     if (firstpoint === undefined) {
         initializeTrackPointEntities(track);
         firstpoint = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, 0));
     }
-    const trackpointShow = needToShowTrackPoints(track, selectedTracks, selectedTrackGroups);
+    const trackpointShow = needToShowTrackPoints(track, selectedTracks, selectedTrackGroups, isTrackPointVisible);
     if (firstpoint.show === trackpointShow) {
         return;
     }
@@ -87,9 +89,3 @@ export const registerEventHandlerOnTrackPointClick = (handleTrackPointClick, tra
 export const removeTrackPointEntities = () => {
     entities.forEach((entity) => CesiumMap.viewer.entities.remove(entity));
 }
-
-export const setTrackPointVisibility = (visible) => {
-    entities.forEach((entity) => {
-        entity.show = visible;
-    });
-};

@@ -21,9 +21,9 @@ const registerEventListenerOnCameraMoveEnd = (state, scatterState, setScatterSta
     });
 }
 
-const render = (tracks, trackGroups, selectedTracks, selectedTrackGroups, selectedTrackPoint) => {
+const render = (tracks, trackGroups, selectedTracks, selectedTrackGroups, selectedTrackPoint, isTrackPointVisible) => {
     renderTrackGroups(trackGroups, selectedTrackGroups);
-    renderTracks(tracks, selectedTracks, selectedTrackGroups, selectedTrackPoint);
+    renderTracks(tracks, selectedTracks, selectedTrackGroups, selectedTrackPoint, isTrackPointVisible);
 }
 
 export const leaveScatterMode = () => {
@@ -81,13 +81,14 @@ export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatte
             state.trackGroups,
             scatterState.selectedTracks,
             scatterState.selectedTrackGroups,
-            scatterState.selectedTrackPoint);
-    }, [state, scatterState.selectedTrackGroups, scatterState.selectedTracks, scatterState.selectedTrackPoint]);
-
-    React.useEffect(() => {
-        console.log("track point visibility changed");
-        setTrackPointVisibility(scatterState.isTrackPointVisible);
-    }, [scatterState.isTrackPointVisible]);
+            scatterState.selectedTrackPoint,
+            scatterState.isTrackPointVisible);
+    }, [state,
+        scatterState.selectedTrackGroups,
+        scatterState.selectedTracks,
+        scatterState.selectedTrackPoint,
+        scatterState.isTrackPointVisible
+    ]);
 
     return null;
 }
