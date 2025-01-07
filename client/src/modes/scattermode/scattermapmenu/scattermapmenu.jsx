@@ -3,6 +3,7 @@ import { Box, IconButton, Menu } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import './scattermapmenu.css';
 import { ShowTrackPointsMenuItem } from './showtrackpointsmenuitem';
+import { FullScreenMenuItem } from './fullscreenmenuitem';
 
 export const ScatterMapMenu = ({ scatterState, setScatterState }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -42,7 +43,8 @@ export const ScatterMapMenu = ({ scatterState, setScatterState }) => {
                     }
                 }}
             >
-                <ShowTrackPointsMenuItem scatterState={scatterState} setScatterState={setScatterState} handleClose={handleClose} />
+                <ShowTrackPointsMenuItem scatterState={scatterState} setScatterState={setScatterState} />
+                <FullScreenMenuItem />
             </Menu>
         </Box>
     );
