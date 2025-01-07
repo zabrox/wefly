@@ -17,7 +17,7 @@ const initializeTrackLineEntity = (track) => {
         trackid: track.getId(),
         polyline: {
             positions: cartesians,
-            width: 4,
+            width: 2,
             material: new Cesium.PolylineOutlineMaterialProperty({
                 color: color.brighten(0.5, new Cesium.Color()),
                 outlineColor: color,

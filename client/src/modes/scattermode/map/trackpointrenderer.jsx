@@ -87,3 +87,9 @@ export const registerEventHandlerOnTrackPointClick = (handleTrackPointClick, tra
 export const removeTrackPointEntities = () => {
     entities.forEach((entity) => CesiumMap.viewer.entities.remove(entity));
 }
+
+export const setTrackPointVisibility = (visible) => {
+    entities.forEach((entity) => {
+        entity.show = visible;
+    });
+};
