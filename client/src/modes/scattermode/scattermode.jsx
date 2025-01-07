@@ -8,6 +8,7 @@ import { TracksLoadingDialog } from './tracksloadingdialog';
 import { TrackPointStatsOverlay } from './statsoverlay/trackpointstatsoverlay';
 import { TrackPoint } from './trackpoint';
 import { SCATTER_MODE } from '../mode';
+import { ScatterMapMenu } from './scattermapmenu/scattermapmenu';
 
 export const ScatterMode = ({ state, setState }) => {
     const [scatterState, setScatterState] = React.useState({
@@ -19,6 +20,7 @@ export const ScatterMode = ({ state, setState }) => {
         selectedTrackPoint: new TrackPoint(),
         tracksInPerspective: [],
         trackGroupsInPerspective: [],
+        isTrackPointVisible: true,
     });
 
     if (state.mode !== SCATTER_MODE) {
@@ -28,6 +30,7 @@ export const ScatterMode = ({ state, setState }) => {
     return (
         <div>
             <TimelineOverlay scatterState={scatterState} setScatterState={setScatterState} />
+            <ScatterMapMenu scatterState={scatterState} setScatterState={setScatterState} />
             <TrackPointStatsOverlay scatterState={scatterState} setScatterState={setScatterState} />
             <ControlPanel state={state} setState={setState}>
                 <ScatterControlPanel state={state} setState={setState} scatterState={scatterState} setScatterState={setScatterState} />

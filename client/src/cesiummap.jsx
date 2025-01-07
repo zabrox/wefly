@@ -17,7 +17,7 @@ const initializeCesium = async (cesiumContainerRef) => {
         homeButton: false,
         sceneModePicker: false,
         navigationHelpButton: false,
-        fullscreenButton: true,
+        fullscreenButton: false,
         terrainShadows: Cesium.ShadowMode.DISABLED,
     });
     viewer.scene.globe.depthTestAgainstTerrain = true;
