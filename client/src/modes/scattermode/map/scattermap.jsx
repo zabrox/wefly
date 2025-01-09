@@ -3,7 +3,6 @@ import * as Cesium from "cesium";
 import * as CesiumMap from '../../../cesiummap';
 import { renderTrackGroups, removeTrackGroupEntities, registerEventHandlerOnTrackGroupClick } from "./trackgrouprenderer";
 import { renderTracks, removeTrackEntities, registerEventHandlerOnTrackClick } from "./trackrenderer";
-import { setTrackPointVisibility } from "./trackpointrenderer";
 
 let removeCameraMoveEndEvent = undefined;
 

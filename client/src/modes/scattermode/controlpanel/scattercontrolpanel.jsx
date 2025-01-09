@@ -1,17 +1,16 @@
 import React from 'react';
-import { Typography, Table, TableContainer, Box } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import { TrackPoint } from '../trackpoint';
 import { ProgressBar } from '../../playbackmode/progressbar';
 import { ScatterActionDial } from './scatteractiondial';
 import * as CesiumMap from '../../../cesiummap';
 import { ScatterMap } from '../map/scattermap';
-import { TrackListHeader } from './tracklist/tracklistheader';
-import { TrackListBody } from './tracklist/tracklistbody';
 import { SearchConditionDisplay } from './searchconditiondisplay';
 import { TrackGroupSelection } from '../trackGroupSelection';
 import { TrackMenu } from './trackmenu';
 import { loadPaths } from '../trackloader';
 import * as Mode from '../../mode';
+import { TrackList } from './tracklist/tracklist';
 import './scattercontrolpanel.css';
 
 export const ScatterControlPanel = ({ state, setState, scatterState, setScatterState }) => {
@@ -113,17 +112,11 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                 </Typography>
             </Box>
             <Box id='tracklist-container'>
-                <TableContainer id='tracklist'>
-                    <Table size="medium">
-                        <TrackListHeader
-                            scatterState={scatterState}
-                            setScatterState={setScatterState} />
-                        <TrackListBody
-                            state={state}
-                            scatterState={scatterState}
-                            onTrackClicked={handleTrackClick} />
-                    </Table>
-                </TableContainer >
+                <TrackList
+                    state={state}
+                    scatterState={scatterState}
+                    onTrackClicked={handleTrackClick}
+                />
                 <ProgressBar show={scatterState.loading} controlPanelSize={state.controlPanelSize} />
             </Box>
             <ScatterActionDial
