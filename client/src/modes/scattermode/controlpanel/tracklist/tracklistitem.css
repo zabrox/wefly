@@ -1,0 +1,19 @@
+.trackstatscontainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: 2px;
+    padding-right: 10px;
+}
+
+.trackstatsitem {
+    display: flex;
+    flex-direction: row;
+    padding: 3px;
+}
+
+.pilotname {
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: row;
+}
