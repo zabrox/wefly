@@ -1,5 +1,6 @@
 import React from 'react';
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, IconButton } from '@mui/material';
+import SortIcon from '@mui/icons-material/Sort';
 import { TrackPoint } from '../trackpoint';
 import { ProgressBar } from '../../playbackmode/progressbar';
 import { ScatterActionDial } from './scatteractiondial';
@@ -11,9 +12,20 @@ import { TrackMenu } from './trackmenu';
 import { loadPaths } from '../trackloader';
 import * as Mode from '../../mode';
 import { TrackList } from './tracklist/tracklist';
+import TrackListSortDialog from './tracklist/tracklistsortdialog';
 import './scattercontrolpanel.css';
 
 export const ScatterControlPanel = ({ state, setState, scatterState, setScatterState }) => {
+    const [sortDialogOpen, setSortDialogOpen] = React.useState(false);
+
+    const handleSortIconClick = () => {
+        setSortDialogOpen(true);
+    };
+
+    const handleSortDialogClose = () => {
+        setSortDialogOpen(false);
+    };
+
     const handleTrackGroupClick = React.useCallback(async (groupid, trackGroups) => {
         const group = trackGroups.find(group => group.groupid === groupid);
         CesiumMap.zoomToTrackGroup(group);
@@ -107,7 +119,13 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                     scatterState={scatterState}
                     setScatterState={setScatterState} />
                 <Box id='track-menu-container'>
-                    <TrackMenu state={state} />
+                    <Box id='track-menu'>
+                        <TrackMenu state={state} />
+                        <IconButton onClick={handleSortIconClick}>
+                            <SortIcon />
+                        </IconButton>
+                        <TrackListSortDialog open={sortDialogOpen} onClose={handleSortDialogClose} scatterState={scatterState} setScatterState={setScatterState} />
+                    </Box>
                     <Typography id='tracknumber-label'>
                         {trackNumber()} tracks
                     </Typography>
