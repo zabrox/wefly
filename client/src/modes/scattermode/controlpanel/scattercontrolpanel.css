@@ -12,11 +12,6 @@
     height: 3%;
 }
 
-#tracklist th, td {
-    white-space: nowrap;
-    background-color: transparent;
-}
-
 #tracklist-container {
     width: 100%;
     flex-grow: 1;
