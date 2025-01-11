@@ -13,8 +13,10 @@
 .trackstatsitem {
     display: flex;
     flex-direction: row;
+    align-items: center;
     padding: 3px;
     color: rgb(64, 64, 64);
+    height: 20px;
 }
 
 .pilotname {
@@ -22,4 +24,5 @@
     font-weight: 800;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
