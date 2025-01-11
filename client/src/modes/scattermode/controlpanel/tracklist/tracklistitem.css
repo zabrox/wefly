@@ -1,0 +1,28 @@
+.tracklistitem {
+    font-family: 'sans-serif';
+}
+.trackstatscontainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-top: 2px;
+    padding-right: 30px;
+    font-size: 0.8rem;
+}
+
+.trackstatsitem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 3px;
+    color: rgb(64, 64, 64);
+    height: 20px;
+}
+
+.pilotname {
+    font-size: 1.0rem;
+    font-weight: 800;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
