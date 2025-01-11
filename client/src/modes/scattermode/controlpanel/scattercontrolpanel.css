@@ -17,3 +17,16 @@
     flex-grow: 1;
     overflow: auto;
 }
+
+#track-menu-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+#track-menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+}
