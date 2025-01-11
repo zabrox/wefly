@@ -13,7 +13,7 @@ import './tracklistitem.css';
 
 const PilotName = ({ track }) => {
     return (
-        <Box class='pilotname'>
+        <Box className='pilotname'>
             <ActivityIcon track={track} size={28} />
             <Box sx={{ marginLeft: '10px', fontWeight: 500 }}>
                 {track.metadata.pilotname}
@@ -23,7 +23,7 @@ const PilotName = ({ track }) => {
 }
 const StartTime = ({ track }) => {
     return (
-        <Box class='trackstatsitem'>
+        <Box className='trackstatsitem'>
             <QueryBuilderOutlinedIcon />
             {track.metadata.startTime.format('YYYY-MM-DD HH:mm')}
         </Box>
@@ -31,7 +31,7 @@ const StartTime = ({ track }) => {
 }
 const Duration = ({ track }) => {
     return (
-        <Box class='trackstatsitem'>
+        <Box className='trackstatsitem'>
             <TimerOutlinedIcon />
             {track.metadata.durationString()}
         </Box>
@@ -43,7 +43,7 @@ const Area = ({ track }) => {
         return null;
     }
     return (
-        <Box class='trackstatsitem'>
+        <Box className='trackstatsitem'>
             <PlaceOutlinedIcon />
             {track.metadata.area}
         </Box>
@@ -54,7 +54,7 @@ const Model = ({ track }) => {
         return null;
     }
     return (
-        <Box class='trackstatsitem'>
+        <Box className='trackstatsitem'>
             <AirplanemodeActiveOutlinedIcon />
             {track.metadata.model}
         </Box>
@@ -62,7 +62,7 @@ const Model = ({ track }) => {
 }
 const MaxAltitude = ({ track }) => {
     return (
-        <Box class='trackstatsitem maxaltitude'>
+        <Box className='trackstatsitem maxaltitude'>
             <LandscapeOutlinedIcon />
             {`${track.metadata.maxAltitude}m`}
         </Box>
@@ -70,7 +70,7 @@ const MaxAltitude = ({ track }) => {
 }
 const Distance = ({ track }) => {
     return (
-        <Box class='trackstatsitem maxaltitude'>
+        <Box className='trackstatsitem maxaltitude'>
             <MultipleStopIcon />
             {`${track.metadata.distance}km`}
         </Box>
@@ -85,21 +85,22 @@ const TrackListItem = ({ track, selected, onClick }) => {
             style={{
                 backgroundColor: selected ? trackColor(track).withAlpha(0.6).toCssHexString() : '',
             }}
+            className='tracklistitem'
         >
             <ListItemIcon>
                 <PilotIcon track={track} size={42} />
             </ListItemIcon>
             <Box>
                 <PilotName track={track} />
-                <Box class='trackstatscontainer'>
+                <Box className='trackstatscontainer'>
                     <Area track={track} />
                     <Model track={track} />
                 </Box>
-                <Box class='trackstatscontainer'>
+                <Box className='trackstatscontainer'>
                     <StartTime track={track} />
                     <Duration track={track} />
                 </Box>
-                <Box class='trackstatscontainer'>
+                <Box className='trackstatscontainer'>
                     <MaxAltitude track={track} />
                     <Distance track={track} />
                 </Box>

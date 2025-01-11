@@ -77,7 +77,7 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                 await handleTrackGroupClick(groupid, state.trackGroups);
             }
             setScatterState(state => {
-                return { ...state, selectedTrackPoint: new TrackPoint(targetTrack, 0)}
+                return { ...state, selectedTrackPoint: new TrackPoint(targetTrack, 0) }
             })
             CesiumMap.zoomToTracks([targetTrack]);
         }
@@ -100,16 +100,18 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
 
     return (
         <div id='scatter-control-panel'>
-            <SearchConditionDisplay
-                state={state}
-                setState={setState}
-                scatterState={scatterState}
-                setScatterState={setScatterState} />
-            <Box id='track-menu-container'>
-                <TrackMenu state={state} />
-                <Typography id='tracknumber-label'>
-                    {trackNumber()} tracks
-                </Typography>
+            <Box id='search-condition-display-container'>
+                <SearchConditionDisplay
+                    state={state}
+                    setState={setState}
+                    scatterState={scatterState}
+                    setScatterState={setScatterState} />
+                <Box id='track-menu-container'>
+                    <TrackMenu state={state} />
+                    <Typography id='tracknumber-label'>
+                        {trackNumber()} tracks
+                    </Typography>
+                </Box>
             </Box>
             <Box id='tracklist-container'>
                 <TrackList
