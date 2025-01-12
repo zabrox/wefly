@@ -13,7 +13,7 @@ import "./modes/scattermode/advancedsearch/locationpickdialog"
 
 const World = () => {
     const defaultControlPanelSize = judgeMedia().isPc ?
-        document.documentElement.clientWidth * 0.4 : document.documentElement.clientWidth;
+        document.documentElement.clientWidth * 0.3 : document.documentElement.clientWidth;
     const [state, setState] = React.useState({
         tracks: [],
         trackGroups: [],
