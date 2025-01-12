@@ -92,17 +92,19 @@ const TrackListItem = ({ track, selected, onClick }) => {
             </ListItemIcon>
             <Box>
                 <PilotName track={track} />
-                <Box className='trackstatscontainer'>
-                    <Area track={track} />
-                    <Model track={track} />
-                </Box>
-                <Box className='trackstatscontainer'>
-                    <StartTime track={track} />
-                    <Duration track={track} />
-                </Box>
-                <Box className='trackstatscontainer'>
-                    <MaxAltitude track={track} />
-                    <Distance track={track} />
+                <Box className='trackstatswrapper'>
+                    <Box className='trackstatscontainer'>
+                        <Area track={track} />
+                        <Model track={track} />
+                    </Box>
+                    <Box className='trackstatscontainer'>
+                        <StartTime track={track} />
+                        <Duration track={track} />
+                    </Box>
+                    <Box className='trackstatscontainer'>
+                        <MaxAltitude track={track} />
+                        <Distance track={track} />
+                    </Box>
                 </Box>
             </Box>
         </ListItem>
