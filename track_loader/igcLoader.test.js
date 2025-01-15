@@ -1,67 +1,33 @@
 const axios = require('axios');
-const { Storage } = require('@google-cloud/storage');
-const { loadIgcs } = require('./igcLoader.js');
-
+const { IgcLoader } = require('./igcLoader');
 jest.mock('axios');
-jest.mock('@google-cloud/storage');
 
-describe('igcLoader', () => {
-    const date = '2024-02-08';
-    const tracks = [{
-        getId: jest.fn().mockReturnValue('12345'),
-        metadata: {
-            liveTrackId: '2552840',
-        },
-    }];
-    const bucketName = 'your-bucket-name';
-
-    beforeEach(() => {
-        jest.clearAllMocks();
+describe('IgcLoader', () => {
+    it('should load IGC data successfully', async () => {
+        const liveTrackId = '12345';
+        const igcData = 'mockIgcData';
+        const response = { status: 200, data: igcData };
+        
+        axios.get.mockResolvedValue(response);
+        
+        const igcLoader = new IgcLoader(liveTrackId);
+        await igcLoader.load();
+        
+        expect(axios.get).toHaveBeenCalledWith(`https://www.livetrack24.com/leo_live.php?op=igc&trackID=${liveTrackId}`, {
+            responseType: 'arraybuffer',
+            httpAgent: expect.any(Object),
+            httpsAgent: expect.any(Object),
+            timeout: 10000,
+        });
+        expect(igcLoader.getIgcData()).toBe(igcData);
     });
 
-    it('should load IGC file if it does not exist', async () => {
-        const saveMock = jest.fn().mockResolvedValueOnce();
-        const existsMock = jest.fn().mockResolvedValueOnce([false]);
-        Storage.mockImplementation(() => ({
-            bucket: () => ({
-                file: () => ({
-                    save: saveMock,
-                    exists: existsMock,
-                }),
-            }),
-        }));
-
-        const getMock = jest.fn().mockResolvedValueOnce({
-            status: 200,
-            data: 'mock igc data',
-        });
-        axios.get.mockImplementationOnce(getMock);
-
-        await loadIgcs(date, tracks, { force: false });
-
-        expect(getMock).toHaveBeenCalledWith(`https://www.livetrack24.com/leo_live.php?op=igc&trackID=${tracks[0].metadata.liveTrackId}`, expect.anything());
-        expect(saveMock).toHaveBeenCalledWith('mock igc data');
-    });
-
-    it('should handle error when downloading or saving IGC file', async () => {
-        const saveMock = jest.fn().mockResolvedValueOnce();
-        const existsMock = jest.fn().mockResolvedValueOnce([false]);
-        Storage.mockImplementation(() => ({
-            bucket: () => ({
-                file: () => ({
-                    save: saveMock,
-                    exists: existsMock,
-                }),
-            }),
-        }));
-        const getMock = jest.fn().mockResolvedValueOnce({
-            status: 500,
-        });
-        axios.get.mockImplementationOnce(getMock);
-
-        await loadIgcs(date, tracks, { force: false });
-
-        expect(getMock).toHaveBeenCalledWith(`https://www.livetrack24.com/leo_live.php?op=igc&trackID=${tracks[0].metadata.liveTrackId}`, expect.anything());
-        expect(saveMock).not.toHaveBeenCalled();
+    it('should throw an error if the request fails', async () => {
+        const liveTrackId = '12345';
+        axios.get.mockResolvedValue({ status: 404 });
+        
+        const igcLoader = new IgcLoader(liveTrackId);
+        
+        await expect(igcLoader.load()).rejects.toThrow(`Failed to get https://www.livetrack24.com/leo_live.php?op=igc&trackID=${liveTrackId}`);
     });
 });
