@@ -7,7 +7,7 @@ jest.mock('./trackPage');
 describe('uploadTrackPage', () => {
     it('should upload track page HTML to GCS', async () => {
         const date = '2023-10-10';
-        const track = { pilotname: 'testPilot', liveTrackId: '12345' };
+        const track = { pilotname: 'testPilot', liveTrackId: '12345', getTrackId: () => 'testPilot_12345' };
         const htmlData = '<html>mockHtmlData</html>';
         
         const trackPage = new TrackPage(track.liveTrackId);

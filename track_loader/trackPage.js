@@ -1,6 +1,8 @@
 const axios = require('axios');
 const http = require('http');
 const https = require('https');
+const dayjs = require('dayjs');
+const cheerio = require('cheerio');
 
 // force IPv4
 const httpAgent = new http.Agent({ family: 4 });
@@ -30,6 +32,26 @@ class TrackPage {
 
         console.log(`Downloaded TrackPage: ${this.#liveTrackUrl}`);
         this.#html = response.data;
+    }
+
+    parseStartTime() {
+        const $ = cheerio.load(this.#html);
+        const startTimeText = $('#row2_2 div').text();
+        const match = startTimeText.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC.+/);
+        if (!match) {
+            throw new Error('Failed to parse start time');
+        }
+        return dayjs(match[0], "YYYY-MM-DD HH:mm:ss [UTC]Z");
+    }
+
+    parseEndTime() {
+        const $ = cheerio.load(this.#html);
+        const startTimeText = $('#row2_3 div').text();
+        const match = startTimeText.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC.+/);
+        if (!match) {
+            throw new Error('Failed to parse start time');
+        }
+        return dayjs(match[0], "YYYY-MM-DD HH:mm:ss [UTC]Z");
     }
 
     getHtml() {

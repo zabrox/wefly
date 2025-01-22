@@ -2,7 +2,7 @@ const axios = require('axios');
 const http = require('http');
 const https = require('https');
 const cheerio = require('cheerio');
-const { Track } = require('./track');
+const { Track } = require('./entity/track');
 
 // force IPv4
 const httpAgent = new http.Agent({ family: 4 });

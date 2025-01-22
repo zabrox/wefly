@@ -7,7 +7,7 @@ jest.mock('./igcLoader');
 describe('uploadIgc', () => {
     it('should upload IGC data to GCS', async () => {
         const date = '2023-10-10';
-        const track = { pilotname: 'testPilot', liveTrackId: '12345' };
+        const track = { pilotname: 'testPilot', liveTrackId: '12345', getTrackId: () => 'testPilot_12345'};
         const igcData = 'mockIgcData';
         
         const igcLoader = new IgcLoader(track.liveTrackId);

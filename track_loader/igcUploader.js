@@ -2,9 +2,7 @@ const { GcsUploader } = require('./gcsUploader');
 const { LAKE_BUCKET_NAME } = require('./config');
 
 function igcPath(date, track) {
-    const pilotname = track.pilotname;
-    const liveTrackId = track.liveTrackId;
-    return `${date}/igcs/${pilotname}_${liveTrackId}.igc`;
+    return `${date}/igcs/${track.getTrackId()}.igc`;
 }
 
 async function uploadIgc(date, track, igcLoader) {
