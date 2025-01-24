@@ -7,11 +7,13 @@ class Track {
     #pilotname
     #startTime
     #endTime
+    #liveTrackUserId
     #liveTrackId
     #isLive
 
-    constructor(pilotname, liveTrackId, isLive) {
+    constructor(pilotname, liveTrackUserId, liveTrackId, isLive) {
         this.#pilotname = pilotname;
+        this.#liveTrackUserId = liveTrackUserId;
         this.#liveTrackId = liveTrackId;
         this.#isLive = isLive;
     }
@@ -33,6 +35,9 @@ class Track {
     }
     getTrackId() {
         return this.#pilotname + '_' + this.#startTime.utc().format('YYYYMMDDHHmmss');
+    }
+    get liveTrackUserId() {
+        return this.#liveTrackUserId;
     }
     get liveTrackId() {
         return this.#liveTrackId;

@@ -49,9 +49,10 @@ class TrackListPage {
         $('div[id^="trackRow_"]').each(async (_, trackRow) => {
             const pilotname = $(trackRow).find('span.liveusername a').text().match(/[a-zA-Z0-9\-]+/)[0];
             const trackId = $(trackRow).attr('data-trackid');
+            const userId = $(trackRow).attr('data-userid');
             const status = $(trackRow).find('span.track_status').text();
             const isLive = status === 'Live!';
-            tracks.push(new Track(pilotname, trackId, isLive));
+            tracks.push(new Track(pilotname, userId, trackId, isLive));
         });
         return tracks;
     }
