@@ -1,6 +1,6 @@
 const axios = require("axios");
 const dayjs = require("dayjs");
-const { API_URL } = require('./config');
+const { API_URL } = require('../config');
 const { Metadata } = require('./entity/metadata');
 
 class MetadataLoader {
@@ -18,7 +18,6 @@ class MetadataLoader {
             });
             return response.data.map(metadata => Metadata.deserialize(metadata));
         } catch (error) {
-            console.error('Error loading metadata:', error);
             return [];
         }
     }

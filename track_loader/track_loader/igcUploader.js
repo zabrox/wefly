@@ -1,5 +1,5 @@
 const { GcsUploader } = require('./gcsUploader');
-const { LAKE_BUCKET_NAME } = require('./config');
+const { LAKE_BUCKET_NAME } = require('../config');
 
 function igcPath(date, track) {
     return `${date}/igcs/${track.getTrackId()}.igc`;

@@ -1,5 +1,5 @@
 const { GcsUploader } = require('./gcsUploader.js');
-const { LAKE_BUCKET_NAME } = require('./config');
+const { LAKE_BUCKET_NAME } = require('../config.js');
 
 function trackPagePath(date, track) {
     return `${date}/livetrack24/TrackPage-${track.getTrackId()}.html`;

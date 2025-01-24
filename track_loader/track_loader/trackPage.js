@@ -41,7 +41,8 @@ class TrackPage {
         if (!match) {
             throw new Error('Failed to parse start time');
         }
-        return dayjs(match[0], "YYYY-MM-DD HH:mm:ss [UTC]Z");
+        const datestr = match[0].replace(' UTC', '') + ':00'
+        return dayjs(datestr);
     }
 
     parseEndTime() {
@@ -51,7 +52,8 @@ class TrackPage {
         if (!match) {
             throw new Error('Failed to parse start time');
         }
-        return dayjs(match[0], "YYYY-MM-DD HH:mm:ss [UTC]Z");
+        const datestr = match[0].replace(' UTC', '') + ':00'
+        return dayjs(datestr);
     }
 
     getHtml() {

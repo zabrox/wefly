@@ -5,6 +5,7 @@ const { uploadTrackPage } = require('./trackPageUploader.js');
 const { IgcLoader } = require('./igcLoader.js');
 const { MetadataLoader } = require('./metadataLoader.js');
 const { uploadIgc } = require('./igcUploader.js');
+const { loadPilotIcons } = require('./piloticonLoader.js');
 
 const MAX_ROWS_PER_PAGE = 10;
 
@@ -48,15 +49,18 @@ async function loadTrack(date, track, existingMetadatas) {
 
     if (!needsUpdateTrack(track, existingMetadatas)) {
         console.log(`Track ${track.getTrackId()} is up to date`);
-        return;
+        return false;
     }
 
     const igcLoader = new IgcLoader(track.liveTrackId);
     await igcLoader.load();
     await uploadIgc(date, track, igcLoader);
+    return true
 }
 
-async function loadTracks(date) {
+async function loadTracks(date, opts) {
+    console.log(`Load tracks for date ${date}`);
+
     let trackListPages;
     try {
         trackListPages = await loadTrackListPages(date, 1, []);
@@ -69,14 +73,21 @@ async function loadTracks(date) {
     }
 
     const existingMetadatas = await new MetadataLoader().loadMetadatas(date);
+    const updatedTrackIds = [];
 
     await Promise.all(trackListPages.map(async (trackListPage) => {
         await uploadTrackListPage(date, trackListPage);
         const nonLiveTracks = trackListPage.getTracks().filter((track) => !track.isLive);
         await Promise.all(nonLiveTracks.map(async (track) => {
-            await loadTrack(date, track, existingMetadatas);
+            const updated = await loadTrack(date, track, existingMetadatas);
+            if (!updated && !opts.force) {
+                return;
+            }
+            await loadPilotIcons(track);
+            updatedTrackIds.push(track.getTrackId());
         }));
     }));
+    return updatedTrackIds;
 }
 
 module.exports = { loadTracks };
