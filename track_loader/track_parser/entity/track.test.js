@@ -1,5 +1,5 @@
 const dayjs = require('dayjs');
-const Timezone = require('dayjs/plugin/timezone');
+const Timezone = require('dayjs/plugin/timezone.js');
 const { Track } = require('./track.js');
 const { Area } = require('./area.js');
 const { Metadata } = require('./metadata.js');

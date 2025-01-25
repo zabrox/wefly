@@ -23,11 +23,11 @@ class Path {
         return this.times[this.times.length - 1];
     }
 
-    duration() {
+    duration(unit = 'minutes') {
         if (this.times.length === 0) {
             return 0;
         }
-        const duration = this.times[this.times.length - 1].diff(this.times[0], 'minutes');
+        const duration = this.times[this.times.length - 1].diff(this.times[0], unit);
         return duration;
     }
 

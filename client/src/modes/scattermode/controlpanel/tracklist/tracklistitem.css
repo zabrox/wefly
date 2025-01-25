@@ -1,12 +1,19 @@
 .tracklistitem {
     font-family: 'sans-serif';
 }
+
+.trackstatswrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
 .trackstatscontainer {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     padding-top: 2px;
-    padding-right: 30px;
+    padding-right: 3px;
     font-size: 0.8rem;
 }
 

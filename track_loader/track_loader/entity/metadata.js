@@ -15,17 +15,9 @@ class Metadata {
     activity = "";
     model = "";
     area = "";
-    liveTrackId = 0;
-    liveTrackUserId = 0;
 
     getId() {
         return (this.pilotname + '_' + this.startTime.utc().format('YYYYMMDDHHmmss')).replace(' ', '');
-    }
-
-    durationString() {
-        const hours = Math.floor(this.duration / 60);
-        const minutes = this.duration % 60;
-        return hours + 'h ' + minutes + 'm';
     }
 
     serialize() {
