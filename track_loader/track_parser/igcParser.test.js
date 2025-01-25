@@ -1,68 +1,51 @@
-const fs = require('fs');
-const path = require('path');
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
 const { Storage } = require('@google-cloud/storage');
-const { parseIgc } = require('./igcParser.js');
-const { Track } = require('../track_loader/common/track.js');
-
-dayjs.extend(utc);
+const { IGCParser } = require('./igcParser');
+const { Path } = require('./entity/path');
 jest.mock('@google-cloud/storage');
 
-describe('igcParser', () => {
-    const date = '2024-02-08';
+describe('IGCParser', () => {
+    it('should parse IGC data successfully', async () => {
+        const date = '2023-10-10';
+        const trackId = '12345';
+        const igcData = `
+B0235143524795N13834198EA0000001186
+B0235173524795N13834198EA0000001190
+        `;
+        const mockFile = { download: jest.fn().mockResolvedValue([Buffer.from(igcData)]) };
+        const mockBucket = { file: jest.fn().mockReturnValue(mockFile) };
+        const mockStorage = { bucket: jest.fn().mockReturnValue(mockBucket) };
 
-    beforeEach(() => {
-        jest.clearAllMocks();
+        Storage.mockImplementation(() => mockStorage);
+
+        const parser = new IGCParser(date, trackId);
+        const path = await parser.parseIGC();
+
+        expect(mockStorage.bucket).toHaveBeenCalledWith('wefly-lake');
+        expect(mockBucket.file).toHaveBeenCalledWith(`${date}/igcs/${trackId}.igc`);
+        expect(mockFile.download).toHaveBeenCalled();
+
+        const expectedPath = new Path();
+        expectedPath.addPoint(138.56996666666666, 35.41325, 1186, expect.any(Object));
+        expectedPath.addPoint(138.56996666666666, 35.41325, 1190, expect.any(Object));
+
+        expect(path).toEqual(expectedPath);
     });
 
-    it('should parse IGC files for each track', async () => {
-        const track = new Track();
-        track.metadata.pilotname = 'ashida';
-        track.metadata.startTime = dayjs('2024-02-08T02:01:25Z');
-        track.metadata.lastTime = dayjs('2024-02-08T02:02:07Z');
-        const igcFilePath = path.join('test_assets', 'ashida_20231001020125.igc');
-        const igcContent = fs.readFileSync(igcFilePath);
+    it('should handle error during file download', async () => {
+        const date = '2023-10-10';
+        const trackId = '12345';
+        const mockFile = { download: jest.fn().mockRejectedValue(new Error('Download error')) };
+        const mockBucket = { file: jest.fn().mockReturnValue(mockFile) };
+        const mockStorage = { bucket: jest.fn().mockReturnValue(mockBucket) };
 
-        Storage.mockImplementation(() => ({
-            bucket: () => ({
-                file: () => ({
-                    download: jest.fn().mockResolvedValueOnce([Buffer.from(igcContent)]),
-                }),
-            }),
-        }));
+        Storage.mockImplementation(() => mockStorage);
 
-        await parseIgc(date, track);
+        const parser = new IGCParser(date, trackId);
 
-        expect(track.metadata.startTime).toStrictEqual(dayjs('2024-02-08T02:01:25.000Z'));
-        expect(track.metadata.lastTime).toStrictEqual(dayjs('2024-02-08T02:02:07.000Z'));
-        expect(track.metadata.startPosition).toStrictEqual([134.97935, 35.239866666666664, 685]);
-        expect(track.metadata.lastPosition).toStrictEqual([134.9794, 35.23983333333334, 681]);
-        expect(track.metadata.maxAltitude).toBe(685);
-    });
+        await expect(parser.parseIGC()).rejects.toThrow('Download error');
 
-    it('when track is cross 0 oclock', async () => {
-        const track = new Track();
-        track.metadata.pilotname = 'ashida';
-        track.metadata.startTime = dayjs('2024-02-07T23:59:59Z');
-        track.metadata.lastTime = dayjs('2024-02-08T00:00:01Z');
-        const igcFilePath = path.join('test_assets', 'cross_0_oclock.igc');
-        const igcContent = fs.readFileSync(igcFilePath);
-
-        Storage.mockImplementation(() => ({
-            bucket: () => ({
-                file: () => ({
-                    download: jest.fn().mockResolvedValueOnce([Buffer.from(igcContent)]),
-                }),
-            }),
-        }));
-
-        await parseIgc(date, track);
-
-        expect(track.metadata.startTime).toStrictEqual(dayjs('2024-02-07T23:59:59.000Z'));
-        expect(track.metadata.lastTime).toStrictEqual(dayjs('2024-02-08T00:00:01.000Z'));
-        expect(track.metadata.startPosition).toStrictEqual([134.97935, 35.239866666666664, 685]);
-        expect(track.metadata.lastPosition).toStrictEqual([134.9794, 35.23983333333334, 681]);
-        expect(track.metadata.maxAltitude).toBe(685);
+        expect(mockStorage.bucket).toHaveBeenCalledWith('wefly-lake');
+        expect(mockBucket.file).toHaveBeenCalledWith(`${date}/igcs/${trackId}.igc`);
+        expect(mockFile.download).toHaveBeenCalled();
     });
 });

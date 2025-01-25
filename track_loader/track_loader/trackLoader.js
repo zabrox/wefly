@@ -40,14 +40,14 @@ function needsUpdateTrack(track, existingMetadatas) {
     return false;
 }
 
-async function loadTrack(date, track, existingMetadatas) {
+async function loadTrack(date, track, existingMetadatas, force) {
     const trackPage = new TrackPage(track.liveTrackId);
     await trackPage.load();
     track.startTime = trackPage.parseStartTime();
     track.endTime = trackPage.parseEndTime();
     await uploadTrackPage(date, track, trackPage);
 
-    if (!needsUpdateTrack(track, existingMetadatas)) {
+    if (!force && !needsUpdateTrack(track, existingMetadatas)) {
         console.log(`Track ${track.getTrackId()} is up to date`);
         return false;
     }
@@ -79,7 +79,7 @@ async function loadTracks(date, opts) {
         await uploadTrackListPage(date, trackListPage);
         const nonLiveTracks = trackListPage.getTracks().filter((track) => !track.isLive);
         await Promise.all(nonLiveTracks.map(async (track) => {
-            const updated = await loadTrack(date, track, existingMetadatas);
+            const updated = await loadTrack(date, track, existingMetadatas, opts.force);
             if (!updated && !opts.force) {
                 return;
             }
