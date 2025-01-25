@@ -1,7 +1,7 @@
 const { Storage } = require('@google-cloud/storage');
 const zlib = require('zlib');
 
-const lakeBucketName = 'wefly-lake';
+const lakeBucketName = 'wefly-mart';
 
 class PathPerpetuator {
     constructor() {
