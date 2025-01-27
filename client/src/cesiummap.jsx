@@ -26,7 +26,6 @@ const initializeCesium = async (cesiumContainerRef) => {
     viewer.scene.fog.minimumBrightness = 0.8;
     viewer.scene.globe.atmosphereLightIntensity = 30;
     document.getElementsByClassName('cesium-viewer-bottom')[0].remove();
-    viewer.camera.percentageChanged = 0.1;
     viewer.camera.frustum.fov = Cesium.Math.toRadians(80);
     viewer.selectionIndicator.viewModel.selectionIndicatorElement.style.visibility = 'hidden';
     viewer.scene.postProcessStages.fxaa.enabled = true;
@@ -69,7 +68,12 @@ export const zoomToTrackGroup = (group) => {
 
 export const zoomToTrackGroups = (groups) => {
     const cartesians = groups.map(group => Cesium.Cartesian3.fromDegrees(...group.position));
-    viewer.camera.flyToBoundingSphere(Cesium.BoundingSphere.fromPoints(cartesians), { duration: 1 });
+    viewer.camera.flyToBoundingSphere(Cesium.BoundingSphere.fromPoints(cartesians), {
+        duration: 1,
+        complete: () => {
+            viewer.camera.moveBackward(3000);
+        }
+    });
     viewer.selectedEntity = undefined;
 }
 
