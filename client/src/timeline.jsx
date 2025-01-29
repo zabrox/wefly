@@ -52,7 +52,7 @@ export const Timeline = ({ track, currentTime, setCurrentTime, start, end, handl
         while (time.isBefore(track.path.times[track.path.times.length - 1])) {
             const index = parseInt(cellNumber * time.diff(start, 'milliseconds') / duration);
             const height = timelineCanvas.current.height * stats.getAverageAltitude(time, time.add(span, 'milliseconds')) / track.metadata.maxAltitude;
-            console.log(`time: ${time}, index: ${index}, height: ${height}`);
+            cells.push({ time: time, position: CELL_WIDTH * index, height: height });
             time = time.add(span, 'milliseconds');
         };
         setTimelineCells(cells);
