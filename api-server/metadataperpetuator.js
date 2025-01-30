@@ -16,7 +16,9 @@ class MetadataPerpetuator {
     async perpetuate(track) {
         const source = `SELECT
             ${track.metadata.distance} AS distance,
-            ${track.metadata.duration} AS duration, ${track.metadata.maxAltitude} AS maxAltitude, 
+            ${track.metadata.duration} AS duration,
+            ${track.metadata.maxAltitude} AS maxAltitude, 
+            ${track.metadata.maxGain} AS maxGain, 
             DATETIME('${track.metadata.lastTime.format('YYYY-MM-DD HH:mm:ss')}') AS lastTime,
             ${track.metadata.lastPosition[0]} AS lastLongitude, ${track.metadata.lastPosition[1]} AS lastLatitude, ${track.metadata.lastPosition[2]} AS lastAltitude`;
         const updateQuery = `UPDATE SET 
