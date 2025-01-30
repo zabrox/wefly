@@ -131,6 +131,6 @@ describe('loadTracks', () => {
         
         expect(trackPage.load).toHaveBeenCalled();
         expect(igcLoader.load).toHaveBeenCalled();
-        expect(ret).toEqual([track.getTrackId()]);
+        expect(ret.length).toEqual(1);
     });
 });

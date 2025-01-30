@@ -15,15 +15,11 @@ class Metadata {
     activity = "";
     model = "";
     area = "";
+    maxGain = 0;
+    dataSource = "";
 
     getId() {
         return (this.pilotname + '_' + this.startTime.utc().format('YYYYMMDDHHmmss')).replace(' ', '');
-    }
-
-    durationString() {
-        const hours = Math.floor(this.duration / 60);
-        const minutes = this.duration % 60;
-        return hours + 'h ' + minutes + 'm';
     }
 
     serialize() {
@@ -39,6 +35,8 @@ class Metadata {
             activity: this.activity,
             model: this.model,
             area: this.area,
+            maxGain: this.maxGain,
+            dataSource: this.dataSource,
         };
     }
 
@@ -55,6 +53,8 @@ class Metadata {
         metadata.activity = json.activity;
         metadata.model = json.model;
         metadata.area = json.area;
+        metadata.maxGain = json.maxGain;
+        metadata.dataSource = json.dataSource;
         return metadata;
     }
 }

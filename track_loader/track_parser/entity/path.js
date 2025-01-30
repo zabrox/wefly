@@ -44,6 +44,12 @@ class Path {
         }
         return this.#maxAltitude;
     }
+    maxGain() {
+        if (this.points.length === 0) {
+            return 0;
+        }
+        return this.maxAltitude() - this.points[0][2];
+    }
 
     serialize() {
         return {

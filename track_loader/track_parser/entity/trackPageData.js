@@ -8,6 +8,7 @@ class TrackPageData {
     distance = 0;    // in km
     activity = "";
     model = "";
+    url = "";
 }
 
 module.exports = { TrackPageData };

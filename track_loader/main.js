@@ -13,8 +13,8 @@ async function main() {
     if (date === undefined) {
         date = dayjs().format('YYYY-MM-DD');
     }
-    const updatedTrackIds = await loadTracks(date, opts);
-    await parseTracks(date, updatedTrackIds);
+    const updatedLivetrackTracks = await loadTracks(date, opts);
+    await parseTracks(date, updatedLivetrackTracks);
 }
 
 main();

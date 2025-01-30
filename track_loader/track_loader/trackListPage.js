@@ -2,7 +2,7 @@ const axios = require('axios');
 const http = require('http');
 const https = require('https');
 const cheerio = require('cheerio');
-const { Track } = require('./entity/track');
+const { LivetrackTrack } = require('./entity/livetracktrack');
 
 // force IPv4
 const httpAgent = new http.Agent({ family: 4 });
@@ -44,7 +44,7 @@ class TrackListPage {
 
     getTracks() {
         const $ = cheerio.load(this.#html);
-        const tracks = [];
+        const livetrackTracks = [];
 
         $('div[id^="trackRow_"]').each(async (_, trackRow) => {
             const pilotname = $(trackRow).find('span.liveusername a').text().match(/[a-zA-Z0-9\-]+/)[0];
@@ -52,9 +52,9 @@ class TrackListPage {
             const userId = $(trackRow).attr('data-userid');
             const status = $(trackRow).find('span.track_status').text();
             const isLive = status === 'Live!';
-            tracks.push(new Track(pilotname, userId, trackId, isLive));
+            livetrackTracks.push(new LivetrackTrack(pilotname, userId, trackId, isLive));
         });
-        return tracks;
+        return livetrackTracks;
     }
 }
 

@@ -24,6 +24,7 @@ test('serialize and desrialize track', () => {
     track.metadata.distance = 100;
     track.metadata.duration = 60;
     track.metadata.maxAltitude = 1000;
+    track.metadata.maxGain = 1000;
     track.metadata.startTime = dayjs('2024-02-14 11:34:56');
     track.metadata.lastTime = dayjs('2024-02-14 12:34:56');
     track.metadata.startPosition = [37.7749, -122.4194, 0];
@@ -31,6 +32,7 @@ test('serialize and desrialize track', () => {
     track.metadata.activity = 'Paraglider';
     track.metadata.model = 'Kangri';
     track.metadata.area = "Asagiri";
+    track.metadata.dataSource = "https://example.com";
 
     track.path.addPoint(37.7749, -122.4194, 0, dayjs('2024-02-14 12:34:56'));
     track.path.addPoint(37.7750, -122.4193, 100, dayjs('2024-02-14 12:34:57'));
@@ -47,8 +49,10 @@ test('serialize and desrialize track', () => {
             distance: 100,
             duration: 60,
             maxAltitude: 1000,
+            maxGain: 1000,
             model: "Kangri",
             area: "Asagiri",
+            dataSource: "https://example.com"
         },
         path: {
             points: [
