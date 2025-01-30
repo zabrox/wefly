@@ -4,6 +4,7 @@ const utc = require('dayjs/plugin/utc.js');
 const customParseFormat = require('dayjs/plugin/customParseFormat.js')
 const cheerio = require('cheerio');
 const { TrackPageData } = require('./entity/trackPageData.js');
+const { trackPagePath } = require('../gcsPathUtil.js')
 
 const bucketName = 'wefly-lake';
 
@@ -13,8 +14,8 @@ dayjs.extend(customParseFormat)
 class TrackPageParser {
     #gcsPath;
 
-    constructor(date, trackId) {
-        this.#gcsPath = `${date}/livetrack24/TrackPage-${trackId}.html`;
+    constructor(date, livetrackTrack) {
+        this.#gcsPath = trackPagePath(date, livetrackTrack);
     }
 
     async parseTrackPage() {
@@ -33,13 +34,20 @@ class TrackPageParser {
             [content] = await file.download();
         } catch (error) {
             console.log(`Failed to download file: ${error.message}`);
-            throw error;
+            return "";
         }
         const html = content.toString('utf-8');
         return html;
     }
 
+    async #fetchSourceUrlFile() {
+
+    }
+
     #parseHtml(html) {
+        if (html === "") {
+            return undefined;
+        }
         const $ = cheerio.load(html);
         const trackPageData = new TrackPageData();
         const { model, activity } = this.#parseModelAndActivity($);

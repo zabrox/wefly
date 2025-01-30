@@ -45,6 +45,7 @@ async function loadTrack(date, track, existingMetadatas, force) {
     await trackPage.load();
     track.startTime = trackPage.parseStartTime();
     track.endTime = trackPage.parseEndTime();
+    track.liveTrackUrl = trackPage.liveTrackUrl;
     await uploadTrackPage(date, track, trackPage);
 
     if (!force && !needsUpdateTrack(track, existingMetadatas)) {
@@ -73,7 +74,7 @@ async function loadTracks(date, opts) {
     }
 
     const existingMetadatas = await new MetadataLoader().loadMetadatas(date);
-    const updatedTrackIds = [];
+    const updatedTracks = [];
 
     await Promise.all(trackListPages.map(async (trackListPage) => {
         await uploadTrackListPage(date, trackListPage);
@@ -84,10 +85,10 @@ async function loadTracks(date, opts) {
                 return;
             }
             await loadPilotIcons(track);
-            updatedTrackIds.push(track.getTrackId());
+            updatedTracks.push(track);
         }));
     }));
-    return updatedTrackIds;
+    return updatedTracks;
 }
 
 module.exports = { loadTracks };

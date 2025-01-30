@@ -3,10 +3,11 @@ const utc = require('dayjs/plugin/utc');
 
 dayjs.extend(utc);
 
-class Track {
+class LivetrackTrack {
     #pilotname
     #startTime
     #endTime
+    #liveTrackUrl
     #liveTrackUserId
     #liveTrackId
     #isLive
@@ -45,6 +46,12 @@ class Track {
     get isLive() {
         return this.#isLive;
     }
+    set liveTrackUrl(url) {
+        this.#liveTrackUrl = url;
+    }
+    get liveTrackUrl() {
+        return this.#liveTrackUrl;
+    }
 }
 
-module.exports = { Track };
+module.exports = { LivetrackTrack };

@@ -20,6 +20,10 @@ class TrackPage {
         this.#liveTrackUrl = `${baseUrl}/track/${liveTrackId}`;
     }
 
+    get liveTrackUrl() {
+        return this.#liveTrackUrl;
+    }
+
     async load() {
         const response = await axios.get(this.#liveTrackUrl, {
             httpAgent,
