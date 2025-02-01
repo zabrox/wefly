@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListItem, ListItemText, ListItemIcon, Box } from '@mui/material';
+import { ListItem, ListItemIcon, Box } from '@mui/material';
 import LandscapeOutlinedIcon from '@mui/icons-material/LandscapeOutlined';
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
@@ -9,6 +9,7 @@ import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import { ActivityIcon } from '../../../../util/activityicon';
 import { trackColor } from '../../../../util/trackcolor';
 import { PilotIcon } from '../../../../util/piloticon';
+import TrackListItemMenu from './tracklistitemmenu';
 import './tracklistitem.css';
 
 const PilotName = ({ track }) => {
@@ -64,7 +65,7 @@ const MaxAltitude = ({ track }) => {
     return (
         <Box className='trackstatsitem maxaltitude'>
             <LandscapeOutlinedIcon />
-            {`${track.metadata.maxAltitude}m`}
+            {`${track.metadata.maxAltitude}m (+${track.metadata.maxGain}m)`}
         </Box>
     );
 }
@@ -107,6 +108,7 @@ const TrackListItem = ({ track, selected, onClick }) => {
                     </Box>
                 </Box>
             </Box>
+            <TrackListItemMenu track={track} />
         </ListItem>
     );
 };
