@@ -12,10 +12,12 @@ dayjs.extend(utc)
 dayjs.extend(customParseFormat)
 
 class TrackPageParser {
-    #gcsPath;
+    #date;
+    #livetrackTrack;
 
     constructor(date, livetrackTrack) {
-        this.#gcsPath = trackPagePath(date, livetrackTrack);
+        this.#date = date;
+        this.#livetrackTrack = livetrackTrack;
     }
 
     async parseTrackPage() {
@@ -23,30 +25,32 @@ class TrackPageParser {
         return this.#parseHtml(html);
     }
 
-    async #fetchTrackPage() {
-        let content;
-        try {
-            const file = (new Storage()).bucket(bucketName).file(this.#gcsPath);
-            const [exists] = await file.exists();
-            if (!exists) {
-                return "";
-            }
-            [content] = await file.download();
-        } catch (error) {
-            console.log(`Failed to download file: ${error.message}`);
-            return "";
+    async #fetchGcsFile(bucketName, filePath) {
+        const storage = new Storage();
+        const bucket = storage.bucket(bucketName);
+        const file = bucket.file(filePath);
+        const [exists] = await file.exists();
+        if (!exists) {
+            throw new Error(`File not found: ${filePath}`);
         }
-        const html = content.toString('utf-8');
-        return html;
+        const [content] = await file.download();
+        return content.toString('utf-8');
     }
 
-    async #fetchSourceUrlFile() {
-
+    async #fetchTrackPage() {
+        try {
+            const content = await this.#fetchGcsFile(bucketName, trackPagePath(this.#date, this.#livetrackTrack));
+            const html = content.toString('utf-8');
+            return html;
+        } catch (error) {
+            console.error(`Failed to download file: ${error.message}`);
+            throw error;
+        }
     }
 
     #parseHtml(html) {
         if (html === "") {
-            return undefined;
+            throw new Error("Empty HTML content");
         }
         const $ = cheerio.load(html);
         const trackPageData = new TrackPageData();

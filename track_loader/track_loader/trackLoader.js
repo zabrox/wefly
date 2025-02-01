@@ -24,7 +24,7 @@ async function loadTrackListPages(date, page, trackListPages) {
         trackListPages = await loadTrackListPages(date, page + 1, trackListPages);
         return trackListPages;
     } catch (error) {
-        console.log(`Error loading track list page ${page}: ${error}`);
+        console.error(`Error loading track list page ${page}: ${error}`);
         throw error;
     }
 }
@@ -41,21 +41,25 @@ function needsUpdateTrack(track, existingMetadatas) {
 }
 
 async function loadTrack(date, track, existingMetadatas, force) {
-    const trackPage = new TrackPage(track.liveTrackId);
-    await trackPage.load();
-    track.startTime = trackPage.parseStartTime();
-    track.endTime = trackPage.parseEndTime();
-    track.liveTrackUrl = trackPage.liveTrackUrl;
-    await uploadTrackPage(date, track, trackPage);
+    try {
+        const trackPage = new TrackPage(track.liveTrackId);
+        await trackPage.load();
+        track.startTime = trackPage.parseStartTime();
+        track.endTime = trackPage.parseEndTime();
+        track.liveTrackUrl = trackPage.liveTrackUrl;
+        await uploadTrackPage(date, track, trackPage);
 
-    if (!force && !needsUpdateTrack(track, existingMetadatas)) {
-        console.log(`Track ${track.getTrackId()} is up to date`);
+        if (!force && !needsUpdateTrack(track, existingMetadatas)) {
+            console.log(`Track ${track.getTrackId()} is up to date`);
+            return false;
+        }
+
+        const igcLoader = new IgcLoader(track.liveTrackId);
+        await igcLoader.load();
+        await uploadIgc(date, track, igcLoader);
+    } catch (error) {
         return false;
     }
-
-    const igcLoader = new IgcLoader(track.liveTrackId);
-    await igcLoader.load();
-    await uploadIgc(date, track, igcLoader);
     return true
 }
 

@@ -19,29 +19,40 @@ function createTrack(trackPageData, path, area, livetrackTrack) {
     track.metadata.activity = trackPageData.activity;
     track.metadata.model = trackPageData.model;
     track.metadata.area = area.areaName;
-    track.metadata.dataSource = livetrackTrack.livetrackUrl;
+    track.metadata.dataSource = livetrackTrack.liveTrackUrl;
     return track;
 }
 
 async function parseTracks(date, livetrackTracks) {
     console.log(`Parse tracks for date ${date}`);
 
-    Promise.all(livetrackTracks.map(async livetrackTrack => {
+    const tracksToUpload = [];
+    await Promise.all(livetrackTracks.map(async livetrackTrack => {
         const trackPageParser = new TrackPageParser(date, livetrackTrack);
-        const trackPageData = await trackPageParser.parseTrackPage();
+        let trackPageData;
+        try {
+            trackPageData = await trackPageParser.parseTrackPage();
+        } catch (error) {
+            console.error(`Failed to parse track page: ${error.message}`);
+            return;
+        }
         if (trackPageData === undefined) {
             return;
         }
 
         const igcParser = new IGCParser(date, livetrackTrack);
         const path = await igcParser.parseIGC();
-        console.log(`Parsed path for file ${livetrackTrack}:`);
+        console.log(`Parsed path for file ${livetrackTrack.getTrackId()}:`);
 
         const area = await new AreaFinder().findArea(path.points[0]);
         const track = createTrack(trackPageData, path, area, livetrackTrack);
 
-        await uploadTrack(track);
+        tracksToUpload.push(track);
     }));
+
+    for (const track of tracksToUpload) {
+        await uploadTrack(track);
+    }
 }
 
 module.exports = { parseTracks };

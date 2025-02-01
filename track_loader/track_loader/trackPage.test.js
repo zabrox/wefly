@@ -1,7 +1,10 @@
 const axios = require('axios');
 const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
 const { TrackPage } = require('./trackPage');
 jest.mock('axios');
+
+dayjs.extend(utc)
 
 describe('TrackPage', () => {
     it('should load track page HTML successfully', async () => {
@@ -43,7 +46,7 @@ describe('TrackPage', () => {
         
         const startTime = trackPage.parseStartTime();
         expect(startTime.isValid()).toBe(true);
-        expect(startTime.format()).toBe(dayjs('2025-01-16 08:43:02').format());
+        expect(startTime.format()).toBe(dayjs('2025-01-16 08:43:02').utc().format());
     });
 
     it('should parse end time correctly', async () => {
@@ -58,6 +61,6 @@ describe('TrackPage', () => {
         
         const startTime = trackPage.parseEndTime();
         expect(startTime.isValid()).toBe(true);
-        expect(startTime.format()).toBe(dayjs('2025-01-16 08:43:02').format());
+        expect(startTime.format()).toBe(dayjs('2025-01-16 08:43:02').utc().format());
     });
 });

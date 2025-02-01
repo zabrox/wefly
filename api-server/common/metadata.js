@@ -1,7 +1,9 @@
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
+const customParseFormat = require("dayjs/plugin/customParseFormat");
 
 dayjs.extend(utc);
+dayjs.extend(customParseFormat);
 
 class Metadata {
     pilotname = "";
@@ -46,8 +48,8 @@ class Metadata {
         metadata.distance = json.distance;
         metadata.duration = json.duration;
         metadata.maxAltitude = json.maxAltitude;
-        metadata.startTime = dayjs(json.startTime);
-        metadata.lastTime = dayjs(json.lastTime);
+        metadata.startTime = dayjs.utc(json.startTime);
+        metadata.lastTime = dayjs.utc(json.lastTime);
         metadata.startPosition = json.startPosition;
         metadata.lastPosition = json.lastPosition;
         metadata.activity = json.activity;

@@ -2,7 +2,10 @@ const axios = require('axios');
 const http = require('http');
 const https = require('https');
 const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
 const cheerio = require('cheerio');
+
+dayjs.extend(utc)
 
 // force IPv4
 const httpAgent = new http.Agent({ family: 4 });
@@ -43,10 +46,10 @@ class TrackPage {
         const startTimeText = $('#row2_2 div').text();
         const match = startTimeText.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC.+/);
         if (!match) {
-            throw new Error('Failed to parse start time');
+            throw new Error(`Failed to parse start time: ${this.#liveTrackUrl}`);
         }
         const datestr = match[0].replace(' UTC', '') + ':00'
-        return dayjs(datestr);
+        return dayjs(datestr).utc();
     }
 
     parseEndTime() {
@@ -54,10 +57,10 @@ class TrackPage {
         const startTimeText = $('#row2_3 div').text();
         const match = startTimeText.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} UTC.+/);
         if (!match) {
-            throw new Error('Failed to parse start time');
+            throw new Error(`Failed to parse start time: ${this.#liveTrackUrl}`);
         }
         const datestr = match[0].replace(' UTC', '') + ':00'
-        return dayjs(datestr);
+        return dayjs(datestr).utc();
     }
 
     getHtml() {

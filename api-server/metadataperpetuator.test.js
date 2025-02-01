@@ -35,8 +35,8 @@ describe('MetadataPerpetuator', () => {
                 duration: 60,
                 maxAltitude: 1000,
                 maxGain: 1000,
-                startTime: dayjs('2024-01-01 12:00:00'),
-                lastTime: dayjs('2024-01-01 13:34:56'),
+                startTime: dayjs.utc('2024-01-01 12:00:00'),
+                lastTime: dayjs.utc('2024-01-01 13:34:56'),
                 startPosition: [37.7749, -122.4194, 0],
                 lastPosition: [37.7750, -122.4193, 100],
                 activity: 'Paraglider',
@@ -50,7 +50,8 @@ describe('MetadataPerpetuator', () => {
 
         expect(mockQuery.mock.calls[0][0].replaceAll(/\s+/g, ' ')).toStrictEqual(
             `MERGE INTO wefly.metadatas AS t
-                USING (SELECT 100 AS distance, 60 AS duration, 1000 AS maxAltitude,
+                USING (SELECT 100 AS distance, 60 AS duration,
+                1000 AS maxAltitude, 1000 AS maxGain,
                 DATETIME('2024-01-01 13:34:56') AS lastTime, 37.775 AS lastLongitude,
                 -122.4193 AS lastLatitude, 100 AS lastAltitude) AS s
                 ON t.id = 'Takase_20240101120000'
