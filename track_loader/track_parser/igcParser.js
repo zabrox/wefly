@@ -1,6 +1,7 @@
 const { Storage } = require('@google-cloud/storage');
 const dayjs = require('dayjs');
 const { Path } = require('./entity/path');
+const { igcPath } = require('../gcsPathUtil');
 
 const bucketName = 'wefly-lake';
 
@@ -8,8 +9,8 @@ class IGCParser {
     #gcsPath
     #date
 
-    constructor(date, trackId) {
-        this.#gcsPath = `${date}/igcs/${trackId}.igc`;
+    constructor(date, livetrackTrack) {
+        this.#gcsPath = igcPath(date, livetrackTrack);
         this.#date = date;
     }
 

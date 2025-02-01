@@ -16,23 +16,28 @@ class MetadataPerpetuator {
     async perpetuate(track) {
         const source = `SELECT
             ${track.metadata.distance} AS distance,
-            ${track.metadata.duration} AS duration, ${track.metadata.maxAltitude} AS maxAltitude, 
+            ${track.metadata.duration} AS duration,
+            ${track.metadata.maxAltitude} AS maxAltitude, 
+            ${track.metadata.maxGain} AS maxGain, 
             DATETIME('${track.metadata.lastTime.format('YYYY-MM-DD HH:mm:ss')}') AS lastTime,
             ${track.metadata.lastPosition[0]} AS lastLongitude, ${track.metadata.lastPosition[1]} AS lastLatitude, ${track.metadata.lastPosition[2]} AS lastAltitude`;
         const updateQuery = `UPDATE SET 
             distance = s.distance,
-            duration = s.duration, maxAltitude = s.maxAltitude, 
+            duration = s.duration,
+            maxAltitude = s.maxAltitude, 
+            maxGain = s.maxGain,
             lastTime = s.lastTime,
             lastLongitude = s.lastLongitude, lastLatitude = s.lastLatitude, lastAltitude = s.lastAltitude`;
         const insertQuery = `INSERT (
-            id, pilotname, distance, duration, maxAltitude, startTime, lastTime,
+            id, pilotname, distance, duration, maxAltitude, maxGain, startTime, lastTime,
             startLongitude, startLatitude, startAltitude,
-            lastLongitude, lastLatitude, lastAltitude, activity, model, area) VALUES 
+            lastLongitude, lastLatitude, lastAltitude, activity, model, area, dataSource) VALUES 
             ('${track.getId()}', '${track.metadata.pilotname}', ${track.metadata.distance},
-            ${track.metadata.duration}, ${track.metadata.maxAltitude}, DATETIME('${track.metadata.startTime.format('YYYY-MM-DD HH:mm:ss')}'), DATETIME('${track.metadata.lastTime.format('YYYY-MM-DD HH:mm:ss')}'),
+            ${track.metadata.duration}, ${track.metadata.maxAltitude}, ${track.metadata.maxGain},
+            DATETIME('${track.metadata.startTime.utc().format('YYYY-MM-DD HH:mm:ss')}'), DATETIME('${track.metadata.lastTime.utc().format('YYYY-MM-DD HH:mm:ss')}'),
             ${track.metadata.startPosition[0]}, ${track.metadata.startPosition[1]}, ${track.metadata.startPosition[2]},
             ${track.metadata.lastPosition[0]}, ${track.metadata.lastPosition[1]}, ${track.metadata.lastPosition[2]},
-            '${track.metadata.activity}', '${track.metadata.model}', '${track.metadata.area}')`;
+            '${track.metadata.activity}', '${track.metadata.model}', '${track.metadata.area}', '${track.metadata.dataSource}')`;
         const query = `MERGE INTO ${datasetId}.${tableId} AS t
             USING (${source}) AS s
             ON t.id = '${track.getId()}'
@@ -85,6 +90,7 @@ class MetadataPerpetuator {
         metadata.distance = row.distance;
         metadata.duration = row.duration;
         metadata.maxAltitude = row.maxAltitude;
+        metadata.maxGain = row.maxGain;
         metadata.startTime = dayjs.utc(row.startTime.value);
         metadata.lastTime = dayjs.utc(row.lastTime.value);
         metadata.startPosition = [row.startLongitude, row.startLatitude, row.startAltitude];
@@ -92,6 +98,7 @@ class MetadataPerpetuator {
         metadata.activity = row.activity;
         metadata.model = row.model;
         metadata.area = row.area;
+        metadata.dataSource = row.dataSource;
         return metadata;
     }
 }

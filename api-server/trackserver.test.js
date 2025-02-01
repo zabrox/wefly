@@ -1,8 +1,13 @@
 const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const customParseFormat = require("dayjs/plugin/customParseFormat");
 const request = require('supertest');
 const { Track } = require('./common/track');
 const { Metadata } = require('./common/metadata');
 const { Path } = require('./common/path');
+
+dayjs.extend(utc);
+dayjs.extend(customParseFormat);
 
 const mockMetadataPerpetuate = jest.fn();
 const mockMetadataFetch = jest.fn();
@@ -34,8 +39,8 @@ describe('POST /api/tracks', () => {
         track.path = new Path();
 
         track.metadata.pilotname = 'John Doe';
-        track.metadata.startTime = dayjs('2022-01-01T11:34:56.000Z');
-        track.metadata.lastTime = dayjs('2022-01-01T12:34:56.000Z');
+        track.metadata.startTime = dayjs.utc('2022-01-01T11:34:56.000Z');
+        track.metadata.lastTime = dayjs.utc('2022-01-01T12:34:56.000Z');
         track.metadata.startPosition = [37.7749, -122.4194, 0];
         track.metadata.lastPosition = [37.7750, -122.4193, 100];
         track.path.addPoint(37.7749, -122.4194, 0, dayjs('2022-01-01T12:34:56.000Z'));
@@ -59,14 +64,14 @@ describe('GET /api/tracks/metadata', () => {
     it('should respond with 200 for get metadata', async () => {
         const metadata1 = new Metadata();
         metadata1.pilotname = 'John Doe';
-        metadata1.startTime = dayjs('2022-01-01T11:34:56.000Z');
-        metadata1.lastTime = dayjs('2022-01-01T12:34:56.000Z');
+        metadata1.startTime = dayjs.utc('2022-01-01T11:34:56.000Z');
+        metadata1.lastTime = dayjs.utc('2022-01-01T12:34:56.000Z');
         metadata1.startPosition = [37.7749, -122.4194, 0];
         metadata1.lastPosition = [37.7750, -122.4193, 100];
         const metadata2 = new Metadata();
         metadata2.pilotname = 'Takase';
-        metadata2.startTime = dayjs('2022-01-01T11:34:56.000Z');
-        metadata2.lastTime = dayjs('2022-01-01T12:34:56.000Z');
+        metadata2.startTime = dayjs.utc('2022-01-01T11:34:56.000Z');
+        metadata2.lastTime = dayjs.utc('2022-01-01T12:34:56.000Z');
         metadata2.startPosition = [37.7749, -122.4194, 0];
         metadata2.lastPosition = [37.7750, -122.4193, 100];
         const metadatas = [metadata1, metadata2];

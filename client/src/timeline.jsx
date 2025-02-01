@@ -45,15 +45,15 @@ export const Timeline = ({ track, currentTime, setCurrentTime, start, end, handl
         let time = track.path.times[0];
 
         const stats = new TrackStatsCalculator(track);
-        const duration = end.diff(start, 'seconds');
+        const duration = end.diff(start, 'milliseconds');
         const cellNumber = timelineCanvas.current.width / CELL_WIDTH;
         const span = duration / cellNumber;
         const cells = [];
         while (time.isBefore(track.path.times[track.path.times.length - 1])) {
-            const index = parseInt(cellNumber * time.diff(start, 'seconds') / duration);
-            const height = timelineCanvas.current.height * stats.getAverageAltitude(time, time.add(span, 'seconds')) / track.metadata.maxAltitude;
+            const index = parseInt(cellNumber * time.diff(start, 'milliseconds') / duration);
+            const height = timelineCanvas.current.height * stats.getAverageAltitude(time, time.add(span, 'milliseconds')) / track.metadata.maxAltitude;
             cells.push({ time: time, position: CELL_WIDTH * index, height: height });
-            time = time.add(span, 'seconds');
+            time = time.add(span, 'milliseconds');
         };
         setTimelineCells(cells);
     }, [track, start, end, timelineCanvas]);
