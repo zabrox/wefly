@@ -33,7 +33,8 @@ class MetadataPerpetuator {
             startLongitude, startLatitude, startAltitude,
             lastLongitude, lastLatitude, lastAltitude, activity, model, area, dataSource) VALUES 
             ('${track.getId()}', '${track.metadata.pilotname}', ${track.metadata.distance},
-            ${track.metadata.duration}, ${track.metadata.maxAltitude}, ${track.metadata.maxGain}, DATETIME('${track.metadata.startTime.format('YYYY-MM-DD HH:mm:ss')}'), DATETIME('${track.metadata.lastTime.format('YYYY-MM-DD HH:mm:ss')}'),
+            ${track.metadata.duration}, ${track.metadata.maxAltitude}, ${track.metadata.maxGain},
+            DATETIME('${track.metadata.startTime.utc().format('YYYY-MM-DD HH:mm:ss')}'), DATETIME('${track.metadata.lastTime.utc().format('YYYY-MM-DD HH:mm:ss')}'),
             ${track.metadata.startPosition[0]}, ${track.metadata.startPosition[1]}, ${track.metadata.startPosition[2]},
             ${track.metadata.lastPosition[0]}, ${track.metadata.lastPosition[1]}, ${track.metadata.lastPosition[2]},
             '${track.metadata.activity}', '${track.metadata.model}', '${track.metadata.area}', '${track.metadata.dataSource}')`;

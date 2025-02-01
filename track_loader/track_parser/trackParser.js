@@ -26,13 +26,14 @@ function createTrack(trackPageData, path, area, livetrackTrack) {
 async function parseTracks(date, livetrackTracks) {
     console.log(`Parse tracks for date ${date}`);
 
-    Promise.all(livetrackTracks.map(async livetrackTrack => {
+    const tracksToUpload = [];
+    await Promise.all(livetrackTracks.map(async livetrackTrack => {
         const trackPageParser = new TrackPageParser(date, livetrackTrack);
         let trackPageData;
         try {
             trackPageData = await trackPageParser.parseTrackPage();
         } catch (error) {
-            console.log(`Failed to parse track page: ${error.message}`);
+            console.error(`Failed to parse track page: ${error.message}`);
             return;
         }
         if (trackPageData === undefined) {
@@ -46,8 +47,12 @@ async function parseTracks(date, livetrackTracks) {
         const area = await new AreaFinder().findArea(path.points[0]);
         const track = createTrack(trackPageData, path, area, livetrackTrack);
 
-        await uploadTrack(track);
+        tracksToUpload.push(track);
     }));
+
+    for (const track of tracksToUpload) {
+        await uploadTrack(track);
+    }
 }
 
 module.exports = { parseTracks };

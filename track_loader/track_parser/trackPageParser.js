@@ -43,14 +43,14 @@ class TrackPageParser {
             const html = content.toString('utf-8');
             return html;
         } catch (error) {
-            console.log(`Failed to download file: ${error.message}`);
-            return "";
+            console.error(`Failed to download file: ${error.message}`);
+            throw error;
         }
     }
 
     #parseHtml(html) {
         if (html === "") {
-            return undefined;
+            throw new Error("Empty HTML content");
         }
         const $ = cheerio.load(html);
         const trackPageData = new TrackPageData();
