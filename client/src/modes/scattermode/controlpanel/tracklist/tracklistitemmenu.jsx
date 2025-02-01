@@ -18,9 +18,15 @@ export const TrackListItemMenu = ({ track }) => {
     };
 
     const handleOpenSource = (event) => {
-        window.open(track.metadata.dataSource, '_blank');
+        if (!dataSourceEmpty()) {
+            window.open(track.metadata.dataSource, '_blank');
+        }
         handleClose(event);
     };
+
+    const dataSourceEmpty = () => {
+        return !track.metadata.dataSource || track.metadata.dataSource === '';
+    }
 
     return (
         <div>
@@ -32,8 +38,9 @@ export const TrackListItemMenu = ({ track }) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleOpenSource}>元サイトを開く</MenuItem>
-                <MenuItem onClick={handleClose}>閉じる</MenuItem>
+                <MenuItem onClick={handleOpenSource} disabled={dataSourceEmpty()}>
+                    元サイトを開く
+                </MenuItem>
             </Menu>
         </div>
     );
