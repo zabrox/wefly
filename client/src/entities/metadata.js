@@ -54,8 +54,8 @@ export class Metadata {
         metadata.distance = json.distance;
         metadata.duration = json.duration;
         metadata.maxAltitude = json.maxAltitude;
-        metadata.startTime = dayjs.utc(json.startTime);
-        metadata.lastTime = dayjs.utc(json.lastTime);
+        metadata.startTime = dayjs(json.startTime);
+        metadata.lastTime = dayjs(json.lastTime);
         metadata.startPosition = json.startPosition;
         metadata.lastPosition = json.lastPosition;
         metadata.activity = json.activity;
