@@ -60,4 +60,36 @@ B0235173524795N13834198EA0000001190
         expect(mockBucket.file).toHaveBeenCalledWith(`${date}/igcs/${livetrackTrack.liveTrackId}.igc`);
         expect(mockFile.download).toHaveBeenCalled();
     });
+
+    it('should handle negative altitude in BRecord', async () => {
+        const date = '2023-10-10';
+        const livetrackTrack = {
+            pilotname: 'testPilot',
+            liveTrackId: '12345',
+            getTrackId: () => 'testPilot_12345'
+        };
+        const igcData = `
+B0235143524795N13834198EA00000-0002
+B0235173524795N13834198EA00000-0003
+        `;
+        const mockFile = { download: jest.fn().mockResolvedValue([Buffer.from(igcData)]) };
+        const mockBucket = { file: jest.fn().mockReturnValue(mockFile) };
+        const mockStorage = { bucket: jest.fn().mockReturnValue(mockBucket) };
+
+        Storage.mockImplementation(() => mockStorage);
+        igcPath.mockReturnValue(`${date}/igcs/${livetrackTrack.liveTrackId}.igc`);
+
+        const parser = new IGCParser(date, livetrackTrack);
+        const path = await parser.parseIGC();
+
+        expect(mockStorage.bucket).toHaveBeenCalledWith('wefly-lake');
+        expect(mockBucket.file).toHaveBeenCalledWith(`${date}/igcs/${livetrackTrack.liveTrackId}.igc`);
+        expect(mockFile.download).toHaveBeenCalled();
+
+        const expectedPath = new Path();
+        expectedPath.addPoint(138.56996666666666, 35.41325, -2, expect.any(Object));
+        expectedPath.addPoint(138.56996666666666, 35.41325, -3, expect.any(Object));
+
+        expect(path).toEqual(expectedPath);
+    });
 });

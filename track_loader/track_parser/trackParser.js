@@ -28,26 +28,30 @@ async function parseTracks(date, livetrackTracks) {
 
     const tracksToUpload = [];
     await Promise.all(livetrackTracks.map(async livetrackTrack => {
-        const trackPageParser = new TrackPageParser(date, livetrackTrack);
-        let trackPageData;
         try {
-            trackPageData = await trackPageParser.parseTrackPage();
+            const trackPageParser = new TrackPageParser(date, livetrackTrack);
+            let trackPageData;
+            try {
+                trackPageData = await trackPageParser.parseTrackPage();
+            } catch (error) {
+                console.error(`Failed to parse track page: ${error.message}`);
+                return;
+            }
+            if (trackPageData === undefined) {
+                return;
+            }
+
+            const igcParser = new IGCParser(date, livetrackTrack);
+            const path = await igcParser.parseIGC();
+            console.log(`Parsed path for file ${livetrackTrack.getTrackId()}:`);
+
+            const area = await new AreaFinder().findArea(path.points[0]);
+            const track = createTrack(trackPageData, path, area, livetrackTrack);
+
+            tracksToUpload.push(track);
         } catch (error) {
-            console.error(`Failed to parse track page: ${error.message}`);
-            return;
+            console.error(`Failed to parse track: ${error.message}`);
         }
-        if (trackPageData === undefined) {
-            return;
-        }
-
-        const igcParser = new IGCParser(date, livetrackTrack);
-        const path = await igcParser.parseIGC();
-        console.log(`Parsed path for file ${livetrackTrack.getTrackId()}:`);
-
-        const area = await new AreaFinder().findArea(path.points[0]);
-        const track = createTrack(trackPageData, path, area, livetrackTrack);
-
-        tracksToUpload.push(track);
     }));
 
     for (const track of tracksToUpload) {
