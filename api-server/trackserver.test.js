@@ -11,21 +11,25 @@ dayjs.extend(customParseFormat);
 
 const mockMetadataPerpetuate = jest.fn();
 const mockMetadataFetch = jest.fn();
+const mockMetadataDelete = jest.fn();
 jest.mock('./metadataperpetuator.js', () => {
     return {
         MetadataPerpetuator: jest.fn(() => ({
             perpetuate: mockMetadataPerpetuate,
             fetch: mockMetadataFetch,
+            deleteMetadata: mockMetadataDelete,
         })),
     };
 });
 const mockPathPerpetuate = jest.fn();
 const mockPathFetch = jest.fn();
+const mockPathDelete = jest.fn();
 jest.mock('./pathperpetuator.js', () => {
     return {
         PathPerpetuator: jest.fn(() => ({
             perpetuate: mockPathPerpetuate,
             fetch: mockPathFetch,
+            deletePath: mockPathDelete,
         })),
     };
 });
@@ -150,5 +154,35 @@ describe('GET /api/tracks/paths', () => {
         expect(mockPathFetch).toHaveBeenCalledWith(['JohnDoe_20220101123456', 'Takase_20220101123456']);
         expect(Path.deserialize(response.body[0])).toEqual(path1);
         expect(Path.deserialize(response.body[1])).toEqual(path2);
+    });
+});
+
+describe('DELETE /api/tracks/:trackId', () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+    it('should respond with status code 200 when track is deleted successfully', async () => {
+        const trackId = 'JohnDoe_20220101123456';
+
+        const response = await request(app)
+            .delete(`/api/track/${trackId}`)
+            .expect(200);
+
+        expect(response.text).toBe(`Track ${trackId} deleted successfully.`);
+        expect(mockMetadataDelete).toHaveBeenCalledWith(trackId);
+        expect(mockPathDelete).toHaveBeenCalledWith(trackId);
+    });
+
+    it('should respond with status code 500 when there is an error deleting the track', async () => {
+        const trackId = 'JohnDoe_20220101123456';
+        mockMetadataDelete.mockRejectedValue(new Error('Delete error'));
+
+        const response = await request(app)
+            .delete(`/api/track/${trackId}`)
+            .expect(500);
+
+        expect(response.text).toBe('Error deleting track.');
+        expect(mockMetadataDelete).toHaveBeenCalledWith(trackId);
+        expect(mockPathDelete).not.toHaveBeenCalledWith(trackId);
     });
 });

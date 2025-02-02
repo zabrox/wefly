@@ -5,6 +5,8 @@ const { Track } = require('./common/track.js');
 const { MetadataPerpetuator } = require('./metadataperpetuator.js');
 const { PathPerpetuator } = require('./pathperpetuator.js');
 const { SearchCondition } = require('./searchcondition.js');
+const { deleteMetadata } = require('./metadataperpetuator');
+const { deletePath } = require('./pathperpetuator');
 
 const gzip = util.promisify(zlib.gzip);
 
@@ -57,7 +59,7 @@ const parseActivities = (activitiesQuery) => {
 const getMetadata = async (req, res) => {
     try {
         res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-        res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+        res.header('Access-Control-Allow-Methods', 'GET');
         const searchCondition = new SearchCondition(
             dayjs(req.query.from),
             dayjs(req.query.to),
@@ -91,7 +93,7 @@ const fetchPath = async (trackids) => {
 
 const getPath = async (req, res) => {
     res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'GET');
     if (req.query.trackids === undefined) {
         res.status(400).send('Bad Request');
         return;
@@ -109,6 +111,20 @@ const getPath = async (req, res) => {
     res.status(200).send(buffer);
 }
 
+const deleteTrack = async (req, res) => {
+    const trackId = req.params.trackId;
+    try {
+        const metadataPerpetuator = new MetadataPerpetuator(projectId);
+        await metadataPerpetuator.deleteMetadata(trackId);
+        const pathPerpetuator = new PathPerpetuator(projectId);
+        await pathPerpetuator.deletePath(trackId);
+        res.status(200).send(`Track ${trackId} deleted successfully.`);
+    } catch (error) {
+        console.error(`Error deleting track ${trackId}: ${error}`);
+        res.status(500).send('Error deleting track.');
+    }
+};
+
 const registerTracksEndpoint = (app) => {
     app.post('/api/tracks', async (req, res) => {
         postTracks(req, res);
@@ -120,6 +136,10 @@ const registerTracksEndpoint = (app) => {
 
     app.get('/api/tracks/paths', async (req, res) => {
         getPath(req, res);
+    });
+
+    app.delete('/api/track/:trackId', async (req, res) => {
+        deleteTrack(req, res);
     });
 };
 
