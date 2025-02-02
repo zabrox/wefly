@@ -36,7 +36,7 @@ class IGCParser {
     }
 
     #parseIGCText(igcText) {
-        const bRecordRegex = /^B(\d{6})(\d{2})(\d{5})([NS])(\d{3})(\d{5})([EW])A(\d{5})(\d{5})/;
+        const bRecordRegex = /^B(\d{6})(\d{2})(\d{5})([NS])(\d{3})(\d{5})([EW])A(\d{5})([-\d]{5})/;
 
         const lines = igcText.split('\n');
         const bRecords = [];
