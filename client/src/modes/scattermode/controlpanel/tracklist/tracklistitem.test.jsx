@@ -14,6 +14,7 @@ const mockTrack = {
         maxAltitude: 1000,
         distance: 50,
         model: 'Test Model',
+        maxGain: 500,
     },
 };
 
@@ -45,7 +46,7 @@ describe('TrackListItem', () => {
         expect(screen.getByText('Test Area')).toBeInTheDocument();
         expect(screen.getByText('2023-01-01 12:00')).toBeInTheDocument();
         expect(screen.getByText('1h 30m')).toBeInTheDocument();
-        expect(screen.getByText('1000m')).toBeInTheDocument();
+        expect(screen.getByText('1000m (+500m)')).toBeInTheDocument();
         expect(screen.getByText('50km')).toBeInTheDocument();
         expect(screen.getByText('Test Model')).toBeInTheDocument();
     });
@@ -53,7 +54,7 @@ describe('TrackListItem', () => {
     it('applies selected background color when selected', () => {
         render(<TrackListItem track={mockTrack} selected={true} onClick={() => {}} />);
 
-        const listItem = screen.getByRole('button');
+        const listItem = document.getElementsByClassName('tracklistitem')[0];
         expect(listItem).toHaveStyle('background-color: #ffffff');
     });
 
@@ -61,7 +62,7 @@ describe('TrackListItem', () => {
         const handleClick = vi.fn();
         render(<TrackListItem track={mockTrack} selected={false} onClick={handleClick} />);
 
-        const listItem = screen.getByRole('button');
+        const listItem = document.getElementsByClassName('tracklistitem')[0];
         fireEvent.click(listItem);
 
         expect(handleClick).toHaveBeenCalledTimes(1);

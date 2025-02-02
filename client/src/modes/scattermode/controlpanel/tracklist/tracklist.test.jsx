@@ -93,7 +93,7 @@ describe('TrackList', () => {
         const scatterStateDesc = { ...mockScatterState, order: 'desc' };
         render(<TrackList state={mockState} scatterState={scatterStateDesc} onTrackClicked={handleTrackClick} />);
 
-        const trackItems = screen.getAllByRole('button');
+        const trackItems = document.getElementsByClassName('tracklistitem');
         expect(trackItems[0]).toHaveTextContent('Pilot 2');
         expect(trackItems[1]).toHaveTextContent('Pilot 1');
     });
