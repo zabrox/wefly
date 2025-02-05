@@ -40,6 +40,9 @@ jobs:
     - name: Docker build track_loader
       run: docker build -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:$TAG .
       working-directory: ./track_loader
+    - name: Docker build invalid_tracks_deleter
+      run: docker build -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/invalid_tracks_deleter:$TAG .
+      working-directory: ./invalid_tracks_deleter
   
     - name: Docker push client
       run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:$TAG
@@ -47,6 +50,8 @@ jobs:
       run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:$TAG
     - name: Docker push track_loader
       run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:$TAG
+    - name: Docker push invalid_tracks_deleter
+      run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/invalid_tracks_deleter:$TAG
       
   deploy:
     runs-on: ubuntu-latest
@@ -85,6 +90,14 @@ jobs:
         gcloud run jobs deploy track-loader \
           --project=$PROJECT_ID \
           --image=asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:$TAG \
+          --region=asia-northeast1 \
+          --service-account=github-action-sa@wefly-407313.iam.gserviceaccount.com \
+
+    - name: Deploy invalid_tracks_deleter to Cloud Run
+      run: |-
+        gcloud run jobs deploy invalid-tracks-deleter \
+          --project=$PROJECT_ID \
+          --image=asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/invalid_tracks_deleter:$TAG \
           --region=asia-northeast1 \
           --service-account=github-action-sa@wefly-407313.iam.gserviceaccount.com \
   
