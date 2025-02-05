@@ -66,20 +66,22 @@ describe('TrackPageParser', () => {
         trackPagePath.mockReturnValue(`${date}/livetrack24/TrackPage-${livetrackTrack.liveTrackId}.html`);
 
         const parser = new TrackPageParser(date, livetrackTrack);
-        const trackPageData = await parser.parseTrackPage();
+
+        await expect(parser.parseTrackPage()).rejects.toThrow('File not found: 2023-10-10/livetrack24/TrackPage-12345.html');
 
         expect(mockStorage.bucket).toHaveBeenCalledWith('wefly-lake');
         expect(mockBucket.file).toHaveBeenCalledWith(`${date}/livetrack24/TrackPage-${livetrackTrack.liveTrackId}.html`);
         expect(mockFile.exists).toHaveBeenCalled();
         expect(mockFile.download).not.toHaveBeenCalled();
-
-        expect(trackPageData).toBeUndefined();
     });
 
     it('should handle error during file download', async () => {
         const date = '2023-10-10';
         const livetrackTrack = { pilotname: 'testPilot', liveTrackId: '12345' };
-        const mockFile = { exists: jest.fn().mockResolvedValue([true]), download: jest.fn().mockRejectedValue(new Error('Download error')) };
+        const mockFile = {
+            exists: jest.fn().mockResolvedValue([true]),
+            download: jest.fn().mockRejectedValue(new Error('Download error'))
+        };
         const mockBucket = { file: jest.fn().mockReturnValue(mockFile) };
         const mockStorage = { bucket: jest.fn().mockReturnValue(mockBucket) };
 
@@ -87,13 +89,12 @@ describe('TrackPageParser', () => {
         trackPagePath.mockReturnValue(`${date}/livetrack24/TrackPage-${livetrackTrack.liveTrackId}.html`);
 
         const parser = new TrackPageParser(date, livetrackTrack);
-        const trackPageData = await parser.parseTrackPage();
+
+        await expect(parser.parseTrackPage()).rejects.toThrow('Download error');
 
         expect(mockStorage.bucket).toHaveBeenCalledWith('wefly-lake');
         expect(mockBucket.file).toHaveBeenCalledWith(`${date}/livetrack24/TrackPage-${livetrackTrack.liveTrackId}.html`);
         expect(mockFile.exists).toHaveBeenCalled();
         expect(mockFile.download).toHaveBeenCalled();
-
-        expect(trackPageData).toBeUndefined();
     });
 });

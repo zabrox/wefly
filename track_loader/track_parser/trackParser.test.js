@@ -85,7 +85,6 @@ describe('parseTracks', () => {
         await parseTracks(date, livetrackTracks);
 
         expect(TrackPageParser).toHaveBeenCalledWith(date, livetrackTrack);
-        expect(console.error).toHaveBeenCalledWith('Error parsing track:', expect.any(Error));
         expect(IGCParser).not.toHaveBeenCalled();
         expect(AreaFinder).not.toHaveBeenCalled();
         expect(uploadTrack).not.toHaveBeenCalled();

@@ -1,7 +1,12 @@
 const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const customParseFormat = require("dayjs/plugin/customParseFormat");
 const { Track } = require('./track');
 const { Area } = require('./area');
 const { Metadata } = require('./metadata');
+
+dayjs.extend(utc);
+dayjs.extend(customParseFormat);
 
 test('getId returns the correct ID', () => {
     const metadata = new Metadata();
@@ -21,8 +26,8 @@ test('serialize and deserialize track', () => {
     track.metadata.distance = 100;
     track.metadata.duration = 60;
     track.metadata.maxAltitude = 1000;
-    track.metadata.startTime = dayjs('2024-02-14 11:34:56');
-    track.metadata.lastTime = dayjs('2024-02-14 12:34:56');
+    track.metadata.startTime = dayjs.utc('2024-02-14 11:34:56');
+    track.metadata.lastTime = dayjs.utc('2024-02-14 12:34:56');
     track.metadata.startPosition = [37.7749, -122.4194, 0];
     track.metadata.lastPosition = [37.7750, -122.4193, 100];
     track.metadata.activity = 'Paraglider';
@@ -38,8 +43,8 @@ test('serialize and deserialize track', () => {
     expect(serialized).toEqual({
         metadata: {
             pilotname: 'John Doe',
-            startTime: '2024-02-14T02:34:56.000Z',
-            lastTime: '2024-02-14T03:34:56.000Z',
+            startTime: '2024-02-14T11:34:56.000Z',
+            lastTime: '2024-02-14T12:34:56.000Z',
             startPosition: [37.7749, -122.4194, 0],
             lastPosition: [37.7750, -122.4193, 100],
             activity: "Paraglider",
