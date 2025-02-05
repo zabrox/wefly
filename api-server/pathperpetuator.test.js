@@ -52,4 +52,37 @@ describe('PathPerpetuator', () => {
         expect(mockBucket.file().download).toHaveBeenCalledTimes(1);
         expect(result).toEqual({});
     });
+
+    it('should delete path successfully', async () => {
+        const trackId = 'testTrackId';
+        const mockFile = { delete: jest.fn().mockResolvedValue() };
+        const mockBucket = { file: jest.fn().mockReturnValue(mockFile) };
+        const mockStorage = { bucket: jest.fn().mockReturnValue(mockBucket) };
+
+        Storage.mockImplementation(() => mockStorage);
+
+        const perpetuator = new PathPerpetuator();
+        await perpetuator.deletePath(trackId);
+
+        expect(mockStorage.bucket).toHaveBeenCalledWith('wefly-mart');
+        expect(mockBucket.file).toHaveBeenCalledWith(`paths/${trackId}.json.gz`);
+        expect(mockFile.delete).toHaveBeenCalled();
+    });
+
+    it('should handle error during path deletion', async () => {
+        const trackId = 'testTrackId';
+        const mockFile = { delete: jest.fn().mockRejectedValue(new Error('Delete error')) };
+        const mockBucket = { file: jest.fn().mockReturnValue(mockFile) };
+        const mockStorage = { bucket: jest.fn().mockReturnValue(mockBucket) };
+
+        Storage.mockImplementation(() => mockStorage);
+
+        const perpetuator = new PathPerpetuator();
+
+        await expect(perpetuator.deletePath(trackId)).rejects.toThrow('Delete error');
+
+        expect(mockStorage.bucket).toHaveBeenCalledWith('wefly-mart');
+        expect(mockBucket.file).toHaveBeenCalledWith(`paths/${trackId}.json.gz`);
+        expect(mockFile.delete).toHaveBeenCalled();
+    });
 });
