@@ -84,6 +84,11 @@ class MetadataPerpetuator {
         return metadatas;
     }
 
+    async deleteMetadata(trackId) {
+        const query = `DELETE FROM ${datasetId}.${tableId} WHERE id = '${trackId}'`;
+        await bigQuery.query(query);
+    }
+
     #convertFromBigQueryRow(row) {
         const metadata = new Metadata();
         metadata.pilotname = row.pilotname;

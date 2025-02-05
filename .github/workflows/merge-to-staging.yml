@@ -36,6 +36,9 @@ jobs:
     - name: Docker build track_loader
       run: docker build -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:staging .
       working-directory: ./track_loader
+    - name: Docker build invalid_tracks_deleter
+      run: docker build -t asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/invalid_tracks_deleter:staging .
+      working-directory: ./invalid_tracks_deleter
   
     - name: Docker push client
       run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-client:staging
@@ -43,6 +46,8 @@ jobs:
       run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/wefly-api-server:staging
     - name: Docker push track_loader
       run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/track_loader:staging
+    - name: Docker push invalid_tracks_deleter
+      run : docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/container-registry/invalid_tracks_deleter:staging
       
   deploy:
     runs-on: ubuntu-latest

@@ -127,4 +127,11 @@ describe('MetadataPerpetuator', () => {
         );
         expect(result).toEqual([]);
     });
+
+    it('should delete metadata successfully', async () => {
+        const trackId = 'testTrackId';
+        const perpetuator = new MetadataPerpetuator();
+        await perpetuator.deleteMetadata(trackId);
+        expect(mockQuery).toHaveBeenCalledWith(`DELETE FROM wefly.metadatas WHERE id = '${trackId}'`);
+    });
 });
