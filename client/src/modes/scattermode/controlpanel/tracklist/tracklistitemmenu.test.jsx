@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, cleanup } from '@testing-library/react';
 import "@testing-library/jest-dom/vitest";
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import TrackListItemMenu from './tracklistitemmenu';
 
 const trackWithDataSource = {
@@ -17,6 +17,10 @@ const trackWithoutDataSource = {
 };
 
 describe('TrackListItemMenu', () => {
+    afterEach(() => {
+        cleanup();
+    });
+
     it('renders TrackListItemMenu and opens menu on click', () => {
         const { getByRole, getByText } = render(<TrackListItemMenu track={trackWithDataSource} />);
 

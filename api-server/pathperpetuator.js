@@ -54,6 +54,14 @@ class PathPerpetuator {
         });
         return ret;
     }
+
+    async deletePath(trackId) {
+        const storage = new Storage();
+        const bucket = storage.bucket(lakeBucketName);
+        const fileName = `paths/${trackId}.json.gz`;
+        const file = bucket.file(fileName);
+        await file.delete();
+    }
 }
 
-module.exports = { PathPerpetuator };
+module.exports = { PathPerpetuator, deletePath: (trackId) => new PathPerpetuator().deletePath(trackId) };
