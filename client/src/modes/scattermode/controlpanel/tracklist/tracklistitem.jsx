@@ -108,7 +108,9 @@ const TrackListItem = ({ track, selected, onClick }) => {
                     </Box>
                 </Box>
             </Box>
-            <TrackListItemMenu track={track} />
+            <Box className='tracklistitemmenu'>
+                <TrackListItemMenu track={track} />
+            </Box>
         </ListItem>
     );
 };
