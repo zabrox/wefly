@@ -1,32 +1,39 @@
-import axios from "axios";
-import dayjs from "dayjs";
-import { Metadata } from '../../entities/metadata';
 import { Track } from '../../entities/track';
+import { Metadata } from '../../entities/metadata';
+import { Path } from '../../entities/path';
 import { groupTracks } from './trackgrouper';
 import * as CesiumMap from '../../cesiummap';
+import { ApiClient, DefaultApi } from '../../../generated-api/src';
+
+const apiClient = new DefaultApi(new ApiClient(import.meta.env.VITE_API_URL));
 
 export const loadMetadatas = async (searchCondition) => {
-    const metadatasurl = `${import.meta.env.VITE_API_URL}/tracks/metadata`;
     try {
         console.time('loadTracks');
         const bounds = searchCondition.bounds ? searchCondition.bounds.flat().join(',') : undefined;
-        const response = await axios({
-            method: "get",
-            url: metadatasurl,
-            responseType: "json",
-            params: {
-                from: searchCondition.from.format('YYYY-MM-DDTHH:mm:ssZ'),
-                to: searchCondition.to.format('YYYY-MM-DDTHH:mm:ssZ'),
-                pilotname: searchCondition.pilotname,
-                maxAltitude: searchCondition.maxAltitude,
-                distance: searchCondition.distance,
-                duration: searchCondition.duration,
-                bounds: bounds,
-                activities: Array.from(searchCondition.activities).join(','),
-            }
+        const response = await new Promise((resolve, reject) => {
+            apiClient.apiTracksMetadataGet(
+                searchCondition.from.format('YYYY-MM-DDTHH:mm:ssZ'),
+                searchCondition.to.format('YYYY-MM-DDTHH:mm:ssZ'),
+                {
+                    pilotname: searchCondition.pilotname,
+                    maxAltitude: searchCondition.maxAltitude,
+                    distance: searchCondition.distance,
+                    duration: searchCondition.duration,
+                    bounds: bounds,
+                    activities: Array.from(searchCondition.activities).join(','),
+                },
+                (error, data) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve(data);
+                    }
+                }
+            );
         });
         console.timeEnd('loadTracks');
-        return response.data.map(metadata => Metadata.deserialize(metadata));
+        return response.map(metadata => Metadata.deserialize(metadata));
     } catch (error) {
         throw error;
     }
@@ -35,36 +42,37 @@ export const loadMetadatas = async (searchCondition) => {
 const convertPathsJson = (json, tracks) => {
     Object.keys(json).forEach((key) => {
         const track = tracks.find((t) => t.getId() == key);
-        json[key].forEach((point) => {
-            track.path.addPoint(point[0], point[1], point[2], dayjs(point[3]));
-        });
+        track.path = Path.deserialize(json[key]);
     });
 }
 
 export const loadPaths = async (tracks) => {
-    const pathsurl = `${import.meta.env.VITE_API_URL}/tracks/paths?trackids=`;
-    console.time('loadPaths');
     try {
+        console.time('loadPaths');
         const maxTrackIds = 100;
         const trackids = tracks.map((track) => track.getId());
         let index = 0;
         const promises = [];
-        while (true) {
+        while (index < tracks.length) {
             const tracksChunk = tracks.slice(index, index + maxTrackIds);
             const trackIdsQuery = trackids.slice(index, index + maxTrackIds).join(',');
-            promises.push(axios({ method: "get", url: `${pathsurl}${trackIdsQuery}` }).then((response) => {
-                convertPathsJson(response.data, tracksChunk);
+            promises.push(new Promise((resolve, reject) => {
+                apiClient.apiTracksPathsGet(trackIdsQuery, (error, data) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        convertPathsJson(data, tracksChunk);
+                        resolve();
+                    }
+                });
             }));
             index += maxTrackIds;
-            if (index >= tracks.length) {
-                break;
-            }
         }
         await Promise.all(promises);
+        console.timeEnd('loadPaths');
     } catch (error) {
         throw error;
     }
-    console.timeEnd('loadPaths');
 }
 
 export const loadTracks = async (searchCondition, state, setState, scatterState, setScatterState) => {
