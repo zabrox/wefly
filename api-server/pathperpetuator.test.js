@@ -12,7 +12,17 @@ describe('PathPerpetuator', () => {
 
         const mockBucket = {
             file: jest.fn().mockReturnThis(),
-            download: jest.fn().mockResolvedValue([{ toString: jest.fn().mockReturnValue(JSON.stringify(['a', 'b', 'c'])) }])
+            download: jest.fn().mockResolvedValue([
+                {
+                    toString: jest.fn().mockReturnValue(JSON.stringify(
+                        [
+                            [138.5465, 35.37305, 1039, "2022-01-01T01:40:04.000Z"],
+                            [138.54646666666667,35.37305,1037,"2022-01-01T01:40:07.000Z"],
+                            [138.54646666666667,35.37305,1037,"2022-01-01T01:40:10.000Z"],
+                        ]
+                    ))
+                }
+            ])
         };
         Storage.mockImplementation(() => ({
             bucket: jest.fn().mockReturnValue(mockBucket)
@@ -26,11 +36,21 @@ describe('PathPerpetuator', () => {
         expect(mockBucket.file).toHaveBeenNthCalledWith(2, 'paths/track2.json.gz');
         expect(mockBucket.file).toHaveBeenNthCalledWith(3, 'paths/track3.json.gz');
         expect(mockBucket.file().download).toHaveBeenCalledTimes(3);
-        expect(result).toEqual({
-            track1: ['a', 'b', 'c'],
-            track2: ['a', 'b', 'c'],
-            track3: ['a', 'b', 'c'],
-        });
+        const expectedPath = {
+            points: [
+                [138.5465, 35.37305, 1039],
+                [138.54646666666667, 35.37305, 1037],
+                [138.54646666666667, 35.37305, 1037],
+            ],
+            times: [
+                "2022-01-01T01:40:04.000Z",
+                "2022-01-01T01:40:07.000Z",
+                "2022-01-01T01:40:10.000Z",
+            ]
+        };
+        expect(result['track1']).toEqual(expectedPath);
+        expect(result['track2']).toEqual(expectedPath);
+        expect(result['track3']).toEqual(expectedPath);
     });
 
     test('fetch should return empty object when an error occurs', async () => {
