@@ -40,7 +40,6 @@ export const loadMetadatas = async (searchCondition) => {
 }
 
 const convertPathsJson = (json, tracks) => {
-    console.log(json);
     Object.keys(json).forEach((key) => {
         const track = tracks.find((t) => t.getId() == key);
         track.path = Path.deserialize(json[key]);

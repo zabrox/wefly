@@ -11,7 +11,7 @@ const PLACENAME_SHOW_DISTANCE = 10000;
 const MAX_PLACENAME_COUNT = 50;
 
 const loadPlaceNames = async (longitude, latitude, radius) => {
-    const placenamesurl = `${import.meta.env.VITE_API_URL}/placenames?longitude=${longitude}&latitude=${latitude}&radius=${radius}`;
+    const placenamesurl = `${import.meta.env.VITE_API_URL}api/placenames?longitude=${longitude}&latitude=${latitude}&radius=${radius}`;
     let response = undefined;
     try {
         response = await axios({ method: "get", url: `${placenamesurl}`, responseType: "json" });
