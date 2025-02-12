@@ -1,0 +1,233 @@
+openapi: 3.1.0
+info:
+  title: Wefly Track API
+  version: 1.0.0
+  description: API for managing and retrieving track data for Wefly.
+
+servers:
+  - url: http://www.wefly.tokyo/api
+
+paths:
+  /api/tracks:
+    post:
+      summary: Upload track data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Track'
+      responses:
+        '200':
+          description: Track data saved successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: Error writing path data
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /api/tracks/metadata:
+    get:
+      summary: Retrieve track metadata
+      parameters:
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: Start date-time for the search range
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: End date-time for the search range
+        - name: pilotname
+          in: query
+          schema:
+            type: string
+          description: Pilot name to filter by
+        - name: maxAltitude
+          in: query
+          schema:
+            type: integer
+          description: Minimum altitude to filter by
+        - name: distance
+          in: query
+          schema:
+            type: number
+          description: Minimum distance to filter by
+        - name: duration
+          in: query
+          schema:
+            type: integer
+          description: Minimum duration to filter by
+        - name: bounds
+          in: query
+          schema:
+            type: string
+          description: Bounding box coordinates to filter by (format "minLon,minLat,maxLon,maxLat")
+        - name: activities
+          in: query
+          schema:
+            type: string
+          description: Comma-separated list of activities to filter by
+      responses:
+        '200':
+          description: Metadata retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Metadata'
+        '404':
+          description: No tracks found
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: Error fetching track
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  error:
+                    type: string
+
+  /api/tracks/paths:
+    get:
+      summary: Retrieve track paths
+      parameters:
+        - name: trackids
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Comma-separated list of track IDs to retrieve paths for
+      responses:
+        '200':
+          description: Paths retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  $ref: '#/components/schemas/Path'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+        '404':
+          description: No paths found
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: Error fetching paths
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  error:
+                    type: string
+
+  /api/track/{trackId}:
+    delete:
+      summary: Delete track data
+      parameters:
+        - name: trackId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the track to delete
+      responses:
+        '200':
+          description: Track deleted successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+        '500':
+          description: Error deleting track
+          content:
+            text/plain:
+              schema:
+                type: string
+
+components:
+  schemas:
+    Track:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        path:
+          $ref: '#/components/schemas/Path'
+    Metadata:
+      type: object
+      properties:
+        pilotname:
+          type: string
+        distance:
+          type: number
+        duration:
+          type: integer
+        maxAltitude:
+          type: integer
+        startTime:
+          type: string
+          format: date-time
+        lastTime:
+          type: string
+          format: date-time
+        startPosition:
+          type: array
+          items:
+            type: number
+        lastPosition:
+          type: array
+          items:
+            type: number
+        activity:
+          type: string
+        model:
+          type: string
+        area:
+          type: string
+        maxGain:
+          type: integer
+        dataSource:
+          type: string
+    Path:
+      type: object
+      properties:
+        points:
+          type: array
+          items:
+            type: array
+            items:
+              type: number
+        times:
+          type: array
+          items:
+            type: string
+            format: date-time

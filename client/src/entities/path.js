@@ -45,16 +45,10 @@ export class Path {
         return this.#maxAltitude;
     }
 
-    serialize() {
-        return {
-            points: this.points,
-            times: this.times.map(t => t.toISOString()),
-        };
-    }
-    static deserialize(data) {
+    static deserialize(dto) {
         const path = new Path();
-        path.points = data.points;
-        path.times = data.times.map(t => dayjs(t));
+        path.points = dto.points;
+        path.times = dto.times.map(t => dayjs(t));
         return path;
     }
 }

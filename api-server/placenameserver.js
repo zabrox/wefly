@@ -9,7 +9,7 @@ const collectionName = "placenames";
 const getPlacename = async (req, res) => {
     try {
         res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-        res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+        res.header('Access-Control-Allow-Methods', 'GET');
         const longitude = parseFloat(req.query.longitude);
         const latitude = parseFloat(req.query.latitude);
         const radius = parseFloat(req.query.radius);
