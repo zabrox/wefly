@@ -1,7 +1,7 @@
 const { BigQuery } = require('@google-cloud/bigquery');
 const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
-const { Metadata } = require('./common/metadata.js');
+const { Metadata } = require('./entity/metadata.js');
 const { activityQuery } = require('./activityquery');
 
 dayjs.extend(utc);
