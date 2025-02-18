@@ -17,6 +17,7 @@ const getOrganization = async (req, res) => {
             const organization = new Organization(
                 doc.get('organization'),
             );
+            organization.name = doc.get('organization');
             organization.homepage = doc.get('HP');
             organization.blog = doc.get('Blog');
             organization.facebook = doc.get('Facebook');

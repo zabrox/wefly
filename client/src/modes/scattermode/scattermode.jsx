@@ -21,6 +21,10 @@ export const ScatterMode = ({ state, setState }) => {
         tracksInPerspective: [],
         trackGroupsInPerspective: [],
         isTrackPointVisible: true,
+        takeoffs: [],
+        landings: [],
+        organizations: [],
+        selectedTakeoffLanding: undefined,
     });
 
     if (state.mode !== SCATTER_MODE) {

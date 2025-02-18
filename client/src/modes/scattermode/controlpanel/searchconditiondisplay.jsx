@@ -9,6 +9,8 @@ import { TrackPoint } from '../trackpoint';
 import { AdvancedSearchDialog } from '../advancedsearch/advancedsearchdialog';
 import { AdvancedSearchCondition } from './advancedsearchcondition';
 import { DatePicker } from './datepicker';
+import { loadTakeoffLanding } from '../takeofflanding/takeofflandingloader';
+import { loadOrganizations } from '../takeofflanding/organizationloader';
 import * as CesiumMap from '../../../cesiummap';
 import './searchconditiondisplay.css';
 
@@ -78,6 +80,8 @@ export const SearchConditionDisplayImpl = ({
     const handleSearchConditionChange = React.useCallback((newSearchCondition) => {
         CesiumMap.removeAllEntities();
         setSearchCondition(newSearchCondition);
+        loadTakeoffLanding(setScatterState);
+        loadOrganizations(setScatterState);
         loadTracks(newSearchCondition,
             state, setState, {
             ...scatterState,

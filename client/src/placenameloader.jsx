@@ -1,6 +1,5 @@
 import * as Cesium from "cesium";
 import axios from 'axios';
-import { useEffect } from 'react';
 import * as CesiumMap from './cesiummap';
 
 let lastCameraPosition = undefined;
