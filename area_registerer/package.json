@@ -10,6 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "@google-cloud/firestore": "^7.11.0",
-    "csv-parser": "^3.2.0"
+    "class-transformer": "^0.5.1",
+    "csv-parser": "^3.2.0",
+    "js-yaml": "^4.1.0",
+    "xml2js": "^0.6.2"
   }
 }

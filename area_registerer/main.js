@@ -2,6 +2,8 @@
 const Firestore = require('@google-cloud/firestore');
 const fs = require('fs');
 const csv = require('csv-parser');
+const { classToPlain } = require('class-transformer');
+const { extractTakeoffLanding } = require('./extractTakeoffLanding');
 
 const db = new Firestore({
     porjectId: 'wefly-407313',
@@ -29,17 +31,33 @@ function importCSV(filePath, collectionName, key) {
     });
 }
 
-async function main() {
-    try {
-        // Adjust file paths if necessary
-        await importCSV('./takeoff_landing.csv', 'takeoff_landing', 'name');
-        await importCSV('./organization.csv', 'organization', 'organization');
-        console.log('Data imported successfully into Firestore.');
-        process.exit(0);
-    } catch (error) {
-        console.error('Error importing data:', error);
-        process.exit(1);
+async function registerTakeoff(takeoffs) {
+    for (const takeoff of takeoffs) {
+        try {
+            const data = classToPlain(takeoff);
+            await db.collection("takeoffs").doc(takeoff.name).set(data);
+            console.log('Takeoff registered:', takeoff.name);
+        } catch (err) {
+            console.error('Error registering takeoff:', takeoff.name, err);
+        }
     }
+}
+async function registerLanding(landings) {
+    for (const landing of landings) {
+        try {
+            const data = classToPlain(landing);
+            await db.collection("landings").doc(landing.name).set(data);
+            console.log('Landing registered:', landing.name);
+        } catch (err) {
+            console.error('Error registering landing:', landing.name, err);
+        }
+    }
+}
+
+async function main() {
+    const [takeoffs, landings] = await extractTakeoffLanding('./パラグライダーマップ.kml')
+    await registerTakeoff(takeoffs);
+    await registerLanding(landings);
 }
 
 main();
