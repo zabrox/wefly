@@ -5,38 +5,48 @@ const { Landing } = require('./entity/landing.js');
 const db = new Firestore({
     porjectId: 'wefly-407313',
 });
-const takeoffLandingCollectionName = "takeoff_landing";
+const takeoffCollectionName = "takeoffs";
+const landingCollectionName = "landings";
+
+const getTakeoffs = async () => {
+    const takeoffCollectionRef = await db.collection(takeoffCollectionName);
+    const takeoffSnapshot = await takeoffCollectionRef.get()
+    const takeoffs = [];
+    for (const doc of takeoffSnapshot.docs) {
+        takeoffs.push(new Takeoff(
+            doc.get('name'),
+            doc.get('organization'),
+            doc.get('longitude'),
+            doc.get('latitude'),
+            doc.get('altitude'),
+            doc.get('direction')
+        ));
+    }
+    return takeoffs;
+}
+
+const getLandings = async () => {
+    const landingCollectionRef = await db.collection(landingCollectionName);
+    const landingSnapshot = await landingCollectionRef.get()
+    const landings = [];
+    for (const doc of landingSnapshot.docs) {
+        landings.push(new Takeoff(
+            doc.get('name'),
+            doc.get('organization'),
+            doc.get('longitude'),
+            doc.get('latitude'),
+            doc.get('altitude'),
+        ));
+    }
+    return landings;
+}
 
 const getTakeoffLanding = async (req, res) => {
     try {
         res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
         res.header('Access-Control-Allow-Methods', 'GET');
-        const collectionRef = await db.collection(takeoffLandingCollectionName);
-        const snapshot = await collectionRef.get()
-        const takeoffs = [];
-        const landings = [];
-        for (const doc of snapshot.docs) {
-            if (doc.get('category') === 'Takeoff') {
-                takeoffs.push(new Takeoff(
-                    doc.get('name'),
-                    doc.get('area'),
-                    doc.get('organization'),
-                    doc.get('longitude'),
-                    doc.get('latitude'),
-                    doc.get('altitude'),
-                    doc.get('direction')
-                ));
-            } else if (doc.get('category') === 'Landing') {
-                landings.push(new Landing(
-                    doc.get('name'),
-                    doc.get('area'),
-                    doc.get('organization'),
-                    doc.get('longitude'),
-                    doc.get('latitude'),
-                    doc.get('altitude'),
-                ));
-            }
-        }
+        const takeoffs = await getTakeoffs();
+        const landings = await getLandings();
         res.json({ 'takeoffs': takeoffs, 'landings': landings });
     } catch (error) {
         console.error(error);

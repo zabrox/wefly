@@ -1,15 +1,13 @@
 
 class Landing {
     name = "";
-    area = "";
-    organization = undefined;
+    organization = "";
     longitude = 0;
     latitude = 0;
     altitude = 0;
 
-    constructor(name, area, organization, longitude, latitude, altitude, direction) {
+    constructor(name, organization, longitude, latitude, altitude, direction) {
         this.name = name;
-        this.area = area;
         this.organization = organization;
         this.longitude = longitude;
         this.latitude = latitude;
