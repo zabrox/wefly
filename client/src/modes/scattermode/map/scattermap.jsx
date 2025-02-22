@@ -104,7 +104,7 @@ export const ScatterMap = ({
     React.useEffect(() => {
         displayTakeoffLandingPins(scatterState.takeoffs, scatterState.landings);
         registerEventHandlerOnTakeoffLandingClick(scatterState, setScatterState);
-    }, [scatterState.takeoffs, scatterState.landings]);
+    }, [state, scatterState.takeoffs, scatterState.landings]);
 
     React.useEffect(() => {
         render(state.tracks,
