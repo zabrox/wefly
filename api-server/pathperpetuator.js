@@ -1,6 +1,6 @@
 const { Storage } = require('@google-cloud/storage');
 const zlib = require('zlib');
-const { Path } = require('./common/path.js');
+const { Path } = require('./entity/path.js');
 
 const lakeBucketName = 'wefly-mart';
 

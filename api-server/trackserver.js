@@ -1,7 +1,7 @@
 const dayjs = require('dayjs');
 const zlib = require('zlib');
 const util = require('util');
-const { Track } = require('./common/track.js');
+const { Track } = require('./entity/track.js');
 const { MetadataPerpetuator } = require('./metadataperpetuator.js');
 const { PathPerpetuator } = require('./pathperpetuator.js');
 const { SearchCondition } = require('./searchcondition.js');
