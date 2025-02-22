@@ -1,5 +1,6 @@
 const { Storage } = require('@google-cloud/storage');
 const zlib = require('zlib');
+const { Path } = require('./entity/path.js');
 
 const lakeBucketName = 'wefly-mart';
 
@@ -36,7 +37,12 @@ class PathPerpetuator {
                     const fileName = `paths/${trackid}.json.gz`;
                     const file = bucket.file(fileName);
                     const [content] = await file.download();
-                    paths[trackid] = JSON.parse(content.toString());
+                    const json = JSON.parse(content.toString());
+                    const path = new Path();
+                    json.forEach((point) => {
+                        path.addPoint(point[0], point[1], point[2], point[3]);
+                    });
+                    paths[trackid] = path;
                     resolve(paths);
                 } catch (error) {
                     console.error(error)

@@ -2,9 +2,9 @@ const dayjs = require('dayjs');
 const utc = require('dayjs/plugin/utc');
 const customParseFormat = require("dayjs/plugin/customParseFormat");
 const request = require('supertest');
-const { Track } = require('./common/track');
-const { Metadata } = require('./common/metadata');
-const { Path } = require('./common/path');
+const { Track } = require('./entity/track');
+const { Metadata } = require('./entity/metadata');
+const { Path } = require('./entity/path');
 
 dayjs.extend(utc);
 dayjs.extend(customParseFormat);

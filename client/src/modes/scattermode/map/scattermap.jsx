@@ -2,9 +2,13 @@ import React from "react";
 import * as Cesium from "cesium";
 import * as CesiumMap from '../../../cesiummap';
 import { renderTrackGroups, removeTrackGroupEntities, registerEventHandlerOnTrackGroupClick } from "./trackgrouprenderer";
+import { registerEventHandlerOnTakeoffLandingClick } from "./takeoffLandings";
 import { renderTracks, removeTrackEntities, registerEventHandlerOnTrackClick } from "./trackrenderer";
+import { displayTakeoffLandingPins } from "./takeoffLandings";
+import { TrackPoint } from "../trackpoint";
 
 let removeCameraMoveEndEvent = undefined;
+let clickHandler = undefined;
 
 const registerEventListenerOnCameraMoveEnd = (state, scatterState, setScatterState) => {
     if (removeCameraMoveEndEvent !== undefined) {
@@ -62,7 +66,29 @@ const getTrackGroupsInPerspective = (trackGroups) => {
     return visibleTrackGroups;
 }
 
-export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatterState, setScatterState }) => {
+const registerEventHandlerOnMapClick = (setScatterState) => {
+    if (clickHandler !== undefined) {
+        clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
+    clickHandler = new Cesium.ScreenSpaceEventHandler(CesiumMap.viewer.scene.canvas);
+    clickHandler.setInputAction((clickEvent) => {
+        // Reset selections when clicking elsewhere
+        setScatterState(state => ({
+            ...state,
+            selectedTakeoffLanding: undefined,
+            selectedTrackPoint: new TrackPoint(),
+        }));
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+};
+
+
+export const ScatterMap = ({
+    onTrackPointClick,
+    onTrackGroupClick,
+    state,
+    scatterState,
+    setScatterState }) => {
+
     React.useEffect(() => {
         registerEventHandlerOnTrackGroupClick(onTrackGroupClick, state.trackGroups);
         registerEventHandlerOnTrackClick(onTrackPointClick, state.tracks);
@@ -74,6 +100,11 @@ export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatte
             scatterState,
             setScatterState);
     }, [state, scatterState]);
+
+    React.useEffect(() => {
+        displayTakeoffLandingPins(scatterState.takeoffs, scatterState.landings);
+        registerEventHandlerOnTakeoffLandingClick(scatterState, setScatterState);
+    }, [state, scatterState.takeoffs, scatterState.landings]);
 
     React.useEffect(() => {
         render(state.tracks,
@@ -88,6 +119,10 @@ export const ScatterMap = ({ onTrackPointClick, onTrackGroupClick, state, scatte
         scatterState.selectedTrackPoint,
         scatterState.isTrackPointVisible
     ]);
+
+    React.useEffect(() => {
+        registerEventHandlerOnMapClick(setScatterState);
+    }, []);
 
     return null;
 }

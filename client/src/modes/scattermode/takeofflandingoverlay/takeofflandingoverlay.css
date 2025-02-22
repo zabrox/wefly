@@ -1,0 +1,23 @@
+#takeoff-landing-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    max-width: 350px;
+    margin: 5px 5px 5px auto;
+    padding: 0px 10px 0px 0px;
+    background-color: rgba(200, 200, 200, 0.85);
+    border-radius: 10px;
+}
+
+#takeoff-landing-info-wrapprer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-bottom: 5px;
+}
+
+.takeoff-landing-info {
+    display: flex;
+    align-items: center;
+    margin: 0px 5px 3px 0px;
+}

@@ -9,6 +9,8 @@ import { TrackPoint } from '../trackpoint';
 import { AdvancedSearchDialog } from '../advancedsearch/advancedsearchdialog';
 import { AdvancedSearchCondition } from './advancedsearchcondition';
 import { DatePicker } from './datepicker';
+import { loadTakeoffLanding } from '../takeofflanding/takeofflandingloader';
+import { loadOrganizations } from '../takeofflanding/organizationloader';
 import * as CesiumMap from '../../../cesiummap';
 import './searchconditiondisplay.css';
 
@@ -85,6 +87,8 @@ export const SearchConditionDisplayImpl = ({
             selectedTrackGroups: new TrackGroupSelection(),
             selectedTrackPoint: new TrackPoint(),
         }, setScatterState);
+        loadTakeoffLanding(setScatterState);
+        loadOrganizations(setScatterState);
         setUrl(newSearchCondition);
     }, [state, scatterState]);
 

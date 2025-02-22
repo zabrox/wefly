@@ -33,3 +33,7 @@
     flex-direction: row;
     align-items: center;
 }
+
+.tracklistitemmenu {
+    margin-left: auto;
+}
