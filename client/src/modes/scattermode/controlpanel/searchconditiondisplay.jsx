@@ -80,8 +80,6 @@ export const SearchConditionDisplayImpl = ({
     const handleSearchConditionChange = React.useCallback((newSearchCondition) => {
         CesiumMap.removeAllEntities();
         setSearchCondition(newSearchCondition);
-        loadTakeoffLanding(setScatterState);
-        loadOrganizations(setScatterState);
         loadTracks(newSearchCondition,
             state, setState, {
             ...scatterState,
@@ -89,6 +87,8 @@ export const SearchConditionDisplayImpl = ({
             selectedTrackGroups: new TrackGroupSelection(),
             selectedTrackPoint: new TrackPoint(),
         }, setScatterState);
+        loadTakeoffLanding(setScatterState);
+        loadOrganizations(setScatterState);
         setUrl(newSearchCondition);
     }, [state, scatterState]);
 

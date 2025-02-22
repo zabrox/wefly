@@ -5,8 +5,10 @@ import { renderTrackGroups, removeTrackGroupEntities, registerEventHandlerOnTrac
 import { registerEventHandlerOnTakeoffLandingClick } from "./takeoffLandings";
 import { renderTracks, removeTrackEntities, registerEventHandlerOnTrackClick } from "./trackrenderer";
 import { displayTakeoffLandingPins } from "./takeoffLandings";
+import { TrackPoint } from "../trackpoint";
 
 let removeCameraMoveEndEvent = undefined;
+let clickHandler = undefined;
 
 const registerEventListenerOnCameraMoveEnd = (state, scatterState, setScatterState) => {
     if (removeCameraMoveEndEvent !== undefined) {
@@ -64,6 +66,22 @@ const getTrackGroupsInPerspective = (trackGroups) => {
     return visibleTrackGroups;
 }
 
+const registerEventHandlerOnMapClick = (setScatterState) => {
+    if (clickHandler !== undefined) {
+        clickHandler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
+    clickHandler = new Cesium.ScreenSpaceEventHandler(CesiumMap.viewer.scene.canvas);
+    clickHandler.setInputAction((clickEvent) => {
+        // Reset selections when clicking elsewhere
+        setScatterState(state => ({
+            ...state,
+            selectedTakeoffLanding: undefined,
+            selectedTrackPoint: new TrackPoint(),
+        }));
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+};
+
+
 export const ScatterMap = ({
     onTrackPointClick,
     onTrackGroupClick,
@@ -101,6 +119,10 @@ export const ScatterMap = ({
         scatterState.selectedTrackPoint,
         scatterState.isTrackPointVisible
     ]);
+
+    React.useEffect(() => {
+        registerEventHandlerOnMapClick(setScatterState);
+    }, []);
 
     return null;
 }

@@ -1,7 +1,8 @@
 import * as Cesium from "cesium";
 import * as CesiumMap from '../../../cesiummap.jsx';
+import { TrackPoint } from "../trackpoint.jsx";
 
-const SHOW_DISTANCE = 30000;
+const SHOW_DISTANCE = 200000;
 let clickHandler = undefined;
 
 const takeoffId = (takeoff) => {
@@ -68,10 +69,13 @@ const registerEventHandlerOnTakeoffLandingClick = (scatterState, setScatterState
             } else if (entity.type === 'landing') {
                 takeoffLanding = scatterState.landings.find(landing => landing.name === entity.name);
             }
-            setScatterState(state => {
-                return { ...state, selectedTakeoffLanding: takeoffLanding }
-            });
+            setScatterState(state => ({
+                ...state,
+                selectedTakeoffLanding: takeoffLanding,
+                selectedTrackPoint: new TrackPoint(),
+            }));
         }
+        CesiumMap.viewer.selectedEntity = undefined;
     }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
 };
 

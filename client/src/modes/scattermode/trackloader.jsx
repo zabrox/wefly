@@ -76,8 +76,12 @@ export const loadPaths = async (tracks) => {
 }
 
 export const loadTracks = async (searchCondition, state, setState, scatterState, setScatterState) => {
-    setState({ ...state, tracks: [], trackGroups: [] });
-    setScatterState({ ...scatterState, loading: true })
+    setState(state => {
+        return { ...state, tracks: [], trackGroups: [] }
+    });
+    setScatterState(state => {
+        return { ...state, loading: true }
+    });
     let tracks = [];
     let trackGroups = [];
     try {
@@ -90,11 +94,19 @@ export const loadTracks = async (searchCondition, state, setState, scatterState,
         trackGroups = groupTracks(tracks);
     } catch (error) {
         console.error(error);
-        setState({ ...state, tracks: [], trackGroups: [] });
-        setScatterState({ ...scatterState, loading: false });
+        setState(state => {
+            return { ...state, tracks: [], trackGroups: [] };
+        });
+        setScatterState(state => {
+            return { ...state, loading: false };
+        });
         return;
     }
     CesiumMap.zoomToTrackGroups(trackGroups);
-    setState({ ...state, tracks: tracks, trackGroups: trackGroups, });
-    setScatterState({ ...scatterState, loading: false });
+    setState(state => {
+        return { ...state, tracks: tracks, trackGroups: trackGroups, };
+    });
+    setScatterState(state => {
+        return { ...state, loading: false };
+    });
 };
