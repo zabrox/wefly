@@ -158,7 +158,8 @@ Organization:
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
-				<text>Type: Landing
+				<text>Type: Takeoff
+Direction: 北
 Organization:
   name: 寒風山パラグライダースクール</text>
 			</BalloonStyle>
@@ -488,6 +489,7 @@ Organization:
 	<gx:CascadingStyle kml:id="__managed_style_102DBDB6393666DF78FF">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
 				</Icon>
@@ -497,7 +499,7 @@ Organization:
 			</LabelStyle>
 			<LineStyle>
 				<color>ff2dc0fb</color>
-				<width>3.2</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -534,6 +536,7 @@ Organization:
 		<Style>
 			<IconStyle>
 				<scale>1.2</scale>
+				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
 				</Icon>
@@ -543,6 +546,7 @@ Organization:
 			</LabelStyle>
 			<LineStyle>
 				<color>ff2dc0fb</color>
+				<width>4.8</width>
 				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
@@ -575,6 +579,7 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Takeoff
+Direction: 南
 Direction: 南
 Organization:
   name: ソアリングシステムズパラグライダースクール</text>
@@ -718,6 +723,7 @@ Organization:
 			</LabelStyle>
 			<LineStyle>
 				<color>ff2dc0fb</color>
+				<width>3.2</width>
 				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
@@ -882,6 +888,7 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+Direction: 南
 Organization:
   name: トップフィールドパラグライダースクール</text>
 			</BalloonStyle>
@@ -906,6 +913,7 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Takeoff
+Direction: 南
 Direction: 南
 Organization:
   name: トップフィールドパラグライダースクール</text>
@@ -1068,6 +1076,7 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+Direction: 南
 Organization:
   name: 太平スカイクラブ</text>
 			</BalloonStyle>
@@ -1086,6 +1095,7 @@ Organization:
 	<gx:CascadingStyle kml:id="__managed_style_1594E995B636631D5846">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
 				</Icon>
@@ -1095,14 +1105,14 @@ Organization:
 			</LabelStyle>
 			<LineStyle>
 				<color>ff2dc0fb</color>
-				<width>3.2</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Takeoff
-Direction: 東
+Direction: 南西
 Organization:
   name: みかも山ハング・パラグライダークラブ</text>
 			</BalloonStyle>
@@ -1172,6 +1182,7 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+Direction: 南
 Organization:
   name: スカイパーク毛呂山</text>
 			</BalloonStyle>
@@ -1240,6 +1251,7 @@ Organization:
 	<gx:CascadingStyle kml:id="__managed_style_17B8C68156366331A3F5">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
 				</Icon>
@@ -1249,7 +1261,7 @@ Organization:
 			</LabelStyle>
 			<LineStyle>
 				<color>ff2dc0fb</color>
-				<width>3.2</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -1284,7 +1296,6 @@ Organization:
 	<gx:CascadingStyle kml:id="__managed_style_2937B24425366D78A873">
 		<Style>
 			<IconStyle>
-				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
 				</Icon>
@@ -1340,6 +1351,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -1370,8 +1382,7 @@ Organization:
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
-				<text>Type: Takeoff
-Direction: 南
+				<text>Type: Landing
 Organization:
   name: 長瀞パラグライダークラブ</text>
 			</BalloonStyle>
@@ -1440,6 +1451,7 @@ Organization:
 	<gx:CascadingStyle kml:id="__managed_style_1C1D80953536630A8CC8">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
 				</Icon>
@@ -1449,7 +1461,7 @@ Organization:
 			</LabelStyle>
 			<LineStyle>
 				<color>ff2dc0fb</color>
-				<width>3.2</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -1553,6 +1565,7 @@ Organization:
 		<Style>
 			<IconStyle>
 				<scale>1.2</scale>
+				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
 				</Icon>
@@ -1563,11 +1576,13 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>4.8</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
+				<text>Type: Landing
 				<text>Type: Landing
 Organization:
   name: 伊賀野パラグライダー倶楽部</text>
@@ -1595,6 +1610,7 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+Direction: 南
 Organization:
   name: 伊賀野パラグライダー倶楽部</text>
 			</BalloonStyle>
@@ -1621,6 +1637,7 @@ Organization:
 				<text>Type: Takeoff
 Direction: 南
 Organization:
+  name: 伊賀野パラグライダー倶楽部</text>
   name: 伊賀野パラグライダー倶楽部</text>
 			</BalloonStyle>
 		</Style>
@@ -1654,15 +1671,19 @@ Organization:
 		<Pair>
 			<key>normal</key>
 			<styleUrl>#__managed_style_19C28EAC0936630A8CC6</styleUrl>
+			<styleUrl>#__managed_style_19C28EAC0936630A8CC6</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_22F72D9A4436630A8CC6</styleUrl>
+			<styleUrl>#__managed_style_22F72D9A4436630A8CC6</styleUrl>
 		</Pair>
 	</StyleMap>
 	<gx:CascadingStyle kml:id="__managed_style_51F67795B636630A8CC5">
+	<gx:CascadingStyle kml:id="__managed_style_51F67795B636630A8CC5">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
@@ -1699,6 +1720,32 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>4.8</width>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: グランボレパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_21F7EC3E9136630A8CC5">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -1706,7 +1753,9 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+Direction: 南
 Organization:
+  name: グランボレパラグライダースクール</text>
   name: グランボレパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
@@ -1738,15 +1787,45 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_00223B7DBD36630A8CC5">
+	<gx:CascadingStyle kml:id="__managed_style_2C824B63D836631AE503">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南
+Organization:
+  name: スカイパーク毛呂山</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_00223B7DBD36630A8CC5">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_1604DFFD3A36630A8CC5</styleUrl>
 			<styleUrl>#__managed_style_1604DFFD3A36630A8CC5</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_21F7EC3E9136630A8CC5</styleUrl>
+			<styleUrl>#__managed_style_21F7EC3E9136630A8CC5</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_1F2708AE50366330C678">
 	<gx:CascadingStyle kml:id="__managed_style_1F2708AE50366330C678">
 		<Style>
 			<IconStyle>
@@ -1767,11 +1846,14 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+Direction: 南
 Organization:
+  name: スカイトライアル</text>
   name: スカイトライアル</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_5DEF29473836630A8CC7">
 	<gx:CascadingStyle kml:id="__managed_style_5DEF29473836630A8CC7">
 		<Style>
 			<IconStyle>
@@ -1794,9 +1876,11 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: 榛名パラグライダーパーク</text>
+  name: 榛名パラグライダーパーク</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_59D36A552336630A8CC4">
 	<gx:CascadingStyle kml:id="__managed_style_59D36A552336630A8CC4">
 		<Style>
 			<IconStyle>
@@ -1818,6 +1902,7 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Landing
 Organization:
+  name: 鳴倉山スカイスポーツスクール</text>
   name: 鳴倉山スカイスポーツスクール</text>
 			</BalloonStyle>
 		</Style>
@@ -1945,15 +2030,151 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_3411E29D9836630A8CC2">
+	<gx:CascadingStyle kml:id="__managed_style_1F18C9C087366D8EECE6">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 西
+Organization:
+  name: MAPSパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_40008B75AF36630A8CC5">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: グランボレパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_4DDE1816DB36630A8CC4">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: 鳴倉山スカイスポーツスクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_579D295D1636630A8CC3">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: 忍野スカイスポーツ倶楽部</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_42F450389436630A8CC3">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: 忍野スカイスポーツ倶楽部</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_3411E29D9836630A8CC2">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_458821E15736630A8CC2</styleUrl>
 			<styleUrl>#__managed_style_458821E15736630A8CC2</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_59585AE7BB36630A8CC2</styleUrl>
+			<styleUrl>#__managed_style_59585AE7BB36630A8CC2</styleUrl>
 		</Pair>
 	</StyleMap>
+	<StyleMap id="__managed_style_3BABE27B5836630A8CBD">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_4DC6D57CB236630A8CBD</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_08A2B97E9436630A8CBE</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_274F66858D36630A8CC1">
 	<StyleMap id="__managed_style_3BABE27B5836630A8CBD">
 		<Pair>
 			<key>normal</key>
@@ -1985,11 +2206,14 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南東
+Direction: 南東
 Organization:
+  name: パラグライダーパーク青木</text>
   name: パラグライダーパーク青木</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2415E008BB36630A8CC8">
 	<gx:CascadingStyle kml:id="__managed_style_2415E008BB36630A8CC8">
 		<Style>
 			<IconStyle>
@@ -2080,22 +2304,118 @@ Organization:
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 北/北東/東/南東
+Organization:
+  name: 妙義スカイパーク</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_07A97203E436630A8CC1">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_159C9D9ADB36630A8CC1</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_274F66858D36630A8CC1</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="__managed_style_0E978D4AE23663220BB5">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_11DA5EA1493663220BB5</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2459928A513663220BB5</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_20C291021936630A8CC4">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 西
+Organization:
+  name: 鳴倉山スカイスポーツスクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_574134C2AC36630A8C81">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
 				<text>Type: Landing
 Organization:
+  name: エルクパラグライダースクール</text>
   name: エルクパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_4A8E4888BA36630A8C81">
+	<StyleMap id="__managed_style_4A8E4888BA36630A8C81">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_574134C2AC36630A8C81</styleUrl>
 			<styleUrl>#__managed_style_574134C2AC36630A8C81</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_677D70F5BB36630A8C81</styleUrl>
+			<styleUrl>#__managed_style_677D70F5BB36630A8C81</styleUrl>
 		</Pair>
 	</StyleMap>
+	<StyleMap id="__managed_style_38587BB34736630A8CC8">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_4E5819CBBE36630A8CC8</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_57BA3FD67736630A8CC8</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="__managed_style_0D067BE53036630A8C66">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1E14B781CA36630A8C66</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2FE49CC1CA36630A8C66</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_1AFA09EA0636630A8CBF">
 	<StyleMap id="__managed_style_38587BB34736630A8CC8">
 		<Pair>
 			<key>normal</key>
@@ -2138,16 +2458,20 @@ Organization:
 Direction: 東
 Organization:
   name: こまちパラグライダースクール</text>
+  name: こまちパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_0140F20F3D36630A8CBF">
+	<StyleMap id="__managed_style_0140F20F3D36630A8CBF">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_1AFA09EA0636630A8CBF</styleUrl>
 			<styleUrl>#__managed_style_1AFA09EA0636630A8CBF</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
+			<styleUrl>#__managed_style_218CAFC0B436630A8CBF</styleUrl>
 			<styleUrl>#__managed_style_218CAFC0B436630A8CBF</styleUrl>
 		</Pair>
 	</StyleMap>
@@ -2195,7 +2519,9 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+Direction: 南
 Organization:
+  name: 丹沢スカイクラブ</text>
   name: 丹沢スカイクラブ</text>
 			</BalloonStyle>
 		</Style>
@@ -2225,15 +2551,93 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_0066830E9E36630A8CC3">
+	<gx:CascadingStyle kml:id="__managed_style_4DC6D57CB236630A8CBD">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: エリアヤマザキ</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0066830E9E36630A8CC3">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_17E7CE9E0436630A8CC3</styleUrl>
 			<styleUrl>#__managed_style_17E7CE9E0436630A8CC3</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_2DF3EC9EFB36630A8CC3</styleUrl>
+			<styleUrl>#__managed_style_2DF3EC9EFB36630A8CC3</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_2071DDD3E436630A8C7E">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: 丹那ハンググライディングクラブ</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_59AAC9B79A36630A8CC1">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: パラグライダーパーク青木</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1036FDF31836630A8CB6">
 	<gx:CascadingStyle kml:id="__managed_style_2071DDD3E436630A8C7E">
 		<Style>
 			<IconStyle>
@@ -2334,6 +2738,31 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<gx:CascadingStyle kml:id="__managed_style_5506542DB736630A8CBC">
+	<gx:CascadingStyle kml:id="__managed_style_1599D60EF936630A8C7E">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: 丹那ハンググライディングクラブ</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_5506542DB736630A8CBC">
 		<Style>
 			<IconStyle>
 				<scale>1.2</scale>
@@ -2354,7 +2783,9 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 西
+Direction: 西
 Organization:
+  name: 丹那ハンググライディングクラブ</text>
   name: 丹那ハンググライディングクラブ</text>
 			</BalloonStyle>
 		</Style>
@@ -2456,7 +2887,6 @@ Organization:
 	<gx:CascadingStyle kml:id="__managed_style_56A94DB3FD36630A8CBB">
 		<Style>
 			<IconStyle>
-				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
 				</Icon>
@@ -2466,14 +2896,14 @@ Organization:
 			</LabelStyle>
 			<LineStyle>
 				<color>ff2dc0fb</color>
-				<width>4.8</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Takeoff
-Direction: 南東
+Direction: 西
 Organization:
   name: 今井浜フライングスクール</text>
 			</BalloonStyle>
@@ -2493,6 +2923,7 @@ Organization:
 		<Style>
 			<IconStyle>
 				<scale>1.2</scale>
+				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
 				</Icon>
@@ -2503,6 +2934,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>4.8</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -2511,7 +2943,7 @@ Organization:
 				<text>Type: Takeoff
 Direction: 南
 Organization:
-  name: 丹沢スカイクラブ</text>
+  name: エリアヤマザキ</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
@@ -2543,8 +2975,10 @@ Organization:
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
-				<text>Type: Landing
+				<text>Type: Takeoff
+Direction: 南東
 Organization:
+  name: 今井浜フライングスクール</text>
   name: 今井浜フライングスクール</text>
 			</BalloonStyle>
 		</Style>
@@ -2589,7 +3023,7 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Takeoff
-Direction: 東
+Direction: 南
 Organization:
   name: みかも山ハング・パラグライダークラブ</text>
 			</BalloonStyle>
@@ -2640,9 +3074,9 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Takeoff
-Direction: 南
+Direction: 東
 Organization:
-  name: 伊豆フライトハウス</text>
+  name: 七時雨パラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
@@ -2701,6 +3135,7 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Landing
 Organization:
+  name: 榛名パラグライダーパーク</text>
   name: 榛名パラグライダーパーク</text>
 			</BalloonStyle>
 		</Style>
@@ -2781,15 +3216,19 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_1549C5D9F036630A8CBE">
+	<StyleMap id="__managed_style_1549C5D9F036630A8CBE">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_2D1F9CDEBB36630A8CBE</styleUrl>
 			<styleUrl>#__managed_style_2D1F9CDEBB36630A8CBE</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_3DD7D9E98336630A8CBE</styleUrl>
+			<styleUrl>#__managed_style_3DD7D9E98336630A8CBE</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_1F474DF06636632B9D86">
 	<gx:CascadingStyle kml:id="__managed_style_1F474DF06636632B9D86">
 		<Style>
 			<IconStyle>
@@ -2811,9 +3250,36 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: トップフィールドパラグライダースクール</text>
+  name: トップフィールドパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1604DFFD3A36630A8CC5">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南
+Organization:
+  name: グランボレパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2FE49CC1CA36630A8C66">
 	<gx:CascadingStyle kml:id="__managed_style_1604DFFD3A36630A8CC5">
 		<Style>
 			<IconStyle>
@@ -2860,11 +3326,14 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+Direction: 南
 Organization:
+  name: 朝霧高原PGS</text>
   name: 朝霧高原PGS</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_30490B672F36630A8CAD">
 	<gx:CascadingStyle kml:id="__managed_style_30490B672F36630A8CAD">
 		<Style>
 			<IconStyle>
@@ -2886,12 +3355,16 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 東
+Direction: 東
 Organization:
+  name: 西富士友の会
+</text>
   name: 西富士友の会
 </text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_4E652D5E0736630A8CB6">
 	<gx:CascadingStyle kml:id="__managed_style_4E652D5E0736630A8CB6">
 		<Style>
 			<IconStyle>
@@ -2912,7 +3385,9 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 東
+Direction: 東
 Organization:
+  name: とんぼクラブ</text>
   name: とんぼクラブ</text>
 			</BalloonStyle>
 		</Style>
@@ -2928,8 +3403,20 @@ Organization:
 		</Pair>
 	</StyleMap>
 	<gx:CascadingStyle kml:id="__managed_style_5ACCB376FC36630A8CB1">
+	<StyleMap id="__managed_style_32B4C0FEA836630A8CC6">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_42804A838E36630A8CC6</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_59F5A098BB36630A8CC6</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_5ACCB376FC36630A8CB1">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
@@ -2941,6 +3428,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>4.8</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -2948,21 +3436,38 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 西
+				<text>Type: Takeoff
+Direction: 西
 Organization:
+  name: nasa</text>
   name: nasa</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_0F222E311F36630A8CB6">
+	<StyleMap id="__managed_style_0F222E311F36630A8CB6">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_1036FDF31836630A8CB6</styleUrl>
 			<styleUrl>#__managed_style_1036FDF31836630A8CB6</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_25124781A036630A8CB6</styleUrl>
+			<styleUrl>#__managed_style_25124781A036630A8CB6</styleUrl>
 		</Pair>
 	</StyleMap>
+	<StyleMap id="__managed_style_08B1999CE5366DC187DF">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_163B6D6C82366DC187DF</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2699055B60366DC187DF</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_5B8BCA5C1C36630A8CBA">
 	<StyleMap id="__managed_style_08B1999CE5366DC187DF">
 		<Pair>
 			<key>normal</key>
@@ -2994,14 +3499,19 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 北/南
+				<text>Type: Takeoff
+Direction: 北/南
 Organization:
+  name: 伊豆フライトハウス</text>
   name: 伊豆フライトハウス</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<gx:CascadingStyle kml:id="__managed_style_51E1754FD736630A8CC0">
+	<gx:CascadingStyle kml:id="__managed_style_51E1754FD736630A8CC0">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
@@ -3013,6 +3523,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>4.8</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -3022,19 +3533,24 @@ Organization:
 Direction: 東
 Organization:
   name: エルクパラグライダースクール</text>
+  name: エルクパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_0FFEC78BBA3663587E96">
+	<StyleMap id="__managed_style_0FFEC78BBA3663587E96">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_1F5C9446E53663587E96</styleUrl>
 			<styleUrl>#__managed_style_1F5C9446E53663587E96</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_2A303B1D7A3663587E96</styleUrl>
+			<styleUrl>#__managed_style_2A303B1D7A3663587E96</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_1EBA3B30B036634CAC61">
 	<gx:CascadingStyle kml:id="__managed_style_1EBA3B30B036634CAC61">
 		<Style>
 			<IconStyle>
@@ -3056,9 +3572,11 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: </text>
+  name: </text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_129B54025F36630A8C6C">
 	<gx:CascadingStyle kml:id="__managed_style_129B54025F36630A8C6C">
 		<Style>
 			<IconStyle>
@@ -3102,6 +3620,58 @@ Organization:
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: イクスパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_5386B7A24236630A8CB9">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南/北
+Direction: 南/北
+Organization:
+  name: 伊豆フライトハウス</text>
+  name: 伊豆フライトハウス</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_427D6FBC6436630A8CB9">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南/北
 Organization:
@@ -3109,6 +3679,7 @@ Organization:
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_253517A4A836630A8C79">
 	<gx:CascadingStyle kml:id="__managed_style_427D6FBC6436630A8CB9">
 		<Style>
 			<IconStyle>
@@ -3156,9 +3727,11 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: 伊豆フライトハウス</text>
+  name: 伊豆フライトハウス</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_12316D3516366354009B">
 	<gx:CascadingStyle kml:id="__managed_style_12316D3516366354009B">
 		<Style>
 			<IconStyle>
@@ -3180,9 +3753,11 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: 三ノ倉パラグライダースクール</text>
+  name: 三ノ倉パラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_19EF0A05F236631A00DA">
 	<gx:CascadingStyle kml:id="__managed_style_19EF0A05F236631A00DA">
 		<Style>
 			<IconStyle>
@@ -3228,10 +3803,36 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Landing
 Organization:
+  name: スカイパーク毛呂山</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_255BD79D0636630A8CBB">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
   name: 今井浜フライングスクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1B3E416BB436630A8C79">
 	<gx:CascadingStyle kml:id="__managed_style_1B3E416BB436630A8C79">
 		<Style>
 			<IconStyle>
@@ -3253,9 +3854,37 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: 伊豆フライトハウス</text>
+  name: 伊豆フライトハウス</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2097B3F76B366349B1BE">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 西
+Organization:
+  name: </text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_169B45DC6736630A8CC7">
 	<gx:CascadingStyle kml:id="__managed_style_2097B3F76B366349B1BE">
 		<Style>
 			<IconStyle>
@@ -3302,11 +3931,25 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+				<text>Type: Takeoff
+Direction: 南
 Organization:
+  name: 榛名パラグライダーパーク</text>
   name: 榛名パラグライダーパーク</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_08986008E036630A8C7C">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1B0466090136630A8C7C</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2504ABEAFC36630A8C7C</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_1F5C9446E53663587E96">
 	<StyleMap id="__managed_style_08986008E036630A8C7C">
 		<Pair>
 			<key>normal</key>
@@ -3362,8 +4005,35 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Takeoff
+Direction: 西
+Organization:
+  name: 胎内パラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_25124781A036630A8CB6">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
 Direction: 東
 Organization:
+  name: ウイングキッス</text>
   name: ウイングキッス</text>
 			</BalloonStyle>
 		</Style>
@@ -3394,15 +4064,64 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_08F4ED93C336630A8C79">
+	<gx:CascadingStyle kml:id="__managed_style_5819D8E17E36630A8C74">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: こまちパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_08F4ED93C336630A8C79">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_1B3E416BB436630A8C79</styleUrl>
 			<styleUrl>#__managed_style_1B3E416BB436630A8C79</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_253517A4A836630A8C79</styleUrl>
+			<styleUrl>#__managed_style_253517A4A836630A8C79</styleUrl>
 		</Pair>
 	</StyleMap>
+	<StyleMap id="__managed_style_08E4014A0D36630A8CC7">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_169B45DC6736630A8CC7</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_29835DF29E36630A8CC7</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="__managed_style_0694A1096436630A8CC4">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1FF7A3FCF036630A8CC4</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_20C291021936630A8CC4</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_14981271D236630A8C6A">
 	<StyleMap id="__managed_style_08E4014A0D36630A8CC7">
 		<Pair>
 			<key>normal</key>
@@ -3491,13 +4210,65 @@ Organization:
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: 七曲スカイパーク</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_340E75689136630A8C70">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: 西東京パラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_61BAB28DEB36630A8C78">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
 				<text>Type: Takeoff
+Direction: 東
 Direction: 東
 Organization:
   name: 伊豆フライトハウス</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_5A41CA733236630A8CAF">
 	<gx:CascadingStyle kml:id="__managed_style_5A41CA733236630A8CAF">
 		<Style>
 			<IconStyle>
@@ -3519,11 +4290,24 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 東
+Direction: 東
 Organization:
+  name: 木崎湖フライトパーク</text>
   name: 木崎湖フライトパーク</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_2DB8EE4AC836630A8CB0">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_3731C5E3F136630A8CB0</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_4A7FB4D59A36630A8CB0</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_3C69923AD536630A8C78">
 	<StyleMap id="__managed_style_2DB8EE4AC836630A8CB0">
 		<Pair>
 			<key>normal</key>
@@ -3557,9 +4341,11 @@ Organization:
 Direction: 東
 Organization:
   name: パラフィールド</text>
+  name: パラフィールド</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_29FAF1005D36630A8CB1">
 	<gx:CascadingStyle kml:id="__managed_style_29FAF1005D36630A8CB1">
 		<Style>
 			<IconStyle>
@@ -3582,6 +4368,7 @@ Organization:
 				<text>Type: Takeoff
 Direction: 南
 Organization:
+  name: 西東京パラグライダースクール</text>
   name: 西東京パラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
@@ -3612,16 +4399,7 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_1E96DE041436630A8C78">
-		<Pair>
-			<key>normal</key>
-			<styleUrl>#__managed_style_235790722A36630A8C78</styleUrl>
-		</Pair>
-		<Pair>
-			<key>highlight</key>
-			<styleUrl>#__managed_style_3C69923AD536630A8C78</styleUrl>
-		</Pair>
-	</StyleMap>
-	<gx:CascadingStyle kml:id="__managed_style_478CC8F74D36630A8CC0">
+	<gx:CascadingStyle kml:id="__managed_style_235790722A36630A8C78">
 		<Style>
 			<IconStyle>
 				<Icon>
@@ -3642,10 +4420,86 @@ Organization:
 				<text>Type: Takeoff
 Direction: 東
 Organization:
+  name: パラフィールド</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_1E96DE041436630A8C78">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_235790722A36630A8C78</styleUrl>
+			<styleUrl>#__managed_style_235790722A36630A8C78</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_3C69923AD536630A8C78</styleUrl>
+			<styleUrl>#__managed_style_3C69923AD536630A8C78</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_478CC8F74D36630A8CC0">
+	<gx:CascadingStyle kml:id="__managed_style_478CC8F74D36630A8CC0">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 東
+Direction: 東
+Organization:
+  name: エルクパラグライダースクール</text>
   name: エルクパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_436339BFE436630A8C72">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_5F17EFE27A36630A8C72</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_63DF54CC1D36630A8C72</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_2FDA4873A836630A8CB9">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: パラフィールド</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_176024E6283666FDC30D">
 	<StyleMap id="__managed_style_436339BFE436630A8C72">
 		<Pair>
 			<key>normal</key>
@@ -3701,21 +4555,27 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+Direction: 南
 Organization:
+  name: サンライフパラグライダースクール</text>
   name: サンライフパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_38B85CACCD36630A8C7F">
+	<StyleMap id="__managed_style_38B85CACCD36630A8C7F">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_405FC269FE36630A8C7F</styleUrl>
 			<styleUrl>#__managed_style_405FC269FE36630A8C7F</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_51CFC6DA4736630A8C7F</styleUrl>
+			<styleUrl>#__managed_style_51CFC6DA4736630A8C7F</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_29BAC4230C36630A8CB3">
 	<gx:CascadingStyle kml:id="__managed_style_29BAC4230C36630A8CB3">
 		<Style>
 			<IconStyle>
@@ -3770,12 +4630,49 @@ Organization:
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南
+Organization:
+  name: ソラトピア</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_031911166C36630A8CBD">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1397DD5E3536630A8CBD</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_251091673E36630A8CBD</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_1B3DC5BE5536630A8CB9">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
 				<text>Type: Landing
 Organization:
+  name: パラフィールド</text>
   name: パラフィールド</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_586412A7C836630A8CBF">
 	<gx:CascadingStyle kml:id="__managed_style_586412A7C836630A8CBF">
 		<Style>
 			<IconStyle>
@@ -3799,9 +4696,11 @@ Organization:
 Direction: 南
 Organization:
   name: パープルラインフライトエリア</text>
+  name: パープルラインフライトエリア</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_196A01694D36630A8CBC">
 	<gx:CascadingStyle kml:id="__managed_style_196A01694D36630A8CBC">
 		<Style>
 			<IconStyle>
@@ -3824,9 +4723,11 @@ Organization:
 Direction: 東
 Organization:
   name: </text>
+  name: </text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_194EDCB0E03666F2EB0A">
 	<gx:CascadingStyle kml:id="__managed_style_194EDCB0E03666F2EB0A">
 		<Style>
 			<IconStyle>
@@ -3847,11 +4748,14 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 北
+Direction: 北
 Organization:
+  name: サンライフパラグライダースクール</text>
   name: サンライフパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1593DDFC5236630A8C89">
 	<gx:CascadingStyle kml:id="__managed_style_1593DDFC5236630A8C89">
 		<Style>
 			<IconStyle>
@@ -3864,6 +4768,32 @@ Organization:
 			</LabelStyle>
 			<LineStyle>
 				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南
+Organization:
+  name: ときがわパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_4AD776B2AF36630A8CAC">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
 				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
@@ -3903,6 +4833,7 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<gx:CascadingStyle kml:id="__managed_style_4533FD2CC536630A8CBF">
+	<gx:CascadingStyle kml:id="__managed_style_4533FD2CC536630A8CBF">
 		<Style>
 			<IconStyle>
 				<Icon>
@@ -3915,6 +4846,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -3922,7 +4854,9 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+Direction: 南
 Organization:
+  name: パープルラインフライトエリア</text>
   name: パープルラインフライトエリア</text>
 			</BalloonStyle>
 		</Style>
@@ -3952,15 +4886,43 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_32C5B2C97D36630A8CBF">
+	<gx:CascadingStyle kml:id="__managed_style_25AF80485836630A8C70">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: 西東京パラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_32C5B2C97D36630A8CBF">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_4533FD2CC536630A8CBF</styleUrl>
 			<styleUrl>#__managed_style_4533FD2CC536630A8CBF</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_586412A7C836630A8CBF</styleUrl>
+			<styleUrl>#__managed_style_586412A7C836630A8CBF</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_1D433BD4C03666EBF3C9">
 	<gx:CascadingStyle kml:id="__managed_style_1D433BD4C03666EBF3C9">
 		<Style>
 			<IconStyle>
@@ -3982,9 +4944,21 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: サンライフパラグライダースクール</text>
+  name: サンライフパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_39C492323936630A8CC5">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_40008B75AF36630A8CC5</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_51F67795B636630A8CC5</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_17DC6FEEBC36630A8CB5">
 	<StyleMap id="__managed_style_39C492323936630A8CC5">
 		<Pair>
 			<key>normal</key>
@@ -4015,21 +4989,27 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 東
+Direction: 東
 Organization:
+  name: JMB富士見パノラマ</text>
   name: JMB富士見パノラマ</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_07C6EA1ED736630A8CB9">
+	<StyleMap id="__managed_style_07C6EA1ED736630A8CB9">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_1B3DC5BE5536630A8CB9</styleUrl>
 			<styleUrl>#__managed_style_1B3DC5BE5536630A8CB9</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_2FDA4873A836630A8CB9</styleUrl>
+			<styleUrl>#__managed_style_2FDA4873A836630A8CB9</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_1079E758A336630A8CAF">
 	<gx:CascadingStyle kml:id="__managed_style_1079E758A336630A8CAF">
 		<Style>
 			<IconStyle>
@@ -4043,6 +5023,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -4050,11 +5031,24 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 西
+Direction: 西
 Organization:
+  name: イクスパラグライダースクール</text>
   name: イクスパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_025BF4449F36630A8CB5">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_17DC6FEEBC36630A8CB5</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2E103863B036630A8CB5</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_2AD138F81836630A8CC0">
 	<StyleMap id="__managed_style_025BF4449F36630A8CB5">
 		<Pair>
 			<key>normal</key>
@@ -4117,15 +5111,45 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_0A20D4911B36630A8CC0">
+	<gx:CascadingStyle kml:id="__managed_style_2B8B59606136630A8CBA">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 北
+Organization:
+  name: 伊豆フライトハウス</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0A20D4911B36630A8CC0">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_1A0F07000436630A8CC0</styleUrl>
 			<styleUrl>#__managed_style_1A0F07000436630A8CC0</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_2AD138F81836630A8CC0</styleUrl>
+			<styleUrl>#__managed_style_2AD138F81836630A8CC0</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_1B30E0929636630A8CB3">
 	<gx:CascadingStyle kml:id="__managed_style_1B30E0929636630A8CB3">
 		<Style>
 			<IconStyle>
@@ -4146,7 +5170,10 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+				<text>Type: Takeoff
+Direction: 南
 Organization:
+  name: ソラトピア</text>
   name: ソラトピア</text>
 			</BalloonStyle>
 		</Style>
@@ -4178,15 +5205,45 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_0BD9601D93366DC38AFD">
+	<gx:CascadingStyle kml:id="__managed_style_5B87BA077236630A8CB4">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南
+Organization:
+  name: 茨城県ハンググライダーの会</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0BD9601D93366DC38AFD">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_13F6FF0BE5366DC38AFD</styleUrl>
 			<styleUrl>#__managed_style_13F6FF0BE5366DC38AFD</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_0E37312DA5366DC38AFE</styleUrl>
+			<styleUrl>#__managed_style_0E37312DA5366DC38AFE</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_2D29C630673666E5BC1B">
 	<gx:CascadingStyle kml:id="__managed_style_2D29C630673666E5BC1B">
 		<Style>
 			<IconStyle>
@@ -4209,9 +5266,11 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: 泉ヶ岳パラグライダースクール</text>
+  name: 泉ヶ岳パラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1FF7A3FCF036630A8CC4">
 	<gx:CascadingStyle kml:id="__managed_style_1FF7A3FCF036630A8CC4">
 		<Style>
 			<IconStyle>
@@ -4232,11 +5291,14 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 西
+Direction: 西
 Organization:
+  name: 鳴倉山スカイスポーツスクール</text>
   name: 鳴倉山スカイスポーツスクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_677D70F5BB36630A8C81">
 	<gx:CascadingStyle kml:id="__managed_style_677D70F5BB36630A8C81">
 		<Style>
 			<IconStyle>
@@ -4290,13 +5352,60 @@ Organization:
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: エルクパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_005E0671B636630A8C6A">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_14981271D236630A8C6A</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2C98BF470736630A8C6A</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_49AA05D0E036630A8CB4">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+Direction: 南
 Organization:
+  name: 茨城県ハンググライダーの会</text>
   name: 茨城県ハンググライダーの会</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_3789EB742836630A8CB4">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_49AA05D0E036630A8CB4</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_5B87BA077236630A8CB4</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_4B89F924CE36630A8CB2">
 	<StyleMap id="__managed_style_3789EB742836630A8CB4">
 		<Pair>
 			<key>normal</key>
@@ -4327,21 +5436,28 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 東/南
+				<text>Type: Takeoff
+Direction: 東/南
 Organization:
+  name: エアパークCoo</text>
   name: エアパークCoo</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_198A2C5CB036630A8C6D">
+	<StyleMap id="__managed_style_198A2C5CB036630A8C6D">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_23144C1F6F36630A8C6D</styleUrl>
 			<styleUrl>#__managed_style_23144C1F6F36630A8C6D</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_3C1AB26F3A36630A8C6D</styleUrl>
+			<styleUrl>#__managed_style_3C1AB26F3A36630A8C6D</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_263FD9C109366DB3A5F3">
 	<gx:CascadingStyle kml:id="__managed_style_263FD9C109366DB3A5F3">
 		<Style>
 			<IconStyle>
@@ -4363,11 +5479,14 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 北東/東/南東/南西/西/北西
+Direction: 北東/東/南東/南西/西/北西
 Organization:
+  name: MAPSパラグライダースクール</text>
   name: MAPSパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_27D0595AED36630A8CB4">
 	<gx:CascadingStyle kml:id="__managed_style_27D0595AED36630A8CB4">
 		<Style>
 			<IconStyle>
@@ -4390,6 +5509,7 @@ Organization:
 				<text>Type: Takeoff
 Direction: 南
 Organization:
+  name: こまちパラグライダースクール</text>
   name: こまちパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
@@ -4470,25 +5590,137 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_3708B3ADC636630A8CB3">
+	<gx:CascadingStyle kml:id="__managed_style_1240DB170B36630A8CBA">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 北
+Organization:
+  name: 伊豆フライトハウス</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_4A7FB4D59A36630A8CB0">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 北東
+Organization:
+  name: 生坂スカイスポーツ公園</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_43DE2CB76F36630A8C74">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: こまちパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_3708B3ADC636630A8CB3">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_4DCEF103CC36630A8CB3</styleUrl>
 			<styleUrl>#__managed_style_4DCEF103CC36630A8CB3</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_5B190D691336630A8CB3</styleUrl>
+			<styleUrl>#__managed_style_5B190D691336630A8CB3</styleUrl>
 		</Pair>
 	</StyleMap>
 	<StyleMap id="__managed_style_0AF605936A36630A8C7E">
+	<StyleMap id="__managed_style_0AF605936A36630A8C7E">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_1599D60EF936630A8C7E</styleUrl>
 			<styleUrl>#__managed_style_1599D60EF936630A8C7E</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_2071DDD3E436630A8C7E</styleUrl>
+			<styleUrl>#__managed_style_2071DDD3E436630A8C7E</styleUrl>
 		</Pair>
 	</StyleMap>
+	<StyleMap id="__managed_style_3D74A1031036630A8C74">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_43DE2CB76F36630A8C74</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_5819D8E17E36630A8C74</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="__managed_style_0895F667F136630A8CB3">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1B30E0929636630A8CB3</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_29BAC4230C36630A8CB3</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="__managed_style_0671C8868D36630A8CB7">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1490F8086E36630A8CB7</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2036AA4A9936630A8CB7</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_17E7CE9E0436630A8CC3">
 	<StyleMap id="__managed_style_3D74A1031036630A8C74">
 		<Pair>
 			<key>normal</key>
@@ -4539,11 +5771,15 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+				<text>Type: Takeoff
+Direction: 南
 Organization:
+  name: 忍野スカイスポーツ倶楽部</text>
   name: 忍野スカイスポーツ倶楽部</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1E8FBE1E0636669A771F">
 	<gx:CascadingStyle kml:id="__managed_style_1E8FBE1E0636669A771F">
 		<Style>
 			<IconStyle>
@@ -4563,14 +5799,18 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Landing
+				<text>Type: Landing
 Organization:
+  name: ソアリングシステムパラグライダースクール</text>
   name: ソアリングシステムパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<gx:CascadingStyle kml:id="__managed_style_2F1B59C5D6366354009B">
+	<gx:CascadingStyle kml:id="__managed_style_2F1B59C5D6366354009B">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
@@ -4582,6 +5822,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>4.8</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -4590,9 +5831,11 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: 三ノ倉パラグライダースクール</text>
+  name: 三ノ倉パラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2DEBC45E2236630A8CAE">
 	<gx:CascadingStyle kml:id="__managed_style_2DEBC45E2236630A8CAE">
 		<Style>
 			<IconStyle>
@@ -4606,6 +5849,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -4613,11 +5857,14 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南西
+Direction: 南西
 Organization:
+  name: 七曲スカイパーク</text>
   name: 七曲スカイパーク</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2459928A513663220BB5">
 	<gx:CascadingStyle kml:id="__managed_style_2459928A513663220BB5">
 		<Style>
 			<IconStyle>
@@ -4639,11 +5886,25 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+				<text>Type: Takeoff
+Direction: 南
 Organization:
+  name: 太平スカイクラブ</text>
   name: 太平スカイクラブ</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_33A7538B8636630A8CB5">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_41D7C9050436630A8CB5</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_51A6CE98F336630A8CB5</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_251091673E36630A8CBD">
 	<StyleMap id="__managed_style_33A7538B8636630A8CB5">
 		<Pair>
 			<key>normal</key>
@@ -4675,21 +5936,28 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南西
+				<text>Type: Takeoff
+Direction: 南西
 Organization:
+  name: エリアヤマザキ</text>
   name: エリアヤマザキ</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_0744397C0036630A8CB1">
+	<StyleMap id="__managed_style_0744397C0036630A8CB1">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_10A3AC541236630A8CB1</styleUrl>
 			<styleUrl>#__managed_style_10A3AC541236630A8CB1</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_29FAF1005D36630A8CB1</styleUrl>
+			<styleUrl>#__managed_style_29FAF1005D36630A8CB1</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_71BED74F4836630A8CC9">
 	<gx:CascadingStyle kml:id="__managed_style_71BED74F4836630A8CC9">
 		<Style>
 			<IconStyle>
@@ -4702,6 +5970,7 @@ Organization:
 			</LabelStyle>
 			<LineStyle>
 				<color>ff2dc0fb</color>
+				<width>3.2</width>
 				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
@@ -4734,11 +6003,37 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Landing
+Direction: 東
+Organization:
+  name: ときがわパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1A17FE737D36630A8C73">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
 Organization:
   name: エアパークCoo</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_24136A9F44366D8EECE6">
 	<gx:CascadingStyle kml:id="__managed_style_24136A9F44366D8EECE6">
 		<Style>
 			<IconStyle>
@@ -4760,7 +6055,9 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 西
+Direction: 西
 Organization:
+  name: MAPSパラグライダースクール</text>
   name: MAPSパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
@@ -4796,8 +6093,40 @@ Organization:
 		</Pair>
 	</StyleMap>
 	<gx:CascadingStyle kml:id="__managed_style_63DF54CC1D36630A8C72">
+	<StyleMap id="__managed_style_0E9A939558366354009B">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_12316D3516366354009B</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2F1B59C5D6366354009B</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="__managed_style_464432B0B936630A8C70">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_5ED544714C36630A8C70</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_61F1BEA6F036630A8C70</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="__managed_style_05F29BBFCB36630A8C73">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1A17FE737D36630A8C73</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_22A691E64D36630A8C73</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_63DF54CC1D36630A8C72">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
@@ -4809,6 +6138,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>4.8</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -4816,6 +6146,7 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Landing
 Organization:
+  name: nasa</text>
   name: nasa</text>
 			</BalloonStyle>
 		</Style>
@@ -4885,18 +6216,23 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 東
+Direction: 東
 Organization:
+  name: サンライフパラグライダースクール</text>
   name: サンライフパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_109C84C51836630A8C72">
+	<StyleMap id="__managed_style_109C84C51836630A8C72">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_2AE2F1FF4F36630A8C72</styleUrl>
 			<styleUrl>#__managed_style_2AE2F1FF4F36630A8C72</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
+			<styleUrl>#__managed_style_38384E5CCC36630A8C72</styleUrl>
 			<styleUrl>#__managed_style_38384E5CCC36630A8C72</styleUrl>
 		</Pair>
 	</StyleMap>
@@ -4975,15 +6311,93 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_009EA3D7FD36630A8CC2">
+	<gx:CascadingStyle kml:id="__managed_style_4010A2AA0536630A8C68">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: スカイ朝霧</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1CF7810A48366323A77E">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: 太平スカイクラブ</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_218CAFC0B436630A8CBF">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 東
+Organization:
+  name: こまちパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_009EA3D7FD36630A8CC2">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_154E9F3A7036630A8CC2</styleUrl>
 			<styleUrl>#__managed_style_154E9F3A7036630A8CC2</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_2986D1E90836630A8CC2</styleUrl>
+			<styleUrl>#__managed_style_2986D1E90836630A8CC2</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_5A9E9A32A736630A8CB2">
 	<gx:CascadingStyle kml:id="__managed_style_5A9E9A32A736630A8CB2">
 		<Style>
 			<IconStyle>
@@ -5007,9 +6421,11 @@ Organization:
 Direction: 東/南
 Organization:
   name: エアパークCoo</text>
+  name: エアパークCoo</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2AF7CE748836630A8C80">
 	<gx:CascadingStyle kml:id="__managed_style_2AF7CE748836630A8C80">
 		<Style>
 			<IconStyle>
@@ -5030,32 +6446,77 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Landing
+				<text>Type: Landing
 Organization:
+  name: 丹沢スカイクラブ</text>
   name: 丹沢スカイクラブ</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_0D4A9807C036630A8CC8">
+	<StyleMap id="__managed_style_0D4A9807C036630A8CC8">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_1C1D80953536630A8CC8</styleUrl>
 			<styleUrl>#__managed_style_1C1D80953536630A8CC8</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_2415E008BB36630A8CC8</styleUrl>
+			<styleUrl>#__managed_style_2415E008BB36630A8CC8</styleUrl>
 		</Pair>
 	</StyleMap>
 	<StyleMap id="__managed_style_360D44E56036630A8CAC">
+	<StyleMap id="__managed_style_360D44E56036630A8CAC">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_4AD776B2AF36630A8CAC</styleUrl>
 			<styleUrl>#__managed_style_4AD776B2AF36630A8CAC</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_0EDF6A41E936630A8CAD</styleUrl>
+			<styleUrl>#__managed_style_0EDF6A41E936630A8CAD</styleUrl>
 		</Pair>
 	</StyleMap>
 	<gx:CascadingStyle kml:id="__managed_style_0B01BBE81236630A8CB8">
+	<gx:CascadingStyle kml:id="__managed_style_0B01BBE81236630A8CB8">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+				<color>ff2f2fd3</color>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: パラトピア五竜</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_33A0583BE636630A8CB2">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_4B89F924CE36630A8CB2</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_5A9E9A32A736630A8CB2</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_42804A838E36630A8CC6">
 		<Style>
 			<IconStyle>
 				<scale>1.2</scale>
@@ -5110,11 +6571,13 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Landing
+				<text>Type: Landing
 Organization:
   name: 伊賀野パラグライダー倶楽部</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2234E115C536630A8CAF">
 	<gx:CascadingStyle kml:id="__managed_style_2234E115C536630A8CAF">
 		<Style>
 			<IconStyle>
@@ -5136,11 +6599,41 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 西
+				<text>Type: Takeoff
+Direction: 西
 Organization:
+  name: イクスパラグライダースクール</text>
   name: イクスパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2F6DE3277B36630A8CB2">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 東/南
+Organization:
+  name: nasa</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2067A1EACB36669A771F">
 	<gx:CascadingStyle kml:id="__managed_style_2F6DE3277B36630A8CB2">
 		<Style>
 			<IconStyle>
@@ -5189,9 +6682,11 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: ソアリングシステムパラグライダースクール</text>
+  name: ソアリングシステムパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_61F1BEA6F036630A8C70">
 	<gx:CascadingStyle kml:id="__managed_style_61F1BEA6F036630A8C70">
 		<Style>
 			<IconStyle>
@@ -5215,9 +6710,11 @@ Organization:
 Direction: 東
 Organization:
   name: nasa</text>
+  name: nasa</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_14ECEC7BED36630A8CB4">
 	<gx:CascadingStyle kml:id="__managed_style_14ECEC7BED36630A8CB4">
 		<Style>
 			<IconStyle>
@@ -5238,21 +6735,28 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+				<text>Type: Takeoff
+Direction: 南
 Organization:
+  name: こまちパラグライダースクール</text>
   name: こまちパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_398216353036630A8CB7">
+	<StyleMap id="__managed_style_398216353036630A8CB7">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_4B341B507536630A8CB7</styleUrl>
 			<styleUrl>#__managed_style_4B341B507536630A8CB7</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_0B01BBE81236630A8CB8</styleUrl>
+			<styleUrl>#__managed_style_0B01BBE81236630A8CB8</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_2DF3EC9EFB36630A8CC3">
 	<gx:CascadingStyle kml:id="__managed_style_2DF3EC9EFB36630A8CC3">
 		<Style>
 			<IconStyle>
@@ -5274,11 +6778,89 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+Direction: 南
 Organization:
+  name: 忍野スカイスポーツ倶楽部</text>
   name: 忍野スカイスポーツ倶楽部</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2AF0ABD3FD36632B9D86">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: トップフィールドパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2986D1E90836630A8CC2">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 西
+Organization:
+  name: 尾神岳パラグライダー</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_467F59755B36630A8CC1">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: パラグライダーパーク青木</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_4DCEF103CC36630A8CB3">
 	<gx:CascadingStyle kml:id="__managed_style_2AF0ABD3FD36632B9D86">
 		<Style>
 			<IconStyle>
@@ -5380,6 +6962,7 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<gx:CascadingStyle kml:id="__managed_style_1F6B76EE033666E6F191">
+	<gx:CascadingStyle kml:id="__managed_style_1F6B76EE033666E6F191">
 		<Style>
 			<IconStyle>
 				<Icon>
@@ -5399,7 +6982,10 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+				<text>Type: Takeoff
+Direction: 南
 Organization:
+  name: 泉ヶ岳パラグライダースクール</text>
   name: 泉ヶ岳パラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
@@ -5455,18 +7041,73 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_1B1808D7F936630A8CAD">
+	<gx:CascadingStyle kml:id="__managed_style_5915AEC6DF36630A8C78">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 東
+Organization:
+  name: 伊豆フライトハウス</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1E14B781CA36630A8C66">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南
+Organization:
+  name: 朝霧高原PGS</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_1B1808D7F936630A8CAD">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_2DC154343936630A8CAD</styleUrl>
 			<styleUrl>#__managed_style_2DC154343936630A8CAD</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_30490B672F36630A8CAD</styleUrl>
+			<styleUrl>#__managed_style_30490B672F36630A8CAD</styleUrl>
 		</Pair>
 	</StyleMap>
 	<gx:CascadingStyle kml:id="__managed_style_59585AE7BB36630A8CC2">
+	<gx:CascadingStyle kml:id="__managed_style_59585AE7BB36630A8CC2">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
@@ -5478,24 +7119,30 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>4.8</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Landing
+				<text>Type: Landing
 Organization:
+  name: 尾神岳パラグライダー</text>
   name: 尾神岳パラグライダー</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_051E36179036630A8CB2">
+	<StyleMap id="__managed_style_051E36179036630A8CB2">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_1853A2E4A036630A8CB2</styleUrl>
 			<styleUrl>#__managed_style_1853A2E4A036630A8CB2</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
+			<styleUrl>#__managed_style_2F6DE3277B36630A8CB2</styleUrl>
 			<styleUrl>#__managed_style_2F6DE3277B36630A8CB2</styleUrl>
 		</Pair>
 	</StyleMap>
@@ -5552,16 +7199,100 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_1E44D3773336630A8C70">
+	<gx:CascadingStyle kml:id="__managed_style_26965D566B3663389744">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南東
+Organization:
+  name: KPS那須高原パラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2E614A9AE036630A8C89">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南
+Organization:
+  name: ときがわパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_1E44D3773336630A8C70">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_25AF80485836630A8C70</styleUrl>
 			<styleUrl>#__managed_style_25AF80485836630A8C70</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_340E75689136630A8C70</styleUrl>
+			<styleUrl>#__managed_style_340E75689136630A8C70</styleUrl>
 		</Pair>
 	</StyleMap>
 	<gx:CascadingStyle kml:id="__managed_style_1853A2E4A036630A8CB2">
+	<gx:CascadingStyle kml:id="__managed_style_1853A2E4A036630A8CB2">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 東/南
+Direction: 東/南
+Organization:
+  name: nasa</text>
+  name: nasa</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1EEFFF59D23666DEB731">
 		<Style>
 			<IconStyle>
 				<Icon>
@@ -5579,13 +7310,43 @@ Organization:
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
-				<text>Type: Takeoff
-Direction: 東/南
+				<text>Type: Landing
 Organization:
-  name: nasa</text>
+  name: とんとんトンビパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_36539B9ED436630A8CB6">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_4E652D5E0736630A8CB6</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_58516AF13736630A8CB6</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="__managed_style_09D8675DDC36635764C8">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_159F6207C636635764C8</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_22BEED0EAE36635764C8</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="__managed_style_3334053E3C36630A8CBA">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_4F50FB8D9036630A8CBA</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_5B8BCA5C1C36630A8CBA</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_2E103863B036630A8CB5">
 	<gx:CascadingStyle kml:id="__managed_style_1EEFFF59D23666DEB731">
 		<Style>
 			<IconStyle>
@@ -5661,7 +7422,9 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 東
+Direction: 東
 Organization:
+  name: JMB富士見パノラマ</text>
   name: JMB富士見パノラマ</text>
 			</BalloonStyle>
 		</Style>
@@ -5677,6 +7440,50 @@ Organization:
 		</Pair>
 	</StyleMap>
 	<gx:CascadingStyle kml:id="__managed_style_0DA77C4A8736630A8CAE">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南東
+				<text>Type: Takeoff
+Direction: 南東
+Organization:
+  name: 七曲スカイパーク</text>
+  name: 七曲スカイパーク</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_008289B9F936630A8CB4">
+	<StyleMap id="__managed_style_008289B9F936630A8CB4">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_14ECEC7BED36630A8CB4</styleUrl>
+			<styleUrl>#__managed_style_14ECEC7BED36630A8CB4</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_27D0595AED36630A8CB4</styleUrl>
+			<styleUrl>#__managed_style_27D0595AED36630A8CB4</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_10ACDFB6B736630A8CB0">
 		<Style>
 			<IconStyle>
 				<scale>1.2</scale>
@@ -5696,22 +7503,13 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Takeoff
-Direction: 南東
+Direction: 東
 Organization:
-  name: 七曲スカイパーク</text>
+  name: スカイブルー八方尾根</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
-	<StyleMap id="__managed_style_008289B9F936630A8CB4">
-		<Pair>
-			<key>normal</key>
-			<styleUrl>#__managed_style_14ECEC7BED36630A8CB4</styleUrl>
-		</Pair>
-		<Pair>
-			<key>highlight</key>
-			<styleUrl>#__managed_style_27D0595AED36630A8CB4</styleUrl>
-		</Pair>
-	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_2036AA4A9936630A8CB7">
 	<gx:CascadingStyle kml:id="__managed_style_10ACDFB6B736630A8CB0">
 		<Style>
 			<IconStyle>
@@ -5764,6 +7562,7 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<gx:CascadingStyle kml:id="__managed_style_0437AE636936630A8CB0">
+	<gx:CascadingStyle kml:id="__managed_style_0437AE636936630A8CB0">
 		<Style>
 			<IconStyle>
 				<Icon>
@@ -5785,10 +7584,42 @@ Organization:
 Direction: 東
 Organization:
   name: スカイブルー八方尾根</text>
+  name: スカイブルー八方尾根</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<gx:CascadingStyle kml:id="__managed_style_23BDBD50F13666DF78FF">
+	<gx:CascadingStyle kml:id="__managed_style_23BDBD50F13666DF78FF">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南西
+Direction: 南西
+Organization:
+  name: とんとんトンビパラグライダースクール</text>
+  name: とんとんトンビパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2B4302827E36669E73AC">
 		<Style>
 			<IconStyle>
 				<scale>1.2</scale>
@@ -5808,12 +7639,13 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Takeoff
-Direction: 南西
+Direction: 北西/南東
 Organization:
-  name: とんとんトンビパラグライダースクール</text>
+  name: ソアリングシステムズパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_019E30866B36634CAC62">
 	<gx:CascadingStyle kml:id="__managed_style_2B4302827E36669E73AC">
 		<Style>
 			<IconStyle>
@@ -5862,9 +7694,11 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: </text>
+  name: </text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1FBAF341AB3663268673">
 	<gx:CascadingStyle kml:id="__managed_style_1FBAF341AB3663268673">
 		<Style>
 			<IconStyle>
@@ -5885,7 +7719,10 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+				<text>Type: Takeoff
+Direction: 南
 Organization:
+  name: スカイパーク宇都宮パラグライダースクール</text>
   name: スカイパーク宇都宮パラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
@@ -5917,15 +7754,45 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_0230B8F7CE36630A8C77">
+	<gx:CascadingStyle kml:id="__managed_style_51CFC6DA4736630A8C7F">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南東
+Organization:
+  name: 丹沢スカイクラブ</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0230B8F7CE36630A8C77">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_144E6596DF36630A8C77</styleUrl>
 			<styleUrl>#__managed_style_144E6596DF36630A8C77</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_26D162D30C36630A8C77</styleUrl>
+			<styleUrl>#__managed_style_26D162D30C36630A8C77</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_1397DD5E3536630A8CBD">
 	<gx:CascadingStyle kml:id="__managed_style_1397DD5E3536630A8CBD">
 		<Style>
 			<IconStyle>
@@ -5946,21 +7813,27 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南西
+Direction: 南西
 Organization:
+  name: エリアヤマザキ</text>
   name: エリアヤマザキ</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_0418AEAF56366DD0E6C5">
+	<StyleMap id="__managed_style_0418AEAF56366DD0E6C5">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_1879D9887B366DD0E6C5</styleUrl>
 			<styleUrl>#__managed_style_1879D9887B366DD0E6C5</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_288A85405D366DD0E6C5</styleUrl>
+			<styleUrl>#__managed_style_288A85405D366DD0E6C5</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_2D5FC6A9F436630A8CBC">
 	<gx:CascadingStyle kml:id="__managed_style_2D5FC6A9F436630A8CBC">
 		<Style>
 			<IconStyle>
@@ -5982,11 +7855,25 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 東
+				<text>Type: Takeoff
+Direction: 東
 Organization:
+  name: </text>
   name: </text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_689D2221B136630A8C6C">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_7E39DF0D8636630A8C6C</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_0DAD0D503936630A8C6D</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_033067591336630A8CCA">
 	<StyleMap id="__managed_style_689D2221B136630A8C6C">
 		<Pair>
 			<key>normal</key>
@@ -6018,21 +7905,53 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 東
+				<text>Type: Takeoff
+Direction: 東
 Organization:
+  name: ときがわパラグライダースクール</text>
   name: ときがわパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_35C895394A36630A8CC4">
+	<StyleMap id="__managed_style_35C895394A36630A8CC4">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_4DDE1816DB36630A8CC4</styleUrl>
 			<styleUrl>#__managed_style_4DDE1816DB36630A8CC4</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_59D36A552336630A8CC4</styleUrl>
+			<styleUrl>#__managed_style_59D36A552336630A8CC4</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_3731C5E3F136630A8CB0">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 北東
+Organization:
+  name: 生坂スカイスポーツ公園</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1CA827C68236630A8CC9">
 	<gx:CascadingStyle kml:id="__managed_style_3731C5E3F136630A8CB0">
 		<Style>
 			<IconStyle>
@@ -6080,9 +7999,11 @@ Organization:
 Direction: 南
 Organization:
   name: 長瀞パラグライダークラブ</text>
+  name: 長瀞パラグライダークラブ</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_458821E15736630A8CC2">
 	<gx:CascadingStyle kml:id="__managed_style_458821E15736630A8CC2">
 		<Style>
 			<IconStyle>
@@ -6104,9 +8025,11 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: 尾神岳パラグライダー</text>
+  name: 尾神岳パラグライダー</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_10A3AC541236630A8CB1">
 	<gx:CascadingStyle kml:id="__managed_style_10A3AC541236630A8CB1">
 		<Style>
 			<IconStyle>
@@ -6120,6 +8043,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -6129,9 +8053,11 @@ Organization:
 Direction: 南
 Organization:
   name: 西東京パラグライダースクール</text>
+  name: 西東京パラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_594631AAA836630A8CAD">
 	<gx:CascadingStyle kml:id="__managed_style_594631AAA836630A8CAD">
 		<Style>
 			<IconStyle>
@@ -6181,6 +8107,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -6192,6 +8119,7 @@ Organization:
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_10DC28B541366325F409">
 	<gx:CascadingStyle kml:id="__managed_style_10DC28B541366325F409">
 		<Style>
 			<IconStyle>
@@ -6205,17 +8133,21 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Landing
+				<text>Type: Landing
 Organization:
+  name: スカイパーク宇都宮パラグライダースクール</text>
   name: スカイパーク宇都宮パラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_7E39DF0D8636630A8C6C">
 	<gx:CascadingStyle kml:id="__managed_style_7E39DF0D8636630A8C6C">
 		<Style>
 			<IconStyle>
@@ -6263,6 +8195,41 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: 木崎湖フライトパーク</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0167E63BB936630A8CAF">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1079E758A336630A8CAF</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2234E115C536630A8CAF</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_4122AA472836630A8CBB">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -6270,11 +8237,14 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南東
+Direction: 南東
 Organization:
+  name: 今井浜フライングスクール</text>
   name: 今井浜フライングスクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_22AF27CA10366323A77E">
 	<gx:CascadingStyle kml:id="__managed_style_22AF27CA10366323A77E">
 		<Style>
 			<IconStyle>
@@ -6296,6 +8266,7 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Landing
 Organization:
+  name: 太平スカイクラブ</text>
   name: 太平スカイクラブ</text>
 			</BalloonStyle>
 		</Style>
@@ -6326,35 +8297,90 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_47627C08D136630A8C78">
+	<gx:CascadingStyle kml:id="__managed_style_23144C1F6F36630A8C6D">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 東
+Organization:
+  name: パラトピア五竜</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_47627C08D136630A8C78">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_5915AEC6DF36630A8C78</styleUrl>
 			<styleUrl>#__managed_style_5915AEC6DF36630A8C78</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_61BAB28DEB36630A8C78</styleUrl>
+			<styleUrl>#__managed_style_61BAB28DEB36630A8C78</styleUrl>
 		</Pair>
 	</StyleMap>
 	<StyleMap id="__managed_style_0BE8114B2836630A8CBA">
+	<StyleMap id="__managed_style_0BE8114B2836630A8CBA">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_1240DB170B36630A8CBA</styleUrl>
 			<styleUrl>#__managed_style_1240DB170B36630A8CBA</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_2B8B59606136630A8CBA</styleUrl>
+			<styleUrl>#__managed_style_2B8B59606136630A8CBA</styleUrl>
 		</Pair>
 	</StyleMap>
 	<StyleMap id="__managed_style_33CDB22B7736630A8CC3">
+	<StyleMap id="__managed_style_33CDB22B7736630A8CC3">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_42F450389436630A8CC3</styleUrl>
 			<styleUrl>#__managed_style_42F450389436630A8CC3</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_579D295D1636630A8CC3</styleUrl>
+			<styleUrl>#__managed_style_579D295D1636630A8CC3</styleUrl>
 		</Pair>
 	</StyleMap>
+	<StyleMap id="__managed_style_3FED9AAF6736630A8CB9">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_427D6FBC6436630A8CB9</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_5386B7A24236630A8CB9</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="__managed_style_64397A590136630A8CAF">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_0437AE636936630A8CB0</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_10ACDFB6B736630A8CB0</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_2749BFF46F36630A8CCA">
 	<StyleMap id="__managed_style_3FED9AAF6736630A8CB9">
 		<Pair>
 			<key>normal</key>
@@ -6388,27 +8414,44 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Landing
+				<text>Type: Landing
 Organization:
+  name: ときがわパラグライダースクール</text>
   name: ときがわパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_336D78D48B36630A8CC0">
+	<StyleMap id="__managed_style_336D78D48B36630A8CC0">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_478CC8F74D36630A8CC0</styleUrl>
 			<styleUrl>#__managed_style_478CC8F74D36630A8CC0</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_51E1754FD736630A8CC0</styleUrl>
+			<styleUrl>#__managed_style_51E1754FD736630A8CC0</styleUrl>
 		</Pair>
 	</StyleMap>
+	<StyleMap id="__managed_style_3BECEA6DF936630A8CAF">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_4D3CE937EF36630A8CAF</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_5A41CA733236630A8CAF</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_4F50FB8D9036630A8CBA">
 	<StyleMap id="__managed_style_3BECEA6DF936630A8CAF">
 		<Pair>
 			<key>normal</key>
@@ -6432,6 +8475,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -6439,14 +8483,19 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 北/南
+				<text>Type: Takeoff
+Direction: 北/南
 Organization:
+  name: 伊豆フライトハウス</text>
   name: 伊豆フライトハウス</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<gx:CascadingStyle kml:id="__managed_style_25F7CC59D636630A8C6C">
+	<gx:CascadingStyle kml:id="__managed_style_25F7CC59D636630A8C6C">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
@@ -6458,6 +8507,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>4.8</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -6465,6 +8515,7 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Landing
 Organization:
+  name: イクスパラグライダースクール</text>
   name: イクスパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
@@ -6480,8 +8531,20 @@ Organization:
 		</Pair>
 	</StyleMap>
 	<gx:CascadingStyle kml:id="__managed_style_22BEED0EAE36635764C8">
+	<StyleMap id="__managed_style_0C7E2E62A7366D9DE857">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_101B0B92B0366D9DE857</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2FFE6C7A0D366D9DE857</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_22BEED0EAE36635764C8">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
@@ -6493,17 +8556,21 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>4.8</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Landing
+				<text>Type: Landing
 Organization:
+  name: 胎内パラグライダークラブ</text>
   name: 胎内パラグライダークラブ</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_26D162D30C36630A8C77">
 	<gx:CascadingStyle kml:id="__managed_style_26D162D30C36630A8C77">
 		<Style>
 			<IconStyle>
@@ -6526,9 +8593,11 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: JMB富士見パノラマ</text>
+  name: JMB富士見パノラマ</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2DD72C7BBE36630A8CB8">
 	<gx:CascadingStyle kml:id="__managed_style_2DD72C7BBE36630A8CB8">
 		<Style>
 			<IconStyle>
@@ -6542,6 +8611,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -6550,29 +8620,37 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: スカイブルー八方尾根</text>
+  name: スカイブルー八方尾根</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_19F9F0F2F336630A8CB8">
+	<StyleMap id="__managed_style_19F9F0F2F336630A8CB8">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_2DD72C7BBE36630A8CB8</styleUrl>
 			<styleUrl>#__managed_style_2DD72C7BBE36630A8CB8</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_3EFC6906B136630A8CB8</styleUrl>
+			<styleUrl>#__managed_style_3EFC6906B136630A8CB8</styleUrl>
 		</Pair>
 	</StyleMap>
 	<StyleMap id="__managed_style_021E93476736630A8C6C">
+	<StyleMap id="__managed_style_021E93476736630A8C6C">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_129B54025F36630A8C6C</styleUrl>
 			<styleUrl>#__managed_style_129B54025F36630A8C6C</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_25F7CC59D636630A8C6C</styleUrl>
+			<styleUrl>#__managed_style_25F7CC59D636630A8C6C</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_2AE2F1FF4F36630A8C72">
 	<gx:CascadingStyle kml:id="__managed_style_2AE2F1FF4F36630A8C72">
 		<Style>
 			<IconStyle>
@@ -6594,9 +8672,47 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: ソラトピア</text>
+  name: ソラトピア</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_0C9939A6F5366330C678">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1F2708AE50366330C678</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_249510EA04366330C678</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_3C1AB26F3A36630A8C6D">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 東
+Organization:
+  name: パラトピア五竜</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_0DAD0D503936630A8C6D">
 	<StyleMap id="__managed_style_0C9939A6F5366330C678">
 		<Pair>
 			<key>normal</key>
@@ -6655,9 +8771,11 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: 木崎湖フライトパーク</text>
+  name: 木崎湖フライトパーク</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1F45DB000E36630A8C67">
 	<gx:CascadingStyle kml:id="__managed_style_1F45DB000E36630A8C67">
 		<Style>
 			<IconStyle>
@@ -6701,14 +8819,13 @@ Organization:
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
-				<text>Type: Takeoff
-Direction: 東
+				<text>Type: Landing
 Organization:
-  name: サンライフパラグライダースクール</text>
+  name: 朝霧高原PGS</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
-	<gx:CascadingStyle kml:id="__managed_style_213D58A1F636631CCF00">
+	<gx:CascadingStyle kml:id="__managed_style_2AC87361AB3666F0A98C">
 		<Style>
 			<IconStyle>
 				<scale>1.2</scale>
@@ -6721,6 +8838,61 @@ Organization:
 			</LabelStyle>
 			<LineStyle>
 				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 東
+Organization:
+  name: サンライフパラグライダースクール</text>
+  name: サンライフパラグライダースクール</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_213D58A1F636631CCF00">
+	<gx:CascadingStyle kml:id="__managed_style_213D58A1F636631CCF00">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: みかも山ハング・パラグライダークラブ</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_51A6CE98F336630A8CB5">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
 				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
@@ -6760,12 +8932,15 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_3083DE6A4636630A8CB1">
+	<StyleMap id="__managed_style_3083DE6A4636630A8CB1">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_4FA60FE8A336630A8CB1</styleUrl>
 			<styleUrl>#__managed_style_4FA60FE8A336630A8CB1</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
+			<styleUrl>#__managed_style_5ACCB376FC36630A8CB1</styleUrl>
 			<styleUrl>#__managed_style_5ACCB376FC36630A8CB1</styleUrl>
 		</Pair>
 	</StyleMap>
@@ -6807,6 +8982,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -6820,6 +8996,7 @@ Organization:
 		</Style>
 	</gx:CascadingStyle>
 	<gx:CascadingStyle kml:id="__managed_style_154E9F3A7036630A8CC2">
+	<gx:CascadingStyle kml:id="__managed_style_154E9F3A7036630A8CC2">
 		<Style>
 			<IconStyle>
 				<Icon>
@@ -6832,6 +9009,7 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>3.2</width>
+				<width>3.2</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -6839,11 +9017,14 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 西
+Direction: 西
 Organization:
+  name: 尾神岳パラグライダー</text>
   name: 尾神岳パラグライダー</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_144E6596DF36630A8C77">
 	<gx:CascadingStyle kml:id="__managed_style_144E6596DF36630A8C77">
 		<Style>
 			<IconStyle>
@@ -6865,9 +9046,11 @@ Organization:
 				<text>Type: Landing
 Organization:
   name: JMB富士見パノラマ</text>
+  name: JMB富士見パノラマ</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1904D164CF3663389744">
 	<gx:CascadingStyle kml:id="__managed_style_1904D164CF3663389744">
 		<Style>
 			<IconStyle>
@@ -6888,11 +9071,14 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南東
+Direction: 南東
 Organization:
+  name: KPS那須高原パラグライダースクール</text>
   name: KPS那須高原パラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_3583CEE50636630A8CAE">
 	<gx:CascadingStyle kml:id="__managed_style_3583CEE50636630A8CAE">
 		<Style>
 			<IconStyle>
@@ -6914,11 +9100,35 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南西
+				<text>Type: Takeoff
+Direction: 南西
 Organization:
+  name: 七曲スカイパーク</text>
   name: 七曲スカイパーク</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<StyleMap id="__managed_style_197021E5B836630A8CAE">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_2DEBC45E2236630A8CAE</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_3583CEE50636630A8CAE</styleUrl>
+		</Pair>
+	</StyleMap>
+	<StyleMap id="__managed_style_036335CD8636631AE503">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#__managed_style_1B28B333A636631AE503</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#__managed_style_2C824B63D836631AE503</styleUrl>
+		</Pair>
+	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_4D3CE937EF36630A8CAF">
 	<StyleMap id="__managed_style_197021E5B836630A8CAE">
 		<Pair>
 			<key>normal</key>
@@ -6961,9 +9171,11 @@ Organization:
 Direction: 東
 Organization:
   name: 木崎湖フライトパーク</text>
+  name: 木崎湖フライトパーク</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_14A28D6ADE366D78A873">
 	<gx:CascadingStyle kml:id="__managed_style_14A28D6ADE366D78A873">
 		<Style>
 			<IconStyle>
@@ -6984,14 +9196,19 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 南
+				<text>Type: Takeoff
+Direction: 南
 Organization:
+  name: MAPSパラグライダースクール</text>
   name: MAPSパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<gx:CascadingStyle kml:id="__managed_style_5AAA241BFC36630A8C68">
+	<gx:CascadingStyle kml:id="__managed_style_5AAA241BFC36630A8C68">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
@@ -7003,27 +9220,59 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>4.8</width>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Landing
+				<text>Type: Landing
 Organization:
+  name: スカイ朝霧</text>
   name: スカイ朝霧</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<StyleMap id="__managed_style_48A84E97CC36630A8CAD">
+	<StyleMap id="__managed_style_48A84E97CC36630A8CAD">
 		<Pair>
 			<key>normal</key>
+			<styleUrl>#__managed_style_594631AAA836630A8CAD</styleUrl>
 			<styleUrl>#__managed_style_594631AAA836630A8CAD</styleUrl>
 		</Pair>
 		<Pair>
 			<key>highlight</key>
 			<styleUrl>#__managed_style_0DA77C4A8736630A8CAE</styleUrl>
+			<styleUrl>#__managed_style_0DA77C4A8736630A8CAE</styleUrl>
 		</Pair>
 	</StyleMap>
+	<gx:CascadingStyle kml:id="__managed_style_159C9D9ADB36630A8CC1">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南東
+Organization:
+  name: パラグライダーパーク青木</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2306121A2A36630A8C67">
 	<gx:CascadingStyle kml:id="__managed_style_159C9D9ADB36630A8CC1">
 		<Style>
 			<IconStyle>
@@ -7069,11 +9318,64 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Landing
+				<text>Type: Landing
 Organization:
   name: 朝霧高原PGS</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2DC154343936630A8CAD">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 東
+Organization:
+  name: 西富士友の会
+</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_405FC269FE36630A8C7F">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Takeoff
+Direction: 南東
+Organization:
+  name: 丹沢スカイクラブ</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_5B190D691336630A8CB3">
 	<gx:CascadingStyle kml:id="__managed_style_2DC154343936630A8CAD">
 		<Style>
 			<IconStyle>
@@ -7148,9 +9450,11 @@ Organization:
 Direction: 西
 Organization:
   name: エアパークCoo</text>
+  name: エアパークCoo</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_4FA60FE8A336630A8CB1">
 	<gx:CascadingStyle kml:id="__managed_style_4FA60FE8A336630A8CB1">
 		<Style>
 			<IconStyle>
@@ -7171,11 +9475,14 @@ Organization:
 			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 西
+Direction: 西
 Organization:
+  name: nasa</text>
   name: nasa</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_1A0F07000436630A8CC0">
 	<gx:CascadingStyle kml:id="__managed_style_1A0F07000436630A8CC0">
 		<Style>
 			<IconStyle>
@@ -7219,16 +9526,45 @@ Organization:
 				<color>40ffffff</color>
 			</PolyStyle>
 			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: 茨城県ハンググライダーの会</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_21A55CD2F8366702C149">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
 				<text>Type: Takeoff
 Direction: 西
+Direction: 西
 Organization:
+  name: サンライフパラグライダースクール</text>
   name: サンライフパラグライダースクール</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
 	<gx:CascadingStyle kml:id="__managed_style_22A691E64D36630A8C73">
+	<gx:CascadingStyle kml:id="__managed_style_22A691E64D36630A8C73">
 		<Style>
 			<IconStyle>
+				<scale>1.2</scale>
 				<scale>1.2</scale>
 				<Icon>
 					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
@@ -7265,6 +9601,32 @@ Organization:
 			<LineStyle>
 				<color>ff2dc0fb</color>
 				<width>4.8</width>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: エアパークCoo</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_0EDF6A41E936630A8CAD">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
 			</LineStyle>
 			<PolyStyle>
 				<color>40ffffff</color>
@@ -7274,9 +9636,35 @@ Organization:
 Direction: 東
 Organization:
   name: スカイ朝霧</text>
+  name: スカイ朝霧</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_5F17EFE27A36630A8C72">
+		<Style>
+			<IconStyle>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>3.2</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: nasa</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2BFE0555CC36631A00DA">
 	<gx:CascadingStyle kml:id="__managed_style_5F17EFE27A36630A8C72">
 		<Style>
 			<IconStyle>
@@ -7321,8 +9709,35 @@ Organization:
 			</PolyStyle>
 			<BalloonStyle>
 				<text>Type: Landing
+				<text>Type: Landing
 Organization:
   name: スカイパーク毛呂山</text>
+  name: スカイパーク毛呂山</text>
+			</BalloonStyle>
+		</Style>
+	</gx:CascadingStyle>
+	<gx:CascadingStyle kml:id="__managed_style_2C98BF470736630A8C6A">
+		<Style>
+			<IconStyle>
+				<scale>1.2</scale>
+				<Icon>
+					<href>https://earth.google.com/earth/document/icon?color=d32f2f&amp;id=2000&amp;scale=4</href>
+				</Icon>
+				<hotSpot x="64" y="128" xunits="pixels" yunits="insetPixels"/>
+			</IconStyle>
+			<LabelStyle>
+			</LabelStyle>
+			<LineStyle>
+				<color>ff2dc0fb</color>
+				<width>4.8</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>40ffffff</color>
+			</PolyStyle>
+			<BalloonStyle>
+				<text>Type: Landing
+Organization:
+  name: 七曲スカイパーク</text>
 			</BalloonStyle>
 		</Style>
 	</gx:CascadingStyle>
@@ -7364,6 +9779,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0D067BE53036630A8C66</styleUrl>
+		<styleUrl>#__managed_style_0D067BE53036630A8C66</styleUrl>
 		<Point>
 			<coordinates>138.5700625920859,35.41310665448884,1179.833754082253</coordinates>
 		</Point>
@@ -7380,6 +9796,7 @@ Organization:
 			<range>4487.008198820986</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_03013A2BC036630A8C67</styleUrl>
 		<styleUrl>#__managed_style_03013A2BC036630A8C67</styleUrl>
 		<Point>
 			<coordinates>138.5843165863312,35.4095992352872,893.4935936424254</coordinates>
@@ -7398,6 +9815,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_360D44E56036630A8CAC</styleUrl>
+		<styleUrl>#__managed_style_360D44E56036630A8CAC</styleUrl>
 		<Point>
 			<coordinates>138.5467274689905,35.37279904729648,1020.869399592835</coordinates>
 		</Point>
@@ -7414,6 +9832,7 @@ Organization:
 			<range>3201.148732925649</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3DFA41D94636630A8C68</styleUrl>
 		<styleUrl>#__managed_style_3DFA41D94636630A8C68</styleUrl>
 		<Point>
 			<coordinates>138.5541866618784,35.37066568089054,712.5478064242913</coordinates>
@@ -7432,6 +9851,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_1B1808D7F936630A8CAD</styleUrl>
+		<styleUrl>#__managed_style_1B1808D7F936630A8CAD</styleUrl>
 		<Point>
 			<coordinates>138.539448685703,35.37568763015901,1172.765882187408</coordinates>
 		</Point>
@@ -7448,6 +9868,7 @@ Organization:
 			<range>1482.066837384336</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_48A84E97CC36630A8CAD</styleUrl>
 		<styleUrl>#__managed_style_48A84E97CC36630A8CAD</styleUrl>
 		<Point>
 			<coordinates>138.0510294214314,34.99527127631458,866.0493671779955</coordinates>
@@ -7466,6 +9887,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_005E0671B636630A8C6A</styleUrl>
+		<styleUrl>#__managed_style_005E0671B636630A8C6A</styleUrl>
 		<Point>
 			<coordinates>138.0735624355839,34.98551988205498,177.7568833763736</coordinates>
 		</Point>
@@ -7482,6 +9904,7 @@ Organization:
 			<range>1108.269640157669</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_197021E5B836630A8CAE</styleUrl>
 		<styleUrl>#__managed_style_197021E5B836630A8CAE</styleUrl>
 		<Point>
 			<coordinates>138.104190507192,34.95521111084848,577.0442405594794</coordinates>
@@ -7500,6 +9923,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_005E0671B636630A8C6A</styleUrl>
+		<styleUrl>#__managed_style_005E0671B636630A8C6A</styleUrl>
 		<Point>
 			<coordinates>138.0871562262698,34.94704951612916,145.2085619008708</coordinates>
 		</Point>
@@ -7516,6 +9940,7 @@ Organization:
 			<range>6384.406584195094</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3DFA41D94636630A8C68</styleUrl>
 		<styleUrl>#__managed_style_3DFA41D94636630A8C68</styleUrl>
 		<Point>
 			<coordinates>138.5588974728504,35.32620775174019,603.5141669682298</coordinates>
@@ -7534,6 +9959,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_33A7538B8636630A8CB5</styleUrl>
+		<styleUrl>#__managed_style_33A7538B8636630A8CB5</styleUrl>
 		<Point>
 			<coordinates>138.5600638590442,35.33096448943157,831.5918671708288</coordinates>
 		</Point>
@@ -7550,6 +9976,7 @@ Organization:
 			<range>837.3133982086438</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_0167E63BB936630A8CAF</styleUrl>
 		<styleUrl>#__managed_style_0167E63BB936630A8CAF</styleUrl>
 		<Point>
 			<coordinates>139.0348601911979,35.10460482299204,643.2907935169333</coordinates>
@@ -7568,6 +9995,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_021E93476736630A8C6C</styleUrl>
+		<styleUrl>#__managed_style_021E93476736630A8C6C</styleUrl>
 		<Point>
 			<coordinates>139.0189317174873,35.10306713286325,241.9452532117269</coordinates>
 		</Point>
@@ -7584,6 +10012,7 @@ Organization:
 			<range>2625.070242521761</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3BECEA6DF936630A8CAF</styleUrl>
 		<styleUrl>#__managed_style_3BECEA6DF936630A8CAF</styleUrl>
 		<Point>
 			<coordinates>137.8226322105363,36.57134487487198,1278.863568658538</coordinates>
@@ -7602,7 +10031,9 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_689D2221B136630A8C6C</styleUrl>
+		<styleUrl>#__managed_style_689D2221B136630A8C6C</styleUrl>
 		<Point>
+			<coordinates>137.833802104589,36.56733678577747,762.5990283012723</coordinates>
 			<coordinates>137.833802104589,36.56733678577747,762.5990283012723</coordinates>
 		</Point>
 	</Placemark>
@@ -7618,6 +10049,7 @@ Organization:
 			<range>357.8607202812782</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_198A2C5CB036630A8C6D</styleUrl>
 		<styleUrl>#__managed_style_198A2C5CB036630A8C6D</styleUrl>
 		<Point>
 			<coordinates>137.8150556461245,36.66084556726084,1512.221717473935</coordinates>
@@ -7636,7 +10068,9 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_398216353036630A8CB7</styleUrl>
+		<styleUrl>#__managed_style_398216353036630A8CB7</styleUrl>
 		<Point>
+			<coordinates>137.8389771554995,36.67339675278847,737.3711124358264</coordinates>
 			<coordinates>137.8389771554995,36.67339675278847,737.3711124358264</coordinates>
 		</Point>
 	</Placemark>
@@ -7652,6 +10086,7 @@ Organization:
 			<range>413.7793905158469</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_19F9F0F2F336630A8CB8</styleUrl>
 		<styleUrl>#__managed_style_19F9F0F2F336630A8CB8</styleUrl>
 		<Point>
 			<coordinates>137.8394240303816,36.69590230460495,758.0313899436885</coordinates>
@@ -7670,6 +10105,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_64397A590136630A8CAF</styleUrl>
+		<styleUrl>#__managed_style_64397A590136630A8CAF</styleUrl>
 		<Point>
 			<coordinates>137.8168978854225,36.69726717273318,1383.261812752925</coordinates>
 		</Point>
@@ -7686,6 +10122,7 @@ Organization:
 			<range>492.3256324997784</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_2DB8EE4AC836630A8CB0</styleUrl>
 		<styleUrl>#__managed_style_2DB8EE4AC836630A8CB0</styleUrl>
 		<Point>
 			<coordinates>137.9159357017181,36.42181147609266,688.5725928379139</coordinates>
@@ -7704,6 +10141,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0671C8868D36630A8CB7</styleUrl>
+		<styleUrl>#__managed_style_0671C8868D36630A8CB7</styleUrl>
 		<Point>
 			<coordinates>137.9202209754871,36.42537601375603,486.7891726279045</coordinates>
 		</Point>
@@ -7720,6 +10158,7 @@ Organization:
 			<range>945.9634942794221</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_0744397C0036630A8CB1</styleUrl>
 		<styleUrl>#__managed_style_0744397C0036630A8CB1</styleUrl>
 		<Point>
 			<coordinates>139.0674619680136,35.64558415904984,540.579299928937</coordinates>
@@ -7738,6 +10177,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_1E44D3773336630A8C70</styleUrl>
+		<styleUrl>#__managed_style_1E44D3773336630A8C70</styleUrl>
 		<Point>
 			<coordinates>139.0676904734812,35.639383989678,357.9090009282252</coordinates>
 		</Point>
@@ -7754,6 +10194,7 @@ Organization:
 			<range>99.21625686896732</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_464432B0B936630A8C70</styleUrl>
 		<styleUrl>#__managed_style_464432B0B936630A8C70</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
@@ -7778,6 +10219,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_3083DE6A4636630A8CB1</styleUrl>
+		<styleUrl>#__managed_style_3083DE6A4636630A8CB1</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
 				<SimpleData name="0F410FEB433634751CE6">0</SimpleData>
@@ -7800,6 +10242,7 @@ Organization:
 			<range>231.4282600744992</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_051E36179036630A8CB2</styleUrl>
 		<styleUrl>#__managed_style_051E36179036630A8CB2</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
@@ -7824,6 +10267,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_33A0583BE636630A8CB2</styleUrl>
+		<styleUrl>#__managed_style_33A0583BE636630A8CB2</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
 				<SimpleData name="05A0A38D9E363476C014">0</SimpleData>
@@ -7846,6 +10290,7 @@ Organization:
 			<range>264.1829362001226</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_109C84C51836630A8C72</styleUrl>
 		<styleUrl>#__managed_style_109C84C51836630A8C72</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
@@ -7870,6 +10315,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_436339BFE436630A8C72</styleUrl>
+		<styleUrl>#__managed_style_436339BFE436630A8C72</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
 				<SimpleData name="07B433009F36347A74DF">0</SimpleData>
@@ -7893,6 +10339,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_436339BFE436630A8C72</styleUrl>
+		<styleUrl>#__managed_style_436339BFE436630A8C72</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
 				<SimpleData name="0F6AD3B89B36347AF89D">0</SimpleData>
@@ -7905,6 +10352,7 @@ Organization:
 	</Placemark>
 	<Placemark id="0A600757BB36347B74E9">
 		<name>nasa クラブハウス横 LD</name>
+		<name>nasa クラブハウス横 LD</name>
 		<LookAt>
 			<longitude>140.1705694312457</longitude>
 			<latitude>36.25238397144388</latitude>
@@ -7915,6 +10363,7 @@ Organization:
 			<range>219.0598586625492</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_436339BFE436630A8C72</styleUrl>
 		<styleUrl>#__managed_style_436339BFE436630A8C72</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
@@ -7939,6 +10388,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_05F29BBFCB36630A8C73</styleUrl>
+		<styleUrl>#__managed_style_05F29BBFCB36630A8C73</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
 				<SimpleData name="0F50A8A8AB36347BD72D">0</SimpleData>
@@ -7946,6 +10396,7 @@ Organization:
 		</ExtendedData>
 		<Point>
 			<extrude>1</extrude>
+			<coordinates>140.162004135423,36.25868197480166,39.75326998783349</coordinates>
 			<coordinates>140.162004135423,36.25868197480166,39.75326998783349</coordinates>
 		</Point>
 	</Placemark>
@@ -7961,6 +10412,7 @@ Organization:
 			<range>540.4140984546393</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_0895F667F136630A8CB3</styleUrl>
 		<styleUrl>#__managed_style_0895F667F136630A8CB3</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
@@ -7985,6 +10437,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_464432B0B936630A8C70</styleUrl>
+		<styleUrl>#__managed_style_464432B0B936630A8C70</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
 				<SimpleData name="029CCF9E1436347F823B">0</SimpleData>
@@ -8007,6 +10460,7 @@ Organization:
 			<range>94.49638212414357</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3708B3ADC636630A8CB3</styleUrl>
 		<styleUrl>#__managed_style_3708B3ADC636630A8CB3</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
@@ -8031,6 +10485,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_436339BFE436630A8C72</styleUrl>
+		<styleUrl>#__managed_style_436339BFE436630A8C72</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
 				<SimpleData name="080E1AA1EE363480F0A3">0</SimpleData>
@@ -8038,6 +10493,7 @@ Organization:
 		</ExtendedData>
 		<Point>
 			<extrude>1</extrude>
+			<coordinates>140.1150289293469,36.28432071471019,47.68471884691034</coordinates>
 			<coordinates>140.1150289293469,36.28432071471019,47.68471884691034</coordinates>
 		</Point>
 	</Placemark>
@@ -8053,6 +10509,7 @@ Organization:
 			<range>594.5033375941421</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3D74A1031036630A8C74</styleUrl>
 		<styleUrl>#__managed_style_3D74A1031036630A8C74</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
@@ -8077,6 +10534,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_008289B9F936630A8CB4</styleUrl>
+		<styleUrl>#__managed_style_008289B9F936630A8CB4</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
 				<SimpleData name="013458F4E7363483E082">0</SimpleData>
@@ -8099,6 +10557,7 @@ Organization:
 			<range>220.0595317005354</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3789EB742836630A8CB4</styleUrl>
 		<styleUrl>#__managed_style_3789EB742836630A8CB4</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
@@ -8123,6 +10582,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0A20D4911B36630A8CC0</styleUrl>
+		<styleUrl>#__managed_style_0A20D4911B36630A8CC0</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
 				<SimpleData name="064A0DC44336348A3023">0</SimpleData>
@@ -8145,6 +10605,7 @@ Organization:
 			<range>358.8373547855008</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_025BF4449F36630A8CB5</styleUrl>
 		<styleUrl>#__managed_style_025BF4449F36630A8CB5</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
@@ -8169,6 +10630,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0230B8F7CE36630A8C77</styleUrl>
+		<styleUrl>#__managed_style_0230B8F7CE36630A8C77</styleUrl>
 		<ExtendedData>
 			<SchemaData schemaUrl="#__managed_schema">
 				<SimpleData name="030177C051363491A70F">0</SimpleData>
@@ -8192,6 +10654,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_03013A2BC036630A8C67</styleUrl>
+		<styleUrl>#__managed_style_03013A2BC036630A8C67</styleUrl>
 		<Point>
 			<coordinates>138.5746542482915,35.40455972143877,819.0613941177718</coordinates>
 		</Point>
@@ -8208,6 +10671,7 @@ Organization:
 			<range>441.5176461016381</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_05F29BBFCB36630A8C73</styleUrl>
 		<styleUrl>#__managed_style_05F29BBFCB36630A8C73</styleUrl>
 		<Point>
 			<coordinates>140.1107052463614,36.27213264065391,47.40699575519238</coordinates>
@@ -8226,6 +10690,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_32C5B2C97D36630A8CBF</styleUrl>
+		<styleUrl>#__managed_style_32C5B2C97D36630A8CBF</styleUrl>
 		<Point>
 			<coordinates>140.1710742349433,36.17096913470803,290.3410267111392</coordinates>
 		</Point>
@@ -8242,6 +10707,7 @@ Organization:
 			<range>1749.670485941169</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_0D067BE53036630A8C66</styleUrl>
 		<styleUrl>#__managed_style_0D067BE53036630A8C66</styleUrl>
 		<Point>
 			<coordinates>138.5738231192381,35.40944614210323,1052.685814263611</coordinates>
@@ -8260,6 +10726,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0D067BE53036630A8C66</styleUrl>
+		<styleUrl>#__managed_style_0D067BE53036630A8C66</styleUrl>
 		<Point>
 			<coordinates>138.5722346100727,35.40782368028423,991.5088199117271</coordinates>
 		</Point>
@@ -8276,6 +10743,7 @@ Organization:
 			<range>277.1848741129725</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_07C6EA1ED736630A8CB9</styleUrl>
 		<styleUrl>#__managed_style_07C6EA1ED736630A8CB9</styleUrl>
 		<Point>
 			<coordinates>139.0351586283426,35.04857026390324,509.9470549804466</coordinates>
@@ -8294,6 +10762,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_1E96DE041436630A8C78</styleUrl>
+		<styleUrl>#__managed_style_1E96DE041436630A8C78</styleUrl>
 		<Point>
 			<coordinates>139.0342682154261,35.04971046527229,524.6548729260682</coordinates>
 		</Point>
@@ -8310,6 +10779,7 @@ Organization:
 			<range>460.019025724978</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_1E96DE041436630A8C78</styleUrl>
 		<styleUrl>#__managed_style_1E96DE041436630A8C78</styleUrl>
 		<Point>
 			<coordinates>139.0339490744022,35.05130521391225,560.8388964731533</coordinates>
@@ -8328,6 +10798,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_47627C08D136630A8C78</styleUrl>
+		<styleUrl>#__managed_style_47627C08D136630A8C78</styleUrl>
 		<Point>
 			<coordinates>138.9960528057204,34.80467787390815,817.6780703028837</coordinates>
 		</Point>
@@ -8344,6 +10815,7 @@ Organization:
 			<range>222.01861828642</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.0127824936269,34.79613641606186,405.0537376792021</coordinates>
@@ -8362,6 +10834,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_47627C08D136630A8C78</styleUrl>
+		<styleUrl>#__managed_style_47627C08D136630A8C78</styleUrl>
 		<Point>
 			<coordinates>139.0096079487779,34.79378679463517,477.6829456397928</coordinates>
 		</Point>
@@ -8378,6 +10851,7 @@ Organization:
 			<range>521.7543231172749</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3334053E3C36630A8CBA</styleUrl>
 		<styleUrl>#__managed_style_3334053E3C36630A8CBA</styleUrl>
 		<Point>
 			<coordinates>139.036219262025,34.79945183851648,511.1578814657291</coordinates>
@@ -8396,6 +10870,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0BE8114B2836630A8CBA</styleUrl>
+		<styleUrl>#__managed_style_0BE8114B2836630A8CBA</styleUrl>
 		<Point>
 			<coordinates>139.0449053321054,34.79666774060752,428.5655969712537</coordinates>
 		</Point>
@@ -8412,6 +10887,7 @@ Organization:
 			<range>204.2746130773594</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.0553555781438,34.80671555627742,28.62693498789727</coordinates>
@@ -8430,6 +10906,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.0445674848518,34.79180176458613,289.9681359395186</coordinates>
 		</Point>
@@ -8446,6 +10923,7 @@ Organization:
 			<range>115.302750826213</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.0405318746026,34.78962684187475,266.0486381827025</coordinates>
@@ -8464,6 +10942,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_47627C08D136630A8C78</styleUrl>
+		<styleUrl>#__managed_style_47627C08D136630A8C78</styleUrl>
 		<Point>
 			<coordinates>139.0570260570864,34.79381380936544,306.0653884591042</coordinates>
 		</Point>
@@ -8480,6 +10959,7 @@ Organization:
 			<range>552.3578398911195</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.0644430562405,34.80397084999545,6.418954609427685</coordinates>
@@ -8498,6 +10978,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_3FED9AAF6736630A8CB9</styleUrl>
+		<styleUrl>#__managed_style_3FED9AAF6736630A8CB9</styleUrl>
 		<Point>
 			<coordinates>139.0334762978159,34.84995922225874,1029.220234454053</coordinates>
 		</Point>
@@ -8514,6 +10995,7 @@ Organization:
 			<range>420.6424631070695</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.0717656361612,34.81493057764755,3.087403162933238</coordinates>
@@ -8532,6 +11014,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.076925053249,34.84220385581735,5.867858747088006</coordinates>
 		</Point>
@@ -8548,6 +11031,7 @@ Organization:
 			<range>541.5749253409741</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_0F222E311F36630A8CB6</styleUrl>
 		<styleUrl>#__managed_style_0F222E311F36630A8CB6</styleUrl>
 		<Point>
 			<coordinates>138.5469999067103,35.37361195445155,1043.891473165493</coordinates>
@@ -8566,6 +11050,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_36539B9ED436630A8CB6</styleUrl>
+		<styleUrl>#__managed_style_36539B9ED436630A8CB6</styleUrl>
 		<Point>
 			<coordinates>138.5463672759048,35.37510586277535,1069.562520900946</coordinates>
 		</Point>
@@ -8582,6 +11067,7 @@ Organization:
 			<range>365.428600491432</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_0230B8F7CE36630A8C77</styleUrl>
 		<styleUrl>#__managed_style_0230B8F7CE36630A8C77</styleUrl>
 		<Point>
 			<coordinates>138.2104079165553,35.9162922894218,950.0510107938993</coordinates>
@@ -8600,6 +11086,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_689D2221B136630A8C6C</styleUrl>
+		<styleUrl>#__managed_style_689D2221B136630A8C6C</styleUrl>
 		<Point>
 			<coordinates>137.8356918387246,36.56819981722331,762.7308468305168</coordinates>
 		</Point>
@@ -8617,7 +11104,9 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_689D2221B136630A8C6C</styleUrl>
+		<styleUrl>#__managed_style_689D2221B136630A8C6C</styleUrl>
 		<Point>
+			<coordinates>137.8326764119405,36.56525831388235,765.0937562886763</coordinates>
 			<coordinates>137.8326764119405,36.56525831388235,765.0937562886763</coordinates>
 		</Point>
 	</Placemark>
@@ -8633,6 +11122,7 @@ Organization:
 			<range>269.3330219554628</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_198A2C5CB036630A8C6D</styleUrl>
 		<styleUrl>#__managed_style_198A2C5CB036630A8C6D</styleUrl>
 		<Point>
 			<coordinates>137.8280973081721,36.66857184825044,1032.15204318972</coordinates>
@@ -8651,6 +11141,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_1E44D3773336630A8C70</styleUrl>
+		<styleUrl>#__managed_style_1E44D3773336630A8C70</styleUrl>
 		<Point>
 			<coordinates>139.069735939038,35.63786932834177,291.4623792584669</coordinates>
 		</Point>
@@ -8667,6 +11158,7 @@ Organization:
 			<range>196.9394127871784</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_021E93476736630A8C6C</styleUrl>
 		<styleUrl>#__managed_style_021E93476736630A8C6C</styleUrl>
 		<Point>
 			<coordinates>139.0253124307658,35.10717480251729,328.8551962911332</coordinates>
@@ -8685,6 +11177,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.061963813073,34.82098548048558,112.9272260032997</coordinates>
 		</Point>
@@ -8701,6 +11194,7 @@ Organization:
 			<range>318.3103488457709</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.0512116882878,34.83135561359483,337.9430515404</coordinates>
@@ -8719,6 +11213,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.0540385714803,34.8151273420534,150.2595741377389</coordinates>
 		</Point>
@@ -8735,6 +11230,7 @@ Organization:
 			<range>180.2907693350608</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_021E93476736630A8C6C</styleUrl>
 		<styleUrl>#__managed_style_021E93476736630A8C6C</styleUrl>
 		<Point>
 			<coordinates>139.0351809794743,34.80005910591085,513.7388772786411</coordinates>
@@ -8753,6 +11249,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.0447165086427,34.79110687332912,280.0042775803914</coordinates>
 		</Point>
@@ -8769,6 +11266,7 @@ Organization:
 			<range>397.2374451423821</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_08986008E036630A8C7C</styleUrl>
 		<styleUrl>#__managed_style_08986008E036630A8C7C</styleUrl>
 		<Point>
 			<coordinates>138.9973003086707,34.80359995625569,790.8734497638181</coordinates>
@@ -8787,6 +11285,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_08986008E036630A8C7C</styleUrl>
+		<styleUrl>#__managed_style_08986008E036630A8C7C</styleUrl>
 		<Point>
 			<coordinates>138.998550097249,34.80398105474891,745.6255519046266</coordinates>
 		</Point>
@@ -8803,6 +11302,7 @@ Organization:
 			<range>355.277391411837</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_08986008E036630A8C7C</styleUrl>
 		<styleUrl>#__managed_style_08986008E036630A8C7C</styleUrl>
 		<Point>
 			<coordinates>138.9979117154982,34.80315398591715,761.0334138670414</coordinates>
@@ -8821,6 +11321,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.0024412657547,34.80685998885839,599.8488208857018</coordinates>
 		</Point>
@@ -8837,6 +11338,7 @@ Organization:
 			<range>444.3009049431568</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.0030443180358,34.80348279869166,586.4775734020424</coordinates>
@@ -8855,6 +11357,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
+		<styleUrl>#__managed_style_08F4ED93C336630A8C79</styleUrl>
 		<Point>
 			<coordinates>139.0113254067396,34.79485266159099,430.4572492866887</coordinates>
 		</Point>
@@ -8871,6 +11374,7 @@ Organization:
 			<range>1092.206265855784</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_021E93476736630A8C6C</styleUrl>
 		<styleUrl>#__managed_style_021E93476736630A8C6C</styleUrl>
 		<Point>
 			<coordinates>138.9905313335298,34.7853816730897,543.6201343548041</coordinates>
@@ -8889,6 +11393,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_08D94EBDF836630A8CBB</styleUrl>
+		<styleUrl>#__managed_style_08D94EBDF836630A8CBB</styleUrl>
 		<Point>
 			<coordinates>138.9953241487549,34.78543722230121,413.9966437629379</coordinates>
 		</Point>
@@ -8905,6 +11410,7 @@ Organization:
 			<range>406.0118352872088</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_39F1C3B4CE36630A8CBB</styleUrl>
 		<styleUrl>#__managed_style_39F1C3B4CE36630A8CBB</styleUrl>
 		<Point>
 			<coordinates>138.992710734146,34.79330420188079,683.5505963440035</coordinates>
@@ -8923,6 +11429,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0DE5E31BBC36630A8CBC</styleUrl>
+		<styleUrl>#__managed_style_0DE5E31BBC36630A8CBC</styleUrl>
 		<Point>
 			<coordinates>138.9187617456347,35.00988266290616,430.250551810675</coordinates>
 		</Point>
@@ -8939,6 +11446,7 @@ Organization:
 			<range>126.5623938287899</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3B4DFCBF6136630A8CBC</styleUrl>
 		<styleUrl>#__managed_style_3B4DFCBF6136630A8CBC</styleUrl>
 		<Point>
 			<coordinates>139.0321660310776,35.09307748062995,661.4156350500045</coordinates>
@@ -8957,6 +11465,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0AF605936A36630A8C7E</styleUrl>
+		<styleUrl>#__managed_style_0AF605936A36630A8C7E</styleUrl>
 		<Point>
 			<coordinates>139.0149716798579,35.10155710883598,235.4455529332054</coordinates>
 		</Point>
@@ -8973,6 +11482,7 @@ Organization:
 			<range>167.9037794884243</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_0AF605936A36630A8C7E</styleUrl>
 		<styleUrl>#__managed_style_0AF605936A36630A8C7E</styleUrl>
 		<Point>
 			<coordinates>139.0142148946795,35.10157942939286,237.3841544087096</coordinates>
@@ -8991,6 +11501,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_031911166C36630A8CBD</styleUrl>
+		<styleUrl>#__managed_style_031911166C36630A8CBD</styleUrl>
 		<Point>
 			<coordinates>139.1345014132303,35.36130154083897,484.6775153648756</coordinates>
 		</Point>
@@ -9007,6 +11518,7 @@ Organization:
 			<range>134.3403905659397</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3BABE27B5836630A8CBD</styleUrl>
 		<styleUrl>#__managed_style_3BABE27B5836630A8CBD</styleUrl>
 		<Point>
 			<coordinates>139.1280270664948,35.34788044748269,53.23711704311323</coordinates>
@@ -9025,6 +11537,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_38B85CACCD36630A8C7F</styleUrl>
+		<styleUrl>#__managed_style_38B85CACCD36630A8C7F</styleUrl>
 		<Point>
 			<coordinates>139.2047732919962,35.42694927212421,788.8098974583078</coordinates>
 		</Point>
@@ -9041,6 +11554,7 @@ Organization:
 			<range>243.9379289545469</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_38B85CACCD36630A8C7F</styleUrl>
 		<styleUrl>#__managed_style_38B85CACCD36630A8C7F</styleUrl>
 		<Point>
 			<coordinates>139.1984389841862,35.42779596243184,849.212008149806</coordinates>
@@ -9059,6 +11573,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_1549C5D9F036630A8CBE</styleUrl>
+		<styleUrl>#__managed_style_1549C5D9F036630A8CBE</styleUrl>
 		<Point>
 			<coordinates>139.1954358486487,35.43149588393101,1069.442814468214</coordinates>
 		</Point>
@@ -9075,6 +11590,7 @@ Organization:
 			<range>11824.5607372059</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_04ED0D374336630A8C80</styleUrl>
 		<styleUrl>#__managed_style_04ED0D374336630A8C80</styleUrl>
 		<Point>
 			<coordinates>139.1913933864821,35.39673522653075,228.6610371751224</coordinates>
@@ -9093,6 +11609,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_04ED0D374336630A8C80</styleUrl>
+		<styleUrl>#__managed_style_04ED0D374336630A8C80</styleUrl>
 		<Point>
 			<coordinates>139.1910251683288,35.39752699307972,199.9940284249108</coordinates>
 		</Point>
@@ -9109,6 +11626,7 @@ Organization:
 			<range>166.6393023777528</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_04ED0D374336630A8C80</styleUrl>
 		<styleUrl>#__managed_style_04ED0D374336630A8C80</styleUrl>
 		<Point>
 			<coordinates>139.1992272108443,35.41117157807513,275.2114964688667</coordinates>
@@ -9127,6 +11645,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_04ED0D374336630A8C80</styleUrl>
+		<styleUrl>#__managed_style_04ED0D374336630A8C80</styleUrl>
 		<Point>
 			<coordinates>139.1938435029023,35.40731670857414,237.9896456112095</coordinates>
 		</Point>
@@ -9143,6 +11662,7 @@ Organization:
 			<range>670.771731468194</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_05F29BBFCB36630A8C73</styleUrl>
 		<styleUrl>#__managed_style_05F29BBFCB36630A8C73</styleUrl>
 		<Point>
 			<coordinates>140.1611288015399,36.26097618131853,59.21997979019169</coordinates>
@@ -9161,6 +11681,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_109C84C51836630A8C72</styleUrl>
+		<styleUrl>#__managed_style_109C84C51836630A8C72</styleUrl>
 		<Point>
 			<coordinates>140.1667330097604,36.26542232522264,42.15785011010284</coordinates>
 		</Point>
@@ -9177,6 +11698,7 @@ Organization:
 			<range>336.410779177786</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3D74A1031036630A8C74</styleUrl>
 		<styleUrl>#__managed_style_3D74A1031036630A8C74</styleUrl>
 		<Point>
 			<coordinates>140.160804762786,36.16721343353714,70.69518851285841</coordinates>
@@ -9195,6 +11717,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0140F20F3D36630A8CBF</styleUrl>
+		<styleUrl>#__managed_style_0140F20F3D36630A8CBF</styleUrl>
 		<Point>
 			<coordinates>140.1541905124263,36.17298770194147,355.2676329026455</coordinates>
 		</Point>
@@ -9211,6 +11734,7 @@ Organization:
 			<range>124.1795975490095</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_336D78D48B36630A8CC0</styleUrl>
 		<styleUrl>#__managed_style_336D78D48B36630A8CC0</styleUrl>
 		<Point>
 			<coordinates>137.880722415395,35.840284070451,1316.69256381174</coordinates>
@@ -9229,6 +11753,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_4A8E4888BA36630A8C81</styleUrl>
+		<styleUrl>#__managed_style_4A8E4888BA36630A8C81</styleUrl>
 		<Point>
 			<coordinates>137.899926605668,35.85281956858921,882.4561281888915</coordinates>
 		</Point>
@@ -9245,6 +11770,7 @@ Organization:
 			<range>415.9209079862921</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_4A8E4888BA36630A8C81</styleUrl>
 		<styleUrl>#__managed_style_4A8E4888BA36630A8C81</styleUrl>
 		<Point>
 			<coordinates>137.9243858565053,35.84175703762522,773.4927591384868</coordinates>
@@ -9263,6 +11789,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_4A8E4888BA36630A8C81</styleUrl>
+		<styleUrl>#__managed_style_4A8E4888BA36630A8C81</styleUrl>
 		<Point>
 			<coordinates>137.9212573265072,35.84242072680441,784.6297236381456</coordinates>
 		</Point>
@@ -9279,6 +11806,7 @@ Organization:
 			<range>229.5737276393265</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_4A8E4888BA36630A8C81</styleUrl>
 		<styleUrl>#__managed_style_4A8E4888BA36630A8C81</styleUrl>
 		<Point>
 			<coordinates>137.8979032869088,35.85030368988134,895.7967708295838</coordinates>
@@ -9297,6 +11825,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_07A97203E436630A8CC1</styleUrl>
+		<styleUrl>#__managed_style_07A97203E436630A8CC1</styleUrl>
 		<Point>
 			<coordinates>138.096604390028,36.37621896139449,1045.986806618163</coordinates>
 		</Point>
@@ -9313,6 +11842,7 @@ Organization:
 			<range>134.0807203315126</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3FF2F5097336630A8CC1</styleUrl>
 		<styleUrl>#__managed_style_3FF2F5097336630A8CC1</styleUrl>
 		<Point>
 			<coordinates>138.1182863344783,36.37335740627229,581.641068889532</coordinates>
@@ -9331,6 +11861,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_009EA3D7FD36630A8CC2</styleUrl>
+		<styleUrl>#__managed_style_009EA3D7FD36630A8CC2</styleUrl>
 		<Point>
 			<coordinates>138.4957354941906,37.21758505616096,632.5541605811562</coordinates>
 		</Point>
@@ -9347,6 +11878,7 @@ Organization:
 			<range>85.44605686453906</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3411E29D9836630A8CC2</styleUrl>
 		<styleUrl>#__managed_style_3411E29D9836630A8CC2</styleUrl>
 		<Point>
 			<coordinates>138.483063215544,37.21198494990409,248.9380720844875</coordinates>
@@ -9365,6 +11897,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0066830E9E36630A8CC3</styleUrl>
+		<styleUrl>#__managed_style_0066830E9E36630A8CC3</styleUrl>
 		<Point>
 			<coordinates>138.8648412469641,35.48043988499897,1343.883485106503</coordinates>
 		</Point>
@@ -9381,6 +11914,7 @@ Organization:
 			<range>109.8769095824901</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_33CDB22B7736630A8CC3</styleUrl>
 		<styleUrl>#__managed_style_33CDB22B7736630A8CC3</styleUrl>
 		<Point>
 			<coordinates>138.8637559149137,35.46449371956349,970.7285374279793</coordinates>
@@ -9399,6 +11933,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0694A1096436630A8CC4</styleUrl>
+		<styleUrl>#__managed_style_0694A1096436630A8CC4</styleUrl>
 		<Point>
 			<coordinates>139.0029651322828,37.21307647437045,571.4772509836881</coordinates>
 		</Point>
@@ -9415,6 +11950,7 @@ Organization:
 			<range>164.3266299248353</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_35C895394A36630A8CC4</styleUrl>
 		<styleUrl>#__managed_style_35C895394A36630A8CC4</styleUrl>
 		<Point>
 			<coordinates>138.9840149499216,37.22214427425618,121.7211526631937</coordinates>
@@ -9433,6 +11969,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_00223B7DBD36630A8CC5</styleUrl>
+		<styleUrl>#__managed_style_00223B7DBD36630A8CC5</styleUrl>
 		<Point>
 			<coordinates>139.0275701729795,36.68897770949975,925.0928645556527</coordinates>
 		</Point>
@@ -9449,6 +11986,7 @@ Organization:
 			<range>167.5271087324291</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_39C492323936630A8CC5</styleUrl>
 		<styleUrl>#__managed_style_39C492323936630A8CC5</styleUrl>
 		<Point>
 			<coordinates>139.0180472821266,36.68242790928937,508.307897473149</coordinates>
@@ -9467,6 +12005,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_05986F4DA236630A8CC6</styleUrl>
+		<styleUrl>#__managed_style_05986F4DA236630A8CC6</styleUrl>
 		<Point>
 			<coordinates>138.9588390213098,36.6928923345063,766.2629347102717</coordinates>
 		</Point>
@@ -9483,6 +12022,7 @@ Organization:
 			<range>114.9798868671314</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_32B4C0FEA836630A8CC6</styleUrl>
 		<styleUrl>#__managed_style_32B4C0FEA836630A8CC6</styleUrl>
 		<Point>
 			<coordinates>138.9557592373494,36.68430186751251,452.915596404978</coordinates>
@@ -9501,6 +12041,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_08E4014A0D36630A8CC7</styleUrl>
+		<styleUrl>#__managed_style_08E4014A0D36630A8CC7</styleUrl>
 		<Point>
 			<coordinates>138.8772697814035,36.42159273194042,770.6476145449059</coordinates>
 		</Point>
@@ -9517,6 +12058,7 @@ Organization:
 			<range>225.576796984933</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_3BDDCD7A4636630A8CC7</styleUrl>
 		<styleUrl>#__managed_style_3BDDCD7A4636630A8CC7</styleUrl>
 		<Point>
 			<coordinates>138.8722270884978,36.41307315347196,466.7524231136711</coordinates>
@@ -9535,6 +12077,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0D4A9807C036630A8CC8</styleUrl>
+		<styleUrl>#__managed_style_0D4A9807C036630A8CC8</styleUrl>
 		<Point>
 			<coordinates>138.7606934448508,36.27945037106223,567.4567166873499</coordinates>
 		</Point>
@@ -9551,6 +12094,7 @@ Organization:
 			<range>227.1483772871215</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_38587BB34736630A8CC8</styleUrl>
 		<styleUrl>#__managed_style_38587BB34736630A8CC8</styleUrl>
 		<Point>
 			<coordinates>138.7651190426826,36.28124042705129,410.1109601800998</coordinates>
@@ -9569,6 +12113,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_0001762C1236630A8CC9</styleUrl>
+		<styleUrl>#__managed_style_0001762C1236630A8CC9</styleUrl>
 		<Point>
 			<coordinates>139.1127618491841,36.13904682597462,505.480194792655</coordinates>
 		</Point>
@@ -9585,6 +12130,7 @@ Organization:
 			<range>106.091092091865</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_39E0C7413236630A8CC9</styleUrl>
 		<styleUrl>#__managed_style_39E0C7413236630A8CC9</styleUrl>
 		<Point>
 			<coordinates>139.1240099522444,36.13016177396299,125.7378753874731</coordinates>
@@ -9603,6 +12149,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_055938DA1236630A8C89</styleUrl>
+		<styleUrl>#__managed_style_055938DA1236630A8C89</styleUrl>
 		<Point>
 			<coordinates>139.1863925332591,35.99441813375385,699.7878325113869</coordinates>
 		</Point>
@@ -9619,6 +12166,7 @@ Organization:
 			<range>291.1764723408851</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_055938DA1236630A8C89</styleUrl>
 		<styleUrl>#__managed_style_055938DA1236630A8C89</styleUrl>
 		<Point>
 			<coordinates>139.1868493800101,35.99767046643804,816.4439273337204</coordinates>
@@ -9637,6 +12185,7 @@ Organization:
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
 		<styleUrl>#__managed_style_66D24CB50236630A8CC9</styleUrl>
+		<styleUrl>#__managed_style_66D24CB50236630A8CC9</styleUrl>
 		<Point>
 			<coordinates>139.1701756539546,35.9850130001243,891.230753886823</coordinates>
 		</Point>
@@ -9653,6 +12202,7 @@ Organization:
 			<range>188.8840149520911</range>
 			<altitudeMode>absolute</altitudeMode>
 		</LookAt>
+		<styleUrl>#__managed_style_1F32AFDC1936630A8CCA</styleUrl>
 		<styleUrl>#__managed_style_1F32AFDC1936630A8CCA</styleUrl>
 		<Point>
 			<coordinates>139.1861434064958,35.99053629751048,520.9746069401542</coordinates>
