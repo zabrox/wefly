@@ -31,11 +31,15 @@ function importCSV(filePath, collectionName, key) {
     });
 }
 
+function getKey(takeoffLanding) {
+    return `${takeoffLanding.name}_${takeoffLanding.longitude}_${takeoffLanding.latitude}`;
+}
+
 async function registerTakeoff(takeoffs) {
     for (const takeoff of takeoffs) {
         try {
             const data = classToPlain(takeoff);
-            await db.collection("takeoffs").doc(takeoff.name).set(data);
+            await db.collection("takeoffs").doc(getKey(takeoff)).set(data);
             console.log('Takeoff registered:', takeoff.name);
         } catch (err) {
             console.error('Error registering takeoff:', takeoff.name, err);
@@ -46,7 +50,7 @@ async function registerLanding(landings) {
     for (const landing of landings) {
         try {
             const data = classToPlain(landing);
-            await db.collection("landings").doc(landing.name).set(data);
+            await db.collection("landings").doc(getKey(landing)).set(data);
             console.log('Landing registered:', landing.name);
         } catch (err) {
             console.error('Error registering landing:', landing.name, err);
