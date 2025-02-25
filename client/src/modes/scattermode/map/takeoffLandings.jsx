@@ -15,6 +15,10 @@ const landingId = (landing) => {
 const displayTakeoff = (takeoff) => {
     const id = takeoffId(takeoff);
 
+    if (CesiumMap.viewer.entities.getById(id)) {
+        return;
+    }
+
     CesiumMap.viewer.entities.add({
         id: id,
         type: 'takeoff',
@@ -35,6 +39,10 @@ const displayTakeoff = (takeoff) => {
 
 const displayLanding = (landing) => {
     const id = landingId(landing);
+
+    if (CesiumMap.viewer.entities.getById(id)) {
+        return;
+    }
 
     CesiumMap.viewer.entities.add({
         id: id,
