@@ -1,6 +1,5 @@
 const request = require('supertest');
 const { app } = require('./server');
-const Firestore = require('@google-cloud/firestore');
 const { Takeoff } = require('./entity/takeoff');
 const { Landing } = require('./entity/landing');
 

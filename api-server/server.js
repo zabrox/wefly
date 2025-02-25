@@ -17,8 +17,10 @@ registerPilotIconEndpoint(app)
 registerTakeoffLandingEndpoint(app)
 registerOrganizationEndpoint(app)
 
-app.listen(port, () => {
-  console.log(`WeFly API server listening on port ${port}`)
-})
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`WeFly API server listening on port ${port}`)
+  })
+}
 
 module.exports = { app };
