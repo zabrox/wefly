@@ -11,7 +11,6 @@ const loadTakeoffLanding = async (setScatterState) => {
         const takeoffs = response.data.takeoffs.map(takeoff => {
             return new Takeoff(
                 takeoff.name,
-                takeoff.area,
                 takeoff.organization,
                 parseFloat(takeoff.longitude),
                 parseFloat(takeoff.latitude),
@@ -22,7 +21,6 @@ const loadTakeoffLanding = async (setScatterState) => {
         const landings = response.data.landings.map(landing => {
             return new Landing(
                 landing.name,
-                landing.area,
                 landing.organization,
                 parseFloat(landing.longitude),
                 parseFloat(landing.latitude),

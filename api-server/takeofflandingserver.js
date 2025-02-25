@@ -30,7 +30,7 @@ const getLandings = async () => {
     const landingSnapshot = await landingCollectionRef.get()
     const landings = [];
     for (const doc of landingSnapshot.docs) {
-        landings.push(new Takeoff(
+        landings.push(new Landing(
             doc.get('name'),
             doc.get('organization'),
             doc.get('longitude'),

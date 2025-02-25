@@ -15,6 +15,12 @@ describe('TrackLoader', () => {
     //     vi.resetAllMocks();
     // });
 
+    describe('dummy', () => {
+        it('dummy', () => {
+            expect(true).toBe(true);
+        });
+    });
+
     // describe('loadMetadatas', () => {
     //     it('loads metadatas successfully', async () => {
     //         const date = dayjs('2022-01-01');

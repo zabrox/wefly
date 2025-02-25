@@ -34,7 +34,7 @@ export const TakeoffLandingOverlay = ({ scatterState }) => {
                 subheader={
                     <Box>
                         <Box id='takeoff-landing-info-wrapprer' style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', paddingBottom: '5px' }}>
-                            {selectedTakeoffLanding.organization !== undefined &&
+                            {selectedTakeoffLanding.organization !== "" &&
                                 <Typography variant='body2' color='text.secondary' class='takeoff-landing-info'>
                                     <HomeOutlinedIcon /> {selectedTakeoffLanding.organization}
                                 </Typography>
