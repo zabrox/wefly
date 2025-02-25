@@ -1,7 +1,7 @@
 const dayjs = require('dayjs');
 const zlib = require('zlib');
 const util = require('util');
-const { Track } = require('./common/track.js');
+const { Track } = require('./entity/track.js');
 const { MetadataPerpetuator } = require('./metadataperpetuator.js');
 const { PathPerpetuator } = require('./pathperpetuator.js');
 const { SearchCondition } = require('./searchcondition.js');
@@ -99,12 +99,12 @@ const getPath = async (req, res) => {
         return;
     }
     const trackids = req.query.trackids.split(',');
-    const ret = await fetchPath(trackids);
-    if (Object.keys(ret).length === 0) {
+    const paths = await fetchPath(trackids);
+    if (Object.keys(paths).length === 0) {
         res.status(404).send('No paths found.');
         return;
     }
-    const jsonString = JSON.stringify(ret);
+    const jsonString = JSON.stringify(paths);
     const buffer = await gzip(jsonString);
     res.header('Content-Encoding', 'gzip');
     res.header('Content-Type', 'application/json');
