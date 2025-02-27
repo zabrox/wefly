@@ -37,7 +37,7 @@ const addTrackPointMarginEntity = (track, index, cartesian) => {
         name: track.metadata.pilotname,
         point: {
             pixelSize: 10,
-            color: trackColor(track).withAlpha(0.05),
+            color: trackColor(track).withAlpha(0.00),
             scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
         },
     });
