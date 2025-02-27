@@ -21,7 +21,7 @@ const addTrackPointEntity = (track, index, cartesian) => {
         position: cartesian,
         name: track.metadata.pilotname,
         point: {
-            pixelSize: 2,
+            pixelSize: 3,
             color: trackColor(track).withAlpha(0.6),
             scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
         },
