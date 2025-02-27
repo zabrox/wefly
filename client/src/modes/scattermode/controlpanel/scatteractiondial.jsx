@@ -22,7 +22,7 @@ export const ScatterActionDial = ({ state, setState, scatterState }) => {
 
     const handlePlaybackInPerspective = React.useCallback(() => {
         handlePlayback(scatterState.tracksInPerspective, '視野内に再生可能なトラックがありません');
-    }, [state]);
+    }, [state, scatterState.tracksInPerspective]);
 
     return (
         <Box>
