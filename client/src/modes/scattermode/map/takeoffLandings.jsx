@@ -76,6 +76,8 @@ const registerEventHandlerOnTakeoffLandingClick = (scatterState, setScatterState
                 takeoffLanding = scatterState.takeoffs.find(takeoff => takeoff.name === entity.name);
             } else if (entity.type === 'landing') {
                 takeoffLanding = scatterState.landings.find(landing => landing.name === entity.name);
+            } else {
+                return;
             }
             setScatterState(state => ({
                 ...state,

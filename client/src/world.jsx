@@ -11,6 +11,20 @@ import { SCATTER_MODE } from "./modes/mode";
 import "./world.css";
 import "./modes/scattermode/advancedsearch/locationpickdialog"
 
+const useDisablePinchZoomEffect = () => {
+    React.useEffect(() => {
+        const disablePinchZoom = (e) => {
+            if (e.touches.length > 1) {
+                e.preventDefault()
+            }
+        }
+        document.addEventListener("touchmove", disablePinchZoom, { passive: false })
+        return () => {
+            document.removeEventListener("touchmove", disablePinchZoom)
+        }
+    }, [])
+}
+
 const World = () => {
     const defaultControlPanelSize = judgeMedia().isPc ?
         document.documentElement.clientWidth * 0.3 : document.documentElement.clientWidth;
@@ -23,6 +37,9 @@ const World = () => {
         actionTargetTracks: [],
         errorMessage: '',
     });
+
+    useDisablePinchZoomEffect();
+
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <ColorTheme>
