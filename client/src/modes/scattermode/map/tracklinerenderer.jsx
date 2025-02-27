@@ -38,7 +38,7 @@ const addTrackLineMarginEntity = (track, color, cartesians) => {
         polyline: {
             positions: cartesians,
             width: 20,
-            material: color.withAlpha(0.001),
+            material: color.withAlpha(0.01),
         },
         show: false,
     })

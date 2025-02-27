@@ -37,7 +37,7 @@ const addTrackPointMarginEntity = (track, index, cartesian) => {
         name: track.metadata.pilotname,
         point: {
             pixelSize: 10,
-            color: trackColor(track).withAlpha(0.05),
+            color: trackColor(track).withAlpha(0.00),
             scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
         },
     });
@@ -73,9 +73,11 @@ export const renderTrackPoints = (track, selectedTracks, selectedTrackGroups, is
         return;
     }
     for (let i = 0; i < track.path.points.length; i++) {
-        const entity = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, i));
-        if (entity !== undefined && entity.show != trackpointShow) {
-            entity.show = trackpointShow;
+        const pointEntity = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, i));
+        if (pointEntity !== undefined && pointEntity.show != trackpointShow) {
+            pointEntity.show = trackpointShow;
+            const marginEntity = CesiumMap.viewer.entities.getById(trackPointMarginEntitiyId(track, i));
+            marginEntity.show = trackpointShow;
         }
     }
 }
