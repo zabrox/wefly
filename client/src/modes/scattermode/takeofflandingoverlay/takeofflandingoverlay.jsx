@@ -35,15 +35,15 @@ export const TakeoffLandingOverlay = ({ scatterState }) => {
                     <Box>
                         <Box id='takeoff-landing-info-wrapprer' style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', paddingBottom: '5px' }}>
                             {selectedTakeoffLanding.organization !== "" &&
-                                <Typography variant='body2' color='text.secondary' class='takeoff-landing-info'>
+                                <Typography variant='body2' color='text.secondary' className='takeoff-landing-info'>
                                     <HomeOutlinedIcon /> {selectedTakeoffLanding.organization}
                                 </Typography>
                             }
-                            <Typography variant='body2' color='text.secondary'  class='takeoff-landing-info'>
+                            <Typography variant='body2' color='text.secondary'  className='takeoff-landing-info'>
                                 <LandscapeOutlinedIcon /> {selectedTakeoffLanding.altitude}m
                             </Typography>
                             {selectedTakeoffLanding.direction !== undefined &&
-                                <Typography variant='body2' color='text.secondary' class='takeoff-landing-info'>
+                                <Typography variant='body2' color='text.secondary' className='takeoff-landing-info'>
                                     <ExploreOutlinedIcon /> {selectedTakeoffLanding.direction}
                                 </Typography>
                             }
