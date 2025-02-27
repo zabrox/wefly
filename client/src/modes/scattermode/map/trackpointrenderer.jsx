@@ -9,6 +9,40 @@ let clickHandler = undefined;
 const trackPointEntitiyId = (track, index) => {
     return `trackpoint-${track.getId()}-${index}`;
 }
+const trackPointMarginEntitiyId = (track, index) => {
+    return `trackpointmargin-${track.getId()}-${index}`;
+}
+
+const addTrackPointEntity = (track, index, cartesian) => {
+    return CesiumMap.viewer.entities.add({
+        id: trackPointEntitiyId(track, index),
+        type: 'trackpoint',
+        trackid: track.getId(),
+        position: cartesian,
+        name: track.metadata.pilotname,
+        point: {
+            pixelSize: 2,
+            color: trackColor(track).withAlpha(0.6),
+            scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
+        },
+    });
+};
+
+const addTrackPointMarginEntity = (track, index, cartesian) => {
+    return CesiumMap.viewer.entities.add({
+        id: trackPointMarginEntitiyId(track, index),
+        type: 'trackpoint',
+        trackid: track.getId(),
+        position: cartesian,
+        name: track.metadata.pilotname,
+        point: {
+            pixelSize: 10,
+            color: trackColor(track).withAlpha(0.05),
+            scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
+        },
+    });
+};
+
 const initializeTrackPointEntities = (track) => {
     let lastPoint = track.path.times[0];
     const cartesians = track.path.points.map((point) => Cesium.Cartesian3.fromDegrees(...point));
@@ -17,20 +51,8 @@ const initializeTrackPointEntities = (track) => {
             return;
         }
         lastPoint = track.path.times[index];
-        entities.push(CesiumMap.viewer.entities.add({
-            id: trackPointEntitiyId(track, index),
-            type: 'trackpoint',
-            trackid: track.getId(),
-            position: cartesian,
-            name: track.metadata.pilotname,
-            point: {
-                pixelSize: 4,
-                color: trackColor(track).withAlpha(0.7),
-                outlineColor: Cesium.Color.BLACK.withAlpha(0.5),
-                outlineWidth: 1,
-                scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
-            },
-        }));
+        entities.push(addTrackPointEntity(track, index, cartesian));
+        entities.push(addTrackPointMarginEntity(track, index, cartesian));
     });
 };
 
