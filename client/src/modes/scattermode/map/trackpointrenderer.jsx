@@ -73,9 +73,11 @@ export const renderTrackPoints = (track, selectedTracks, selectedTrackGroups, is
         return;
     }
     for (let i = 0; i < track.path.points.length; i++) {
-        const entity = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, i));
-        if (entity !== undefined && entity.show != trackpointShow) {
-            entity.show = trackpointShow;
+        const pointEntity = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, i));
+        if (pointEntity !== undefined && pointEntity.show != trackpointShow) {
+            pointEntity.show = trackpointShow;
+            const marginEntity = CesiumMap.viewer.entities.getById(trackPointMarginEntitiyId(track, i));
+            marginEntity.show = trackpointShow;
         }
     }
 }
