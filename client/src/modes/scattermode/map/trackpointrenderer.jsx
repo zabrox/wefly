@@ -9,9 +9,6 @@ let clickHandler = undefined;
 const trackPointEntitiyId = (track, index) => {
     return `trackpoint-${track.getId()}-${index}`;
 }
-const trackPointMarginEntitiyId = (track, index) => {
-    return `trackpointmargin-${track.getId()}-${index}`;
-}
 
 const addTrackPointEntity = (track, index, cartesian) => {
     return CesiumMap.viewer.entities.add({
@@ -24,21 +21,8 @@ const addTrackPointEntity = (track, index, cartesian) => {
             pixelSize: 3,
             color: trackColor(track).withAlpha(0.6),
             scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
-        },
-    });
-};
-
-const addTrackPointMarginEntity = (track, index, cartesian) => {
-    return CesiumMap.viewer.entities.add({
-        id: trackPointMarginEntitiyId(track, index),
-        type: 'trackpoint',
-        trackid: track.getId(),
-        position: cartesian,
-        name: track.metadata.pilotname,
-        point: {
-            pixelSize: 10,
-            color: trackColor(track).withAlpha(0.00),
-            scaleByDistance: new Cesium.NearFarScalar(100, 2.5, 100000, 0.5),
+            outlineColor: trackColor(track).darken(0.5, new Cesium.Color()),
+            outlineWidth: 1,
         },
     });
 };
@@ -52,7 +36,6 @@ const initializeTrackPointEntities = (track) => {
         }
         lastPoint = track.path.times[index];
         entities.push(addTrackPointEntity(track, index, cartesian));
-        entities.push(addTrackPointMarginEntity(track, index, cartesian));
     });
 };
 
@@ -76,8 +59,6 @@ export const renderTrackPoints = (track, selectedTracks, selectedTrackGroups, is
         const pointEntity = CesiumMap.viewer.entities.getById(trackPointEntitiyId(track, i));
         if (pointEntity !== undefined && pointEntity.show != trackpointShow) {
             pointEntity.show = trackpointShow;
-            const marginEntity = CesiumMap.viewer.entities.getById(trackPointMarginEntitiyId(track, i));
-            marginEntity.show = trackpointShow;
         }
     }
 }

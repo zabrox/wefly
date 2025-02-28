@@ -8,9 +8,6 @@ let clickHandler = undefined;
 const tracklineEntitiyId = (track) => {
     return `trackline-${track.getId()}`;
 }
-const tracklineMarginEntitiyId = (track) => {
-    return `tracklinemargin-${track.getId()}`;
-}
 
 const addTrackLineEntity = (track, color, cartesians) => {
     return CesiumMap.viewer.entities.add({
@@ -30,25 +27,10 @@ const addTrackLineEntity = (track, color, cartesians) => {
     })
 };
 
-const addTrackLineMarginEntity = (track, color, cartesians) => {
-    return CesiumMap.viewer.entities.add({
-        id: tracklineMarginEntitiyId(track),
-        type: 'trackline',
-        trackid: track.getId(),
-        polyline: {
-            positions: cartesians,
-            width: 20,
-            material: color.withAlpha(0.01),
-        },
-        show: false,
-    })
-};
-
 const initializeTrackLineEntity = (track) => {
     const color = trackColor(track);
     const cartesians = track.path.points.map((point) => Cesium.Cartesian3.fromDegrees(...point));
     entities.push(addTrackLineEntity(track, color, cartesians));
-    entities.push(addTrackLineMarginEntity(track, color, cartesians));
 };
 
 const needToShowTrackLine = (track, selectedTracks, selectedTrackGroups) => {
@@ -64,8 +46,6 @@ export const renderTrackLine = (track, selectedTracks, selectedTrackGroups) => {
     const tracklineShow = needToShowTrackLine(track, selectedTracks, selectedTrackGroups);
     if (lineEntity.show != tracklineShow) {
         lineEntity.show = tracklineShow;
-        const marginEntity = CesiumMap.viewer.entities.getById(tracklineMarginEntitiyId(track));
-        marginEntity.show = tracklineShow;
     }
 }
 
