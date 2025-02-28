@@ -33,6 +33,9 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         const tracksInGroup = copyTracks.filter(track => group.trackIds.includes(track.getId()))
         if (scatterState.selectedTrackGroups.has(group)) {
             CesiumMap.zoomToTracks(tracksInGroup);
+            setScatterState(scatterState => {
+                return { ...scatterState, isTrackPointVisible: true }
+            });
             return;
         }
         setScatterState(scatterState => { return { ...scatterState, loading: true } });
@@ -47,7 +50,14 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
         setState(state => { return { ...state, tracks: copyTracks } });
         const copySelectedTrackGroups = new TrackGroupSelection(scatterState.selectedTrackGroups);
         copySelectedTrackGroups.add(group);
-        setScatterState(state => { return { ...state, selectedTrackGroups: copySelectedTrackGroups, loading: false } });
+        setScatterState(state => {
+            return {
+                ...state,
+                selectedTrackGroups: copySelectedTrackGroups,
+                loading: false,
+                isTrackPointVisible: true
+            }
+        });
         CesiumMap.zoomToTracks(tracksInGroup);
     }, [state, scatterState]);
 
