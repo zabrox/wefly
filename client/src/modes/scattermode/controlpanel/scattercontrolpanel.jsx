@@ -120,7 +120,10 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                     setScatterState={setScatterState} />
                 <Box id='track-menu-container'>
                     <Box id='track-menu'>
-                        <TrackMenu state={state} />
+                        <TrackMenu
+                            state={state}
+                            scatterState={scatterState}
+                            setScatterState={setScatterState} />
                         <IconButton onClick={handleSortIconClick}>
                             <SortIcon />
                         </IconButton>
