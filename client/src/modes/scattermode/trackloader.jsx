@@ -80,7 +80,12 @@ export const loadTracks = async (searchCondition, state, setState, scatterState,
         return { ...state, tracks: [], trackGroups: [] }
     });
     setScatterState(state => {
-        return { ...state, loading: true }
+        return {
+            ...state,
+            tracksInPerspective: [],
+            trackGroupsInPerspective: [],
+            loading: true
+        }
     });
     let tracks = [];
     let trackGroups = [];
@@ -107,6 +112,11 @@ export const loadTracks = async (searchCondition, state, setState, scatterState,
         return { ...state, tracks: tracks, trackGroups: trackGroups, };
     });
     setScatterState(state => {
-        return { ...state, loading: false };
+        return {
+            ...state,
+            tracksInPerspective: tracks,
+            trackGroupsInPerspective: trackGroups,
+            loading: false
+        };
     });
 };
