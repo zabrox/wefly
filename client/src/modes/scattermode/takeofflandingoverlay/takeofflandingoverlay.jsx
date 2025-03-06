@@ -39,8 +39,14 @@ export const TakeoffLandingOverlay = ({ scatterState }) => {
                         <Box id='takeoff-landing-info-wrapprer' style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', paddingBottom: '5px' }}>
                             {organization !== null &&
                                 <Typography variant='body2' color='text.secondary' className='takeoff-landing-info'>
-                                    <img src={"http://www.google.com/s2/favicons?domain=" + homepage} />
-                                    <a href={homepage} target="_blank">{organization}</a>
+                                    {homepage === "" ?
+                                        <HomeOutlinedIcon /> :
+                                        <img src={"http://www.google.com/s2/favicons?domain=" + homepage} />
+                                    }
+                                    {homepage === "" ?
+                                        <Box>{organization}</Box> :
+                                        <a href={homepage} target="_blank">{organization}</a>
+                                    }
                                 </Typography>
                             }
                             <Typography variant='body2' color='text.secondary' className='takeoff-landing-info'>
