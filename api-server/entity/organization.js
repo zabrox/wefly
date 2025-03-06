@@ -2,12 +2,10 @@
 class Organization {
     name = "";
     homepage = "";
-    blog = "";
-    facebook = "";
-    instagram = "";
 
-    constructor(name) {
+    constructor(name, homepage) {
         this.name = name;
+        this.homepage = homepage;
     }
 }
 
