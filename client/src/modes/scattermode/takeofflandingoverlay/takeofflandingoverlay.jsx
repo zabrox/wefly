@@ -17,6 +17,9 @@ export const TakeoffLandingOverlay = ({ scatterState }) => {
         return null;
     }
 
+    const organization = selectedTakeoffLanding.organization;
+    const homepage = scatterState.organizations.find(org => org.name === organization)?.homepage;
+
     return (
         <Card id='takeoff-landing-overlay'>
             <CardHeader sx={{ padding: '10px 10px 10px 10px' }}
@@ -34,12 +37,13 @@ export const TakeoffLandingOverlay = ({ scatterState }) => {
                 subheader={
                     <Box>
                         <Box id='takeoff-landing-info-wrapprer' style={{ display: 'flex', flexWrap: 'wrap', flexDirection: 'row', paddingBottom: '5px' }}>
-                            {selectedTakeoffLanding.organization !== "" &&
+                            {organization !== null &&
                                 <Typography variant='body2' color='text.secondary' className='takeoff-landing-info'>
-                                    <HomeOutlinedIcon /> {selectedTakeoffLanding.organization}
+                                    <img src={"http://www.google.com/s2/favicons?domain=" + homepage} />
+                                    <a href={homepage} target="_blank">{organization}</a>
                                 </Typography>
                             }
-                            <Typography variant='body2' color='text.secondary'  className='takeoff-landing-info'>
+                            <Typography variant='body2' color='text.secondary' className='takeoff-landing-info'>
                                 <LandscapeOutlinedIcon /> {selectedTakeoffLanding.altitude}m
                             </Typography>
                             {selectedTakeoffLanding.direction !== undefined &&
