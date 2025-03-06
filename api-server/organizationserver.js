@@ -4,24 +4,20 @@ const { Organization } = require('./entity/organization.js');
 const db = new Firestore({
     porjectId: 'wefly-407313',
 });
-const takeoffLandingCollectionName = "organization";
+const organizationCollectionName = "organizations";
 
 const getOrganization = async (req, res) => {
     try {
         res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
         res.header('Access-Control-Allow-Methods', 'GET');
-        const collectionRef = await db.collection(takeoffLandingCollectionName);
+        const collectionRef = await db.collection(organizationCollectionName);
         const snapshot = await collectionRef.get()
         const organizations = [];
         for (const doc of snapshot.docs) {
             const organization = new Organization(
-                doc.get('organization'),
+                doc.get('name'),
+                doc.get(' homepage')
             );
-            organization.name = doc.get('organization');
-            organization.homepage = doc.get('HP');
-            organization.blog = doc.get('Blog');
-            organization.facebook = doc.get('Facebook');
-            organization.instagram = doc.get('Instagram');
             organizations.push(organization);
         }
         res.json({ 'organizations': organizations });
@@ -32,7 +28,7 @@ const getOrganization = async (req, res) => {
 };
 
 const registerOrganizationEndpoint = (app) => {
-    app.get('/api/organization', async (req, res) => {
+    app.get('/api/organizations', async (req, res) => {
         getOrganization(req, res);
     });
 };

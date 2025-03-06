@@ -19,5 +19,5 @@
 .takeoff-landing-info {
     display: flex;
     align-items: center;
-    margin: 0px 5px 3px 0px;
+    padding: 0px 5px 6px 0px;
 }
