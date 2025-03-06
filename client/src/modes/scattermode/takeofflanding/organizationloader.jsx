@@ -3,7 +3,7 @@ import { Organization } from '../../../entities/organization.js';
 
 const loadOrganizations = async (setScatterState) => {
     console.log(`loadOrganizations`);
-    const url = `${import.meta.env.VITE_API_URL}api/organization`;
+    const url = `${import.meta.env.VITE_API_URL}api/organizations`;
     let response = undefined;
     try {
         response = await axios({ method: "get", url: url, responseType: "json" });
@@ -11,9 +11,6 @@ const loadOrganizations = async (setScatterState) => {
             const organization = new Organization();
             organization.name = org.name;
             organization.homepage = org.homepage;
-            organization.blog = org.blog;
-            organization.facebook = org.facebook;
-            organization.instagram = org.instagram;
             return organization;
         });
         setScatterState(state => {

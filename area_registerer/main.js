@@ -9,28 +9,6 @@ const db = new Firestore({
     porjectId: 'wefly-407313',
 });
 
-// Function to import a CSV file into a specified Firestore collection
-function importCSV(filePath, collectionName, key) {
-    return new Promise((resolve, reject) => {
-        const docs = [];
-        fs.createReadStream(filePath)
-            .pipe(csv())
-            .on('data', (data) => docs.push(data))
-            .on('end', async () => {
-                try {
-                    for (const doc of docs) {
-                        // Use specific field as document key based on collection
-                        await db.collection(collectionName).doc(doc[key]).set(doc);
-                    }
-                    resolve();
-                } catch (err) {
-                    reject(err);
-                }
-            })
-            .on('error', (err) => reject(err));
-    });
-}
-
 function getKey(takeoffLanding) {
     return `${takeoffLanding.name}_${takeoffLanding.longitude}_${takeoffLanding.latitude}`;
 }
@@ -58,10 +36,38 @@ async function registerLanding(landings) {
     }
 }
 
+async function readCSVFile(filePath) {
+    const organizations = [];
+    return new Promise((resolve, reject) => {
+        fs.createReadStream(filePath)
+            .pipe(csv())
+            .on('data', (row) => organizations.push(row))
+            .on('end', () => resolve(organizations))
+            .on('error', (err) => reject(err));
+    });
+}
+
+async function registerOrganizations() {
+    try {
+        const organizations = await readCSVFile('./organization.csv');
+        for (const organization of organizations) {
+            try {
+                await db.collection("organizations").doc(organization.name).set(organization);
+                console.log('Organization registered:', organization.name);
+            } catch (err) {
+                console.error('Error registering organization:', organization.name, err);
+            }
+        }
+    } catch (err) {
+        console.error('Error reading CSV file:', err);
+    }
+}
+
 async function main() {
-    const [takeoffs, landings] = await extractTakeoffLanding('./パラグライダーマップ.kml')
+    const [takeoffs, landings] = await extractTakeoffLanding('./パラグライダーマップ.kml');
     await registerTakeoff(takeoffs);
     await registerLanding(landings);
+    await registerOrganizations();
 }
 
 main();
