@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import * as Cesium from 'cesium';
 import * as CesiumMap from '../../../cesiummap';
 import { trackColor } from '../../../util/trackcolor';
+import { toRenderCartesian } from '../../../util/trackPosition';
 
 const speed = 32;
 const trailTime = 900;
@@ -126,7 +127,7 @@ const createPathEntity = (track) => {
     const positionProperty = pathEntity.position;
     for (let i = 0; i < track.path.points.length; i++) {
         const time = Cesium.JulianDate.fromIso8601(track.path.times[i].format('YYYY-MM-DDTHH:mm:ssZ'));
-        const cartesian = Cesium.Cartesian3.fromDegrees(...track.path.points[i]);
+        const cartesian = toRenderCartesian(track.path.points[i]);
         positionProperty.addSample(time, cartesian);
     };
     return positionProperty;

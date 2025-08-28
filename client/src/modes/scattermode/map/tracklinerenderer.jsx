@@ -1,6 +1,7 @@
 import * as Cesium from 'cesium';
 import * as CesiumMap from "../../../cesiummap";
 import { trackColor } from '../../../util/trackcolor';
+import { toRenderCartesians, toRenderCartesian } from '../../../util/trackPosition';
 
 const entities = [];
 let clickHandler = undefined;
@@ -29,7 +30,7 @@ const addTrackLineEntity = (track, color, cartesians) => {
 
 const initializeTrackLineEntity = (track) => {
     const color = trackColor(track);
-    const cartesians = track.path.points.map((point) => Cesium.Cartesian3.fromDegrees(...point));
+    const cartesians = toRenderCartesians(track.path.points);
     entities.push(addTrackLineEntity(track, color, cartesians));
 };
 
@@ -52,15 +53,15 @@ export const renderTrackLine = (track, selectedTracks, selectedTrackGroups) => {
 const trackLineClick = (entityId, tracks, clickPosition, handleTrackPointClick) => {
     const clickCartesian = CesiumMap.viewer.scene.pickPosition(clickPosition);
     const track = tracks.find(track => track.getId() === entityId.trackid);
-    let minimumDistance = 100000;
+    let minimumDistance = Number.POSITIVE_INFINITY;
     let index = 0;
-    track.path.points.forEach((point, i) => {
-        const distance = Cesium.Cartesian3.distance(Cesium.Cartesian3.fromDegrees(...point), clickCartesian);
-        if (distance < minimumDistance) {
-            minimumDistance = distance;
+    for (let i = 0; i < track.path.points.length; i++) {
+        const d = Cesium.Cartesian3.distance(toRenderCartesian(track.path.points[i]), clickCartesian);
+        if (d < minimumDistance) {
+            minimumDistance = d;
             index = i;
         }
-    })
+    }
     handleTrackPointClick(entityId.trackid, index);
 }
 
