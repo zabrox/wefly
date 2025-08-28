@@ -1,6 +1,7 @@
 import * as Cesium from "cesium";
 import * as CesiumMap from "../../../cesiummap";
 import { trackColor } from '../../../util/trackcolor';
+import { toRenderCartesian } from '../../../util/trackPosition';
 
 const entities = [];
 
@@ -18,7 +19,7 @@ export const renderSelectedTrackPoint = (selectedTrackPoint) => {
     }
     const track = selectedTrackPoint.track;
     const point = track.path.points[selectedTrackPoint.index];
-    const cartesian = Cesium.Cartesian3.fromDegrees(...point);
+    const cartesian = toRenderCartesian(point);
     entities.push(CesiumMap.viewer.entities.add({
         id: 'selectedtrackpoint',
         type: 'selectedtrackpoint',

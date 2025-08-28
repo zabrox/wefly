@@ -1,6 +1,7 @@
 import * as Cesium from 'cesium';
 import * as CesiumMap from "../../../cesiummap";
 import { trackColor } from '../../../util/trackcolor';
+import { toRenderCartesians } from '../../../util/trackPosition';
 
 const POINTS_INTERVAL = 60;
 const entities = [];
@@ -29,7 +30,7 @@ const addTrackPointEntity = (track, index, cartesian) => {
 
 const initializeTrackPointEntities = (track) => {
     let lastPoint = track.path.times[0];
-    const cartesians = track.path.points.map((point) => Cesium.Cartesian3.fromDegrees(...point));
+    const cartesians = toRenderCartesians(track.path.points);
     cartesians.forEach((cartesian, index) => {
         if (index > 0 && track.path.times[index].diff(lastPoint, 'seconds') < POINTS_INTERVAL) {
             return;
