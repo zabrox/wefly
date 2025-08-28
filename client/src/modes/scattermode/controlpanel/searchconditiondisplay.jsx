@@ -104,19 +104,12 @@ export const SearchConditionDisplayImpl = ({
         setShowAdvancedSearchDialog(true);
     });
 
-    const handleTodayIconClick = React.useCallback(() => {
-        const date = dayjs();
-        const copySearchCondition = searchCondition;
-        copySearchCondition.from = date.startOf('day');
-        copySearchCondition.to = date.endOf('day');
-        handleSearchConditionChange(copySearchCondition);
-    });
 
     return (
         <Box id='search-condition-container'>
             {searchCondition.isAdvancedSearchEnabled() ?
                 <AdvancedSearchCondition searchCondition={searchCondition} /> :
-                <DatePicker date={searchCondition.from} handleDateChange={handleDateChange} handleTodayIconClick={handleTodayIconClick} showTodayButton={true} />}
+                <DatePicker date={searchCondition.from} handleDateChange={handleDateChange} />}
             <AddCircleOutlineIcon
                 id='advanced-search'
                 color='primary'
