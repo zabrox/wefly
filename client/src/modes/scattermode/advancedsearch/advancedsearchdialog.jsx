@@ -1,7 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { Dialog, DialogContent, DialogActions, DialogTitle, TextField, Grid, Button, Typography, Box } from '@mui/material';
-import { MobileDatePicker } from '@mui/x-date-pickers';
+import { DatePicker } from '../controlpanel/datepicker';
 import { SearchCondition } from '../searchcondition';
 import InfoIcon from '@mui/icons-material/Info';
 import { ActivitiesSearch } from './activitiessearch';
@@ -66,30 +66,18 @@ export const AdvancedSearchDialog = ({ searchCondition, show, setShow, search })
             <DialogContent id='advanced-search-dialog-content'>
                 <Grid container spacing={2} direction="column">
                     <Grid item>
-                        <MobileDatePicker
-                            slotProps={{
-                                toolbar: {
-                                    toolbarFormat: 'YYYY-MM-DD (ddd)',
-                                    hidden: false,
-                                },
-                            }}
+                        <DatePicker
                             label="From"
-                            value={searchCondition.from}
-                            format="YYYY-MM-DD (ddd)"
-                            onAccept={handleFromDateChange} />
+                            date={searchCondition.from}
+                            handleDateChange={handleFromDateChange}
+                        />
                     </Grid>
                     <Grid item>
-                        <MobileDatePicker
-                            slotProps={{
-                                toolbar: {
-                                    toolbarFormat: 'YYYY-MM-DD (ddd)',
-                                    hidden: false,
-                                },
-                            }}
+                        <DatePicker
                             label="To"
-                            value={searchCondition.to}
-                            format="YYYY-MM-DD (ddd)"
-                            onAccept={handleToDateChange} />
+                            date={searchCondition.to}
+                            handleDateChange={handleToDateChange}
+                        />
                     </Grid>
                     <ActivitiesSearch searchCondition={internalSearchCondition} setSearchCondition={setInternalSearchCondition} />
                     <Grid item>

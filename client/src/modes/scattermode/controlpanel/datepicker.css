@@ -4,10 +4,3 @@
     justify-content: center;
     align-items: center;
 }
-#todayicon {
-    position: absolute;
-    right: 8%;
-    width: 30px;
-    height: 27px;
-    color: rgba(80, 80, 80);
-}

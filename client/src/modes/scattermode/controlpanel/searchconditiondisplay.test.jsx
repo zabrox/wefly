@@ -94,8 +94,6 @@ describe('SearchCondition', () => {
         fireEvent.click(date);
         const targetDate = screen.getByText("1");
         fireEvent.click(targetDate);
-        const okButton = screen.getByText("OK");
-        fireEvent.click(okButton);
 
         expect(loadTracks.mock.calls.length).toBe(1);
         expect(loadTracks).toHaveBeenCalledWith(
