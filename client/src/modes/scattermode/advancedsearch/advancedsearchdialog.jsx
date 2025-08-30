@@ -12,6 +12,10 @@ export const AdvancedSearchDialog = ({ searchCondition, show, setShow, search })
     const [internalSearchCondition, setInternalSearchCondition] = React.useState(new SearchCondition(searchCondition));
     const [showLocationPickDialog, setShowLocationPickDialog] = React.useState(false);
 
+    React.useEffect(() => {
+        setInternalSearchCondition(new SearchCondition(searchCondition));
+    }, [searchCondition, show])
+
     const handleCancelClick = () => {
         setShow(false);
     }
@@ -68,14 +72,14 @@ export const AdvancedSearchDialog = ({ searchCondition, show, setShow, search })
                     <Grid item>
                         <DatePicker
                             label="From"
-                            date={searchCondition.from}
+                            date={internalSearchCondition.from}
                             handleDateChange={handleFromDateChange}
                         />
                     </Grid>
                     <Grid item>
                         <DatePicker
                             label="To"
-                            date={searchCondition.to}
+                            date={internalSearchCondition.to}
                             handleDateChange={handleToDateChange}
                         />
                     </Grid>
@@ -84,28 +88,32 @@ export const AdvancedSearchDialog = ({ searchCondition, show, setShow, search })
                         <TextField
                             label="パイロット名"
                             onChange={handlePilotnameChange}
-                            defaultValue={internalSearchCondition.pilotname} />
+                            value={internalSearchCondition.pilotname}
+                        />
                     </Grid>
                     <Grid item>
                         <TextField
                             label="最高高度≧ (m)"
                             type="number"
                             onChange={handleMaxAltChange}
-                            defaultValue={internalSearchCondition.maxAltitude} />
+                            value={internalSearchCondition.maxAltitude ?? ''}
+                        />
                     </Grid>
                     <Grid item>
                         <TextField
                             label="距離≧ (km)"
                             type="number"
                             onChange={handleDistanceChange}
-                            defaultValue={internalSearchCondition.distance} />
+                            value={internalSearchCondition.distance ?? ''}
+                        />
                     </Grid>
                     <Grid item>
                         <TextField
                             label="飛行時間≧ (分)"
                             type="number"
                             onChange={handleDurationChange}
-                            defaultValue={internalSearchCondition.duration} />
+                            value={internalSearchCondition.duration ?? ''}
+                        />
                     </Grid>
                     <Grid item>
                         <Typography>スタート位置で検索</Typography>

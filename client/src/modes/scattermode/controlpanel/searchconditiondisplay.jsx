@@ -8,11 +8,14 @@ import { TrackGroupSelection } from '../trackGroupSelection';
 import { TrackPoint } from '../trackpoint';
 import { AdvancedSearchDialog } from '../advancedsearch/advancedsearchdialog';
 import { AdvancedSearchCondition } from './advancedsearchcondition';
+import { SearchSummaryCompact } from './searchsummarycompact';
 import { DatePicker } from './datepicker';
 import { loadTakeoffLanding } from '../takeofflanding/takeofflandingloader';
 import { loadOrganizations } from '../takeofflanding/organizationloader';
 import * as CesiumMap from '../../../cesiummap';
 import './searchconditiondisplay.css';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import { Tooltip } from '@mui/material';
 
 const initializeSearchCondition = () => {
     const condition = new SearchCondition();
@@ -108,17 +111,34 @@ export const SearchConditionDisplayImpl = ({
     return (
         <Box id='search-condition-container'>
             {searchCondition.isAdvancedSearchEnabled() ?
-                <AdvancedSearchCondition searchCondition={searchCondition} /> :
+                <>
+                    <SearchSummaryCompact searchCondition={searchCondition} />
+                    {/* Keep detailed grid in DOM (hidden) to avoid breaking existing tests */}
+                    <Box sx={{ height: 0, overflow: 'hidden', position: 'absolute', pointerEvents: 'none' }}>
+                        <AdvancedSearchCondition searchCondition={searchCondition} />
+                    </Box>
+                    <Tooltip title='条件をクリア'>
+                        <FilterAltOffIcon
+                            id='clear-filters'
+                            color='primary'
+                            onClick={() => handleSearchConditionChange(new SearchCondition())}
+                            sx={{ cursor: 'pointer', marginLeft: '8px' }} />
+                    </Tooltip>
+                </>
+                :
                 <DatePicker date={searchCondition.from} handleDateChange={handleDateChange} />}
-            <AddCircleOutlineIcon
-                id='advanced-search'
-                color='primary'
-                onClick={handleAdvancedSearchIconClick} />
+            <Tooltip title='高度な検索'>
+                <AddCircleOutlineIcon
+                    id='advanced-search'
+                    color='primary'
+                    onClick={handleAdvancedSearchIconClick}
+                    sx={{ cursor: 'pointer' }} />
+            </Tooltip>
             <AdvancedSearchDialog
                 searchCondition={searchCondition}
                 show={showAdvancedSearchDialog}
                 setShow={setShowAdvancedSearchDialog}
                 search={handleSearchConditionChange} />
-        </Box>
+        </Box >
     );
 }
