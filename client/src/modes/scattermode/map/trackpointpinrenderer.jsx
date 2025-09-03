@@ -111,8 +111,7 @@ export const renderTrackPointPin = (selectedTrackPoint) => {
 // Draw a pin-shaped icon on a canvas. If pilotImage is provided,
 // it will be clipped inside the circular head of the pin.
 const createPinCanvas = ({ fill, stroke, pilotImage, haloColor }) => {
-    const width = 64;            // Canvas width in px
-    const baseHeadRadius = 35;   // Original head radius (for tail width)
+    const baseHeadRadius = 20;   // Original head radius (for tail width)
     const headScale = 1.5;       // Requested head scale
     const headRadius = baseHeadRadius * headScale; // Scaled head radius
 
@@ -120,10 +119,15 @@ const createPinCanvas = ({ fill, stroke, pilotImage, haloColor }) => {
     const tailDrop = 54;         // Distance from base of tail to tip (keeps tail size constant)
     const haloWidth = 7;         // Halo line width (pre-scale)
     const topMargin = 8;         // Extra top padding to avoid halo clipping
+    const sidePadding = 8;       // Extra side padding to avoid halo clipping
 
     // Compute minimal canvas height so the enlarged head fits with halo
     const minHeight = bottomMargin + tailDrop + headRadius + topMargin;
     const height = Math.ceil(Math.max(96, minHeight));
+
+    // Compute width so enlarged head + halo never clips horizontally
+    const minWidth = (headRadius * 2) + haloWidth + sidePadding;
+    const width = Math.ceil(Math.max(64, minWidth));
 
     const headCX = width / 2;    // Head center X
     const tipX = width / 2;      // Tip X (centered)
@@ -222,13 +226,15 @@ const createPinCanvas = ({ fill, stroke, pilotImage, haloColor }) => {
         ctx.arc(headCX, headCY, clipR, 0, Math.PI * 2);
         ctx.closePath();
         ctx.clip();
-        ctx.drawImage(
-            pilotImage,
-            headCX - clipR,
-            headCY - clipR,
-            imgSize,
-            imgSize
-        );
+        // Draw while preserving aspect ratio (contain inside the circle)
+        const iw = pilotImage.naturalWidth || pilotImage.width;
+        const ih = pilotImage.naturalHeight || pilotImage.height;
+        const scale = Math.min(imgSize / iw, imgSize / ih); // contain
+        const drawW = iw * scale;
+        const drawH = ih * scale;
+        const dx = headCX - drawW / 2;
+        const dy = headCY - drawH / 2;
+        ctx.drawImage(pilotImage, dx, dy, drawW, drawH);
         ctx.restore();
 
         // Add subtle ring over the image
