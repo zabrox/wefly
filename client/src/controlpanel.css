@@ -16,5 +16,8 @@
     display: flex;
     flex-direction: column;
     pointer-events: all;
+    overflow: hidden;
+    min-width: 0;
+    transition: width 500ms ease-in-out;
+    will-change: width;
 }
-
