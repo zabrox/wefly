@@ -7,7 +7,10 @@ export const ControlPanel = ({ state, setState, children }) => {
     return (
         <div id='control-panel-wrapper'>
             <div id='control-panel'
-                style={state.isControlPanelOpen ? { width: state.controlPanelSize, height: '100%', } : { display: 'none' }}>
+                aria-hidden={!state.isControlPanelOpen}
+                style={state.isControlPanelOpen
+                    ? { width: state.controlPanelSize, height: '100%' }
+                    : { width: 0, height: '100%', pointerEvents: 'none' }}>
                 <WeflyAppBar />
                 {children}
             </div>
