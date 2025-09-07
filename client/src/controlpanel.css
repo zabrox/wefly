@@ -18,6 +18,6 @@
     pointer-events: all;
     overflow: hidden;
     min-width: 0;
-    transition: width 500ms ease-in-out;
+    transition: width 250ms ease-in-out;
     will-change: width;
 }

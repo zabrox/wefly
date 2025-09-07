@@ -6,10 +6,12 @@ import { describe, it, expect, vi } from 'vitest';
 
 describe('ScatterMapMenu', () => {
     it('opens and closes the menu', () => {
-        const scatterState = { isTrackPointVisible: false };
+        const scatterState = { isTrackPointVisible: false, selectedTracks: new Set(), tracksInPerspective: [] };
         const setScatterState = vi.fn();
+        const state = { tracks: [] };
+        const setState = vi.fn();
 
-        render(<ScatterMapMenu scatterState={scatterState} setScatterState={setScatterState} />);
+        render(<ScatterMapMenu state={state} setState={setState} scatterState={scatterState} setScatterState={setScatterState} />);
 
         const button = screen.getByRole('button', { name: /more/i });
         fireEvent.click(button);
@@ -18,7 +20,7 @@ describe('ScatterMapMenu', () => {
         expect(menu).toBeInTheDocument();
 
         const menuitems = screen.getAllByRole('menuitem');
-        expect(menuitems).toHaveLength(2);
+        expect(menuitems).toHaveLength(5);
         menuitems.forEach((menuitem) => {
             expect(menuitem).toBeInTheDocument();
         });

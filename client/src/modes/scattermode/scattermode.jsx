@@ -34,7 +34,7 @@ export const ScatterMode = ({ state, setState }) => {
     return (
         <div>
             <TimelineOverlay scatterState={scatterState} setScatterState={setScatterState} />
-            <ScatterMapMenu scatterState={scatterState} setScatterState={setScatterState} />
+            <ScatterMapMenu state={state} setState={setState} scatterState={scatterState} setScatterState={setScatterState} />
             <TrackPointStatsOverlay scatterState={scatterState} setScatterState={setScatterState} />
             <TakeoffLandingOverlay scatterState={scatterState} />
             <ControlPanel state={state} setState={setState}>
