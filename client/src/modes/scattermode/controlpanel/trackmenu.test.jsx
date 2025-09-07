@@ -1,13 +1,10 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { TrackMenu } from "./trackmenu";
-import { zoomToTrackGroups } from "../../../cesiummap";
 import { TrackPoint } from "../trackpoint";
 
 // モック関数の作成
-vi.mock("../../../cesiummap", () => ({
-    zoomToTrackGroups: vi.fn(),
-}));
+vi.mock("../../../cesiummap", () => ({}));
 
 describe("TrackMenu コンポーネント", () => {
     const mockState = { trackGroups: [{ id: 1 }, { id: 2 }] };
@@ -22,26 +19,15 @@ describe("TrackMenu コンポーネント", () => {
     it("メニューがクリックで表示される", () => {
         const result = render(<TrackMenu state={mockState} scatterState={mockScatterState} setScatterState={mockSetScatterState} />);
 
-        // メニューが非表示であることを確認
-        expect(screen.queryByText("全トラックを俯瞰") == null)
+        // メニューが非表示であることを確認（全選択解除がまだない）
+        expect(screen.queryByText("全選択解除") == null)
 
         // アイコンボタンをクリック
         const iconButton = document.getElementById("track-menu");
         fireEvent.click(iconButton);
 
         // メニューが表示されることを確認
-        expect(screen.getByText("全トラックを俯瞰"))
-    });
-
-    it("メニュー項目をクリックするとズーム関数が呼ばれる", () => {
-        render(<TrackMenu state={mockState} scatterState={mockScatterState} setScatterState={mockSetScatterState} />);
-        const iconButton = document.getElementById("track-menu");
-        fireEvent.click(iconButton);
-
-        const menuItem = screen.getByText("全トラックを俯瞰");
-        fireEvent.click(menuItem);
-
-        expect(zoomToTrackGroups).toHaveBeenCalledWith(mockState.trackGroups);
+        screen.getByText("全選択解除");
     });
 
     it("メニュー項目をクリックするとメニューが閉じる", () => {
@@ -49,11 +35,11 @@ describe("TrackMenu コンポーネント", () => {
         const iconButton = document.getElementById("track-menu");
         fireEvent.click(iconButton);
 
-        const menuItem = screen.getByText("全トラックを俯瞰");
+        const menuItem = screen.getByText("全選択解除");
         fireEvent.click(menuItem);
 
         // メニューが非表示になることを確認
-        expect(screen.queryByText("全トラックを俯瞰") == null)
+        expect(screen.queryByText("全選択解除") == null)
     });
 
     it("全選択解除をクリックすると選択が解除される", () => {
