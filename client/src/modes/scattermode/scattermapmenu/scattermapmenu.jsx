@@ -1,11 +1,13 @@
 import React from 'react';
-import { Box, IconButton, Menu } from '@mui/material';
+import { Box, IconButton, Menu, Divider } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import './scattermapmenu.css';
 import { ShowTrackPointsMenuItem } from './showtrackpointsmenuitem';
 import { FullScreenMenuItem } from './fullscreenmenuitem';
+import { PlaybackMenuItem } from './playbackmenuitem';
+import { BirdsEyeViewMenuItem } from './birdseyeviewmenuitem';
 
-export const ScatterMapMenu = ({ scatterState, setScatterState }) => {
+export const ScatterMapMenu = ({ state, setState, scatterState, setScatterState }) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
@@ -16,6 +18,8 @@ export const ScatterMapMenu = ({ scatterState, setScatterState }) => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    // menu item handlers are moved into dedicated components
 
     return (
         <Box className='scattermapmenu-wrapper' style={{ position: 'fixed', bottom: 100, right: 20 }}>
@@ -34,15 +38,22 @@ export const ScatterMapMenu = ({ scatterState, setScatterState }) => {
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 slotProps={{
                     paper: {
                         style: {
-                            maxHeight: 48 * 4.5,
-                            width: '20ch',
+                            maxHeight: 48 * 6,
+                            width: 'auto',
+                            minWidth: '28ch',
+                            whiteSpace: 'nowrap',
                         },
                     }
                 }}
             >
+                <PlaybackMenuItem state={state} setState={setState} scatterState={scatterState} onClose={handleClose} />
+                <Divider />
+                <BirdsEyeViewMenuItem state={state} onClose={handleClose} />
                 <ShowTrackPointsMenuItem scatterState={scatterState} setScatterState={setScatterState} />
                 <FullScreenMenuItem />
             </Menu>

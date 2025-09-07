@@ -3,7 +3,6 @@ import { Typography, Box, IconButton } from '@mui/material';
 import SortIcon from '@mui/icons-material/Sort';
 import { TrackPoint } from '../trackpoint';
 import { ProgressBar } from '../../playbackmode/progressbar';
-import { ScatterActionDial } from './scatteractiondial';
 import * as CesiumMap from '../../../cesiummap';
 import { ScatterMap } from '../map/scattermap';
 import { SearchConditionDisplay } from './searchconditiondisplay';
@@ -152,10 +151,6 @@ export const ScatterControlPanel = ({ state, setState, scatterState, setScatterS
                 />
                 <ProgressBar show={scatterState.loading} controlPanelSize={state.controlPanelSize} />
             </Box>
-            <ScatterActionDial
-                state={state}
-                setState={setState}
-                scatterState={scatterState} />
             <ScatterMap
                 onTrackPointClick={handleTrackPointClick}
                 onTrackGroupClick={handleTrackGroupClick}
